@@ -335,4 +335,6 @@ const cities = {
     connections: ['jakarta', 'manila', 'losAngeles'],
     color: 'red'
   }
-}
+};
+
+
