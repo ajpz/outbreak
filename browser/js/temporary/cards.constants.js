@@ -8,5 +8,6 @@ function Card(type, key) {
 };
 
 // Player cards deck and Infection cards deck will be comprised of Card instances.
+// Don't think we need this anymore.
 
 
