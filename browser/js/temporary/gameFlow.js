@@ -4,12 +4,13 @@ Pseudo code for INITIALIZATION......
   set gameOver to false
   initialize empty map
   research center placed in Atlanta
-  all gamers in Atlants
+  
 
   initialize: outbreakLevel, infectionLevelIndex, cures, eradications, discard piles
 
   static above... setting below...
 
+  all gamers in Atlanta
   create playerDeck (shuffle)
   create infectionDeck (shuffle)
 
@@ -94,7 +95,7 @@ INCREMENT TURN....
     intensify:
       - reshuffle infectionDiscard
       - update infectionDeck
-    remove Epidemic card
+    remove Epidemic card from game
     return control to Draw phase
 <-- Epidemic Phase Ends
 -----------------------------
