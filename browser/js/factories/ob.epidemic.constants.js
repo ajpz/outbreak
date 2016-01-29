@@ -1,5 +1,6 @@
 app.constant('Epidemic', {
   name: 'Epidemic',
+  type: 'epidemicCard',
   text: [
     '(1) Increase: Move the infection rate marker forward one space',
     '(2) Infect: Draw the bottom card from the infection deck and put three cubes on the city. Discard that card.',
