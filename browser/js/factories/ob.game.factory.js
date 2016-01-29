@@ -1,10 +1,17 @@
-app.factory('GameFactory', function() {
+app.factory('GameFactory', function($firebaseObject, Firebase) { // need to include the Card Factory
+
 	const factory = {};
 	factory.gameState = {};
 	const gameState = factory.gameState;
 
-	gameState.status = 'initialization'; // options : inProgress, gameOver
+	// mainly to test pushing to firebase, it works
+	factory.commitToFirebase = function() {
+		const ref = new Firebase('');
+		ref.push(gameState);
+	}
 
+
+	gameState.status = 'initialization'; // options : inProgress, gameOver
 	gameState.currentPhase; // actions, draw, discard, epidemic, event, infect
 	gameState.prevPhase; // action, draw, disard, epidemic, event, infect
 	gameState.nextPhase;
@@ -51,7 +58,7 @@ app.factory('GameFactory', function() {
 		// might just include the initial location files to be served up in the scripts
 	];
 
-	gameState.turnBelongsTo = this.gameState.gamer[0]; // will need to set thed player to be based on what is the next of this
+	gameState.turnBelongsTo = gameState.gamers[0]; // will need to set thed player to be based on what is the next of this
 
 	gameState.epidemicInEffect; //set to be a boolean
 	gameState.eventCardInEffect; // set to be a boolean

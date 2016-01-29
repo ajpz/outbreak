@@ -1,3 +1,4 @@
+/**
 var gameState = {
 	status: // 'initialization', 'inProgress', 'gameOver',
 	currentPhase: // action, draw, discard, epidemic, event, infect
@@ -72,4 +73,4 @@ var gameState = {
 
 }
 
-
+*/
