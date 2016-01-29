@@ -1,5 +1,7 @@
-const cities = {
+
+app.constant('Cities', {
   sanFrancisco : {
+    key: 'sanFrancisco',
     name: 'San Francisco',
     type: 'cityCard',
     country: 'USA',
@@ -8,6 +10,7 @@ const cities = {
     color: 'blue'
   },
   chicago : {
+    key: 'chicago',
     name: 'Chicago',
     type: 'cityCard',
     country: 'USA',
@@ -16,6 +19,7 @@ const cities = {
     color: 'blue'
   },
   atlanta : {
+    key: 'atlanta',
     name: 'Atlanta',
     type: 'cityCard',
     country: 'USA',
@@ -24,6 +28,7 @@ const cities = {
     color: 'blue'
   },
   montreal : {
+    key: 'montreal',
     name: 'Montreal',
     type: 'cityCard',
     country: 'Canada',
@@ -32,6 +37,7 @@ const cities = {
     color: 'blue'
   },
   newYork : {
+    key: 'newYork',
     name: 'New York',
     type: 'cityCard',
     country: 'USA',
@@ -40,6 +46,7 @@ const cities = {
     color: 'blue'
   },
   dc : {
+    key: 'dc',
     name: 'Washington DC',
     type: 'cityCard',
     country: 'USA',
@@ -48,6 +55,7 @@ const cities = {
     color: 'blue'
   },
   london : {
+    key: 'london',
     name: 'London',
     type: 'cityCard',
     country: 'UK',
@@ -56,6 +64,7 @@ const cities = {
     color: 'blue'
   },
   madrid : {
+    key: 'madrid',
     name: 'Madrid',
     type: 'cityCard',
     country: 'Spain',
@@ -64,6 +73,7 @@ const cities = {
     color: 'blue'
   },
   paris : {
+    key: 'paris',
     name: 'Paris',
     type: 'cityCard',
     country: 'France',
@@ -72,6 +82,7 @@ const cities = {
     color: 'blue'
   },
   berlin : {
+    key: 'berlin',
     name: 'Berlin',
     type: 'cityCard',
     country: 'Germany',
@@ -80,6 +91,7 @@ const cities = {
     color: 'blue'
   },
   milan : {
+    key: 'milan',
     name: 'Milan',
     type: 'cityCard',
     country: 'Italy',
@@ -88,6 +100,7 @@ const cities = {
     color: 'blue'
   },
   stPetersburg : {
+    key: 'stPetersburg',
     name: 'St Petersburg',
     type: 'cityCard',
     country: 'Russia',
@@ -96,6 +109,7 @@ const cities = {
     color: 'blue'
   },
   losAngeles : {
+    key: 'losAngeles',
     name: 'Los Angeles',
     type: 'cityCard',
     country: 'USA',
@@ -104,6 +118,7 @@ const cities = {
     color: 'yellow'
   },
   mexicoCity : {
+    key: 'mexicoCity',
     name: 'Mexico City',
     type: 'cityCard',
     country: 'Mexico',
@@ -112,6 +127,7 @@ const cities = {
     color: 'yellow'
   },
   miami : {
+    key: 'miami',
     name: 'Miami',
     type: 'cityCard',
     country: 'USA',
@@ -120,6 +136,7 @@ const cities = {
     color: 'yellow'
   },
   bogota : {
+    key: 'bogota',
     name: 'Bogota',
     type: 'cityCard',
     country: 'Colombia',
@@ -128,6 +145,7 @@ const cities = {
     color: 'yellow'
   },
   lima : {
+    key: 'lima',
     name: 'Lima',
     type: 'cityCard',
     country: 'Peru',
@@ -136,6 +154,7 @@ const cities = {
     color: 'yellow'
   },
   santiago : {
+    key: 'santiago',
     name: 'Santiago',
     type: 'cityCard',
     country: 'Chile',
@@ -144,6 +163,7 @@ const cities = {
     color: 'yellow'
   },
   buenosAires : {
+    key: 'buenosAires',
     name: 'Buenos Aires',
     type: 'cityCard',
     country: 'Argentina',
@@ -152,6 +172,7 @@ const cities = {
     color: 'yellow'
   },
   saoPaulo : {
+    key: 'saoPaulo',
     name: 'Sao Paulo',
     type: 'cityCard',
     country: 'Brazil',
@@ -160,6 +181,7 @@ const cities = {
     color: 'yellow'
   },
   lagos : {
+    key: 'lagos',
     name: 'Lagos',
     type: 'cityCard',
     country: 'Nigeria',
@@ -168,6 +190,7 @@ const cities = {
     color: 'yellow'
   },
   kinshasa : {
+    key: 'kinshasa',
     name: 'Kinshasa',
     type: 'cityCard',
     country: 'Democratic Republic of Congo',
@@ -176,6 +199,7 @@ const cities = {
     color: 'yellow'
   },
   khartoum : {
+    key: 'khartoum',
     name: 'Khartoum',
     type: 'cityCard',
     country: 'Sudan',
@@ -184,6 +208,7 @@ const cities = {
     color: 'yellow'
   },
   johannesburg : {
+    key: 'johannesburg',
     name: 'Johannesburg',
     type: 'cityCard',
     country: 'South Africa',
@@ -192,6 +217,7 @@ const cities = {
     color: 'yellow'
   },
   algiers : {
+    key: 'algiers',
     name: 'Algiers',
     type: 'cityCard',
     country: 'Algeria',
@@ -200,6 +226,7 @@ const cities = {
     color: 'black'
   },
   cairo : {
+    key: 'cairo',
     name: 'Cairo',
     type: 'cityCard',
     country: 'Egypt',
@@ -208,6 +235,7 @@ const cities = {
     color: 'black'
   },
   istanbul : {
+    key: 'istanbul',
     name: 'Istanbul',
     type: 'cityCard',
     country: 'Turkey',
@@ -216,6 +244,7 @@ const cities = {
     color: 'black'
   },
   moscow : {
+    key: 'moscow',
     name: 'Moscow',
     type: 'cityCard',
     country: 'Russia',
@@ -224,6 +253,7 @@ const cities = {
     color: 'black'
   },
   baghdad : {
+    key: 'baghdad',
     name: 'Baghdad',
     type: 'cityCard',
     country: 'Iraq',
@@ -232,6 +262,7 @@ const cities = {
     color: 'black'
   },
   riyadh : {
+    key: 'riyadh',
     name: 'Riyadh',
     type: 'cityCard',
     country: 'Saudi Arabia',
@@ -240,6 +271,7 @@ const cities = {
     color: 'black'
   },
   tehran : {
+    key: 'tehran',
     name: 'Tehran',
     type: 'cityCard',
     country: 'Iran',
@@ -248,6 +280,7 @@ const cities = {
     color: 'black'
   },
   karachi : {
+    key: 'karachi',
     name: 'Karachi',
     type: 'cityCard',
     country: 'Pakistan',
@@ -256,6 +289,7 @@ const cities = {
     color: 'black'
   },
   mumbai : {
+    key: 'mumbai',
     name: 'Mumbai',
     type: 'cityCard',
     country: 'India',
@@ -264,6 +298,7 @@ const cities = {
     color: 'black'
   },
   delhi : {
+    key: 'delhi',
     name: 'Delhi',
     type: 'cityCard',
     country: 'India',
@@ -272,6 +307,7 @@ const cities = {
     color: 'black'
   },
   kolkata : {
+    key: 'kolkata',
     name: 'Kolkata',
     type: 'cityCard',
     country: 'India',
@@ -280,6 +316,7 @@ const cities = {
     color: 'black'
   },
   chennai : {
+    key: 'chennai',
     name: 'Chennai',
     type: 'cityCard',
     country: 'India',
@@ -288,6 +325,7 @@ const cities = {
     color: 'black'
   },
   beijing : {
+    key: 'beijing',
     name: 'Beijing',
     type: 'cityCard',
     country: 'China',
@@ -296,6 +334,7 @@ const cities = {
     color: 'red'
   },
   seoul : {
+    key: 'seoul',
     name: 'Seoul',
     type: 'cityCard',
     country: 'South Korea',
@@ -304,6 +343,7 @@ const cities = {
     color: 'red'
   },
   tokyo : {
+    key: 'tokyo',
     name: 'Tokyo',
     type: 'cityCard',
     country: 'Japan',
@@ -312,6 +352,7 @@ const cities = {
     color: 'red'
   },
   shanghai : {
+    key: 'shanghai',
     name: 'Shanghai',
     type: 'cityCard',
     country: 'China',
@@ -320,6 +361,7 @@ const cities = {
     color: 'red'
   },
   hongKong : {
+    key: 'hongKong',
     name: 'Hong Kong',
     type: 'cityCard',
     country: 'China',
@@ -328,6 +370,7 @@ const cities = {
     color: 'red'
   },
   taipei : {
+    key: 'taipei',
     name: 'Taipei',
     type: 'cityCard',
     country: 'Taiwan',
@@ -344,6 +387,7 @@ const cities = {
     color: 'red'
   },
   bangkok : {
+    key: 'bangkok',
     name: 'Bangkok',
     type: 'cityCard',
     country: 'Thailand',
@@ -352,6 +396,7 @@ const cities = {
     color: 'red'
   },
   jakarta : {
+    key: 'jakarta',
     name: 'Jakarta',
     type: 'cityCard',
     country: 'Indonesia',
@@ -360,6 +405,7 @@ const cities = {
     color: 'red'
   },
   hoChiMinhCity : {
+    key: 'hoChiMinhCity',
     name: 'Ho Chi Minh City',
     type: 'cityCard',
     country: 'Vietnam',
@@ -368,6 +414,7 @@ const cities = {
     color: 'red'
   },
   manila : {
+    key: 'manila',
     name: 'Manila',
     type: 'cityCard',
     country: 'Philippines',
@@ -376,6 +423,7 @@ const cities = {
     color: 'red'
   },
   sydney : {
+    key: 'sydney',
     name: 'Sydney',
     type: 'cityCard',
     country: 'Australia',
@@ -383,6 +431,7 @@ const cities = {
     connections: ['jakarta', 'manila', 'losAngeles'],
     color: 'red'
   }
-};
+
+});
 
 

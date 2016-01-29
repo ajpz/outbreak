@@ -4,7 +4,7 @@ Pseudo code for INITIALIZATION......
   set gameOver to false
   initialize empty map
   research center placed in Atlanta
-  all gamers in Atlanta --> this happens after roles are assigned, so in game state
+
 
 
   initialize: outbreakLevel, infectionLevelIndex, cures, eradications, discard piles
