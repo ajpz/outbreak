@@ -1,6 +1,7 @@
 const cities = {
   sanFrancisco : {
     name: 'San Francisco',
+    type: 'cityCard',
     country: 'USA',
     location: [37.774929, -122.419416],
     connections: ['tokyo', 'manila', 'losAngeles', 'chicago'],
@@ -8,6 +9,7 @@ const cities = {
   },
   chicago : {
     name: 'Chicago',
+    type: 'cityCard',
     country: 'USA',
     location: [41.878114, -87.629798],
     connections: ['sanFrancisco', 'losAngeles', 'mexicoCity', 'atlanta', 'montreal'],
@@ -15,6 +17,7 @@ const cities = {
   },
   atlanta : {
     name: 'Atlanta',
+    type: 'cityCard',
     country: 'USA',
     location: [33.748995, -84.387982],
     connections: ['dc', 'miami', 'chicago'],
@@ -22,6 +25,7 @@ const cities = {
   },
   montreal : {
     name: 'Montreal',
+    type: 'cityCard',
     country: 'Canada',
     location: [45.501689, -73.567256],
     connections: ['dc', 'newYork', 'chicago'],
@@ -29,6 +33,7 @@ const cities = {
   },
   newYork : {
     name: 'New York',
+    type: 'cityCard',
     country: 'USA',
     location: [40.712784, -74.005941],
     connections: ['montreal', 'dc', 'london', 'madrid'],
@@ -36,6 +41,7 @@ const cities = {
   },
   dc : {
     name: 'Washington DC',
+    type: 'cityCard',
     country: 'USA',
     location: [38.907192, -77.036871],
     connections: ['atlanta', 'montreal', 'newYork', 'miami'],
@@ -43,6 +49,7 @@ const cities = {
   },
   london : {
     name: 'London',
+    type: 'cityCard',
     country: 'UK',
     location: [51.507351, -0.127758],
     connections: ['newYork', 'madrid', 'paris', 'berlin'],
@@ -50,6 +57,7 @@ const cities = {
   },
   madrid : {
     name: 'Madrid',
+    type: 'cityCard',
     country: 'Spain',
     location: [40.416775, -3.703790],
     connections: ['saoPaulo', 'newYork', 'algiers', 'paris', 'london'],
@@ -57,6 +65,7 @@ const cities = {
   },
   paris : {
     name: 'Paris',
+    type: 'cityCard',
     country: 'France',
     location: [48.856614, 2.352222],
     connections: ['london', 'madrid', 'milan', 'berlin', 'algiers'],
@@ -64,6 +73,7 @@ const cities = {
   },
   berlin : {
     name: 'Berlin',
+    type: 'cityCard',
     country: 'Germany',
     location: [52.520007,13.404954],
     connections: ['london', 'milan', 'paris', 'stPetersburg'],
@@ -71,6 +81,7 @@ const cities = {
   },
   milan : {
     name: 'Milan',
+    type: 'cityCard',
     country: 'Italy',
     location: [45.465422, 9.185924],
     connections: ['istanbul', 'paris', 'berlin'],
@@ -78,6 +89,7 @@ const cities = {
   },
   stPetersburg : {
     name: 'St Petersburg',
+    type: 'cityCard',
     country: 'Russia',
     location: [59.934280, 30.335099],
     connections: ['moscow', 'istanbul', 'berlin'],
@@ -85,6 +97,7 @@ const cities = {
   },
   losAngeles : {
     name: 'Los Angeles',
+    type: 'cityCard',
     country: 'USA',
     location: [34.052234, -118.243685],
     connections: ['sydney', 'sanFrancisco', 'chicago', 'mexicoCity'],
@@ -92,6 +105,7 @@ const cities = {
   },
   mexicoCity : {
     name: 'Mexico City',
+    type: 'cityCard',
     country: 'Mexico',
     location: [19.432608, -99.133208],
     connections: ['chicago', 'losAngeles', 'miami', 'bogota', 'lima'],
@@ -99,6 +113,7 @@ const cities = {
   },
   miami : {
     name: 'Miami',
+    type: 'cityCard',
     country: 'USA',
     location: [25.761680, -80.19179],
     connections: ['dc', 'atlanta', 'mexicoCity', 'bogota'],
@@ -106,6 +121,7 @@ const cities = {
   },
   bogota : {
     name: 'Bogota',
+    type: 'cityCard',
     country: 'Colombia',
     location: [4.710989, -74.072092],
     connections: ['miami', 'mexicoCity', 'lima', 'buenosAires', 'saoPaulo'],
@@ -113,6 +129,7 @@ const cities = {
   },
   lima : {
     name: 'Lima',
+    type: 'cityCard',
     country: 'Peru',
     location: [-12.046374, -77.042793],
     connections: ['mexicoCity', 'bogota', 'santiago'],
@@ -120,6 +137,7 @@ const cities = {
   },
   santiago : {
     name: 'Santiago',
+    type: 'cityCard',
     country: 'Chile',
     location: [-33.472788, -70.629831],
     connections: ['lima'],
@@ -127,6 +145,7 @@ const cities = {
   },
   buenosAires : {
     name: 'Buenos Aires',
+    type: 'cityCard',
     country: 'Argentina',
     location: [-34.603684, -58.381559],
     connections: ['saoPaulo', 'bogota'],
@@ -134,6 +153,7 @@ const cities = {
   },
   saoPaulo : {
     name: 'Sao Paulo',
+    type: 'cityCard',
     country: 'Brazil',
     location: [-23.550520, -46.633309],
     connections: ['buenosAires', 'bogota', 'madrid', 'lagos'],
@@ -141,6 +161,7 @@ const cities = {
   },
   lagos : {
     name: 'Lagos',
+    type: 'cityCard',
     country: 'Nigeria',
     location: [6.524379, 3.379206],
     connections: ['saoPaulo', 'kinshasa', 'khartoum'],
@@ -148,6 +169,7 @@ const cities = {
   },
   kinshasa : {
     name: 'Kinshasa',
+    type: 'cityCard',
     country: 'Democratic Republic of Congo',
     location: [-4.441931, 15.266293],
     connections: ['lagos', 'johannesburg', 'khartoum'],
@@ -155,6 +177,7 @@ const cities = {
   },
   khartoum : {
     name: 'Khartoum',
+    type: 'cityCard',
     country: 'Sudan',
     location: [15.500654, 32.559899],
     connections: ['lagos', 'cairo', 'kinshasa', 'johannesburg'],
@@ -162,6 +185,7 @@ const cities = {
   },
   johannesburg : {
     name: 'Johannesburg',
+    type: 'cityCard',
     country: 'South Africa',
     location: [-26.204103, 28.047305],
     connections: ['kinshasa', 'khartoum'],
@@ -169,6 +193,7 @@ const cities = {
   },
   algiers : {
     name: 'Algiers',
+    type: 'cityCard',
     country: 'Algeria',
     location: [36.752887, 3.042048],
     connections: ['madrid', 'paris', 'istanbul', 'cairo'],
@@ -176,6 +201,7 @@ const cities = {
   },
   cairo : {
     name: 'Cairo',
+    type: 'cityCard',
     country: 'Egypt',
     location: [30.044420, 31.235712],
     connections: ['algiers', 'istanbul', 'baghdad', 'riyadh', 'khartoum'],
@@ -183,6 +209,7 @@ const cities = {
   },
   istanbul : {
     name: 'Istanbul',
+    type: 'cityCard',
     country: 'Turkey',
     location: [41.008238, 28.978359],
     connections: ['algiers', 'cairo', 'baghdad', 'moscow', 'stPetersburg', 'milan'],
@@ -190,6 +217,7 @@ const cities = {
   },
   moscow : {
     name: 'Moscow',
+    type: 'cityCard',
     country: 'Russia',
     location: [55.755826, 37.6173],
     connections: ['stPetersburg', 'istanbul', 'tehran'],
@@ -197,6 +225,7 @@ const cities = {
   },
   baghdad : {
     name: 'Baghdad',
+    type: 'cityCard',
     country: 'Iraq',
     location: [33.312806, 44.361488],
     connections: ['istanbul', 'tehran', 'karachi', 'riyadh', 'cairo'],
@@ -204,6 +233,7 @@ const cities = {
   },
   riyadh : {
     name: 'Riyadh',
+    type: 'cityCard',
     country: 'Saudi Arabia',
     location: [25.005448, 46.544831],
     connections: ['cairo', 'baghdad', 'karachi'],
@@ -211,6 +241,7 @@ const cities = {
   },
   tehran : {
     name: 'Tehran',
+    type: 'cityCard',
     country: 'Iran',
     location: [35.689197, 51.388974],
     connections: ['moscow', 'baghdad', 'karachi', 'delhi'],
@@ -218,6 +249,7 @@ const cities = {
   },
   karachi : {
     name: 'Karachi',
+    type: 'cityCard',
     country: 'Pakistan',
     location: [24.861462, 67.009939],
     connections: ['riyadh', 'baghdad', 'tehran', 'delhi', 'mumbai'],
@@ -225,6 +257,7 @@ const cities = {
   },
   mumbai : {
     name: 'Mumbai',
+    type: 'cityCard',
     country: 'India',
     location: [19.075984, 72.877656],
     connections: ['karachi', 'delhi', 'chennai'],
@@ -232,6 +265,7 @@ const cities = {
   },
   delhi : {
     name: 'Delhi',
+    type: 'cityCard',
     country: 'India',
     location: [21.566381, 73.220507],
     connections: ['tehran', 'kolkata', 'chennai', 'mumbai', 'karachi'],
@@ -239,6 +273,7 @@ const cities = {
   },
   kolkata : {
     name: 'Kolkata',
+    type: 'cityCard',
     country: 'India',
     location: [22.572646, 88.363895],
     connections: ['delhi', 'hongKong', 'bangkok', 'chennai'],
@@ -246,13 +281,15 @@ const cities = {
   },
   chennai : {
     name: 'Chennai',
+    type: 'cityCard',
     country: 'India',
     location: [13.082680, 80.270718],
     connections: ['mumbai', 'delhi', 'kolkata', 'bangkok', 'jakarta'],
     color: 'black'
   },
-    beijing : {
+  beijing : {
     name: 'Beijing',
+    type: 'cityCard',
     country: 'China',
     location: [39.904211, 116.407395],
     connections: ['seoul', 'shanghai'],
@@ -260,6 +297,7 @@ const cities = {
   },
   seoul : {
     name: 'Seoul',
+    type: 'cityCard',
     country: 'South Korea',
     location: [37.566535, 126.977969],
     connections: ['beijing', 'tokyo', 'shanghai'],
@@ -267,6 +305,7 @@ const cities = {
   },
   tokyo : {
     name: 'Tokyo',
+    type: 'cityCard',
     country: 'Japan',
     location: [35.689487, 139.691706],
     connections: ['sanFrancisco', 'seoul', 'osaka', 'shanghai'],
@@ -274,6 +313,7 @@ const cities = {
   },
   shanghai : {
     name: 'Shanghai',
+    type: 'cityCard',
     country: 'China',
     location: [31.230416, 121.473701],
     connections: ['beijing', 'tokyo', 'seoul', 'taipei', 'hongKong'],
@@ -281,6 +321,7 @@ const cities = {
   },
   hongKong : {
     name: 'Hong Kong',
+    type: 'cityCard',
     country: 'China',
     location: [22.396428, 114.109497],
     connections: ['kolkata', 'taipei', 'shanghai', 'bangkok', 'hoChiMinhCity', 'manila'],
@@ -288,6 +329,7 @@ const cities = {
   },
   taipei : {
     name: 'Taipei',
+    type: 'cityCard',
     country: 'Taiwan',
     location: [25.032969, 121.565418],
     connections: ['osaka', 'hongKong', 'shanghai', 'manila'],
@@ -295,6 +337,7 @@ const cities = {
   },
   osaka : {
     name: 'Osaka',
+    type: 'cityCard',
     country: 'Japan',
     location: [34.693738, 135.502165],
     connections: ['taipei', 'tokyo'],
@@ -302,6 +345,7 @@ const cities = {
   },
   bangkok : {
     name: 'Bangkok',
+    type: 'cityCard',
     country: 'Thailand',
     location: [13.756331, 100.501765],
     connections: ['kolkata', 'hongKong', 'hoChiMinhCity', 'jakarta', 'chennai'],
@@ -309,6 +353,7 @@ const cities = {
   },
   jakarta : {
     name: 'Jakarta',
+    type: 'cityCard',
     country: 'Indonesia',
     location: [-6.208763, 106.845599],
     connections: ['chennai', 'bangkok', 'hoChiMinhCity', 'sydney'],
@@ -316,6 +361,7 @@ const cities = {
   },
   hoChiMinhCity : {
     name: 'Ho Chi Minh City',
+    type: 'cityCard',
     country: 'Vietnam',
     location: [10.823099, 106.629664],
     connections: ['bangkok', 'hongKong', 'jakarta', 'manila'],
@@ -323,6 +369,7 @@ const cities = {
   },
   manila : {
     name: 'Manila',
+    type: 'cityCard',
     country: 'Philippines',
     location: [14.599512, 120.984219],
     connections: ['hoChiMinhCity', 'hongKong', 'taipei', 'sanFrancisco', 'sydney'],
@@ -330,6 +377,7 @@ const cities = {
   },
   sydney : {
     name: 'Sydney',
+    type: 'cityCard',
     country: 'Australia',
     location: [-33.867487, 151.20699],
     connections: ['jakarta', 'manila', 'losAngeles'],

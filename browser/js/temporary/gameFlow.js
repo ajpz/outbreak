@@ -6,10 +6,12 @@ Pseudo code for INITIALIZATION......
   research center placed in Atlanta
   all gamers in Atlanta --> this happens after roles are assigned, so in game state
 
+
   initialize: outbreakLevel, infectionLevelIndex, cures, eradications, discard piles
 
   static above... setting below...
 
+  all gamers in Atlanta
   create playerDeck (shuffle)
   create infectionDeck (shuffle)
 
@@ -94,7 +96,7 @@ INCREMENT TURN....
     intensify:
       - reshuffle infectionDiscard
       - update infectionDeck
-    remove Epidemic card
+    remove Epidemic card from game
     return control to Draw phase
 <-- Epidemic Phase Ends
 -----------------------------
