@@ -7,9 +7,6 @@ app.factory('CardFactory', function(Cities, Events, Epidemic) {
         };
         return _.shuffle(deck);
       },
-      createInfectionDeck: function() {
-        return this.createADeck(Cities);
-      },
       shuffleDeck: function(cardDeck) {
           return _.shuffle(cardDeck);
       },

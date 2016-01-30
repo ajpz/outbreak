@@ -68,6 +68,9 @@ app.factory('InfectionFactory', function(SetToGameState, GameFactory, CardFactor
   };
 
   return {
+    createInfectionDeck : () => {
+      return CardFactory.createADeck(Cities);
+    }
     //initialize: setToGameState(function() {
     //  for (var num = 3, card; num > 0; num--) {
     //    for(var i = 0; i < 3; i++) {

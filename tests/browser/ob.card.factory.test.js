@@ -21,8 +21,6 @@ describe('Card Factory', () => {
     expect(CardFactory).to.be.an('object');
   });
 
-
-
   /**
    * pick card from top will give me the last card in the array of cards
    */
