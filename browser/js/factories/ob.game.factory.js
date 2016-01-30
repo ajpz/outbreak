@@ -7,7 +7,7 @@ app.factory('GameFactory', function($firebaseObject, Firebase, CardFactory, Citi
    * This link is currently from Victor's account.
    * Use your own for testing by making an account and  appending /gameState on to it
    */
-  const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/gameState');
+  const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/gameState/gameState');
 
   /**
    *  initGameStateInFirebase
@@ -35,20 +35,24 @@ app.factory('GameFactory', function($firebaseObject, Firebase, CardFactory, Citi
    * notes : when initGame is called, child added event runs cb 17 times
    * each time representing the keys in the gameState
    */
-  ref.on('child_added', function(childSnapshot, prevChildKey) {
+  ref.child("gameState").on('child_added', function(childSnapshot, prevChildKey) {
     console.log("child_added");
   });
   // the update method from commitToFirebase does not actually console log
   // updates only hit the child added
-  ref.on('child_changed', function(childSnapshot, prevChildKey) {
+  ref.child("gameState").on('child_changed', function(childSnapshot, prevChildKey) {
     console.log("child_changed");
   });
 
-  ref.on('child_removed', function() {
+  ref.child("gameState").on('value', function() {
+    console.log("changes in the val updated area");
+  })
+
+  ref.child("gameState").on('child_removed', function() {
     console.log("child_removed");
   });
 
-  ref.on('child_moved', function() {
+  ref.child("gameState").on('child_moved', function() {
     console.log("child_moved");
   });
   ////////////////
@@ -97,9 +101,9 @@ app.factory('GameFactory', function($firebaseObject, Firebase, CardFactory, Citi
 	gameState.currentPhase = ""; // actions, draw, discard, epidemic, event, infect
 	gameState.prevPhase = ""; // action, draw, disard, epidemic, event, infect
 	gameState.nextPhase = "";
-	gameState.playerDeck = CardFactory.createPlayerDeck(); // array of card objects // will need to use the card Factory
+	//gameState.playerDeck = CardFactory.createPlayerDeck(); // array of card objects // will need to use the card Factory
 	gameState.playerDeckDiscard = [];
-	gameState.infectionDeck = CardFactory.createInfectionDeck(); // array of card objects // will need to use the card Factory
+	//gameState.infectionDeck = CardFactory.createInfectionDeck(); // array of card objects // will need to use the card Factory
 	gameState.infectionDeckDiscard = [];
 	gameState.isCured = {red : false, blue : false, yellow : false, black : false };
 	gameState.isEradicated = {red : false, blue : false, yellow : false, black : false };
@@ -136,7 +140,7 @@ app.factory('GameFactory', function($firebaseObject, Firebase, CardFactory, Citi
 		}
 	];
 
-	gameState.cities = Cities
+	//gameState.cities = Cities
 
 	gameState.turnBelongsTo = gameState.gamers[0]; // will need to set thed player to be based on what is the next of this
 

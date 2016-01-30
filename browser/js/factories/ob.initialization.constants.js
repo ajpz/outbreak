@@ -1,6 +1,6 @@
 // these are the static conditions for a new game.
 
-app.constants('Initialize', {
+app.constant('Initialize', {
   gameOver: false,
   //map: <create an empty map>
   researchCenters: ['Atlanta'],
