@@ -1,4 +1,4 @@
-const roles = {
+app.constant('Roles', {
   medic: {
     ability: 'The medic removes all cubes of the same color when treating a disease. If a disease has been cured, they automatically remove all disease cubes of that color from a city simply by entering it or being there. This does not take an action.',
     icon: "<URL_TO_ICON>"
@@ -15,4 +15,5 @@ const roles = {
     ability: 'The researcher may give any city card from their hand to another player in the same city without this card having to match the researcher\'s city. The transfer must be from the researcher\'s hand to the other player\'s hand, but it can occur on either player\'s turn',
     icon: "<URL_TO_ICON>"
   }
-};
+});
+
