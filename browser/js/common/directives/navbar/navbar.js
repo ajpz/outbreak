@@ -1,6 +1,4 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, GameFactory) {
-    GameFactory.initGameStateInFirebase()
-    GameFactory.commitToFirebase();
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
     return {
         restrict: 'E',
         scope: {},

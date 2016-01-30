@@ -39,6 +39,7 @@ app.factory('GameFactory', function($firebaseObject, Firebase) {
     console.log("child_added");
   });
   // the update method from commitToFirebase does not actually console log
+  // updates only hit the child added
   ref.on('child_changed', function(childSnapshot, prevChildKey) {
     console.log("child_changed");
   });
@@ -74,7 +75,9 @@ app.factory('GameFactory', function($firebaseObject, Firebase) {
    * @param newValue is the value that you would like to update to
    */
   factory.update = function(prop , newValue) {
-    return ref.update({ prop : newValue });
+    const updateObj = {};
+    updateObj[prop] = newValue;
+    return ref.update(updateObj);
   };
 
   /**
@@ -84,7 +87,9 @@ app.factory('GameFactory', function($firebaseObject, Firebase) {
    * @param childRef is the nested object to update
    */
   factory.updateNested = function(prop, newValue, childRef) {
-    ref.child(childRef).update({ prop : newValue });
+    const updateObj = {};
+    updateObj[prop] = newValue;
+    ref.child(childRef).update(updateObj);
   };
 
 
