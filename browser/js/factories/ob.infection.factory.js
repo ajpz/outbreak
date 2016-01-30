@@ -1,12 +1,12 @@
-app.factory('InfectionFactory', function(SetToGameState, GameFactory, CardFactory, Cities) {
+app.factory('InfectionFactory', function(SetToGameState, GameFactory, CardFactory, Cities, InfectionLevelArray) {
 
   //TODO: change GameState to have cities array with key, not name
   //TODO: what does GameFactory inject?
-  //How does setToGameState update deck?
 
-  const targets = GameFactory.gameState.cities; // TODO: what is getter/setter?
+  //How does setToGameState update deck? GameFactory reveals a method to update parts/ all of the state
   const gameState = GameFactory.gameState;
-  const infectionLevelArray = [2, 2, 2, 3, 3, 4, 4];
+  const targets = gameState.cities; // TODO: what is getter/setter?
+  const infectionLevelArray = _.cloneDeep(InfectionLevelArray.levels);
 
   const pickCardFromTop = function() {
     return CardFactory.pickCardFromTop(gameState.infectionDeck);
@@ -24,7 +24,7 @@ app.factory('InfectionFactory', function(SetToGameState, GameFactory, CardFactor
     const discardDeck = gameState.infectionDeckDiscard;
     CardFactory.shuffleDeck(discardDeck);
     gameState.infectionDeck = gameState.infectionDeck.concat(discardDeck);
-    discardDeck = [];
+    //discardDeck = [];
   };
 
   const getInfectionLevel = function() {
@@ -68,28 +68,28 @@ app.factory('InfectionFactory', function(SetToGameState, GameFactory, CardFactor
   };
 
   return {
-    initialize: setToGameState(function() {
-      for (var num = 3, card; num > 0; num--) {
-        for(var i = 0; i < 3; i++) {
-          card = pickCardFromTop();
-          addInfectionToACity(card, num);
-          discardCard(card);
-        }
-      };
-    }),
-    infect: setToGameState(function() {
-      for(var i = 0, card; i < 2; i++) {
-        card = pickCardFromTop();
-        addInfectionToACity(card, getInfectionLevel());
-        discardCard(card);
-      }
-    }),
-    epidemic: setToGameState(function() {
-      incrementInfectionLevelIndex();
-      var card = pickCardFromBottom();
-      addInfectionToACity(card, 3);
-      discardCard(card);
-      shuffleDiscardAndAddToInfectionDeck();
-    })
+    //initialize: setToGameState(function() {
+    //  for (var num = 3, card; num > 0; num--) {
+    //    for(var i = 0; i < 3; i++) {
+    //      card = pickCardFromTop();
+    //      addInfectionToACity(card, num);
+    //      discardCard(card);
+    //    }
+    //  };
+    //}),
+    //infect: setToGameState(function() {
+    //  for(var i = 0, card; i < 2; i++) {
+    //    card = pickCardFromTop();
+    //    addInfectionToACity(card, getInfectionLevel());
+    //    discardCard(card);
+    //  }
+    //}),
+    //epidemic: setToGameState(function() {
+    //  incrementInfectionLevelIndex();
+    //  var card = pickCardFromBottom();
+    //  addInfectionToACity(card, 3);
+    //  discardCard(card);
+    //  shuffleDiscardAndAddToInfectionDeck();
+    //})
   }
 });
