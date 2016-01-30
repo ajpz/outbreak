@@ -45,7 +45,7 @@ app.factory('CardFactory', function(Cities, Events, Epidemic) {
           return deckToReturn;
         },
         createInfectionDeck: function() {
-        	createADeck(Cities);
+        	return createADeck(Cities);
         },
         shuffleDeck: function(cardDeck) {
             return _.shuffle(cardDeck);
@@ -54,13 +54,13 @@ app.factory('CardFactory', function(Cities, Events, Epidemic) {
             return cardDeck.pop();
         },
         pickCardFromBottom: function(cardDeck) {
-            return cardDeck.unshift();
+            return cardDeck.shift();
         },
         addCardsToTop: function(infectionDeck, discardDeck) {
             return infectionDeck.concat(discardDeck);
         },
-        isEmpty: function() {
-            return !cardDeck.length;
+        isEmpty: function(deck) {
+            return !deck.length;
         }
     };
 });

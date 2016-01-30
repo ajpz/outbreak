@@ -78,7 +78,7 @@ gulp.task('testServerJSWithCoverage', function (done) {
 gulp.task('testBrowserJS', function (done) {
     karma.start({
         configFile: __dirname + '/tests/browser/karma.conf.js',
-        singleRun: true
+        singleRun: false
     }, done);
 });
 
