@@ -4,36 +4,38 @@ app.factory('InfectionFactory', function(SetToGameState, GameFactory, CardFactor
   //TODO: what does GameFactory inject?
   //How does setToGameState update deck?
 
-  var targets = GameFactory.gameState.cities; // TODO: what is getter/setter?
+  const targets = GameFactory.gameState.cities; // TODO: what is getter/setter?
+  const gameState = GameFactory.gameState;
+  const infectionLevelArray = [2, 2, 2, 3, 3, 4, 4];
 
-  var pickCardFromTop = function() {
-    return CardFactory.pickCardFromTop(GameFactory.infectionDeck);
+  const pickCardFromTop = function() {
+    return CardFactory.pickCardFromTop(gameState.infectionDeck);
   };
 
-  var pickCardFromBottom = function() {
-    return CardFactory.pickCardFromBottom(GameFactory.infectionDeck);
+  const pickCardFromBottom = function() {
+    return CardFactory.pickCardFromBottom(gameState.infectionDeck);
   };
 
-  var discardCard = function(card) {
-    GameFactory.infectionDeckDiscard.push(card);
+  const discardCard = function(card) {
+    gameState.infectionDeckDiscard.push(card);
   };
 
-  var shuffleDiscardAndAddToInfectionDeck = function() {
-    var discardDeck = GameFactory.infectionDeckDiscard;
+  const shuffleDiscardAndAddToInfectionDeck = function() {
+    const discardDeck = gameState.infectionDeckDiscard;
     CardFactory.shuffleDeck(discardDeck);
-    GameFactory.infectionDeck = GameFactory.infectionDeck.concat(discardDeck);
+    gameState.infectionDeck = gameState.infectionDeck.concat(discardDeck);
     discardDeck = [];
   };
 
-  var getInfectionLevel = function() {
-    return GameFactory.infectionArray[GameFactory.infectionLevelIndex];
+  const getInfectionLevel = function() {
+    return infectionLevelArray[gameState.infectionLevelIndex];
   };
 
-  var incrementInfectionLevelIndex = function() {
-      GameFactory.infectionLevelIndex++;
+  const incrementInfectionLevelIndex = function() {
+      gameState.infectionLevelIndex++;
   };
 
-  var addInfectionToACity = function(infectionCard, num, alreadyHit) {
+  const addInfectionToACity = function(infectionCard, num, alreadyHit) {
     var color = infectionCard.color,
         alreadyHit = alreadyHit || [],
         // target is a ref to GameFactory.cities.<cityKey> --> an object
@@ -49,7 +51,7 @@ app.factory('InfectionFactory', function(SetToGameState, GameFactory, CardFactor
       // to prevent outbreaks from looping recursively
       alreadyHit.push(target.key);
       // increment outBreakLevel on gameState
-      GameFactory.outBreakLevel++;
+      gameState.outBreakLevel++;
       // grab the connections of the current key
       var nextKeys = Cities[target.key].connections;
       // add 1 infection of give color to each key
