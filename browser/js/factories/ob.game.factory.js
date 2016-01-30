@@ -1,4 +1,4 @@
-app.factory('GameFactory', function($firebaseObject, Firebase) {
+app.factory('GameFactory', function($firebaseObject, Firebase, CardFactory, Cities) {
   // factory is returned at the end
 	const factory = {};
 	factory.gameState = {};
@@ -97,10 +97,10 @@ app.factory('GameFactory', function($firebaseObject, Firebase) {
 	gameState.currentPhase = ""; // actions, draw, discard, epidemic, event, infect
 	gameState.prevPhase = ""; // action, draw, disard, epidemic, event, infect
 	gameState.nextPhase = "";
-	gameState.playerDeck = ""; // array of card objects // will need to use the card Factory
-	gameState.playerDeckDiscard = "";
-	gameState.infectionDeck = ""; // array of card objects // will need to use the card Factory
-	gameState.infectionDeckDiscard = "";
+	gameState.playerDeck = CardFactory.createPlayerDeck(); // array of card objects // will need to use the card Factory
+	gameState.playerDeckDiscard = [];
+	gameState.infectionDeck = CardFactory.createInfectionDeck(); // array of card objects // will need to use the card Factory
+	gameState.infectionDeckDiscard = [];
 	gameState.isCured = {red : false, blue : false, yellow : false, black : false };
 	gameState.isEradicated = {red : false, blue : false, yellow : false, black : false };
 	gameState.outbreakLevel  = 0;
@@ -136,9 +136,7 @@ app.factory('GameFactory', function($firebaseObject, Firebase) {
 		}
 	];
 
-	gameState.cities = [
-		// might just include the initial location files to be served up in the scripts
-	];
+	gameState.cities = Cities
 
 	gameState.turnBelongsTo = gameState.gamers[0]; // will need to set thed player to be based on what is the next of this
 
