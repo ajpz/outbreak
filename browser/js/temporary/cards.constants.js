@@ -1,6 +1,6 @@
 //randomized arrays to pick keys from
-var cityKeys = Object.keys(cities); // array of city names
-var eventKeys = Object.keys(events);
+//var cityKeys = Object.keys(cities); // array of city names
+//var eventKeys = Object.keys(events);
 
 
 // Players cards:
