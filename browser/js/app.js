@@ -8,6 +8,10 @@ app.config(function ($urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
 });
 
+app.factory('Firebase', function() {
+  return window.Firebase;
+})
+
 // This app.run is for controlling access to specific states.
 app.run(function ($rootScope, AuthService, $state) {
 

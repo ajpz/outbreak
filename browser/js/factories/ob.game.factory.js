@@ -1,4 +1,4 @@
-app.factory('GameFactory', function($firebaseObject, Firebase, CardFactory, Cities) {
+app.factory('GameFactory', function(Firebase, CardFactory, Cities) {
   // factory is returned at the end
 	const factory = {};
 	factory.gameState = {};
