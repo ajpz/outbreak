@@ -75,7 +75,7 @@ app.factory('InfectionFactory', function(SetToGameState, CardFactory, Cities, In
       //1) increment infectionLevelIndex
       state.infectionLevelIndex++;
       //2) pick card from bottom of infectionDeck and infect with 3 virus
-      var card = CardFactory.pickCardFromBottom(state.infectionDeck);
+      let card = CardFactory.pickCardFromBottom(state.infectionDeck);
       addInfectionToACity(card, 3, state);
       state.infectionDeckDiscard.push(card);
       //3) shuffle discards and add to top of infectionDeck
