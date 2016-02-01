@@ -11,6 +11,7 @@ module.exports = function (config) {
         'node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.js',
         'node_modules/socket.io-client/socket.io.js',
         'https://cdn.firebase.com/js/client/2.4.0/firebase.js',
+        "https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js",
         'public/main.js',
         'node_modules/sinon/pkg/sinon.js',
         'node_modules/angular-mocks/angular-mocks.js',
