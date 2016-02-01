@@ -5,8 +5,8 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
 
   //How does setToGameState update deck? GameFactory reveals a method to update parts/ all of the state
 
-  const infectionLevelArray = _.cloneDeep(InfectionLevelArray.levels);
 
+  const infectionLevelArray = _.cloneDeep(InfectionLevelArray.levels);
   const shuffleDiscardAndAddToInfectionDeck = function(state) {
     CardFactory.shuffleDeck(state.infectionDeckDiscard);
     state.infectionDeck = state.infectionDeck.concat(state.infectionDeckDiscard);
