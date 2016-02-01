@@ -18,8 +18,10 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
         gamers[i].hand.push(dealtCard);
 
       }
-
     }
+
+    //TODO: needs to call CitiesCardFactory method to add epidemic cards to deck
+
     return workingState;
   };
 
