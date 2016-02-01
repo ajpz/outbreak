@@ -1,4 +1,4 @@
-app.factory('InfectionFactory', function(SetToGameState, CardFactory, Cities, InfectionLevelArray) {
+app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArray) {
 
   //TODO: change GameState to have cities array with key, not name
   //TODO: what does GameFactory inject?
