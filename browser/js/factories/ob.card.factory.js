@@ -5,24 +5,24 @@ app.factory('CardFactory', function(Cities, Events, Epidemic) {
         //per joe's suggestion, use the lodash toArray method to convert the object of cards to an array
         return shuffle(deck);
       },
-      //To-do: figure out whether to mutate or create new...
       shuffleDeck: function(cardDeck) {
-        return shuffle(cardDeck);
         //this will mutate the card deck
+        return shuffle(cardDeck);
       },
       pickCardFromTop: function(cardDeck) {
-        let clonedDeck = _.clone(cardDeck);
-        return clonedDeck.pop();
+        //this mutates deck, and returns top card
+        return cardDeck.pop();
+
       },
       pickCardFromBottom: function(cardDeck) {
-        let clonedDeck = _.clone(cardDeck);
-        return clonedDeck.shift();
+        //this mutates deck, and returns bottom card
+        return cardDeck.shift();
       },
       addCardsToTop: function(infectionDeck, discardDeck) {
+        //this mutates deck
         discardDeck.forEach(function(card){
           infectionDeck.push(card)
         })
-        // return infectionDeck.concat(discardDeck);
         return infectionDeck;
       },
       isEmpty: function(deck) {
