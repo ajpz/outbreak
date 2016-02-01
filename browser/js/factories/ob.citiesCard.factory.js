@@ -1,19 +1,19 @@
 app.factory('CitiesCardFactory', function(Cities, Events, Epidemic, CardFactory) {
   return {
     createPlayerDeck: function(numOfEpidemics = 4) {
-      var epidemicCards = [];
+      let epidemicCards = [];
       for(let j=0; j< numOfEpidemics; j++){
           epidemicCards.push(Epidemic);
       }
-      var cityCards = CardFactory.createADeck(Cities);
-      var eventCards = CardFactory.createADeck(Events);
+      let cityCards = CardFactory.createADeck(Cities);
+      let eventCards = CardFactory.createADeck(Events);
       //concat eventCards and cardDeck
-      var cityAndEventDeck = eventCards.concat(cityCards);
+      let cityAndEventDeck = eventCards.concat(cityCards);
       //shuffle deck
       cityAndEventDeck = shuffle(cityAndEventDeck);
       //you have to equally distribute the epidemic cards among the cityAndEventDeck, so we have to divide the city and event cards into equal-length decks (sub-arrays)
       //step one is to calculate how long each one of sub-arrays should be
-      var lengthOfSubDecks = Math.floor(cityAndEventDeck.length / numOfEpidemics);
+      let lengthOfSubDecks = Math.floor(cityAndEventDeck.length / numOfEpidemics);
       //get the cityAndEventDeck and split it into subdecks of a certain length. map over each chunk and push onto it an epidemic card
       return _(cityAndEventDeck).chunk(lengthOfSubDecks).map(function (portionOfDeck, currentIndex) {
         portionOfDeck.push(epidemicCards[currentIndex]);
