@@ -1,4 +1,9 @@
 <section id="home">
     <fullstack-logo></fullstack-logo>
+    <div>
+      {{ counter }}
+      <button ng-click="updateCounter()">Update Counter</button>
+      {{ payload  | json }}
+    </div>
     <rando-greeting></rando-greeting>
 </section>
