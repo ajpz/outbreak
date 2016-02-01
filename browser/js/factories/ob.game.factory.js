@@ -9,6 +9,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    */
   const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/outbreak');
   let data  = $firebaseObject(ref);
+  let localState;
 
   /**
    *  initGameStateInFirebase
@@ -29,19 +30,33 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
         data.gameState.playerDeck = CitiesCardFactory.createPlayerDeck();
         data.gameState.infectionDeck = InfectionFactory.createInfectionDeck();
         localStorage.setItem("user", Initialize.gamers[0].username);
-        data.gameState.gamerTurn = 0;
         console.log("after insertion");
         console.log(data);
-        data.$save();
+        data.$save()
+          .then(function(){
+            console.log(fbObj);
+            localState = fbObj.gameState;
+            initialize(localState);
+
+          });
       } else {
         console.log(data);
         console.log("it is not null");
         // might be excessive
         localStorage.setItem("user", data.gameState.gamers[data.gameState.playerCount].username);
         data.gameState["playerCount"] = data.gameState["playerCount"] + 1;
-        data.$save();
+        data.$save()
+          .then(function(){
+            console.log(fbObj);
+            localState = fbObj.gameState;
+            initialize(localState);
+          });
       }
     });
+
+  function initialize() {
+    $rootScope.$broadcast('gamerTurnChanged', { username : localState.gamers[localState.gamerTurn].username });
+  }
 
 
   /**
@@ -107,52 +122,111 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   const gamersRef = ref.child('gameState/gamers');
 
   statusRef.on('value', function(snapshot) {
-    $rootScope.$broadcast("statusChanged", { status : snapshot.val() });
+    if (localState) {
+      $rootScope.$broadcast("statusChanged", {status: snapshot.val()});
+    }
   });
 
   currentPhaseRef.on('value', function(snapshot) {
-    $rootScope.$broadcast('currentPhaseChanged', { currentPhase : snapshot.val() });
+    if (localState) {
+      $rootScope.$broadcast('currentPhaseChanged', {currentPhase: snapshot.val()});
+    }
   });
 
   epidemicInEffectRef.on('value', function(snapshot) {
-    $rootScope.$broadcast('epidemicInEffectChanged', { epidemicInEffect : snapshot.val() });
+    if (localState) {
+      $rootScope.$broadcast('epidemicInEffectChanged', {epidemicInEffect: snapshot.val()});
+    }
   });
 
   eventCardInEffectRef.on('value', function(snapshot) {
-    $rootScope.$broadcast('eventCardInEffectChanged', { eventCardInEffect : snapshot.val() });
+    if (localState){
+      $rootScope.$broadcast('eventCardInEffectChanged', { eventCardInEffect : snapshot.val() });
+    }
   });
 
   proposedActionsRef.on('value', function(snapshot) {
-    $rootScope.$broadcast('proposedActionsChanged', { proposedActions : snapshot.val() });
+    if (localState) {
+      $rootScope.$broadcast('proposedActionsChanged', {proposedActions: snapshot.val()});
+    }
   });
 
   playerDeckRef.on('value', function(snapshot) {
-    $rootScope.$broadcast('playerDeckChanged', { playerDeck : snapshot.val() });
+    if (localState){
+      $rootScope.$broadcast('playerDeckChanged', { playerDeck : snapshot.val() });
+    }
   });
 
   playerDeckDiscardRef.on('value', function(snapshot) {
-    $rootScope.$broadcast('playerDeckDiscardChanged', {playerDeckDiscard : snapshot.val() });
+    if (localState) {
+      $rootScope.$broadcast('playerDeckDiscardChanged', {playerDeckDiscard: snapshot.val()});
+    }
   });
 
   infectionDeckRef.on('value', function(snapshot) {
-    $rootScope.$broadcast('infectionDeckChanged', { infectionDeck : snapshot.val() });
+    if (data.hasOwnProperty("gameState")) {
+      $rootScope.$broadcast('infectionDeckChanged', {infectionDeck: snapshot.val()});
+    }
   });
-  // sKIP
+
+  infectionDeckDiscardRef.on('value', function(snapshot) {
+    if (localState) {
+      $rootScope.$broadcast('infectionDeckDiscardChanged', {infectionDeckDiscard: snapshot.val()});
+    }
+  });
+
+  isCuredRef.on('value', function(snapshot) {
+    if (localState) {
+      $rootScope.$broadcast('isCuredChanged', {isCured: snapshot.val()});
+    }
+  });
+
+  isEradicatedRef.on('value', function(snapshot) {
+    if (localState){
+      $rootScope.$broadcast('isEradicatedChanged', { isEradicated : snapshot.val() });
+    }
+  });
+
+  outbreakLevelRef.on('value', function(snapshot) {
+    if (localState) {
+      $rootScope.$broadcast('outbreakLevelChanged', {outbreakLevel: snapshot.val()});
+    }
+  });
+
   infectionLevelIndexRef.on('value', function(snapshot) {
-    $rootScope.$broadcast('infectionLevelIndexChanged', {infectionLevelIndex : snapshot.val() });
+    if (localState) {
+      $rootScope.$broadcast('infectionLevelIndexChanged', {infectionLevelIndex: snapshot.val()});
+    }
+  });
+
+  researchCenterLocationsRef.on('value', function(snapshot) {
+    if (localState) {
+      $rootScope.$broadcast('researchCenterLocationsChanged', {researchCenterLocations: snapshot.val()});
+    }
   });
 
   gamerTurnRef.on('value', function(snapshot) {
-    if (!data.hasOwnProperty("gameState")){
-
-    } else {
-      console.log("in gamer ref begin")
-      console.log(Object.keys(data));
+    if (localState){
       $rootScope.$broadcast('gamerTurnChanged', { username : data.gameState.gamers[snapshot.val()].username });
-      console.log("here in gamer ref");
     }
-
   });
+
+  citiesRef.on('value', function(snapshot) {
+    if (localState) {
+      $rootScope.$broadcast('citiesChanged', {cities: snapshot.val()});
+    }
+  });
+
+  gamersRef.on('value', function(snapshot) {
+    if (localState) {
+      $rootScope.$broadcast('gamersChanged', {gamers: snapshot.val()});
+    }
+  })
+
+
+
+  // front end specific events
+  ///////////////////////////
 
   $rootScope.$on("counter", function(event, payload) {
     console.log("counter");
@@ -161,6 +235,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     data.$save();
   })
 
-  ////////////////
+  /////////////////////////
 	return factory;
 });
