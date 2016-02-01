@@ -1,5 +1,5 @@
 'use strict';
-window.app = angular.module('FullstackGeneratedApp', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate']);
+window.app = angular.module('FullstackGeneratedApp', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'firebase']);
 
 app.config(function ($urlRouterProvider, $locationProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
@@ -10,7 +10,7 @@ app.config(function ($urlRouterProvider, $locationProvider) {
 
 app.factory('Firebase', function() {
   return window.Firebase;
-})
+});
 
 // This app.run is for controlling access to specific states.
 app.run(function ($rootScope, AuthService, $state) {
