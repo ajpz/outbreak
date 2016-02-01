@@ -1,5 +1,6 @@
 app.factory('CardFactory', function(Cities, Events, Epidemic) {
     return {
+
       createADeck : function(cardObject) {
         let deck = _.toArray(cardObject)
         //per joe's suggestion, use the lodash toArray method to convert the object of cards to an array
@@ -28,5 +29,6 @@ app.factory('CardFactory', function(Cities, Events, Epidemic) {
       isEmpty: function(deck) {
           return !deck.length;
       }
+
     };
 });
