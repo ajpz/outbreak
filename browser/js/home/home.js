@@ -20,7 +20,8 @@ app.config(function ($stateProvider) {
 
           $scope.updateCounter = function() {
 
-          //  console.log("HEREEEEE")
+            console.log("HEREEEEE")
+            console.log($scope.username);
             if (localStorage.getItem("user") === $scope.username){
               $scope.counter++;
               console.log("here i am");

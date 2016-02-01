@@ -14,11 +14,10 @@ describe('CitiesCard Factory', () => {
    */
   it('should expect the createPlayerDeck to have 4 epidemics', () => {
     let epidemicCardsOnly = deck.filter(function(card){
-      if (card['name'] === "Epidemic") {
+      if (card!== undefined && card.name === "Epidemic" ) {
         return true;
       }
     });
-
     expect(epidemicCardsOnly).to.have.length(4);
   });
 
