@@ -9,6 +9,8 @@
 		<script src="/angular/angular.js"></script>
 		<script src="/angular-animate/angular-animate.js"></script>
 		<script src="/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="/angular-ui-bootstrap/ui-bootstrap.js"></script>
 		<script src="/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
 		<!-- Victor added firebase and angularfire -->
@@ -21,7 +23,21 @@
 		<script src="/main.js"></script>
 </head>
 <body ng-app="FullstackGeneratedApp">
-		<navbar></navbar>
-		<div id="main" ui-view></div>
+    <div class="container-fluid">
+		    <div class="row">
+           <!--  <div class="col-sm-10 col-md-10"> -->
+                <div class="well" id="main" ui-view>
+                    <h1>
+                      Accordion Menu With Icon</h1>
+                      Admin Dashboard Accordion Menu
+                </div>
+            <!-- </div> -->
+            <!-- <div class="col-sm-2 col-md-2"> -->
+
+            <navbar></navbar>
+           <!--  </div> -->
+        </div>
+    </div>
+		<!-- <div id="main" ui-view></div> -->
 </body>
 </html>

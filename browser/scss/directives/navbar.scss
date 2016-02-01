@@ -1,8 +1,62 @@
-navbar {
+.panel,
+.panel-default,
+.panel-heading {
+  border: none;
+}
 
+.panel-title {
+  border: none;
+  text-decoration: none;
+}
+.list-group-item {
+  padding: none;
+  button {
+    width: 100%;
+    margin: none;
+    color: white;
+    border-radius: 10px;
+    background-color: black;
+  }
+}
+#collapseListGroupHeading1 {
+  background-color: lightgreen;
+  border: none;
+  text-decoration: none;
+}
+#collapseListGroupHeading2 {
+  background-color: lightblue;
+  border: none;
+  text-decoration: none;
+}
+#collapseListGroupHeading3 {
+  background-color: pink;
+  border: none;
+  text-decoration: none;
+}
+#collapseListGroupHeading4 {
+  background-color: yellow;
+  border: none;
+  text-decoration: none;
+}
+
+.panel-footer {
+  list-style: none;
+}
+
+
+navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding-top: 0.25%;
+  padding-right: 0.5%;
+  padding-left: 0.25%;
   display: block;
-  background: white;
-  border-bottom: 1px solid black;
+  background: black;
+
+
+  /*border-bottom: 1px solid black;
   box-shadow: 1px 1px 14px -3px black;
 
   .container {
@@ -15,9 +69,9 @@ navbar {
     margin-top: 5px;
     margin-right: 20px;
     width: 40px;
-  }
+  }*/
 
-  a {
+  /*a {
     color: black;
     font-size: 16px;
   }
@@ -57,6 +111,6 @@ navbar {
       color: #f30046;
       cursor: pointer;
     }
-  }
+  }*/
 
 }

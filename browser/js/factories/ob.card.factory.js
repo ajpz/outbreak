@@ -56,9 +56,9 @@ app.factory('CardFactory', function(Cities, Events, Epidemic) {
         pickCardFromBottom: function(cardDeck) {
             return cardDeck.shift();
         },
-        addCardsToTop: function(infectionDeck, discardDeck) {
-            return infectionDeck.concat(discardDeck);
-        },
+        // addCardsToTop: function(infectionDeck, discardDeck) {
+        //     return infectionDeck.concat(discardDeck);
+        // },
         isEmpty: function(deck) {
             return !deck.length;
         }

@@ -20,12 +20,12 @@ app.factory('InfectionFactory', function(SetToGameState, GameFactory, CardFactor
     gameState.infectionDeckDiscard.push(card);
   };
 
-  const shuffleDiscardAndAddToInfectionDeck = function() {
-    const discardDeck = gameState.infectionDeckDiscard;
-    CardFactory.shuffleDeck(discardDeck);
-    gameState.infectionDeck = gameState.infectionDeck.concat(discardDeck);
-    discardDeck = [];
-  };
+  // const shuffleDiscardAndAddToInfectionDeck = function() {
+  //   const discardDeck = gameState.infectionDeckDiscard;
+  //   CardFactory.shuffleDeck(discardDeck);
+  //   gameState.infectionDeck = gameState.infectionDeck.concat(discardDeck);
+  //   discardDeck = [];
+  // };
 
   const getInfectionLevel = function() {
     return infectionLevelArray[gameState.infectionLevelIndex];
