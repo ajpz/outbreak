@@ -6,12 +6,11 @@
             </h4>
         </div>
         <div id="collapseListGroup1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
-            <ul class="list-group">
-                <li class="list-group-item" id="no-padding">Berlin</li>
-                <li class="list-group-item" id="no-padding">Hong Kong</li>
-                <li class="list-group-item" id="no-padding">Paris</li>
-            </ul>
-            <!-- <div class="panel-footer">Footer</div> -->
+            <div id="table-row" class="list-group-item" ng-repeat="rows in chunkedData">
+                <span id="table-column" ng-repeat="item in rows">
+                    {{item}}
+                </span>
+            </div>
         </div>
     </div>
     <div class="panel panel-default">
@@ -41,7 +40,7 @@
                 <li class="list-group-item" id="no-padding">Istanbul</li>
                 <li class="list-group-item" id="no-padding">Bogota</li>
             </ul>
-           <!--  <div class="panel-footer">Footer</div> -->
+            <!--  <div class="panel-footer">Footer</div> -->
         </div>
     </div>
     <div class="panel panel-default">
@@ -72,7 +71,6 @@
         </div>
     </div>
 </div>
-
 <!-- <div class="container">
     <div class="row">
         <div class="col-xs-12">
