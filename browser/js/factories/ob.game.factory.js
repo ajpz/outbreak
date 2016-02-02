@@ -74,7 +74,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
         }
       }
       data.$save().then(function(){
-        $rootScope.$broadcast("gameStateChange", {gameState : data.gameState });
+        $rootScope.$broadcast("stateChange", {gameState : data.gameState });
       })
     }
   });
