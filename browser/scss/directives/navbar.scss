@@ -19,41 +19,97 @@
   }
 }
 #collapseListGroupHeading1 {
-  background-color: lightgreen;
+  background-color: #AFEEEE;
   border: none;
-  text-decoration: none;
+  a {
+    font-size: 14px;
+    line-height: 0.5em;
+    text-decoration: none;
+    &:hover {
+      color: gray;
+    }
+  }
 }
 #collapseListGroupHeading2 {
-  background-color: lightblue;
+  background-color:   #E6E6FA;
   border: none;
-  text-decoration: none;
+  a {
+    font-size: 14px;
+    line-height: 0.5em;
+    text-decoration: none;
+    &:hover {
+      color: gray;
+    }
+  }
 }
 #collapseListGroupHeading3 {
-  background-color: pink;
+  background-color: #EEE8AA;
   border: none;
-  text-decoration: none;
+  a {
+    font-size: 14px;
+    line-height: 0.5em;
+    text-decoration: none;
+    &:hover {
+      color: gray;
+    }
+  }
 }
 #collapseListGroupHeading4 {
-  background-color: yellow;
+  background-color: #DCDCDC;
   border: none;
-  text-decoration: none;
+  a {
+    font-size: 14px;
+    line-height: 0.5em;
+    text-decoration: none;
+    &:hover {
+      color: gray;
+    }
+  }
 }
 
 .panel-footer {
   list-style: none;
+  margin: none;
+}
+
+ul.list-group {
+    margin-bottom: 0px !important;
+}
+
+.panel-group {
+    margin-bottom: -10px !important;
+}
+
+#no-padding {
+  padding-top: none;
+  padding-bottom: none;
+  line-height: 0.5em;
+  font-size: 12px;
+}
+
+#low-padding {
+  padding-top: none;
+  padding-bottom: none;
+  line-height: 1.3em;
+  font-size: 12px;
 }
 
 
 navbar {
   position: fixed;
+  width: 15%;
+  z-index: 1000;
   top: 0;
   right: 0;
-  height: 100%;
-  padding-top: 0.25%;
+  box-shadow:  -2px 3px 11px 0px rgba(50, 50, 50, 0.55);
+  /*height: 100%;*/
+  /*padding-top: 0.25%;
   padding-right: 0.5%;
-  padding-left: 0.25%;
-  display: block;
-  background: black;
+  padding-left: 0.25%;*/
+  display: inline-block;
+/*  background: transparent;*/
+  background: #696969;
+
 
 
   /*border-bottom: 1px solid black;

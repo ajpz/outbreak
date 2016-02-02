@@ -1,7 +1,7 @@
-app.directive('gamerConsole', function () {
-    return {
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
+      return {
         restrict: 'E',
-        templateUrl: 'js/directives/gamerconsole/ob.gamer-console.html',
+        templateUrl: 'js/directives/navbar/navbar.html',
         scope: {},
         link: function (scope) {
 

@@ -2,42 +2,38 @@ app.config(function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/',
         templateUrl: 'js/home/home.html',
+        // we have GameFactory for some of the loading in this case
         controller : function($scope, $rootScope, GameFactory) {
-          $scope.counter = 0;
+          //$scope.counter = 0;
 
-          //$rootScope.$on("initialStateAvailable", function(event, payload){
-          //  $scope.counter = payload.infectionLevelIndex;
-          //  $scope.user = payload.currentUser;
-          //  console.log("on in the initialStateAvailable");
-          //  console.log($scope.user);
-          //});
-          $rootScope.$on('gamerTurnChanged', function(event, payload) {
-            console.log(payload);
-            console.log("gamerTurned happened")
-            $scope.username = payload.username;
-
+          $rootScope.$on('initialize', function(event, payload) {
+            // on initialize, you get a payload of all the gameState
+            // set the information that you need from this payload eg- payload.gameState
+            let gameState = payload.gameState;
+            // your current counter is the gameState.infectionLevel
+            $scope.counter = gameState.infectionLevelIndex;
+            $scope.turn = gameState.gamerTurn;
+            $scope.gamers = _.cloneDeep(payload.gameState.gamers);
           });
 
+          // when a player clicks on a button
           $scope.updateCounter = function() {
-
-            console.log("HEREEEEE")
-            console.log($scope.username);
-            if (localStorage.getItem("user") === $scope.username){
-              $scope.counter++;
-              console.log("here i am");
-              $rootScope.$broadcast("counter", { infectionLevelIndex : $scope.counter });
+            if (localStorage.getItem("user") === $scope.gamers[$scope.turn].username){
+              // show that the counter has changed on the front end
+              $scope.counter = $scope.counter + 1;
+              // now the turn has changed and is noted locally
+              $scope.turn = ($scope.turn + 1) % 4;
+              // listened on in the ob.game.factory.js
+              $rootScope.$broadcast("counter", { infectionLevelIndex : $scope.counter , gamerTurn : $scope.turn });
             }
-          }
-          //
-          //$rootScope.$on("counterSaved", function(event, payload) {
-          //  $scope.user = payload.currentUser;
-          //  $scope.payload = payload;
-          //  $scope.counter = payload.infectionLevelIndex || 0;
-          //  console.log("in counter saved");
-          //  console.log(payload);
-          //});
+          };
 
-
+          $rootScope.$on("stateChange", function(even, payload) {
+            console.log("in im real");
+            console.log(payload);
+            $scope.counter = payload.gameState.infectionLevelIndex;
+            $scope.turn = payload.gameState.gamerTurn;
+          });
 
         }
     });

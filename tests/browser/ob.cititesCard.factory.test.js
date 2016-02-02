@@ -22,6 +22,14 @@ describe('CitiesCard Factory', () => {
   });
 
   /**
+   * with default epidemics, deck should be 57 cards long
+   */
+
+  it('should have 57 cards', () => {
+    expect(deck).to.have.length(57);
+  });
+
+  /**
    * number of epidemics should be the number of epidemics passed in
    * to the createPlayerDeck method
    */
