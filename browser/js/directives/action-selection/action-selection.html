@@ -1,0 +1,28 @@
+<!--
+list:
+1. VERBS -- ACCEPT | EDIT
+2. VERBS -- ACCEPT | EDIT
+3. VERBS -- ACCEPT | EDIT
+4. VERBS -- ACCEPT | EDIT
+EXECUTE
+
+- Each number (1-4) is active if 'lastActionSelected.number' is prior number
+
+- VERBS:
+  - ng-show based on availableVerbs(verb)
+  - each VERB is clickable (sets on tempActions[lastActionSelected.number].verb)
+  - once clicked, next step in chain is revelead (see below)
+
+- CITIES:
+
+
+
+VERB selections kick off the following chain:
+--------------------------------------------
+go -> how -> where -> disCard x 1
+treat -> color -> number
+build -> na
+giveCityCard -> card -> other
+takeCityCard -> card -> other
+cure -> color -> disCard x 5
+-->
