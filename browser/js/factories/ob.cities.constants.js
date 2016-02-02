@@ -379,6 +379,7 @@ app.constant('Cities', {
     color: 'red'
   },
   osaka : {
+    key: 'osaka',
     name: 'Osaka',
     type: 'cityCard',
     country: 'Japan',

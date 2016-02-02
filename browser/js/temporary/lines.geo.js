@@ -1,4 +1,5 @@
-const geoLines = [{
+app.constant('GeoLines',{ lines :
+  [{
     "type": "FeatureCollection",
     "features": [{
         "type": "Feature",
@@ -1120,3 +1121,5 @@ const geoLines = [{
     ]
 }
 ]
+
+});
