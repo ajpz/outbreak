@@ -1,8 +1,10 @@
 app.factory('ActionFactory', function(Cities) {
 
   // TODO: EVENT CARDS INTERRUPT FLOW AND INSERT THEMSELVES
-  // TODO: which to expose
+  // TODO: which methods to expose?
   // TODO: do i need Action constructor function?
+  // TODO: need to advance both status and phase
+  //
 
   /**
    * Helper methods
@@ -215,7 +217,8 @@ app.factory('ActionFactory', function(Cities) {
    */
 
   return {
-    executeActions = function() {}
+    createAction: function() {},
+    executeActions: function() {}
   }
 
 });
