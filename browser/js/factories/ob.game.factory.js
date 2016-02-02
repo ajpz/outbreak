@@ -7,7 +7,8 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    * This link is currently from Victor's account.
    * Use your own for testing by making an account and  appending /gameState on to it
    */
-  const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/outbreak');
+   // 'https://radiant-fire-7882.firebaseio.com/outbreak'
+  const ref = new Firebase('');
   let data  = $firebaseObject(ref);
   let localState;
 

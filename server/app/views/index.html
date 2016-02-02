@@ -3,6 +3,9 @@
 <head>
 		<base href="/" />
 		<title>Fullstack Academy Generated Application</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.css' rel='stylesheet' />
 		<link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/style.css" />
 		<script src="/lodash/index.js"></script>
@@ -22,6 +25,10 @@
 		<script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
 		<script src="/socket.io-client/socket.io.js"></script>
 		<script src="/main.js"></script>
+    <style>
+      body { margin:0; padding:0; }
+      #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
 </head>
 <body ng-app="FullstackGeneratedApp">
     <div class="container-fluid">
@@ -36,9 +43,25 @@
             <!-- <div class="col-sm-2 col-md-2"> -->
 
             <navbar></navbar>
+            <map></map>
            <!--  </div> -->
         </div>
     </div>
 		<!-- <div id="main" ui-view></div> -->
+    <script>
+// L.mapbox.accessToken = 'pk.eyJ1Ijoib3BwZXJhdG9yIiwiYSI6ImNpanluaXp1NzIxbm52Ymx6NGx1dWl3MXUifQ.ND7TeWHOVFWg39S7nB-FTQ';
+// var map = L.mapbox.map('map', 'opperator.60d841d4')
+//     .setView([74.0059, 40.7127], 9);
+
+// // L.marker is a low-level marker constructor in Leaflet.
+// L.marker([37.9, -77], {
+//     icon: L.mapbox.marker.icon({
+//         'marker-size': 'large',
+//         'marker-symbol': 'bus',
+//         'marker-color': '#fa0'
+//     })
+// }).addTo(map);
+</script>
+
 </body>
 </html>
