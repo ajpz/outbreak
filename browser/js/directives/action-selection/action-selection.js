@@ -3,7 +3,7 @@ app.directive('actionSelection', function($rootScope, ActionFactory) {
     restrict: 'E',
     templateURL: '',
     scope: {},
-    link: function(scope, element, attrs) {
+    link: function(scope) {
 
       let state;
 
@@ -25,11 +25,11 @@ app.directive('actionSelection', function($rootScope, ActionFactory) {
         scope.proposedActions = state.proposedActions;
         scope.lastActionSelected = state.proposedActions[state.proposedActions.length - 1];
         // get reference to most recently updated active gamer state object
-        scope.gamer = getGamer(scope.lastActionSelected.gamersAfterAction, scope.lastActionSelected.role;
+        scope.gamer = ActionFactory.getGamer(scope.lastActionSelected.gamersAfterAction, scope.lastActionSelected.role);
         scope.tempAction = new ActionFactory.Action (
           scope.lastActionSelected.number + 1,
           'regular',
-          gamer.role)
+          scope.gamer.role
           );
       });
 
@@ -41,7 +41,7 @@ app.directive('actionSelection', function($rootScope, ActionFactory) {
        */
 
        scope.userAcceptsOneAction = function() {
-         $rootScope.$broadcast('actionSelected', tempAction);
+         $rootScope.$broadcast('actionSelected', scope.tempAction);
        };
 
 
@@ -69,7 +69,7 @@ app.directive('actionSelection', function($rootScope, ActionFactory) {
     }
   }
 });
-
+/*
 {
     number: 1, // 1 through 4
     type: 'regular', // options: 'event', 'epidemic'
@@ -117,3 +117,4 @@ app.directive('actionSelection', function($rootScope, ActionFactory) {
       black: false
     }
   },
+  */
