@@ -2,22 +2,22 @@
     <div class="panel panel-default" id="slide-submenu">
         <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
             <h4 class="panel-title">
-                <a class role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseListGroup1" aria-expanded="false" aria-controls="collapseListGroup1"><strong>HOMBURGER</strong><br /><i>Medic</i></a>
+                <a class role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseListGroup1" aria-expanded="false" aria-controls="collapseListGroup1"><strong>HOMBURGER</strong><img src="http://i.imgur.com/4Qdsdzd.png" height="30"/><br /><i>Medic</i></a>
             </h4>
         </div>
         <div id="collapseListGroup1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
-            <ul class="list-group">
-                <li class="list-group-item" id="no-padding">Berlin</li>
-                <li class="list-group-item" id="no-padding">Hong Kong</li>
-                <li class="list-group-item" id="no-padding">Paris</li>
-            </ul>
-            <!-- <div class="panel-footer">Footer</div> -->
+            <div id="table-row" class="list-group-item" ng-repeat="rows in chunkedData">
+                <span id="table-column" ng-repeat="item in rows">
+                    {{item}}
+                </span>
+            </div>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="collapseListGroupHeading2">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseListGroup2" aria-expanded="false" aria-controls="collapseListGroup2"><strong>LEON DANVINCI</strong><br /><i>Researcher</i></a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseListGroup2" aria-expanded="false" aria-controls="collapseListGroup2"><strong>LEON DANVINCI</strong>
+                  <img src="http://i.imgur.com/VJJfVf2.png" height="30"/><br /><i>Researcher</i></a>
                 </h4>
         </div>
         <div id="collapseListGroup2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading2">
@@ -32,7 +32,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="collapseListGroupHeading3">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseListGroup3" aria-expanded="false" aria-controls="collapseListGroup3"><strong>AJ PEREZIDENT</strong><br /><i>Scientist</i></a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseListGroup3" aria-expanded="false" aria-controls="collapseListGroup3"><strong>AJ PEREZIDENT</strong>
+                  <img src="http://i.imgur.com/WulkLDY.png" height="30"/><br /><i>Scientist</i></a>
                 </h4>
         </div>
         <div id="collapseListGroup3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading3">
@@ -41,13 +42,14 @@
                 <li class="list-group-item" id="no-padding">Istanbul</li>
                 <li class="list-group-item" id="no-padding">Bogota</li>
             </ul>
-           <!--  <div class="panel-footer">Footer</div> -->
+            <!--  <div class="panel-footer">Footer</div> -->
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="collapseListGroupHeading4">
             <h4 class="panel-title">
-                <a data-parent="#accordion" href="#collapseListGroup4" aria-expanded="true" aria-controls="collapseListGroup4"><strong>JULIE OPPERATOR</strong><br /><i>Operations Expert</i></a>
+                <a data-parent="#accordion" href="#collapseListGroup4" aria-expanded="true" aria-controls="collapseListGroup4"><strong>JULIE OPPERATOR</strong>
+                  <img src="http://i.imgur.com/LkRLXAQ.png" height="30"/><br /><i>Operations Expert</i></a>
                 </h4>
         </div>
         <div id="collapseListGroup4" class="" role="tabpanel" aria-labelledby="collapseListGroupHeading4">
@@ -72,7 +74,6 @@
         </div>
     </div>
 </div>
-
 <!-- <div class="container">
     <div class="row">
         <div class="col-xs-12">
