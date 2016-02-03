@@ -3,8 +3,7 @@
   <button ng-click="slide()" class="slider btn"><span class="glyphicon glyphicon-triangle-{{ arrow }}"></span></button>
 </div>
 <div class="action-picker-inner" ng-show="gamers[turn].username === clientUser">
-  <!--<pre>{{ gameState | json }}</pre>-->
-  {{  gamers[turn].username | capitalize }}, please pick action {{ actionNumber }}
+  {{  gamers[turn].username | capitalize }}, the {{ gamers[turn].role }}, please pick action {{ actionNumber }}
   <div class="showClass">
     <div ng-class="hideText">Hello in the show</div>
     <!-- set opacity to 0 add class based on condition-->

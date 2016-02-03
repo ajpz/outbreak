@@ -9,7 +9,6 @@ app.factory('ActionFactory', function(Cities) {
      */
 
     availableVerbs: function(gamer, state) {
-
       // initialize variables outlining current state
       let currInfections = state.cities.filter(function(cityObj) {
         return cityObj.key === gamer.currentCity;
