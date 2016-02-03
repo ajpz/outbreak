@@ -48,7 +48,10 @@ app.factory('ActionFactory', function(Cities) {
           return cardObj.key;
         }));
         return cityKeyArray;
-      },[]);
+      },[]).filter(function(cityKey) {
+        // you can only take the card that represents the current city you are in
+        return cityKey === gamer.currentCity;
+      });
 
       if(cityKeyArray.length > 0) {
         verbs.push('takeCityCard');
@@ -100,7 +103,12 @@ app.factory('ActionFactory', function(Cities) {
     },
 
     shuttleFlightsKeys: function(gamer, state) {
-      //return an array of city keys that have researchCenters
+      //r eturn an array of city keys that have researchCenters not including where the user is
+      // baked in that the gamer is on the current city
+      // if they are not, return an empty array
+      if (Object.keys(state.researchCenterLocations).indexOf(gamer.currentCity) === -1) {
+        return [];
+      }
       return state.researchCenterLocations
         .filter(function(key) {
           // filter out the gamer's currentCity
@@ -113,15 +121,19 @@ app.factory('ActionFactory', function(Cities) {
      */
 
     whatAndHowMuchCanBeTreated: function(gamer, state) {
-      let currInfections = state.cities.filter(function(cityObj) {
-        return cityObj.key === gamer.currentCity;
-      })[0];
+      // slightly faster than the filter :) had to
+      let currentCityIndex = state.cities.findIndex(function(city){
+        return city.key === gamer.currentCity;
+      });
+      let currInfections = state.cities[currentCityIndex];
 
       let treatmentOptions = {};
 
       for(let color in state.isCured) {
         if(currInfections[color] > 0) {
+          // if this virus is cured, then you can cure all the infection blocks in a city else only 1
           treatmentOptions[color] = state.isCured[color] ? currInfections[color] : 1;
+          // if you are a medic, you can cure all the infection levels;
           if(gamer.role === 'medic') treatmentOptions[color] = currInfections[color];
         } else {
           treatmentOptions[color] = 0;

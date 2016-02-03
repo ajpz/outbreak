@@ -4,6 +4,24 @@
   border: none;
 }
 
+#table-column{
+  text-align: center;
+  display: inline-block;
+  width: 50%;
+
+
+}
+a {
+  img {
+    padding: none;
+    float: right;
+  }
+}
+#table-row{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .panel-title {
   border: none;
   text-decoration: none;
@@ -19,11 +37,13 @@
   }
 }
 #collapseListGroupHeading1 {
-  background-color: #AFEEEE;
+  background-color: #280000;
+
   border: none;
   a {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 0.5em;
+    color: white;
     text-decoration: none;
     &:hover {
       color: gray;
@@ -31,10 +51,12 @@
   }
 }
 #collapseListGroupHeading2 {
-  background-color:   #E6E6FA;
+  background-color: #000033;
+
   border: none;
   a {
-    font-size: 14px;
+    font-size: 12px;
+    color: white;
     line-height: 0.5em;
     text-decoration: none;
     &:hover {
@@ -43,10 +65,12 @@
   }
 }
 #collapseListGroupHeading3 {
-  background-color: #EEE8AA;
+  background-color: #001901;
+
   border: none;
   a {
-    font-size: 14px;
+    font-size: 12px;
+    color: white;
     line-height: 0.5em;
     text-decoration: none;
     &:hover {
@@ -55,10 +79,12 @@
   }
 }
 #collapseListGroupHeading4 {
-  background-color: #DCDCDC;
+  background-color: #003366;
+
   border: none;
   a {
-    font-size: 14px;
+    font-size: 12px;
+    color: white;
     line-height: 0.5em;
     text-decoration: none;
     &:hover {
@@ -108,7 +134,9 @@ navbar {
   padding-left: 0.25%;*/
   display: inline-block;
 /*  background: transparent;*/
-  background: #696969;
+  background: #000;
+  opacity: 0.9;
+
 
 
 

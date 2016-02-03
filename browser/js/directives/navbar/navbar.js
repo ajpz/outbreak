@@ -3,6 +3,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         restrict: 'E',
         templateUrl: 'js/directives/navbar/navbar.html',
         scope: {},
+        controller: 'NavbarCtrl',
         link: function (scope) {
 
             //CARDS:

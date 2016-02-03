@@ -11,8 +11,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   const ref = new Firebase('https://outbreaktest.firebaseio.com/outbreak');
   let outbreak  = $firebaseObject(ref);
 
-
-
   outbreak.$watch(function() {
 
     if (!outbreak.hasOwnProperty('gameState')) {
