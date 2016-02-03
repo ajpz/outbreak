@@ -28,7 +28,7 @@ app.config(function ($stateProvider) {
             }
           };
 
-          $rootScope.$on("gameStateChange", function(even, payload) {
+          $rootScope.$on("stateChange", function(even, payload) {
             console.log("in im real");
             console.log(payload);
             $scope.counter = payload.gameState.infectionLevelIndex;
