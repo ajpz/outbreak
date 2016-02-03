@@ -43,11 +43,19 @@ app.directive("cures", function($rootScope) {
       //   }
 
       // }
+
+      /**
+      NOTE: Current unimportant limitation: 
+      If you change the cured status of a disease from false to true, you cannot change it back to false. 
+      Similarly, you can change a disease that is cured to eradicated (isCured=true, isEradicated=false ===> isCured=false, isEradicated=true), 
+      but you can not change it back (isCured=false, isEradicated=true ===> isCured=true, isEradicated=false). 
+      This ***SHOULD NOT*** be a problem, as the rules to the game should not support that behavior. 
+      **/
       scope.cureTheDisease = function(gameState) {
         for (let key in gameState.isCured) {
           if (gameState.isCured[key] !== scope.diseases[key].cured) {
-            scope.diseases[key].cured = gameState.isCured[key];
             var elem = $(element).find("#" + key)
+            scope.diseases[key].cured = gameState.isCured[key];
             elem.attr("src", scope.diseases[key].curedIcon)
           }
         }
@@ -67,20 +75,16 @@ app.directive("cures", function($rootScope) {
           }
         }
       }
-      // scope.eradicateTheDisease(gameState);
+        // scope.eradicateTheDisease(gameState);
 
 
       $rootScope.$on('stateChange', function(event, payload) {
         let gameState = payload.gameState;
         for (let key in gameState.isCured) {
-          if (gameState.isCured[key] !== scope.diseases[key].cured) {
-            cureTheDisease(gameState)
-          }
+          scope.cureTheDisease(gameState)
         }
         for (let key in gameState.isEradicated) {
-          if (gameState.isEradicated[key] !== scope.diseases[key].eradicated) {
-            eradicateTheDisease(gameState)
-          }
+          scope.eradicateTheDisease(gameState)
         }
       })
 
