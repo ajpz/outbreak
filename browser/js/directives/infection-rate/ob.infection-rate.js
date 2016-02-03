@@ -5,12 +5,13 @@ app.directive("infectionRate", function($rootScope){
 		scope: {},
 		link: function(scope, element){
 			scope.infectionRateIndex = 0;
-      var payload = {
-        infectionRateIndex: 3
-      }
+      // test data
+      // var gameState = {
+      //   infectionRateIndex: 3
+      // }
 
-      scope.changeTheIndex = function(payload){
-        scope.infectionRateIndex = payload.infectionRateIndex;
+      scope.changeTheIndex = function(gameState){
+        scope.infectionRateIndex = gameState.infectionRateIndex;
         var elem = $(element).find("#index_"+scope.infectionRateIndex);
         for(var i=0; i<7; i++){
           if(i!==scope.infectionRateIndex){
@@ -20,11 +21,12 @@ app.directive("infectionRate", function($rootScope){
         }
       }
 
-      scope.changeTheIndex(payload)
+      // scope.changeTheIndex(gameState)
 
       $rootScope.$on('stateChange', function(event, payload){
-				if(scope.infectionRateIndex !== payload.infectionRateIndex){
-					scope.changeTheIndex(payload);
+        let gameState = payload.gameState;
+        if(scope.infectionRateIndex !== gameState.infectionRateIndex){
+					scope.changeTheIndex(gameState);
 				}
 			})
 
