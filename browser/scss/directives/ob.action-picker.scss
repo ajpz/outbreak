@@ -40,14 +40,14 @@
 .slideOff {
   //opacity : .2;
   left : -10%;
-  transition : left 2.2s;
+  transition : left 1.79s;
   transition-timing-function : ease-out;
 }
 
 .slideOn {
   left : 0;
   opacity : 1;
-  transition : left 2.2s;
+  transition : left 1.79s;
   transition-timing-function: ease-in;
 }
 
