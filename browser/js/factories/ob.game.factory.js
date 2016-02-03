@@ -8,7 +8,9 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    * Use your own for testing by making an account and  appending /gameState on to it
    */
    // 'https://radiant-fire-7882.firebaseio.com/outbreak'
-  const ref = new Firebase('https://popping-fire-2435.firebaseio.com/outbreak');
+  // jon - https://popping-fire-2435.firebaseio.com/outbreak
+  //https://outbreak.firebaseio.com/outbreak
+  const ref = new Firebase('');
   let data  = $firebaseObject(ref);
   let localState;
 
@@ -35,7 +37,9 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
 
         });
     } else {
-      localStorage.setItem("user", data.gameState.gamers[data.gameState.playerCount].username);
+      //data.gameState.playerCount
+      // using this for testing, and I am currently running into the issue where firebase is constantly filled
+      localStorage.setItem("user", data.gameState.gamers[0].username);
       data.gameState["playerCount"] = (data.gameState["playerCount"] + 1) % 4;
       // all computers that connect after the 4th computer will be assigned the consecutive numbers
       data.$save()

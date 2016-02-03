@@ -115,7 +115,7 @@ describe('ActionFactory', () => {
 
   it('can find cities shuttleFlights away', function() {
     let cities = ActionFactory.shuttleFlightsKeys(gamer, state);
-    cities.length.should.equal(1);
+    cities.length.should.equal(0); // 0 changed to zero since the user is not standing on a research center
   })
 
   it('can determine what colors can be treated, and how much', function() {
