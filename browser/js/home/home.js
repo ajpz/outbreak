@@ -14,11 +14,14 @@ app.config(function ($stateProvider) {
             $scope.counter = gameState.infectionLevelIndex;
             $scope.turn = gameState.gamerTurn;
             $scope.gamers = _.cloneDeep(payload.gameState.gamers);
+            console.log('intialize heard in home.js ', $scope.counter, $scope.turn, $scope.gamers);
           });
 
           // when a player clicks on a button
           $scope.updateCounter = function() {
+            console.log('updateCounter clicked ', localStorage.getItem('user'), $scope.gamers[$scope.turn].username);
             if (localStorage.getItem("user") === $scope.gamers[$scope.turn].username){
+              console.log('I AM THE USER')
               // show that the counter has changed on the front end
               $scope.counter = $scope.counter + 1;
               // now the turn has changed and is noted locally
@@ -29,7 +32,7 @@ app.config(function ($stateProvider) {
           };
 
           $rootScope.$on("stateChange", function(even, payload) {
-            console.log("in im real");
+            console.log("stateChange heard in home.js ", payload);
             console.log(payload);
             $scope.counter = payload.gameState.infectionLevelIndex;
             $scope.turn = payload.gameState.gamerTurn;

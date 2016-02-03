@@ -8,8 +8,8 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    * Use your own for testing by making an account and  appending /gameState on to it
    */
    // 'https://radiant-fire-7882.firebaseio.com/outbreak'
-  const ref = new Firebase('https://popping-fire-2435.firebaseio.com/outbreak');
-  let data  = $firebaseObject(ref);
+  const ref = new Firebase('https://outbreaktest.firebaseio.com/outbreak');
+  let outbreak  = $firebaseObject(ref);
   let localState;
 
   /**
@@ -19,31 +19,51 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    *  if the object exists already, it will not be created again.
    *  To handle currently, just delete the gameState object when testing
    */
-  data.$loaded(function(fbObj){
-    console.log(fbObj);
-    console.log(Object.keys(fbObj));
-    if (fbObj.$value === null) {
-      data.gameState = Initialize;
-      data.gameState.playerDeck = CitiesCardFactory.createPlayerDeck();
-      data.gameState.infectionDeck = InfectionFactory.createInfectionDeck();
+  outbreak.$loaded(function(fbObj){  // can't use .val() when using $loaded with AngularFire object
+    console.log('$loaded........', fbObj.$value, fbObj);
+    if (fbObj.$value === null) {  //null at first, undefined thereafter
+      outbreak.gameState = Initialize;
+      // outbreak.gameState.playerDeck = CitiesCardFactory.createPlayerDeck();
+      // outbreak.gameState.infectionDeck = InfectionFactory.createInfectionDeck();
       // hard coded first user is based on the gamers array
       localStorage.setItem("user", Initialize.gamers[0].username);
-      data.$save()
+      console.log('$loaded saving for the first time', Initialize.gamers[0].username)
+      outbreak.$save()
         .then(function(){
           localState = fbObj.gameState;
+          console.log('$loaded save completed, now initializing to localState', localState);
           initialize(localState);
 
         });
     } else {
-      localStorage.setItem("user", data.gameState.gamers[data.gameState.playerCount].username);
-      data.gameState["playerCount"] = (data.gameState["playerCount"] + 1) % 4;
+      console.log('$loaded in else statement ', outbreak.gameState, outbreak.gameState === fbObj.$value)
+      localStorage.setItem("user", outbreak.gameState.gamers[outbreak.gameState.playerCount].username);
+      outbreak.gameState["playerCount"] = (outbreak.gameState["playerCount"] + 1) % 4;
       // all computers that connect after the 4th computer will be assigned the consecutive numbers
-      data.$save()
+      outbreak.$save()
+        //saving the updated playerCount info
         .then(function(){
-          console.log(fbObj);
           localState = fbObj.gameState;
+          console.log('$loaded save completed, now initializing to localState', localState);
           initialize(localState);
         });
+    }
+  });
+
+  /**
+   *  Listen on Firebase
+   *  broadcast throughout app when state changes
+   */
+
+  outbreak.$watch(function() {
+    console.log('$watch fired')
+    if (outbreak.hasOwnProperty("gameState")){
+      console.log('$watch has gameState', gameState);
+      // initial snapshot on load does not exist
+      // however, this is useful thereafter when you want to broadcast latest changes
+      $rootScope.$broadcast("stateChange", {gameState : outbreak.gameState });
+    } else {
+      console.log('$watch has no gameState')
     }
   });
 
@@ -52,42 +72,16 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   }
 
 
-  /**
-   * Firebase has 5 event types in .on
-   * value, child_added, child_changed, child_removed, child_moved
-   * notes : when initGame is called, child added event runs cb 17 times
-   * each time representing the keys in the gameState
-   */
-
-
-  /**
-   * All changes will go through me!!!!!!!
-   */
-  ref.on('value', function(snapshot) {
-    if (data.hasOwnProperty("gameState")){
-      // initial snapshot on load does not exist
-      // however, this is useful thereafter when you want to broadcast latest changes
-      let currentSnap = snapshot.val();
-      if (currentSnap){
-        for (let key in currentSnap){
-          data[key] = currentSnap[key];
-        }
-      }
-      data.$save().then(function(){
-        $rootScope.$broadcast("stateChange", {gameState : data.gameState });
-      })
-    }
-  });
-
-
   // front end specific events
   /////////////////////////////////////////////////////
 
   $rootScope.$on("counter", function(event, payload) {
+    console.log('$counter heard with payload ', payload)
     for(let key in payload){
-      data.gameState[key] = payload[key];
+      outbreak.gameState[key] = payload[key];
     }
-    data.$save()
+    console.log('$counter listener is saving to firebase....')
+    outbreak.$save()
     // this will now lead teh ref.on('value') to kick off updates to ALL client browsers including the
     // browser that broadcast this change
   });

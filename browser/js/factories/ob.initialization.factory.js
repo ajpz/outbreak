@@ -39,7 +39,7 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
       // defaults right now to 'Introductory' difficulty
       workingState.playerDeck = createPlayerDeck();
       workingState.infectionDeck = createInfectionDeck();
-      workingState.status = 'inProgress';
+      // workingState.status = 'inProgress';
       return dealCardsToGamers(workingState);
     },
     giveUserARole: function() {
