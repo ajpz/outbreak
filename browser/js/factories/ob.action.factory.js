@@ -100,7 +100,12 @@ app.factory('ActionFactory', function(Cities) {
     },
 
     shuttleFlightsKeys: function(gamer, state) {
-      //return an array of city keys that have researchCenters
+      //r eturn an array of city keys that have researchCenters not including where the user is
+      // baked in that the gamer is on the current city
+      // if they are not, return an empty array
+      if (Object.keys(state.researchCenterLocations).indexOf(gamer.currentCity) === -1) {
+        return [];
+      }
       return state.researchCenterLocations
         .filter(function(key) {
           // filter out the gamer's currentCity
@@ -113,9 +118,11 @@ app.factory('ActionFactory', function(Cities) {
      */
 
     whatAndHowMuchCanBeTreated: function(gamer, state) {
-      let currInfections = state.cities.filter(function(cityObj) {
-        return cityObj.key === gamer.currentCity;
-      })[0];
+      // slightly faster than the filter :) had to
+      let currentCityIndex = state.cities.findIndex(function(city){
+        return city.key === gamer.currentCity;
+      });
+      let currInfections = state.cities[currentCityIndex];
 
       let treatmentOptions = {};
 
