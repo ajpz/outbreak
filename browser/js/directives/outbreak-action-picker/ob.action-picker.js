@@ -2,8 +2,10 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
   return {
     restrict : 'E',
     templateUrl : 'js/directives/outbreak-action-picker/ob.action-picker.html',
-    scope : {},
+    //scope : {},
     link : function(scope, elem, attr) {
+      scope.actionNumber = 1;
+
       /**
        *  This event is fired off on load
        * @type {boolean}
@@ -18,6 +20,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         scope.gameState = _.cloneDeep(payload.gameState);
         console.log("in the initialize in action picker");
         console.log(scope.gameState);
+        scope.clientUser = localStorage.getItem("user");
       });
 
 
@@ -94,5 +97,11 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
 
       /////////////////////////////////
     }
+  }
+});
+
+app.filter('capitalize', function() {
+  return function(input) {
+    return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
   }
 });
