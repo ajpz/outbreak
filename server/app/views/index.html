@@ -9,11 +9,11 @@
 		<link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/style.css" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-		<script src="/lodash/index.js"></script>
-		<script src="/shuffle-array/dist/shuffle-array.js"></script>
-		<script src="/angular/angular.js"></script>
-		<script src="/angular-animate/angular-animate.js"></script>
-		<script src="/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/lodash/index.js"></script>
+    <script src="/shuffle-array/dist/shuffle-array.js"></script>
+    <script src="/angular/angular.js"></script>
+    <script src="/angular-animate/angular-animate.js"></script>
+    <script src="/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="/angular-ui-bootstrap/ui-bootstrap.js"></script>
@@ -45,12 +45,21 @@
 
             <navbar></navbar>
             <action-picker></action-picker>
+            <outbreak-level>Outbreak</outbreak-level>
+            <infection-rate>Infection</infection-rate>
+            <still-available></still-available>
+            <cures>Cures</cures>
             <map></map>
-           <!--  </div> -->
+                     <!--  </div> -->
         </div>
     </div>
 		<!-- <div id="main" ui-view></div> -->
     <script>
+// $( document ).ready(function(){
+//     jQuery( "a:contains(OpenStreetMap)" ).remove()
+//     jQuery( "a:contains(Improve this map)" ).remove()
+// })
+
 // L.mapbox.accessToken = 'pk.eyJ1Ijoib3BwZXJhdG9yIiwiYSI6ImNpanluaXp1NzIxbm52Ymx6NGx1dWl3MXUifQ.ND7TeWHOVFWg39S7nB-FTQ';
 // var map = L.mapbox.map('map', 'opperator.60d841d4')
 //     .setView([74.0059, 40.7127], 9);

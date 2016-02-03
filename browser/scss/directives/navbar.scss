@@ -4,6 +4,24 @@
   border: none;
 }
 
+#table-column{
+  text-align: center;
+  display: inline-block;
+  width: 50%;
+
+
+}
+a {
+  img {
+    padding: none;
+    float: right;
+  }
+}
+#table-row{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .panel-title {
   border: none;
   text-decoration: none;
