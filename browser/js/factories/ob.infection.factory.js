@@ -57,6 +57,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
         for(var i = 0; i < 3; i++) {
           card = CardFactory.pickCardFromTop(state.infectionDeck);
           addInfectionToACity(card, infectionRate, state);
+          if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
           state.infectionDeckDiscard.push(card);
         }
       };

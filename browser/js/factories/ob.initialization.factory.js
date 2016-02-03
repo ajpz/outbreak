@@ -36,8 +36,10 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
 
     initializeGameElements: function(workingState) {
       // defaults right now to 'Introductory' difficulty
+
       workingState.playerDeck = createPlayerDeck();
       workingState.infectionDeck = createInfectionDeck();
+      workingState = InfectionFactory.initialize(workingState);
       workingState.status = 'inProgress';
       return dealCardsToGamers(workingState);
     },
