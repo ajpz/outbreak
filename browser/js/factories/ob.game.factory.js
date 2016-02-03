@@ -1,4 +1,4 @@
-app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory) {
+app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory, FlowFactory) {
   // factory is returned at the end
 	const factory = {};
 	//factory.gameState = {};
@@ -9,8 +9,10 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    */
    // homburger: 'https://radiant-fire-7882.firebaseio.com/outbreak'
    // ajpz:      'https://outbreaktest.firebaseio.com/outbreak'
-  const ref = new Firebase('https://outbreaktest.firebaseio.com/outbreak');
+   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
+  const ref = new Firebase('https://outbreak-daniel.firebaseio.com/');
   let outbreak  = $firebaseObject(ref);
+  FlowFactory();
 
   outbreak.$watch(function() {
 
