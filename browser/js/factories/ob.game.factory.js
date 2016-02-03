@@ -9,7 +9,8 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    */
    // 'https://radiant-fire-7882.firebaseio.com/outbreak'
   // jon - https://popping-fire-2435.firebaseio.com/outbreak
-  const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/outbreak');
+  //https://outbreak.firebaseio.com/outbreak
+  const ref = new Firebase('');
   let data  = $firebaseObject(ref);
   let localState;
 
