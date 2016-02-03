@@ -1,4 +1,4 @@
-app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, CitiesCardFactory, InfectionFactory, Initialize) {
+app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory) {
   // factory is returned at the end
 	const factory = {};
 	//factory.gameState = {};
@@ -30,6 +30,11 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       outbreak.$save();
       return;
     }
+
+    // if(outbreak.gameState.playerCount === 4) {
+    //   outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState);
+    //   outbreak.$save();
+    // }
 
     // initial snapshot on load does not exist
     // however, this is useful thereafter when you want to broadcast latest changes
