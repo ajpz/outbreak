@@ -24,7 +24,7 @@ app.directive("outbreakLevel", function($rootScope){
 
       $rootScope.$on('stateChange', function(event, payload){
 				if(scope.outbreakLevel !== payload.outbreakLevel){
-					changeTheLevel(payload);
+					scope.changeTheLevel(payload);
 				}
 			})
 

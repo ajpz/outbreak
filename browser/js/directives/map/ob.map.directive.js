@@ -34,7 +34,6 @@ app.directive('map', function(GeoLines, Cities){
           }
         }
 
-
         // scope.callback(map)
 
       }

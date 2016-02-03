@@ -1,9 +1,28 @@
-app.directive('actionPicker', function($rootScope) {
+app.directive('actionPicker', function($rootScope, ActionFactory) {
   return {
     restrict : 'E',
     templateUrl : 'js/directives/outbreak-action-picker/ob.action-picker.html',
     scope : {},
     link : function(scope, elem, attr) {
+      /**
+       *  This event is fired off on load
+       * @type {boolean}
+       *
+       */
+      $rootScope.$on('initialize', function(event, payload) {
+        let gameState = payload.gameState;
+        // your current counter is the gameState.infectionLevel
+        scope.turn = gameState.gamerTurn;
+        scope.gamers = _.cloneDeep(payload.gameState.gamers);
+        // might not need the full
+        scope.gameState = _.cloneDeep(payload.gameState);
+        console.log("in the initialize in action picker");
+        console.log(scope.gameState);
+      });
+
+
+
+
       scope.show = true;
       // functionality to store state, on execution of the game
       // any time an action is to be executed, you store the previous state

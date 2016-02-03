@@ -24,7 +24,7 @@ app.directive("infectionRate", function($rootScope){
 
       $rootScope.$on('stateChange', function(event, payload){
 				if(scope.infectionRateIndex !== payload.infectionRateIndex){
-					changeTheIndex(payload);
+					scope.changeTheIndex(payload);
 				}
 			})
 
@@ -32,6 +32,3 @@ app.directive("infectionRate", function($rootScope){
 	};
 });
 
-
-//jQuery( "a:contains(OpenStreetMap)" ).remove()
-//jQuery( "a:contains(Improve this map)" ).remove()
