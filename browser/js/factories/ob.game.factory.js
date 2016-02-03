@@ -10,7 +10,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    // 'https://radiant-fire-7882.firebaseio.com/outbreak'
   const ref = new Firebase('https://outbreaktest.firebaseio.com/outbreak');
   let outbreak  = $firebaseObject(ref);
-  let localState;
+  // let localState;
 
   /**
    *  initGameStateInFirebase
@@ -19,36 +19,36 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    *  if the object exists already, it will not be created again.
    *  To handle currently, just delete the gameState object when testing
    */
-  outbreak.$loaded(function(fbObj){  // can't use .val() when using $loaded with AngularFire object
-    console.log('$loaded........', fbObj.$value, fbObj);
-    if (fbObj.$value === null) {  //null at first, undefined thereafter
-      outbreak.gameState = Initialize;
+  // outbreak.$loaded(function(fbObj){  // can't use .val() when using $loaded with AngularFire object
+  //   console.log('$loaded........', fbObj.$value, fbObj);
+  //   if (fbObj.$value === null) {  //null at first, undefined thereafter
+  //     outbreak.gameState = Initialize;
       // outbreak.gameState.playerDeck = CitiesCardFactory.createPlayerDeck();
       // outbreak.gameState.infectionDeck = InfectionFactory.createInfectionDeck();
       // hard coded first user is based on the gamers array
-      localStorage.setItem("user", Initialize.gamers[0].username);
-      console.log('$loaded saving for the first time', Initialize.gamers[0].username)
-      outbreak.$save()
-        .then(function(){
-          localState = fbObj.gameState;
-          console.log('$loaded save completed, now initializing to localState', localState);
-          // initialize(localState);
+      // localStorage.setItem("user", Initialize.gamers[0].username);
+      // console.log('$loaded saving for the first time', Initialize.gamers[0].username)
+      // outbreak.$save()
+        // .then(function(){
+        //   localState = fbObj.gameState;
+        //   console.log('$loaded save completed, now initializing to localState', localState);
+        //   // initialize(localState);
 
-        });
-    } else {
-      console.log('$loaded in else statement ', outbreak.gameState, outbreak.gameState === fbObj.$value)
-      localStorage.setItem("user", outbreak.gameState.gamers[outbreak.gameState.playerCount].username);
-      outbreak.gameState["playerCount"] = (outbreak.gameState["playerCount"] + 1) % 4;
+        // });
+    // } else {
+    //   console.log('$loaded in else statement ', outbreak.gameState, outbreak.gameState === fbObj.$value)
+    //   localStorage.setItem("user", outbreak.gameState.gamers[outbreak.gameState.playerCount].username);
+    //   outbreak.gameState["playerCount"] = (outbreak.gameState["playerCount"] + 1) % 4;
       // all computers that connect after the 4th computer will be assigned the consecutive numbers
-      outbreak.$save()
+      // outbreak.$save()
         //saving the updated playerCount info
-        .then(function(){
-          localState = fbObj.gameState;
-          console.log('$loaded save completed, now initializing to localState', localState);
-          // initialize(localState);
-        });
-    }
-  });
+        // .then(function(){
+        //   localState = fbObj.gameState;
+        //   console.log('$loaded save completed, now initializing to localState', localState);
+        //   // initialize(localState);
+        // });
+    // }
+  // });
 
   /**
    *  Listen on Firebase
@@ -59,17 +59,25 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     console.log('$watch fired')
     if (outbreak.hasOwnProperty("gameState")){
       console.log('$watch has gameState', gameState);
-      // initial snapshot on load does not exist
-      // however, this is useful thereafter when you want to broadcast latest changes
-      $rootScope.$broadcast("stateChange", {gameState : outbreak.gameState });
+      if(!localStorage.getItem('user')) {
+        localStorage.setItem('user', outbreak.gameState.gamers[outbreak.gameState.playerCount].username);
+        outbreak.$save();
+      } else {
+        // initial snapshot on load does not exist
+        // however, this is useful thereafter when you want to broadcast latest changes
+        $rootScope.$broadcast("stateChange", {gameState : outbreak.gameState });
+      }
     } else {
       console.log('$watch has no gameState')
+      outbreak.gameState = Initialize;
+      localStorage.setItem('user', Initialize.gamers[0].username);
+      outbreak.$save();
     }
   });
 
-  function initialize(localState) {
-    $rootScope.$broadcast('initialize', {gameState : localState });
-  }
+  // function initialize(localState) {
+  //   $rootScope.$broadcast('initialize', {gameState : localState });
+  // }
 
 
   // front end specific events
