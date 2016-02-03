@@ -31,7 +31,7 @@ app.config(function ($stateProvider) {
             }
           };
 
-          $rootScope.$on("stateChange", function(even, payload) {
+          $rootScope.$on("stateChange", function(event, payload) {
             console.log("stateChange heard in home.js ", payload);
             console.log(payload);
             $scope.counter = payload.gameState.infectionLevelIndex;
