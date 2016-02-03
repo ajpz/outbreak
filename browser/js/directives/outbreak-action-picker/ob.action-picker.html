@@ -8,7 +8,55 @@
     <div ng-class="hideText">Hello in the show</div>
     <!-- set opacity to 0 add class based on condition-->
   </div>
-  <button class="btn" ng-click="toggleDiv()">Execute</button>
+  <div>
+    <div>Verbs available</div>
+    <div>
+      <!--<label>-->
+        <!-- This ng-change method will kick off a response to update the next possible selection -->
+        <!--<input type="radio" name="verb" ng-change="notifySelectionVerb()"-->
+               <!--ng-model="selection.verb" value="{{verb}}">{{verb}}-->
+      <!--</label>-->
+      <select ng-change="notifySelectionVerb()" ng-model="selection.verb">
+        <option disabled selected> -- select an option -- </option>
+        <!--ng-model="selection.verb"-->
+        <option  name="verb"  ng-repeat="verb in verbs"  value="{{verb}}">{{verb}}</option>
+      </select>
+    </div>
+    <!--My hard code drop down values-->
+    <label>
+    <input type="radio" name="verb" ng-change="notifySelectionVerb()"
+           ng-model="selection.verb" value="treat">treat
+    </label>
+    <label>
+    <input type="radio" name="verb" ng-change="notifySelectionVerb()"
+           ng-model="selection.verb" value="build">build
+    </label>
+    <label>
+    <input type="radio" name="verb" ng-change="notifySelectionVerb()"
+           ng-model="selection.verb" value="giveCityCard">giveCityCard
+    </label>
+    <label>
+    <input type="radio" name="verb" ng-change="notifySelectionVerb()"
+           ng-model="selection.verb" value="takeCityCard">takeCityCard
+    </label>
+    <label>
+    <input type="radio" name="verb" ng-change="notifySelectionVerb()"
+           ng-model="selection.verb" value="cureDisease">cureDisease
+    </label>
+  </div>
+
+  <div class="noun">
+    <div ng-show="selection.verb" >
+      <!--<button>{{noun}}</button>-->
+      <select ng-change="selectNoun()" ng-model="selection.noun">
+        <option value="noun" ng-repeat="noun in nouns">{{ noun }}</option>
+      </select>
+    </div>
+  </div>
+
+
+
+  <button class="btn" ng-click="execute()">Execute</button>
 
 </div>
 </div>

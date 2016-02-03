@@ -38,7 +38,8 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         console.log(scope.gameState);
         scope.clientUser = localStorage.getItem("user");
         console.log("Available verbs for user");
-        console.log(ActionFactory.availableVerbs(scope.clientUser, gameState));
+        console.log(ActionFactory.availableVerbs(scope.gamers[scope.turn], gameState));
+        scope.verbs = ActionFactory.availableVerbs(scope.gamers[scope.turn], gameState);
         // if you are the current user and the current phase is the actions phase
         // generate the for the user
         if (scope.clientUser === scope.gamers[scope.turn].username) {
@@ -58,20 +59,83 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
 
       });
 
+      // TODO : there might be the possibility of
+      // getting repeat values on generation
+      // have to use track by or filter to do this
+      // maybe also do a best effort to figure out which
+      // moves is picked
+      const verbNounMap = {
+        "go" : [
+          ActionFactory.walkingOrFerryKeys,
+          ActionFactory.directFlightsKeys,
+          ActionFactory.charterFlightsKeys,
+          ActionFactory.shuttleFlightsKeys
+        ],
+        "treat" : [
+          ActionFactory.whatAndHowMuchCanBeTreated
+        ],
+        "build" : [
+          ActionFactory.buildResearchCenter
+        ],
+        "giveCityCard" : [
+          ActionFactory.giveWhatToWhom
+        ],
+        "takeCityCard" : [
+          ActionFactory.takeWhatFromWhom
+        ],
+        "cureDisease" : [
+          ActionFactory.cureWhichDisease
+        ]
+      };
+      // you select a verb, it will put the verb in here
+      scope.selection = {
+        verb : ''
+      };
+      // go is related with drive/ferry, shuttle flight, direct flight, charter flight
+      // treat is with treat disease and discover a cure
+      // build is with build a research station
+      // card actions are with share knowledge
+      scope.notifySelectionVerb = () => {
+        scope.nouns = [];
+        let verb = scope.selection.verb;
+        if (verb === "go" ) {
+          verbNounMap[scope.selection.verb].forEach(function(noun){
+            scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState));
+          });
+        } else if (verb === "treat") {
+          // turn the key-value pairs into its own array
 
+          let infectionsInCity = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          let infections = ["black", "blue", "red", "yellow"];
+
+          infections.forEach(function(infection) {
+            scope.nouns.push([infection, infectionsInCity[infection]]);
+          });
+        } else if (verb === "build") {
+
+        } else if (verb ===  "giveCityCard") {
+
+        } else if (verb === "takeCityCard") {
+
+        } else if (verb === "cureDisease") {
+
+        }
+
+      };
+
+      scope.selectNoun = () => {
+
+      };
 
       ////////// Buttons/ Interactivity //////////////
       scope.show = true;
       scope.hideText = ""
       scope.arrow = "left";
 
-      scope.toggleDiv  = () => {
-        if (scope.show) {
-          scope.hideText = "hidden";
-        } else {
-          scope.hideText = "";
-        }
-        scope.show = !scope.show;
+      scope.execute  = () => {
+        // you get scope.selection
+        console.log("in execute now");
+        console.log(scope.selection);
       };
 
       scope.slide = () => {

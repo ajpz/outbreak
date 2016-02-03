@@ -10,18 +10,20 @@ app.factory('ActionFactory', function(Cities) {
 
     availableVerbs: function(gamer, state) {
       // initialize variables outlining current state
+      //debugger;
       let currInfections = state.cities.filter(function(cityObj) {
         return cityObj.key === gamer.currentCity;
       })[0];
 
       let infectionCount = currInfections.red + currInfections.yellow + currInfections.blue + currInfections.black;
-
+      //debugger;
       let currentCards = gamer.hand.map(function(cardObj) {
         return cardObj.key;
       });
-
+      //debugger;
+      // gamers in the same city, not including self;
       let gamersInSameCity = state.gamers.filter(function(other) {
-        return other.currentCity === gamer.currentCity;
+        return other.currentCity === gamer.currentCity && gamer.role !== other.role;
       });
 
       let verbs = ['go'];
@@ -97,7 +99,13 @@ app.factory('ActionFactory', function(Cities) {
       return Object.keys(Cities)
         .filter(function(key) {
           //filter out gamer's currentCity
-          return key !== gamer.currentCity;
+          // and that the user has the card
+          let hasCardOfCurrentCity = gamer.hand.findIndex(function(card){
+            return card.key === gamer.currentCity;
+          })
+          if (hasCardOfCurrentCity > -1){
+            return key !== gamer.currentCity;
+          }
         });
     },
 
@@ -184,15 +192,40 @@ app.factory('ActionFactory', function(Cities) {
       };
 
       let result = [];
-      let others = state.gamers.map(function(other) {
-        return other.role;
-      });
-
-      others.forEach(function(other) {
-          result.push(new GiveObject(other, gamer.currentCity));
-      })
+      // Victor made changes to this
+      //let others = state.gamers.map(function(other) {
+      //  if (other.role !== gamer.role) return other.role;
+      //});
+      //
+      //others.forEach(function(other) {
+      //    result.push(new GiveObject(other, gamer.currentCity));
+      //})
 
       // [{giveTo: 'medic', city: 'dc'}, {giveTo: 'researcher', city: 'dc'}]
+      // will make this better at a later date;
+      let currentCity = gamer.currentCity;
+      // check the other user hands and find if it matches the city you are in
+      // find players who have cards that match the city you are in
+      let relevantGivers = state.gamers.filter(function(gamer) {
+        let indexOfCard = gamer.hand.findIndex(function(card) {
+          let contains = false;
+          if (card.key === currentCity) {
+            contains = true;
+          };
+          return contains;
+        });
+        if (indexOfCard != -1) {
+          return true;
+        }
+      });
+      // then also remove yourself from that group
+      relevantGivers.forEach(function(giver) {
+        // make sure it isn't the current player
+        if (giver.role !== gamer.role) {
+          result.push(new GiveObject(giver.role, giver.currentCity ));
+        }
+      });
+
       return result;
     },
 
@@ -212,6 +245,14 @@ app.factory('ActionFactory', function(Cities) {
       }
 
       return result;
+    },
+
+
+    /**
+     * Build a research center
+     */
+    buildResearchCenter : function(gamer) {
+      // cannot have a research center at current location already
     }
   }
 
