@@ -30,12 +30,9 @@ app.directive('map', function(GeoLines, Cities){
               //   'marker-size': 'large',
               //   'marker-color': colors[Cities[key].color]
               // })
-            }).addTo(map)
+            }).addTo(map);
           }
         }
-
-
-        // scope.callback(map)
 
       }
   }
