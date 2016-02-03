@@ -1,11 +1,7 @@
 app.factory('ActionFactory', function(Cities) {
 
   // TODO: EVENT CARDS INTERRUPT FLOW AND INSERT THEMSELVES
-  // TODO: which methods to expose?
-  // TODO: make Action constructor function?
-  // TODO: need to advance both status and phase
-  // TODO: make transition tool that updates gamers and cities
-  //       and researchCenterLocations when user makes selections
+
 
   return {
     /**
@@ -206,8 +202,6 @@ app.factory('ActionFactory', function(Cities) {
 
       return result;
     }
-    // createAction: function() {},
-    // executeActions: function() {}
   }
 
 });
