@@ -23,6 +23,10 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 		}
 		return gameState;
 	};
+
+	function discardACard(){
+
+	}
 	return function(){
 		console.log("the FlowFactory has been instantiated")
 	};
