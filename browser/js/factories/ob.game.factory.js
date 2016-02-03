@@ -32,7 +32,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
         .then(function(){
           localState = fbObj.gameState;
           console.log('$loaded save completed, now initializing to localState', localState);
-          initialize(localState);
+          // initialize(localState);
 
         });
     } else {
@@ -45,7 +45,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
         .then(function(){
           localState = fbObj.gameState;
           console.log('$loaded save completed, now initializing to localState', localState);
-          initialize(localState);
+          // initialize(localState);
         });
     }
   });

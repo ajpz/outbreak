@@ -36,6 +36,7 @@ app.config(function ($stateProvider) {
             console.log(payload);
             $scope.counter = payload.gameState.infectionLevelIndex;
             $scope.turn = payload.gameState.gamerTurn;
+            $scope.gamers = _.cloneDeep(payload.gameState.gamers);
           });
 
         }
