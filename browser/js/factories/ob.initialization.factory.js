@@ -7,6 +7,7 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
 
   const createPlayerDeck = CitiesCardFactory.createPlayerDeck;
   const createInfectionDeck = InfectionFactory.createInfectionDeck;
+
   const dealCardsToGamers = function(workingState) {
     let gamers = workingState.gamers;
     let numCards = cardNumMap[workingState.gamers.length.toString()];
@@ -15,13 +16,12 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
       for (let i = 0; i < gamers.length; i++) {
 
         let dealtCard = CardFactory.pickCardFromTop(workingState.playerDeck);
+        if(!gamers[i].hand) gamers[i].hand = [];
         gamers[i].hand.push(dealtCard);
 
       }
     }
-
     //TODO: needs to call CitiesCardFactory method to add epidemic cards to deck
-
     return workingState;
   };
 
@@ -34,12 +34,11 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
     //  3) setTimeout delay before resolving
     //  4) subsequent methods are invoked once the above is finished
 
-
     initializeGameElements: function(workingState) {
       // defaults right now to 'Introductory' difficulty
       workingState.playerDeck = createPlayerDeck();
       workingState.infectionDeck = createInfectionDeck();
-      // workingState.status = 'inProgress';
+      workingState.status = 'inProgress';
       return dealCardsToGamers(workingState);
     },
     giveUserARole: function() {
@@ -50,33 +49,3 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
     }
   }
 });
-
-  // $rootScope.$on('statusChanged', function(event, payload) {
-
-  //   switch(localState.status) {
-
-  //     case 'initialization' :
-  //       localState = InitializationFactory.initializeGameElements(_.cloneDeep(localState));
-  //       localState.$save();
-  //       break;
-
-  //     case 'inProgress' :
-
-  //       break;
-
-  //     case 'gameOver' :
-
-  //       break;
-  //   }
-  // });
-
-
-  // var saveToFirebase = function(workingState) {
-
-  //   localState = workingState;
-  //   return localState.$save()
-  //     .then(function(localState){
-  //       return localState;
-  //     })
-
-  // };

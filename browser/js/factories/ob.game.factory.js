@@ -7,12 +7,15 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    * This link is currently from Victor's account.
    * Use your own for testing by making an account and  appending /gameState on to it
    */
-   // 'https://outbreak.firebaseio.com/'
+
+   // homburger: 'https://radiant-fire-7882.firebaseio.com/outbreak'
+   // ajpz:      'https://outbreaktest.firebaseio.com/outbreak'
   const ref = new Firebase('https://outbreak.firebaseio.com/');
   let outbreak  = $firebaseObject(ref);
 
   outbreak.$watch(function() {
 
+    //Initialize basic game state if none exists
     if (!outbreak.hasOwnProperty('gameState')) {
       console.log('$watch has no gameState, intializing....')
       outbreak.gameState = Initialize;
@@ -21,6 +24,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       return;
     }
 
+    //Initialize browser localStorage if 'user' doesn't exists
     if(!localStorage.getItem('user')) {
       console.log('$watch no user yet, setting to playerCount ', outbreak.gameState)
       localStorage.setItem('user', outbreak.gameState.gamers[outbreak.gameState.playerCount].username);
@@ -29,20 +33,22 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       return;
     }
 
-    // if(outbreak.gameState.playerCount === 4) {
-    //   outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState);
-    //   outbreak.$save();
-    // }
+    //Once 4 gamers have joined the game (playerCount of 3) create decks and deal cards
+    if(outbreak.gameState.playerCount === 3 && !outbreak.gameState.playerDeck) {
+      console.log('there are 4 players, dealing....', outbreak.gameState);
+      outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState);
+      outbreak.$save();
+      return;
+    }
 
-    // initial snapshot on load does not exist
-    // however, this is useful thereafter when you want to broadcast latest changes
+    //Broadcast stateChange to rest of app
     console.log('$watch broadcasting stateChange', outbreak.gameState);
     $rootScope.$broadcast("stateChange", {gameState : outbreak.gameState });
 
   });
 
 
-  // front end specific events
+  // Listen below for app events!
   /////////////////////////////////////////////////////
 
   $rootScope.$on("counter", function(event, payload) {
@@ -50,8 +56,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       outbreak.gameState[key] = payload[key];
     }
     outbreak.$save()
-    // this will now lead teh ref.on('value') to kick off updates to ALL client browsers including the
-    // browser that broadcast this change
   });
 
 
