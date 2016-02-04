@@ -36,8 +36,9 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
 
     initializeGameElements: function(workingState) {
       // defaults right now to 'Introductory' difficulty
-      //create a deck consisting of only city and event cards 
+      //create a deck consisting of only city and event cards
       let deck = createDeckWithCitiesAndEvents();
+      workingState.playerDeck = deck;
       //deal out those cards to the games
       workingState = dealCardsToGamers(workingState);
       //add the epidemic cards to the deck with players and events

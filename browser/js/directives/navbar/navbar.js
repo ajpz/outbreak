@@ -1,48 +1,150 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
-      return {
-        restrict: 'E',
-        templateUrl: 'js/directives/navbar/navbar.html',
-        scope: {},
-        controller: 'NavbarCtrl',
-        link: function (scope) {
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, Roles) {
+  return {
+    restrict: 'E',
+    templateUrl: 'js/directives/navbar/navbar.html',
+    scope: {},
+    // controller: 'NavbarCtrl',
+    link: function (scope) {
 
-            //CARDS:
-            // add new card(s) to hand via drawing or receiving during a share
-            scope.addCard = function(){};
+      // helper function to chunk data into columns
+      function chunk(arr, size) {
+          var newArr = [];
+          for (var i = 0; i < arr.length; i += size) {
+              newArr.push(arr.slice(i, i + size));
+          }
+          return newArr;
+      }
 
-            // select card(s) from current hand, to do something with it
-            // card(s) placed in SELECTED section
-            scope.selectCard = function(){};
+      // let payload = {
+      //   gamerTurn: 2,
+      //   gamers: [{
+      //       username : 'victor',
+      //       role : 'medic',
+      //       currentCity : 'atlanta',
+      //       hand : [
+      //         {type: 'cityCard', key: 'chicago', name: 'Chicago', color: 'blue'},
+      //         {type: 'cityCard', key: 'sanFrancisco', name: 'San Francisco', color: 'yellow'},
+      //         {type: 'cityCard', key: 'london', name: 'London', color: 'red'},
+      //         {type: 'cityCard', key: 'madrid', name: 'Madrid', color: 'black'},
+      //         {type: 'cityCard', key: 'paris', name: 'Paris', color: 'blue'}
+      //       ]
+      //     },
 
-            // selected citycard is given to another player
-            scope.shareCard = function(){};
+      //     {
+      //       username : 'jonathan',
+      //       role : 'researcher',
+      //       currentCity : 'atlanta',
+      //       hand : [
+      //         {type: 'cityCard', key: 'chicago', name: 'Chicago', color: 'blue'},
+      //         {type: 'cityCard', key: 'sanFrancisco', name: 'San Francisco', color: 'blue'},
+      //         {type: 'cityCard', key: 'london', name: 'London', color: 'blue'},
+      //         {type: 'cityCard', key: 'madrid', name: 'Madrid', color: 'blue'},
+      //         {type: 'cityCard', key: 'paris', name: 'Paris', color: 'blue'}
+      //       ]
+      //     },
 
-            // selected citycard played and discarded (for a move /flight)
-            scope.playCard = function(){};
+      //     {
+      //       username : 'julie',
+      //       role : 'scientist',
+      //       currentCity : 'atlanta',
+      //       hand : [
+      //         {type: 'cityCard', key: 'chicago', name: 'Chicago', color: 'blue'},
+      //         {type: 'cityCard', key: 'sanFrancisco', name: 'San Francisco', color: 'yellow'},
+      //         {type: 'cityCard', key: 'london', name: 'London', color: 'red'},
+      //         {type: 'cityCard', key: 'madrid', name: 'Madrid', color: 'black'},
+      //         {type: 'cityCard', key: 'paris', name: 'Paris', color: 'blue'}
+      //       ]
+      //     },
 
-            // selected Eventcard played and discarded
-            scope.playEvent = function(){};
-
-            // 5 city cards of same color discarded to cure a disease
-            // these cards have already been moved into SELECTED section, it is emptied.
-            scope.cureDisease = function(){};
-
-            // discard city cards to have max 7 in hand
-            // these cards have already been moved into SELECTED section, it is emptied.
-            scope.discardCards = function(){};
-
-            // toggle between tabs to see other gamer's roles and hands
-            // default should be tab of the respective gamer
-            scope.setTab = function(){};
-
-            // indicates who has active turn and
-            // disables playing (but not selecting) non-event cards in your hand
-            scope.isTurn = function(){};
+      //     {
+      //       username : 'daniel',
+      //       role : 'operationsExpert',
+      //       currentCity : 'atlanta',
+      //       hand : [
+      //         {type: 'cityCard', key: 'chicago', name: 'Chicago', color: 'blue'},
+      //         {type: 'cityCard', key: 'sanFrancisco', name: 'San Francisco', color: 'blue'},
+      //         {type: 'cityCard', key: 'london', name: 'London', color: 'blue'},
+      //         {type: 'cityCard', key: 'madrid', name: 'Madrid', color: 'blue'},
+      //         {type: 'cityCard', key: 'paris', name: 'Paris', color: 'blue'}
+      //       ]
+      //     }
+      //   ]
+      // };
 
 
+      $rootScope.$on('stateChange', function(event, fbData) {
 
+        // who am i?
+        scope.username = localStorage.getItem('user');
+        console.log('Navbar heard stateChange and has user ', scope.username);
+
+        if(scope.username) {
+          console.log('---> setting scope variables');
+          let payload = fbData.gameState;
+          let myIndex = payload.gamers.reduce(function(targetIdx, gamer, idx) {
+            if(gamer.username === scope.username) targetIdx = idx;
+            return targetIdx;
+          }, -1);
+
+          console.log('--->this browser has myIndex of ', myIndex, ' gamers of ', payload.gamers, ' and localStorage user of ', scope.username);
+
+          // 'others' is an array of the non-owner-gamers
+          scope.others = payload.gamers.filter(function(gamer, index){
+            return index !== myIndex;
+          }).map(function(other) {
+            other.roleName = Roles[other.role].name;
+            other.icon = Roles[other.role].icon;
+            if(other.hand) {
+              other.chunkedData = chunk(other.hand, 2);
+            };
+            return other;
+          })
+
+          // 'owner' is the user on this browser
+          scope.owner = payload.gamers[myIndex];
+          scope.owner.roleName = Roles[scope.owner.role].name;
+          scope.owner.icon = Roles[scope.owner.role].icon;
         }
+      });
 
-    };
+
+      //CARDS:
+      // add new card(s) to hand via drawing or receiving during a share
+      scope.addCard = function(){};
+
+      // select card(s) from current hand, to do something with it
+      // card(s) placed in SELECTED section
+      scope.selectCard = function(){};
+
+      // selected citycard is given to another player
+      scope.shareCard = function(){};
+
+      // selected citycard played and discarded (for a move /flight)
+      scope.playCard = function(){};
+
+      // selected Eventcard played and discarded
+      scope.playEvent = function(){};
+
+      // 5 city cards of same color discarded to cure a disease
+      // these cards have already been moved into SELECTED section, it is emptied.
+      scope.cureDisease = function(){};
+
+      // discard city cards to have max 7 in hand
+      // these cards have already been moved into SELECTED section, it is emptied.
+      scope.discardCards = function(){};
+
+      // toggle between tabs to see other gamer's roles and hands
+      // default should be tab of the respective gamer
+      scope.setTab = function(){};
+
+      // indicates who has active turn and
+      // disables playing (but not selecting) non-event cards in your hand
+      scope.isTurn = function(){};
+
+
+
+    }
+
+};
 
 });
