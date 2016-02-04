@@ -15,13 +15,6 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       scope.storedStates = [];
 
 
-      const phaseFunction = {
-        "actions" : function() {},
-        "draw" : function() {},
-        "discard" : function() {},
-        "infection" : function(){}
-      }
-
       /**
        *  This event is fired off on load
        * @type {boolean}
@@ -39,16 +32,8 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         // if you are the current user and the current phase is the actions phase
         // generate the for the user
         if (scope.clientUser === scope.gamers[scope.turn].username) {
-          // to shorten, create an object of { phase : function(), phase : function() }
-          // unsure if this is a return or just some action
-          // TODO : revise as you know more
-          //if (scope.actionNumber < 4){
-          //  phaseFunction[gameState.currentPhase]();
-          //  // need to know if this is a rewind/go back type of action
-          //  scope.actionNumber = scope.actionNumber + 1;
-          //}
           if (scope.actionNumber === 5) {
-            scope.actionNumber = 0; //need to hide the actions information
+            scope.actionNumber = 1; //need to hide the actions information
             // clear out the stored states
             scope.storedStates = [];
             //change the phase;
@@ -59,6 +44,9 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
           // you should not have access to do things
           // there are special css properties that will be added to gray out the ability to add things?
         }
+
+        // this is not responsible to make changes like that
+        //$rootScope.$broadcast("updateGamerTurn", { gamerTurn : (scope.turn +1) % 4 })
 
       });
 
@@ -189,10 +177,11 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
           scope.actionNumber = scope.actionNumber + 1;
           scope.selection.verb = "";
           scope.selection.noun = "";
-          if (scope.actionNumber === 4) {
-            // get to the next phase;
-            //$rootScope.$broadcast("updateTurn")
-          }
+          //if (scope.actionNumber === 5) {
+          //  // update the user turn too;
+          //  // get to the next phase;
+          //  //
+          //}
         }
 
       };
@@ -270,7 +259,6 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         packet.cities = scope.gameState.cities;
         $rootScope.$broadcast("treat", packet);
       }
-
 
 
       // not considering that you might have to remove a research center because you are at your limit
