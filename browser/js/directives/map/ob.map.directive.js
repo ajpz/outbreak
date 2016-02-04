@@ -155,10 +155,34 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
 
 
-      $rootScope.$on('stateChange', function(event, fbData){
-        payload = _.cloneDeep(fbData.gameState);
-        addMarkerToMarkerObj();
-      })
+        $rootScope.$on('stateChange', function(event, fbData){
+          payload = _.cloneDeep(fbData.gameState);
+          removeMarkerLayers();
+          addMarkerToMarkerObj();
+          debugger;
+        })
+
+
+
+        function removeMarkerLayers() {
+          console.log('REMOVING LAYERS.....');
+          rolesLayerGroup.forEach(function(role) {
+            map.removeLayer(role);
+          });
+
+          researchLayerGroup.forEach(function(researchCenter) {
+            map.removeLayer(researchCenter);
+          });
+
+          diseaseLayerGroup.forEach(function(disease) {
+            map.removeLayer(disease);
+          });
+
+          rolesLayerGroup = [];
+          researchLayerGroup = [];
+          diseaseLayerGroup = [];
+          markers = [];
+        }
 
         // this is for counting markers to be added to cities
         function addMarkerToMarkerObj(){

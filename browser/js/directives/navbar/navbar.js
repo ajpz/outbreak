@@ -116,7 +116,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
         //currentPhase = 'discard'
         if(localCopyOfState.currentPhase === 'discard' && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)){
           // discard phase and it is this user's turn
-          if(localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 1) {
+          if(localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 7) {
             // remove card selected from hand
             var hand = localCopyOfState.gamers[localCopyOfState.gamerTurn].hand;
             localCopyOfState.gamers[localCopyOfState.gamerTurn].hand = hand.filter(function(cardObj) {
@@ -124,7 +124,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
             })
 
             // if user has right number of cards, advance game to infect phase and advance turn
-            if(localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length <= 1) {
+            if(localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length <= 7) {
               localCopyOfState.currentPhase = 'infect';
               localCopyOfState.gamerTurn = (localCopyOfState.gamerTurn + 1) % 4;
             }
