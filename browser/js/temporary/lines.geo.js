@@ -7,7 +7,9 @@ app.constant('GeoLines',
         {
         "type": "Feature",
         "properties": {
-            "id": 94
+            "id": 94,
+            "title" : "To Toyko"
+
         },
         "geometry": {
             "type": "LineString",
@@ -20,7 +22,8 @@ app.constant('GeoLines',
     {
         "type": "Feature",
         "properties": {
-            "id": 95
+            "id": 95,
+            "title" : "To San Francisco"
         },
         "geometry": {
             "type": "LineString",
@@ -34,7 +37,8 @@ app.constant('GeoLines',
         {
         "type": "Feature",
         "properties": {
-            "id": 96
+            "id": 96,
+            "title" : "To Manila"
         },
         "geometry": {
             "type": "LineString",
@@ -47,7 +51,8 @@ app.constant('GeoLines',
         {
         "type": "Feature",
         "properties": {
-            "id": 97
+            "id": 97,
+            "title" : "To San Francisco"
         },
         "geometry": {
             "type": "LineString",
@@ -61,7 +66,8 @@ app.constant('GeoLines',
     {
         "type": "Feature",
         "properties": {
-            "id": 98
+            "id": 98,
+            "title" : "To Sydney"
         },
         "geometry": {
             "type": "LineString",
@@ -75,7 +81,8 @@ app.constant('GeoLines',
     {
         "type": "Feature",
         "properties": {
-            "id": 99
+            "id": 99,
+            "title" : "To Los Angeles"
         },
         "geometry": {
             "type": "LineString",
