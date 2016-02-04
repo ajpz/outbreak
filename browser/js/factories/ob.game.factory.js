@@ -63,6 +63,11 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     outbreak.$save()
   });
 
+  $rootScope.$on('discardCard', function(event, payload) {
+    console.log('heard discard...', payload);
+    outbreak.gameState = payload.updatedState;
+    outbreak.$save();
+  });
 
   /////////////////////////
 	return factory;
