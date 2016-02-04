@@ -1,34 +1,42 @@
-app.directive("infectionRate", function($rootScope){
-	return {
-		restrict: 'E',
-		templateUrl: 'js/directives/infection-rate/ob.infection-rate.html',
-		scope: {},
-		link: function(scope, element){
-			scope.infectionRateIndex = 0;
-      var payload = {
-        infectionRateIndex: 3
-      }
+app.directive("infectionRate", function($rootScope) {
+  return {
+    restrict: 'E',
+    templateUrl: 'js/directives/infection-rate/ob.infection-rate.html',
+    scope: {},
+    link: function(scope, element) {
+      scope.infectionLevelIndex = 0;
 
-      scope.changeTheIndex = function(payload){
-        scope.infectionRateIndex = payload.infectionRateIndex;
-        var elem = $(element).find("#index_"+scope.infectionRateIndex);
-        for(var i=0; i<7; i++){
-          if(i!==scope.infectionRateIndex){
-            var elem = $(element).find("#index_"+i)
-            elem.children("img").attr("src", "http://i.imgur.com/5I0tivz.png")
+      let pictures = [
+        "http://i.imgur.com/R4h0sLR.png",
+        "http://i.imgur.com/R4h0sLR.png",
+        "http://i.imgur.com/R4h0sLR.png",
+        "http://i.imgur.com/Id5CmJy.png",
+        "http://i.imgur.com/Id5CmJy.png",
+        "http://i.imgur.com/z5c5067.png",
+        "http://i.imgur.com/z5c5067.png"
+      ]
+
+      let blankPicture = "http://i.imgur.com/5I0tivz.png"
+
+      scope.changeTheIndex = function(gameState) {
+        scope.infectionLevelIndex = gameState.infectionLevelIndex;
+        
+        for (let i = 0; i < 7; i++) {
+          let elem = $(element).find("#index_" + i)
+          if (i !== scope.infectionLevelIndex) {
+            elem.children("img").attr("src", blankPicture)
+          } else {
+            elem.children("img").attr("src", pictures[i])
           }
         }
       }
 
-      scope.changeTheIndex(payload)
+      $rootScope.$on('stateChange', function(event, payload) {
+        let gameState = payload.gameState;
+        scope.changeTheIndex(gameState);
 
-      $rootScope.$on('stateChange', function(event, payload){
-				if(scope.infectionRateIndex !== payload.infectionRateIndex){
-					scope.changeTheIndex(payload);
-				}
-			})
+      })
 
-		}
-	};
+    }
+  };
 });
-

@@ -1,31 +1,97 @@
-app.constant('GeoLines',{ lines :
-  [{
-    "type": "FeatureCollection",
-    "features": [{
+app.constant('GeoLines',
+  { lines :
+      [{
+        "type": "FeatureCollection",
+        "features":[
+        // SAN FRANCISCO TO TOKYO
+        {
         "type": "Feature",
         "properties": {
-            "id": 1
+            "id": 94
         },
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-122.419416, 37.774929],
-                [139.691706, 35.689487]
-            ]
+                [-122.419416, 41.7558],
+                [-233.9, 45.123866]
+            ],
         }
-    }, {
+    },
+    {
         "type": "Feature",
         "properties": {
-            "id": 2
+            "id": 95
         },
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [120.984219, 14.599512],
-                [-122.419416, 37.774929]
+                [141.795275, 41.609692],
+                [278.486334, 38.896082]
             ]
         }
-    }, {
+    },
+    // SAN FRANCISCO TO MANILA
+        {
+        "type": "Feature",
+        "properties": {
+            "id": 96
+        },
+        "geometry": {
+            "type": "LineString",
+            "coordinates": [
+                [-233.9, 29.578158],
+                [-122.419416, 41.7558]
+            ]
+        }
+    },
+        {
+        "type": "Feature",
+        "properties": {
+            "id": 97
+        },
+        "geometry": {
+            "type": "LineString",
+            "coordinates": [
+                [278.008251, 49.271947],
+                [132.825546, 0.279132]
+            ]
+        }
+    },
+      // LOS ANGELES TO SYDNEY AND BACK
+    {
+        "type": "Feature",
+        "properties": {
+            "id": 98
+        },
+        "geometry": {
+            "type": "LineString",
+            "coordinates": [
+                [-118.4859, 23.359891],
+                [-233.9, -30.389530]
+
+            ]
+        }
+    },
+    {
+        "type": "Feature",
+        "properties": {
+            "id": 99
+        },
+        "geometry": {
+            "type": "LineString",
+            "coordinates": [
+                [151.20699, -33.867487],
+                [277.777128, 50.307669]
+
+            ]
+        },
+        "style": {
+              "fill": "red",
+              "stroke-width": "3",
+              "fill-opacity": 0.6
+             }
+    },
+        {
         "type": "Feature",
         "properties": {
             "id": 3
@@ -33,8 +99,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-118.243685, 34.052234],
-                [-122.419416, 37.774929]
+                [-118.4859, 23.359891],
+                [-122.419416, 41.7558]
             ]
         }
     }, {
@@ -45,8 +111,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-87.629798, 41.878114],
-                [-122.419416, 37.774929]
+                [-93.0936, 44.9942],
+                [-122.419416, 41.7558]
             ]
         }
     }, {
@@ -57,8 +123,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-87.629798, 41.878114],
-                [-118.243685, 34.052234]
+                [-93.0936, 44.9942],
+                [-118.4859, 23.359891]
             ]
         }
     }, {
@@ -69,8 +135,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-87.629798, 41.878114],
-                [-99.133208, 19.432608]
+                [-93.0936, 44.9942],
+                [-97.649483, 18.205068]
             ]
         }
     }, {
@@ -82,7 +148,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [-84.387982, 33.748995],
-                [-87.629798, 41.878114]
+                [-93.0936, 44.9942]
             ]
         }
     }, {
@@ -93,8 +159,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-87.629798, 41.878114],
-                [-73.567256, 45.501689]
+                [-93.0936, 44.9942],
+                [-79.116811, 46.566239]
             ]
         }
     }, {
@@ -106,7 +172,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [-84.387982, 33.748995],
-                [-77.036871, 38.907192]
+                [-64.012666, 32.407446]
             ]
         }
     }, {
@@ -118,7 +184,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [-84.387982, 33.748995],
-                [-80.19179, 25.76168]
+                [-77.402244, 25.003754]
             ]
         }
     }, {
@@ -129,8 +195,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-77.036871, 38.907192],
-                [-73.567256, 45.501689]
+                [-64.012666, 32.407446],
+                [-79.116811, 46.566239]
             ]
         }
     }, {
@@ -141,8 +207,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-73.567256, 45.501689],
-                [-74.005941, 40.712784]
+                [-79.116811, 46.566239],
+                [-64.012666, 44.367342]
             ]
         }
     }, {
@@ -153,8 +219,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-77.036871, 38.907192],
-                [-74.005941, 40.712784]
+                [-64.012666, 32.407446],
+                [-64.012666, 44.367342]
             ]
         }
     }, {
@@ -165,8 +231,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-0.127758, 51.507351],
-                [-74.005941, 40.712784]
+                [-15.502873, 54.683934],
+                [-64.012666, 44.367342]
             ]
         }
     }, {
@@ -177,8 +243,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-3.70379, 40.416775],
-                [-74.005941, 40.712784]
+                [-14.33551, 38.820437],
+                [-64.012666, 44.367342]
             ]
         }
     }, {
@@ -189,8 +255,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-77.036871, 38.907192],
-                [-80.19179, 25.76168]
+                [-64.012666, 32.407446],
+                [-77.402244, 25.003754]
             ]
         }
     }, {
@@ -201,8 +267,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-0.127758, 51.507351],
-                [-3.70379, 40.416775]
+                [-15.502873, 54.683934],
+                [-14.33551, 38.820437]
             ]
         }
     }, {
@@ -213,7 +279,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-0.127758, 51.507351],
+                [-15.502873, 54.683934],
                 [2.352222, 48.856614]
             ]
         }
@@ -226,7 +292,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [13.404954, 52.520007],
-                [-0.127758, 51.507351]
+                [-15.502873, 54.683934]
             ]
         }
     }, {
@@ -237,7 +303,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-3.70379, 40.416775],
+                [-14.33551, 38.820437],
                 [-46.633309, -23.55052]
             ]
         }
@@ -249,8 +315,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [3.042048, 36.752887],
-                [-3.70379, 40.416775]
+                [3.657282, 30.463737],
+                [-14.33551, 38.820437]
             ]
         }
     }, {
@@ -261,7 +327,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-3.70379, 40.416775],
+                [-14.33551, 38.820437],
                 [2.352222, 48.856614]
             ]
         }
@@ -273,7 +339,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [9.185924, 45.465422],
+                [14.995174, 40.926716],
                 [2.352222, 48.856614]
             ]
         }
@@ -297,7 +363,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [3.042048, 36.752887],
+                [3.657282, 30.463737],
                 [2.352222, 48.856614]
             ]
         }
@@ -310,7 +376,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [13.404954, 52.520007],
-                [9.185924, 45.465422]
+                [14.995174, 40.926716]
             ]
         }
     }, {
@@ -334,7 +400,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [28.978359, 41.008238],
-                [9.185924, 45.465422]
+                [14.995174, 40.926716]
             ]
         }
     }, {
@@ -345,7 +411,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [37.6173, 55.755826],
+                [44.614313, 55.038036],
                 [30.335099, 59.93428]
             ]
         }
@@ -361,19 +427,8 @@ app.constant('GeoLines',{ lines :
                 [30.335099, 59.93428]
             ]
         }
-    }, {
-        "type": "Feature",
-        "properties": {
-            "id": 31
-        },
-        "geometry": {
-            "type": "LineString",
-            "coordinates": [
-                [-118.243685, 34.052234],
-                [151.20699, -33.867487]
-            ]
-        }
-    }, {
+    },
+    {
         "type": "Feature",
         "properties": {
             "id": 32
@@ -381,8 +436,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-118.243685, 34.052234],
-                [-99.133208, 19.432608]
+                [-118.4859, 23.359891],
+                [-97.649483, 18.205068]
             ]
         }
     }, {
@@ -393,8 +448,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-99.133208, 19.432608],
-                [-80.19179, 25.76168]
+                [-97.649483, 18.205068],
+                [-77.402244, 25.003754]
             ]
         }
     }, {
@@ -406,7 +461,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [-74.072092, 4.710989],
-                [-99.133208, 19.432608]
+                [-97.649483, 18.205068]
             ]
         }
     }, {
@@ -417,8 +472,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-77.042793, -12.046374],
-                [-99.133208, 19.432608]
+                [-87.372619, -17.604774],
+                [-97.649483, 18.205068]
             ]
         }
     }, {
@@ -430,7 +485,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [-74.072092, 4.710989],
-                [-80.19179, 25.76168]
+                [-77.402244, 25.003754]
             ]
         }
     }, {
@@ -442,7 +497,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [-74.072092, 4.710989],
-                [-77.042793, -12.046374]
+                [-87.372619, -17.604774]
             ]
         }
     }, {
@@ -477,8 +532,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [-77.042793, -12.046374],
-                [-70.629831, -33.472788]
+                [-87.372619, -17.604774],
+                [-81.9234, -37.337422]
             ]
         }
     }, {
@@ -561,7 +616,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [31.235712, 30.04442],
+                [27.475642, 25.578028],
                 [32.559899, 15.500654]
             ]
         }
@@ -585,7 +640,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [3.042048, 36.752887],
+                [3.657282, 30.463737],
                 [28.978359, 41.008238]
             ]
         }
@@ -597,8 +652,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [3.042048, 36.752887],
-                [31.235712, 30.04442]
+                [3.657282, 30.463737],
+                [27.475642, 25.578028]
             ]
         }
     }, {
@@ -609,7 +664,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [31.235712, 30.04442],
+                [27.475642, 25.578028],
                 [28.978359, 41.008238]
             ]
         }
@@ -622,7 +677,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [44.361488, 33.312806],
-                [31.235712, 30.04442]
+                [27.475642, 25.578028]
             ]
         }
     }, {
@@ -633,8 +688,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [31.235712, 30.04442],
-                [46.544831, 25.005448]
+                [27.475642, 25.578028],
+                [44.438532, 17.828092]
             ]
         }
     }, {
@@ -658,7 +713,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [28.978359, 41.008238],
-                [37.6173, 55.755826]
+                [44.614313, 55.038036]
             ]
         }
     }, {
@@ -669,8 +724,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [37.6173, 55.755826],
-                [51.388974, 35.689197]
+                [44.614313, 55.038036],
+                [57.446344, 42.176354]
             ]
         }
     }, {
@@ -682,7 +737,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [44.361488, 33.312806],
-                [51.388974, 35.689197]
+                [57.446344, 42.176354]
             ]
         }
     }, {
@@ -706,7 +761,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [44.361488, 33.312806],
-                [46.544831, 25.005448]
+                [44.438532, 17.828092]
             ]
         }
     }, {
@@ -718,7 +773,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [67.009939, 24.861462],
-                [46.544831, 25.005448]
+                [44.438532, 17.828092]
             ]
         }
     }, {
@@ -730,7 +785,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [67.009939, 24.861462],
-                [51.388974, 35.689197]
+                [57.446344, 42.176354]
             ]
         }
     }, {
@@ -741,8 +796,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [73.220507, 21.566381],
-                [51.388974, 35.689197]
+                [77.382217, 32.547392],
+                [57.446344, 42.176354]
             ]
         }
     }, {
@@ -753,7 +808,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [73.220507, 21.566381],
+                [77.382217, 32.547392],
                 [67.009939, 24.861462]
             ]
         }
@@ -766,7 +821,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [67.009939, 24.861462],
-                [72.877656, 19.075984]
+                [67.202204, 13.342488]
             ]
         }
     }, {
@@ -777,8 +832,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [73.220507, 21.566381],
-                [72.877656, 19.075984]
+                [77.382217, 32.547392],
+                [67.202204, 13.342488]
             ]
         }
     }, {
@@ -789,8 +844,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [80.270718, 13.08268],
-                [72.877656, 19.075984]
+                [82.567764, 5.616669],
+                [67.202204, 13.342488]
             ]
         }
     }, {
@@ -801,8 +856,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [73.220507, 21.566381],
-                [88.363895, 22.572646]
+                [77.382217, 32.547392],
+                [90.653701, 31.203992]
             ]
         }
     }, {
@@ -813,8 +868,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [80.270718, 13.08268],
-                [73.220507, 21.566381]
+                [82.567764, 5.616669],
+                [77.382217, 32.547392]
             ]
         }
     }, {
@@ -826,7 +881,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [114.109497, 22.396428],
-                [88.363895, 22.572646]
+                [90.653701, 31.203992]
             ]
         }
     }, {
@@ -838,7 +893,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [100.501765, 13.756331],
-                [88.363895, 22.572646]
+                [90.653701, 31.203992]
             ]
         }
     }, {
@@ -849,8 +904,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [80.270718, 13.08268],
-                [88.363895, 22.572646]
+                [82.567764, 5.616669],
+                [90.653701, 31.203992]
             ]
         }
     }, {
@@ -862,7 +917,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [100.501765, 13.756331],
-                [80.270718, 13.08268]
+                [82.567764, 5.616669]
             ]
         }
     }, {
@@ -873,8 +928,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [80.270718, 13.08268],
-                [106.845599, -6.208763]
+                [82.567764, 5.616669],
+                [99.966141, -9.271532]
             ]
         }
     }, {
@@ -885,8 +940,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [116.407395, 39.904211],
-                [126.977969, 37.566535]
+                [109.557534, 44.083459],
+                [127.408184, 45.283126]
             ]
         }
     }, {
@@ -897,8 +952,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [116.407395, 39.904211],
-                [121.473701, 31.230416]
+                [109.557534, 44.083459],
+                [111.244909, 34.924432]
             ]
         }
     }, {
@@ -909,8 +964,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [126.977969, 37.566535],
-                [139.691706, 35.689487]
+                [127.408184, 45.283126],
+                [141.795275, 41.609692]
             ]
         }
     }, {
@@ -921,8 +976,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [126.977969, 37.566535],
-                [121.473701, 31.230416]
+                [127.408184, 45.283126],
+                [111.244909, 34.924432]
             ]
         }
     }, {
@@ -933,8 +988,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [135.502165, 34.693738],
-                [139.691706, 35.689487]
+                [141.972893, 27.961229],
+                [141.795275, 41.609692]
             ]
         }
     }, {
@@ -945,8 +1000,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [121.473701, 31.230416],
-                [139.691706, 35.689487]
+                [111.244909, 34.924432],
+                [141.795275, 41.609692]
             ]
         }
     }, {
@@ -957,8 +1012,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [121.473701, 31.230416],
-                [121.565418, 25.032969]
+                [111.244909, 34.924432],
+                [127.319375, 22.747271]
             ]
         }
     }, {
@@ -970,7 +1025,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [114.109497, 22.396428],
-                [121.473701, 31.230416]
+                [111.244909, 34.924432]
             ]
         }
     }, {
@@ -982,7 +1037,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [114.109497, 22.396428],
-                [121.565418, 25.032969]
+                [127.319375, 22.747271]
             ]
         }
     }, {
@@ -1005,7 +1060,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [106.629664, 10.823099],
+                [110.356818, 0.279132],
                 [114.109497, 22.396428]
             ]
         }
@@ -1018,7 +1073,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [114.109497, 22.396428],
-                [120.984219, 14.599512]
+                [132.825546, 0.279132]
             ]
         }
     }, {
@@ -1029,8 +1084,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [135.502165, 34.693738],
-                [121.565418, 25.032969]
+                [141.972893, 27.961229],
+                [127.319375, 22.747271]
             ]
         }
     }, {
@@ -1041,8 +1096,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [120.984219, 14.599512],
-                [121.565418, 25.032969]
+                [132.825546, 0.279132],
+                [127.319375, 22.747271]
             ]
         }
     }, {
@@ -1054,7 +1109,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [100.501765, 13.756331],
-                [106.629664, 10.823099]
+                [110.356818, 0.279132]
             ]
         }
     }, {
@@ -1066,7 +1121,7 @@ app.constant('GeoLines',{ lines :
             "type": "LineString",
             "coordinates": [
                 [100.501765, 13.756331],
-                [106.845599, -6.208763]
+                [99.966141, -9.271532]
             ]
         }
     }, {
@@ -1077,8 +1132,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [106.629664, 10.823099],
-                [106.845599, -6.208763]
+                [110.356818, 0.279132],
+                [99.966141, -9.271532]
             ]
         }
     }, {
@@ -1089,7 +1144,7 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [106.845599, -6.208763],
+                [99.966141, -9.271532],
                 [151.20699, -33.867487]
             ]
         }
@@ -1101,8 +1156,8 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [106.629664, 10.823099],
-                [120.984219, 14.599512]
+                [110.356818, 0.279132],
+                [132.825546, 0.279132]
             ]
         }
     }, {
@@ -1113,13 +1168,14 @@ app.constant('GeoLines',{ lines :
         "geometry": {
             "type": "LineString",
             "coordinates": [
-                [120.984219, 14.599512],
+                [132.825546, 0.279132],
                 [151.20699, -33.867487]
             ]
         }
     }
-    ]
+  ]
 }
+
 ]
 
 });

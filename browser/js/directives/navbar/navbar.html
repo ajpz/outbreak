@@ -1,67 +1,29 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-default" id="slide-submenu">
-        <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
+    <div class="panel panel-default" id="slide-submenu" ng-repeat="other in others">
+        <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{$index+1}}">
             <h4 class="panel-title">
-                <a class role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseListGroup1" aria-expanded="false" aria-controls="collapseListGroup1"><strong>HOMBURGER</strong><img src="http://i.imgur.com/4Qdsdzd.png" height="30"/><br /><i>Medic</i></a>
+                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-controls="collapseListGroup1"><strong>{{other.username}}</strong><img ng-src="{{other.icon}}" height="30"/><br /><i>{{other.roleName}}</i></a>
             </h4>
         </div>
-        <div id="collapseListGroup1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
-            <div id="table-row" class="list-group-item" ng-repeat="rows in chunkedData">
-                <span id="table-column" ng-repeat="item in rows">
-                    {{item}}
+        <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
+            <div id="table-row" class="list-group-item" ng-repeat="row in other.chunkedData">
+                <span id="table-column" ng-repeat="card in row">
+                    <button class="ng-class: card.color">{{card.name}}</button>
                 </span>
             </div>
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="collapseListGroupHeading2">
+        <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{others.length + 1}}">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseListGroup2" aria-expanded="false" aria-controls="collapseListGroup2"><strong>LEON DANVINCI</strong>
-                  <img src="http://i.imgur.com/VJJfVf2.png" height="30"/><br /><i>Researcher</i></a>
+                <a data-parent="#accordion" ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-controls="collapseListGroup4"><strong>{{owner.username}}</strong>
+                  <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i></a>
                 </h4>
         </div>
-        <div id="collapseListGroup2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading2">
+        <div ng-attr-id="collapseListGroup4" class="" role="tabpanel" aria-labelledby="collapseListGroupHeading4">
             <ul class="list-group">
-                <li class="list-group-item" id="no-padding">Lima</li>
-                <li class="list-group-item" id="no-padding">Osaka</li>
-                <li class="list-group-item" id="no-padding">Tehran</li>
-            </ul>
-            <!-- <div class="panel-footer">Footer</div> -->
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="collapseListGroupHeading3">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseListGroup3" aria-expanded="false" aria-controls="collapseListGroup3"><strong>AJ PEREZIDENT</strong>
-                  <img src="http://i.imgur.com/WulkLDY.png" height="30"/><br /><i>Scientist</i></a>
-                </h4>
-        </div>
-        <div id="collapseListGroup3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading3">
-            <ul class="list-group">
-                <li class="list-group-item" id="no-padding">Manila</li>
-                <li class="list-group-item" id="no-padding">Istanbul</li>
-                <li class="list-group-item" id="no-padding">Bogota</li>
-            </ul>
-            <!--  <div class="panel-footer">Footer</div> -->
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="collapseListGroupHeading4">
-            <h4 class="panel-title">
-                <a data-parent="#accordion" href="#collapseListGroup4" aria-expanded="true" aria-controls="collapseListGroup4"><strong>JULIE OPPERATOR</strong>
-                  <img src="http://i.imgur.com/LkRLXAQ.png" height="30"/><br /><i>Operations Expert</i></a>
-                </h4>
-        </div>
-        <div id="collapseListGroup4" class="" role="tabpanel" aria-labelledby="collapseListGroupHeading4">
-            <ul class="list-group">
-                <li class="list-group-item" id="low-padding">
-                    <button>Mexico City</button>
-                </li>
-                <li class="list-group-item" id="low-padding">
-                    <button>Los Angeles</button>
-                </li>
-                <li class="list-group-item" id="low-padding">
-                    <button>Madrid</button>
+                <li class="list-group-item" id="low-padding" ng-repeat="card in owner.hand">
+                    <button class="ng-class: card.color"cityColor">{{card.name}}</button>
                 </li>
             </ul>
             <ul class="panel-footer">

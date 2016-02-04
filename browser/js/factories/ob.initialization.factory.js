@@ -5,9 +5,9 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
   const cardNumMap = { "2": 4, "3": 3, "4": 2 };
   const numEpidemicMap = { Introductory: 4, Standard: 5, Heroic: 6 };
 
-  const createPlayerDeck = CitiesCardFactory.createPlayerDeck;
+  const addEpidemicCardsToCitiesAndEventsDeck = CitiesCardFactory.addEpidemicCardsToCitiesAndEventsDeck;
   const createInfectionDeck = InfectionFactory.createInfectionDeck;
-
+  const createDeckWithCitiesAndEvents = CitiesCardFactory.createDeckWithCitiesAndEvents;
   const dealCardsToGamers = function(workingState) {
     let gamers = workingState.gamers;
     let numCards = cardNumMap[workingState.gamers.length.toString()];
@@ -36,10 +36,17 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
 
     initializeGameElements: function(workingState) {
       // defaults right now to 'Introductory' difficulty
-      workingState.playerDeck = createPlayerDeck();
+      //create a deck consisting of only city and event cards
+      let deck = createDeckWithCitiesAndEvents();
+      workingState.playerDeck = deck;
+      //deal out those cards to the games
+      workingState = dealCardsToGamers(workingState);
+      //add the epidemic cards to the deck with players and events
+      workingState.playerDeck = addEpidemicCardsToCitiesAndEventsDeck(deck);
       workingState.infectionDeck = createInfectionDeck();
+      workingState = InfectionFactory.initialize(workingState);
       workingState.status = 'inProgress';
-      return dealCardsToGamers(workingState);
+      return workingState;
     },
     giveUserARole: function() {
       //write this when we implement multiple players and a true lobby

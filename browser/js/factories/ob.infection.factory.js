@@ -14,6 +14,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
   };
 
   const addInfectionToACity = function(infectionCard, num, state, alreadyHit, outbreakColor) {
+
     var color = outbreakColor || infectionCard.color,
         alreadyHit = alreadyHit || [],
         // target is a ref to GameFactory.cities.<cityKey> --> an object
@@ -57,6 +58,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
         for(var i = 0; i < 3; i++) {
           card = CardFactory.pickCardFromTop(state.infectionDeck);
           addInfectionToACity(card, infectionRate, state);
+          if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
           state.infectionDeckDiscard.push(card);
         }
       };

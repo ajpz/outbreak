@@ -6,17 +6,16 @@ describe('CitiesCard Factory', () => {
 
   beforeEach('CitiesCardFactory', inject(_CitiesCardFactory_ => {
     CitiesCardFactory = _CitiesCardFactory_;
-    deck = CitiesCardFactory.createPlayerDeck();
+    deck = CitiesCardFactory.createDeckWithCitiesAndEvents();
   }));
 
   /**
    * default number of epidemics should be 4 if no parameters are passed in
    */
-  it('should expect the createPlayerDeck to have 4 epidemics', () => {
+  it('should expect the addEpidemicCardsToCitiesAndEventsDeck deck to have 4 epidemics', () => {
+    deck = CitiesCardFactory.addEpidemicCardsToCitiesAndEventsDeck(deck)
     let epidemicCardsOnly = deck.filter(function(card){
-      if (card!== undefined && card.name === "Epidemic" ) {
-        return true;
-      }
+      return card!== undefined && card.name === "Epidemic"
     });
     expect(epidemicCardsOnly).to.have.length(4);
   });
@@ -25,20 +24,18 @@ describe('CitiesCard Factory', () => {
    * with default epidemics, deck should be 57 cards long
    */
 
-  it('should have 57 cards', () => {
-    expect(deck).to.have.length(57);
+  it('should have 53 cards', () => {
+    expect(deck).to.have.length(53);
   });
 
   /**
    * number of epidemics should be the number of epidemics passed in
-   * to the createPlayerDeck method
+   * to the addEpidemicCardsToCitiesAndEventsDeck method
    */
-  it('should expect the createPlayerDeck to have 8 epidemics', () => {
-    let cards = CitiesCardFactory.createPlayerDeck(8);
+  it('should expect the addEpidemicCardsToCitiesAndEventsDeck deck to have 8 epidemics', () => {
+    let cards = CitiesCardFactory.addEpidemicCardsToCitiesAndEventsDeck(deck,8);
     let epidemicCardsOnly = cards.filter(function(card){
-      if (card['type'] === "epidemicCard") {
-        return true;
-      }
+      return card['type'] === "epidemicCard";
     });
 
     expect(epidemicCardsOnly).to.have.length(8);
@@ -49,9 +46,7 @@ describe('CitiesCard Factory', () => {
    */
   it('check that there are event cards in the deck', () => {
     let eventCards = deck.filter(function(card) {
-      if (card.type === "eventCard"){
-        return true;
-      }
+        return card.type === "eventCard";
     });
     expect(eventCards).to.have.length(5);
   });

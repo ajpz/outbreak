@@ -70,11 +70,13 @@ function getCityCoordinates() {
 }
 
 function generateLineFeature() {
-    console.log("generateline Feature")
+
 
     var allCoords = getCityCoordinates();
     var formatted = [];
+
     allCoords.forEach(function(coordsSet, index) {
+
         var newObj = {
             "type": "Feature",
             "properties": {
@@ -102,7 +104,7 @@ function generateLineFeature() {
 }
 
 function createLinesFeatureCollection(formatted) {
-    console.log("createLinesFeatureCollection")
+
 
  jsonfile.writeFile('toBeWrittenTo.json', formatted, function(err){
   if(err){
@@ -121,8 +123,6 @@ function getCityAndCoords() {
     GeoCities.forEach(function(city) {
         cityAndCoordinates.push(city.key, city.location.reverse())
     })
-    console.log("city and coordinates: ")
-    console.log(cityAndCoordinates)
     return cityAndCoordinates;
 }
 
@@ -133,8 +133,6 @@ function getListOfPoints() {
     GeoCities.forEach(function(city) {
         coordinates.push(city.location.reverse())
     })
-    console.log("coordinates: ")
-    console.log(coordinates)
     return coordinates;
 }
 
@@ -143,8 +141,6 @@ function getCityCoords(somecity) {
     var cityAndCoordinates = getCityAndCoords();
 
     var cityCoordinates = cityAndCoordinates[cityAndCoordinates.indexOf(somecity) + 1]
-    console.log("some city: ", somecity)
-    console.log("it's coordinates: ", cityCoordinates)
     return cityCoordinates;
 }
 
