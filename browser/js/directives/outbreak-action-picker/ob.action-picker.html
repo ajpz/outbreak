@@ -49,7 +49,7 @@
     <div ng-show="selection.verb" >
       <!--<button>{{noun}}</button>-->
       <select ng-change="selectNoun()" ng-model="selection.noun">
-        <option value="noun" ng-repeat="noun in nouns">{{ noun }}</option>
+        <option value="{{noun}}" ng-repeat="noun in nouns">{{ noun }}</option>
       </select>
     </div>
   </div>

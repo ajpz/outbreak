@@ -34,11 +34,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         scope.gamers = _.cloneDeep(payload.gameState.gamers);
         // might not need the full
         scope.gameState = _.cloneDeep(payload.gameState);
-        console.log("in the initialize in action picker");
-        console.log(scope.gameState);
         scope.clientUser = localStorage.getItem("user");
-        console.log("Available verbs for user");
-        console.log(ActionFactory.availableVerbs(scope.gamers[scope.turn], gameState));
         scope.verbs = ActionFactory.availableVerbs(scope.gamers[scope.turn], gameState);
         // if you are the current user and the current phase is the actions phase
         // generate the for the user
@@ -46,11 +42,11 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
           // to shorten, create an object of { phase : function(), phase : function() }
           // unsure if this is a return or just some action
           // TODO : revise as you know more
-          if (scope.actionNumber < 4){
-            phaseFunction[gameState.currentPhase]();
-            // need to know if this is a rewind/go back type of action
-            scope.actionNumber = scope.actionNumber + 1;
-          }
+          //if (scope.actionNumber < 4){
+          //  phaseFunction[gameState.currentPhase]();
+          //  // need to know if this is a rewind/go back type of action
+          //  scope.actionNumber = scope.actionNumber + 1;
+          //}
         } else {
           // you are not the current user
           // you should not have access to do things
@@ -89,8 +85,15 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       };
       // you select a verb, it will put the verb in here
       scope.selection = {
-        verb : ''
+        verb : '',
+        noun : ''
       };
+
+      let walkingFerryKeys = [];
+      let directFlightKeys = [];
+      let charterFlightKeys = [];
+      let shuttleFlightKeys = [];
+
       // go is related with drive/ferry, shuttle flight, direct flight, charter flight
       // treat is with treat disease and discover a cure
       // build is with build a research station
@@ -99,8 +102,18 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         scope.nouns = [];
         let verb = scope.selection.verb;
         if (verb === "go" ) {
-          verbNounMap[scope.selection.verb].forEach(function(noun){
-            scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState));
+          verbNounMap[scope.selection.verb].forEach(function(noun, index){
+            // need to clear this when you are ready to submit
+            if (index === 0){
+              walkingFerryKeys = noun(scope.gamers[scope.turn], scope.gameState);
+            } else if (index === 1) {
+              directFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+            } else if (index === 2) {
+             charterFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+            } else if (index === 3) {
+              shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+            }
+            scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
           });
         } else if (verb === "treat") {
           // turn the key-value pairs into its own array
@@ -124,7 +137,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       };
 
       scope.selectNoun = () => {
-
+        console.log(scope.selection.noun);
       };
 
       ////////// Buttons/ Interactivity //////////////
@@ -133,10 +146,72 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       scope.arrow = "left";
 
       scope.execute  = () => {
-        // you get scope.selection
-        console.log("in execute now");
-        console.log(scope.selection);
+        if (scope.selection.verb !=='' && scope.selection.noun !== ''){
+          console.log(scope.selection);
+          if (scope.selection.verb === "go") {
+
+            broadcastGoToGameState(scope.selection);
+          }
+        }
       };
+
+      // loop through walkingFerryKeys
+      // directFlightKeys
+      // charterFlightKeys
+      // shuttleFlightKeys
+      // where it is located tells you what logic to apply
+      function broadcastGoToGameState(info) {
+        let packet = {};
+        console.log("in broadcast");
+        console.log(walkingFerryKeys);
+        if (walkingFerryKeys.includes(info.noun)) {
+
+          // move the current user to the new location
+          packet.gamers = scope.gamers;
+          packet.gamers[scope.turn].currentCity = info.noun;
+          $rootScope.$broadcast("go", packet);
+
+        } else if (directFlightKeys.includes(info.noun)) {
+
+          packet.gamers = scope.gamers;
+          let indexOfCard = packet.gamers[scope.turn].hands.findIndex(function(card){
+            if (card.key === info.noun){
+              return true;
+            }
+          });
+          // remove the the card from the user's hand
+          packet.gamers[scope.turn].hands.splice(indexOfCard, 1);
+          // move user current city
+          packet.gamers[scope.turn].currentCity = info.noun;
+          $rootScope.$broadcast("go", packet);
+
+        } else if (charterFlightKeys.includes(info.noun)) {
+
+          packet.gamers = scope.gamers;
+          // find the card that matches the city that you are in
+          let indexOfCard = packet.gamers[scope.turn].hand.findIndex(function(card){
+            if (card.key === packet.gamers[scope.turn].currentCity){
+              return true;
+            }
+          });
+          // remove the the card from the user's hand
+          packet.gamers[scope.turn].hand.splice(indexOfCard, 1);
+          // move user current city
+          packet.gamers[scope.turn].currentCity = info.noun;
+          $rootScope.$broadcast("go", packet);
+
+        } else if (shuttleFlightKeys.includes(info.noun)){
+
+          // move the current user to the new location
+          packet.gamers = scope.gamers;
+          packet.gamers[scope.turn].currentCity = info.noun;
+          $rootScope.$broadcast("go", packet);
+        }
+        scope.actionNumber = scope.actionNumber + 1;
+        scope.selection.verb = "";
+        scope.selection.noun = "";
+      }
+
 
       scope.slide = () => {
         let actionpicker = angular.element(document.querySelector("."+"action-picker"));
@@ -158,23 +233,6 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       }
       ////////// END Buttons/ Interactivity //////////////
 
-      // to figure out what are the available moves
-      // need to know who the current user is
-      // need to know the gameState?
-      //////////////////////////////////////////
-      // Listener level work
-      $rootScope.$on("stateChange", function(event, payload) {
-        // update as necessary
-        // show changes in the game;
-
-        // check if it is the gamer's turn, determines whether the action div is shown
-        //
-      });
-
-      $rootScope.$broadcast("actionSubmitted", {
-        key1 : "",
-        key2 : ""
-      });
 
 
       /////////////////////////////////

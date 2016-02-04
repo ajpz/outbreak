@@ -59,6 +59,15 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
 
+  $rootScope.$on("go", function(event, payload) {
+    console.log("in the goooooooooooo");
+    for(let key in payload){
+      outbreak.gameState[key] = payload[key];
+    }
+    outbreak.$save()
+  });
+
+
   /////////////////////////
 	return factory;
 });
