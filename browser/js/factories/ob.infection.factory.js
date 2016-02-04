@@ -14,6 +14,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
   };
 
   const addInfectionToACity = function(infectionCard, num, state, alreadyHit, outbreakColor) {
+
     var color = outbreakColor || infectionCard.color,
         alreadyHit = alreadyHit || [],
         // target is a ref to GameFactory.cities.<cityKey> --> an object
