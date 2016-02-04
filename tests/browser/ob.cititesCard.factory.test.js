@@ -6,17 +6,16 @@ describe('CitiesCard Factory', () => {
 
   beforeEach('CitiesCardFactory', inject(_CitiesCardFactory_ => {
     CitiesCardFactory = _CitiesCardFactory_;
-    deck = CitiesCardFactory.createPlayerDeck();
+    deck = CitiesCardFactory.createDeckWithCitiesAndEvents();
   }));
 
   /**
    * default number of epidemics should be 4 if no parameters are passed in
    */
   it('should expect the createPlayerDeck to have 4 epidemics', () => {
+    deck = CitiesCardFactory.createPlayerDeck(deck)
     let epidemicCardsOnly = deck.filter(function(card){
-      if (card!== undefined && card.name === "Epidemic" ) {
-        return true;
-      }
+      return card!== undefined && card.name === "Epidemic"
     });
     expect(epidemicCardsOnly).to.have.length(4);
   });
@@ -25,8 +24,8 @@ describe('CitiesCard Factory', () => {
    * with default epidemics, deck should be 57 cards long
    */
 
-  it('should have 57 cards', () => {
-    expect(deck).to.have.length(57);
+  it('should have 53 cards', () => {
+    expect(deck).to.have.length(53);
   });
 
   /**
@@ -34,11 +33,9 @@ describe('CitiesCard Factory', () => {
    * to the createPlayerDeck method
    */
   it('should expect the createPlayerDeck to have 8 epidemics', () => {
-    let cards = CitiesCardFactory.createPlayerDeck(8);
+    let cards = CitiesCardFactory.createPlayerDeck(deck,8);
     let epidemicCardsOnly = cards.filter(function(card){
-      if (card['type'] === "epidemicCard") {
-        return true;
-      }
+      return card['type'] === "epidemicCard";
     });
 
     expect(epidemicCardsOnly).to.have.length(8);
@@ -49,9 +46,7 @@ describe('CitiesCard Factory', () => {
    */
   it('check that there are event cards in the deck', () => {
     let eventCards = deck.filter(function(card) {
-      if (card.type === "eventCard"){
-        return true;
-      }
+        return card.type === "eventCard";
     });
     expect(eventCards).to.have.length(5);
   });

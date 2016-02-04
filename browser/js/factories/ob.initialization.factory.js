@@ -38,10 +38,12 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
       // defaults right now to 'Introductory' difficulty
 
       workingState.playerDeck = createPlayerDeck();
+      workingState = dealCardsToGamers(workingState);
+      workingState.playerDeck = addEpidemicsToDeck(workingState.playerDeck)
       workingState.infectionDeck = createInfectionDeck();
       workingState = InfectionFactory.initialize(workingState);
       workingState.status = 'inProgress';
-      return dealCardsToGamers(workingState);
+      return workingState;
     },
     giveUserARole: function() {
       //write this when we implement multiple players and a true lobby
