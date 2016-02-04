@@ -165,7 +165,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
        */
       scope.execute  = () => {
         // just as the user tries to execute I am going to store the gamestate
-        scope
+        scope.storedStates.push(_.cloneDeep(scope.gameState));
         if (scope.selection.verb !=='' && scope.selection.noun !== ''){
           console.log(scope.selection);
           if (scope.selection.verb === "go") {
@@ -376,8 +376,8 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       scope.undo = () => {
         console.log("undo moves");
         console.log(scope.storedStates);
-        scope.nouns = [];
         scope.actionNumber = scope.actionNumber - 1;
+        scope.nouns = [];
         scope.selection.verb = "";
         scope.selection.noun = "";
         $rootScope.$broadcast("undo", scope.storedStates.pop());
