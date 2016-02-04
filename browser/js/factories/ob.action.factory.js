@@ -10,9 +10,16 @@ app.factory('ActionFactory', function(Cities) {
 
     availableVerbs: function(gamer, state) {
       // firebase is stupid and doesn't give users a hand property if it is empty
+      // firebase dumbness
       if (!gamer.hand) {
         gamer.hand = [];
       }
+      state.gamers = state.gamers.map(function(gamer){
+        if (!gamer.hand) {
+          gamer.hand = [];
+        }
+        return gamer;
+      });
       // initialize variables outlining current state
       //debugger;
       let currInfections = state.cities.filter(function(cityObj) {
