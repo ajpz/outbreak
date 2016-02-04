@@ -21,6 +21,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       console.log('$watch has no gameState, intializing....')
       outbreak.gameState = Initialize;
       localStorage.setItem('user', Initialize.gamers[0].username);
+      console.log('--->set the localStorage user to ', localStorage.getItem('user'));
       outbreak.$save();
       return;
     }
@@ -29,7 +30,9 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     if(!localStorage.getItem('user')) {
       console.log('$watch no user yet, setting to playerCount ', outbreak.gameState)
       localStorage.setItem('user', outbreak.gameState.gamers[outbreak.gameState.playerCount].username);
+      console.log('--->set the localStorage user to ', localStorage.getItem('user'));
       outbreak.gameState["playerCount"] = (outbreak.gameState["playerCount"] + 1) % 4;
+      console.log('... and increment the playerCount to ', outbreak.gameState.playerCount);
       outbreak.$save();
       return;
     }
