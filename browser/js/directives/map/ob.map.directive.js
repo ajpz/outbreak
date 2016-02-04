@@ -1,4 +1,4 @@
-app.directive('map', function(GeoLines, Cities, Roles, Diseases){
+app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
   return {
     restrict: 'EA',
     scope: {

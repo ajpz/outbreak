@@ -26,10 +26,14 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         scope.verbs = ActionFactory.availableVerbs(scope.gamers[scope.turn], gameState);
         // if you are the current user and the current phase is the actions phase
         // generate the for the user
+        console.log("in state change");
+        console.log(scope.clientUser);
+        console.log( scope.gamers[scope.turn].username);
+        console.log(scope.gameState.currentPhase);
+        console.log(scope.gameState);
         if (scope.clientUser === scope.gamers[scope.turn].username) {
           if (scope.actionNumber === 5) {
             scope.actionNumber = 1; //need to hide the actions information
-            // clear out the stored states
             scope.storedStates = [];
             //change the phase;
             $rootScope.$broadcast("changeToDraw", {currentPhase : "draw" });
@@ -172,6 +176,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
           scope.actionNumber = scope.actionNumber + 1;
           scope.selection.verb = "";
           scope.selection.noun = "";
+          console.log("in execute : ", scope.actionNumber);
           //if (scope.actionNumber === 5) {
           //  // update the user turn too;
           //  // get to the next phase;
