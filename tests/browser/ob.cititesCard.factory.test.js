@@ -12,8 +12,8 @@ describe('CitiesCard Factory', () => {
   /**
    * default number of epidemics should be 4 if no parameters are passed in
    */
-  it('should expect the createPlayerDeck to have 4 epidemics', () => {
-    deck = CitiesCardFactory.createPlayerDeck(deck)
+  it('should expect the addEpidemicCardsToCitiesAndEventsDeck deck to have 4 epidemics', () => {
+    deck = CitiesCardFactory.addEpidemicCardsToCitiesAndEventsDeck(deck)
     let epidemicCardsOnly = deck.filter(function(card){
       return card!== undefined && card.name === "Epidemic"
     });
@@ -30,10 +30,10 @@ describe('CitiesCard Factory', () => {
 
   /**
    * number of epidemics should be the number of epidemics passed in
-   * to the createPlayerDeck method
+   * to the addEpidemicCardsToCitiesAndEventsDeck method
    */
-  it('should expect the createPlayerDeck to have 8 epidemics', () => {
-    let cards = CitiesCardFactory.createPlayerDeck(deck,8);
+  it('should expect the addEpidemicCardsToCitiesAndEventsDeck deck to have 8 epidemics', () => {
+    let cards = CitiesCardFactory.addEpidemicCardsToCitiesAndEventsDeck(deck,8);
     let epidemicCardsOnly = cards.filter(function(card){
       return card['type'] === "epidemicCard";
     });

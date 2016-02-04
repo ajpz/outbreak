@@ -5,9 +5,9 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
   const cardNumMap = { "2": 4, "3": 3, "4": 2 };
   const numEpidemicMap = { Introductory: 4, Standard: 5, Heroic: 6 };
 
-  const createPlayerDeck = CitiesCardFactory.createPlayerDeck;
+  const addEpidemicCardsToCitiesAndEventsDeck = CitiesCardFactory.addEpidemicCardsToCitiesAndEventsDeck;
   const createInfectionDeck = InfectionFactory.createInfectionDeck;
-
+  const createDeckWithCitiesAndEvents = CitiesCardFactory.createDeckWithCitiesAndEvents;
   const dealCardsToGamers = function(workingState) {
     let gamers = workingState.gamers;
     let numCards = cardNumMap[workingState.gamers.length.toString()];
@@ -36,10 +36,9 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
 
     initializeGameElements: function(workingState) {
       // defaults right now to 'Introductory' difficulty
-
-      workingState.playerDeck = createPlayerDeck();
+      let deck = createDeckWithCitiesAndEvents();
       workingState = dealCardsToGamers(workingState);
-      workingState.playerDeck = addEpidemicsToDeck(workingState.playerDeck)
+      workingState.playerDeck = addEpidemicCardsToCitiesAndEventsDeck(deck);
       workingState.infectionDeck = createInfectionDeck();
       workingState = InfectionFactory.initialize(workingState);
       workingState.status = 'inProgress';

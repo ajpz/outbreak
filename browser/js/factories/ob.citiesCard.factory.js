@@ -1,6 +1,6 @@
 app.factory('CitiesCardFactory', function(Cities, Events, Epidemic, CardFactory) {
   return {
-    createPlayerDeck: function(playerDeck, numOfEpidemics = 4) {
+    addEpidemicCardsToCitiesAndEventsDeck: function(playerDeck, numOfEpidemics = 4) {
       let epidemicCards = [];
       for(let j=0; j< numOfEpidemics; j++){
         epidemicCards.push(Epidemic);
