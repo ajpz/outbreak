@@ -1,4 +1,4 @@
-<div class="action-picker">
+<div class="action-picker" ng-show="(clientUser === gamers[turn].username) && (gameState.currentPhase==='actions')">
 <div class="slideButton">
   <button ng-click="slide()" class="slider btn"><span class="glyphicon glyphicon-triangle-{{ arrow }}"></span></button>
 </div>

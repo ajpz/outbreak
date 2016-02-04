@@ -168,6 +168,18 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     outbreak.$save();
   });
 
+  $rootScope.$on("changeToDraw", function(event, payload){
+    console.log("change to draw phase");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save();
+  });
+
   /////////////////////////
 	return factory;
 });
