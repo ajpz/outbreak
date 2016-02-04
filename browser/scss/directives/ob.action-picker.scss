@@ -10,6 +10,10 @@
 }
 
 .action-picker-inner{
+
+  .introduction {
+    margin-top: 50px;
+  }
   //z-index: 1000;
 
 
@@ -56,3 +60,64 @@
   transition-timing-function: ease-in;
 }
 
+//.styled-select select {
+//  //background: transparent;
+//  width: 268px;
+//  padding: 5px;
+//  font-size: 16px;
+//  line-height: 1;
+//  border: 0;
+//  border-radius: 0;
+//  height: 34px;
+//  -webkit-appearance: none;
+//}
+//
+//.styled-select {
+//  width: 240px;
+//  height: 34px;
+//  overflow: hidden;
+//  background: url("http://bavotasan.com/wp-content/uploads/2011/05/down_arrow_select.jpg") no-repeat right #ddd;
+//  border: 1px solid #ccc;
+//}
+.select_style
+{
+  background: #FFF;
+  overflow: hidden;
+  display: inline-block;
+  color: #525252;
+  font-weight: 300;
+  -webkit-border-radius: 5px 4px 4px 5px/5px 5px 4px 4px;
+  -moz-border-radius: 5px 4px 4px 5px/5px 5px 4px 4px;
+  border-radius: 5px 4px 4px 5px/5px 5px 4px 4px;
+  -webkit-box-shadow: 0 0 5px rgba(123, 123, 123, 0.2);
+  -moz-box-shadow: 0 0 5px rgba(123,123,123,.2);
+  box-shadow: 0 0 5px rgba(123, 123, 123, 0.2);
+  border: solid 1px #DADADA;
+  font-family: "helvetica neue",arial;
+  position: relative;
+  cursor: pointer;
+  padding-right:20px;
+
+}
+.select_style span
+{
+  position: absolute;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background: url(http://projects.authenticstyle.co.uk/niceselect/arrow.png) no-repeat;
+  top: 50%;
+  margin-top: -4px;
+}
+.select_style select
+{
+  -webkit-appearance: none;
+  appearance:none;
+  width:120%;
+  background:none;
+  background:transparent;
+  border:none;
+  outline:none;
+  cursor:pointer;
+  padding:7px 10px;
+}

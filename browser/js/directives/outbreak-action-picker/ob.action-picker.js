@@ -108,6 +108,8 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       scope.notifySelectionVerb = () => {
         scope.nouns = [];
         let verb = scope.selection.verb;
+        // this is to ensure that the execution button gets disabled
+        scope.selection.noun = "";
         if (verb === "go" ) {
           verbNounMap[scope.selection.verb].forEach(function(noun, index){
             // need to clear this when you are ready to submit
@@ -165,8 +167,9 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
        */
       scope.execute  = () => {
         // just as the user tries to execute I am going to store the gamestate
-        scope.storedStates.push(_.cloneDeep(scope.gameState));
+
         if (scope.selection.verb !=='' && scope.selection.noun !== ''){
+          scope.storedStates.push(_.cloneDeep(scope.gameState));
           console.log(scope.selection);
           if (scope.selection.verb === "go") {
             broadcastGoToGameState(scope.selection);
@@ -181,15 +184,17 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
           } else if (scope.selection.verb === "cureDisease") {
             broadcastCureDisease(scope.selection);
           }
+
+          scope.nouns = [];
+          scope.actionNumber = scope.actionNumber + 1;
+          scope.selection.verb = "";
+          scope.selection.noun = "";
+          if (scope.actionNumber === 4) {
+            // get to the next phase;
+            //$rootScope.$broadcast("updateTurn")
+          }
         }
-        scope.nouns = [];
-        scope.actionNumber = scope.actionNumber + 1;
-        scope.selection.verb = "";
-        scope.selection.noun = "";
-        if (scope.actionNumber === 4) {
-          // get to the next phase;
-          //$rootScope.$broadcast("updateTurn")
-        }
+
       };
 
       // loop through walkingFerryKeys
@@ -373,6 +378,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
 
       // TODO : CREATE a BACK BUTTON that pops off a state and broadcasts;
       // The user has to be in the action phase
+
       scope.undo = () => {
         console.log("undo moves");
         console.log(scope.storedStates);
