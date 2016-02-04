@@ -383,7 +383,7 @@ gameState.gamers = [
 
   {
     username : 'daniel',
-    role : 'operationExpert',
+    role : 'operationsExpert',
     currentCity : 'atlanta',
     hand : []
   }

@@ -1,11 +1,11 @@
-var GeoCities = [
+var GeoCitiesBackup = [
 
     {
         key: 'sanFrancisco',
         name: 'San Francisco',
         type: 'cityCard',
         country: 'USA',
-        location: [41.7558, -122.419416],
+        location: [37.774929, -122.419416],
         connections: ['tokyo', 'manila', 'losAngeles', 'chicago'],
         color: 'blue'
     }, {
@@ -13,7 +13,7 @@ var GeoCities = [
         name: 'Chicago',
         type: 'cityCard',
         country: 'USA',
-        location: [44.994200, -93.0936],
+        location: [41.878114, -87.629798],
         connections: ['sanFrancisco', 'losAngeles', 'mexicoCity', 'atlanta', 'montreal'],
         color: 'blue'
     }, {
@@ -25,11 +25,12 @@ var GeoCities = [
         connections: ['dc', 'miami', 'chicago'],
         color: 'blue'
     }, {
+
         key: 'montreal',
         name: 'Montreal',
         type: 'cityCard',
         country: 'Canada',
-        location: [46.566239, -79.116811],
+        location: [45.501689, -73.567256],
         connections: ['dc', 'newYork', 'chicago'],
         color: 'blue'
     }, {
@@ -37,7 +38,7 @@ var GeoCities = [
         name: 'New York',
         type: 'cityCard',
         country: 'USA',
-        location: [44.367342, -64.012666],
+        location: [40.712784, -74.005941],
         connections: ['montreal', 'dc', 'london', 'madrid'],
         color: 'blue'
     }, {
@@ -45,7 +46,7 @@ var GeoCities = [
         name: 'Washington DC',
         type: 'cityCard',
         country: 'USA',
-        location: [32.407446, -64.012666],
+        location: [38.907192, -77.036871],
         connections: ['atlanta', 'montreal', 'newYork', 'miami'],
         color: 'blue'
     }, {
@@ -53,7 +54,7 @@ var GeoCities = [
         name: 'London',
         type: 'cityCard',
         country: 'UK',
-        location: [54.683934, -15.502873],
+        location: [51.507351, -0.127758],
         connections: ['newYork', 'madrid', 'paris', 'berlin'],
         color: 'blue'
     }, {
@@ -61,7 +62,7 @@ var GeoCities = [
         name: 'Madrid',
         type: 'cityCard',
         country: 'Spain',
-        location: [38.820437, -14.335510],
+        location: [40.416775, -3.703790],
         connections: ['saoPaulo', 'newYork', 'algiers', 'paris', 'london'],
         color: 'blue'
     }, {
@@ -85,7 +86,7 @@ var GeoCities = [
         name: 'Milan',
         type: 'cityCard',
         country: 'Italy',
-        location: [40.926716, 14.995174],
+        location: [45.465422, 9.185924],
         connections: ['istanbul', 'paris', 'berlin'],
         color: 'blue'
     }, {
@@ -101,7 +102,7 @@ var GeoCities = [
         name: 'Los Angeles',
         type: 'cityCard',
         country: 'USA',
-        location: [23.359891, -118.485900],
+        location: [34.052234, -118.243685],
         connections: ['sydney', 'sanFrancisco', 'chicago', 'mexicoCity'],
         color: 'yellow'
     }, {
@@ -109,7 +110,7 @@ var GeoCities = [
         name: 'Mexico City',
         type: 'cityCard',
         country: 'Mexico',
-        location: [18.205068, -97.649483],
+        location: [19.432608, -99.133208],
         connections: ['chicago', 'losAngeles', 'miami', 'bogota', 'lima'],
         color: 'yellow'
     }, {
@@ -117,7 +118,7 @@ var GeoCities = [
         name: 'Miami',
         type: 'cityCard',
         country: 'USA',
-        location: [25.003754, -77.402244],
+        location: [25.761680, -80.19179],
         connections: ['dc', 'atlanta', 'mexicoCity', 'bogota'],
         color: 'yellow'
     }, {
@@ -133,7 +134,7 @@ var GeoCities = [
         name: 'Lima',
         type: 'cityCard',
         country: 'Peru',
-        location: [-17.604774, -87.372619],
+        location: [-12.046374, -77.042793],
         connections: ['mexicoCity', 'bogota', 'santiago'],
         color: 'yellow'
     }, {
@@ -141,7 +142,7 @@ var GeoCities = [
         name: 'Santiago',
         type: 'cityCard',
         country: 'Chile',
-        location: [-37.337422, -81.923400],
+        location: [-33.472788, -70.629831],
         connections: ['lima'],
         color: 'yellow'
     }, {
@@ -177,6 +178,7 @@ var GeoCities = [
         connections: ['lagos', 'johannesburg', 'khartoum'],
         color: 'yellow'
     }, {
+
         key: 'khartoum',
         name: 'Khartoum',
         type: 'cityCard',
@@ -185,6 +187,7 @@ var GeoCities = [
         connections: ['lagos', 'cairo', 'kinshasa', 'johannesburg'],
         color: 'yellow'
     }, {
+
         key: 'johannesburg',
         name: 'Johannesburg',
         type: 'cityCard',
@@ -193,19 +196,21 @@ var GeoCities = [
         connections: ['kinshasa', 'khartoum'],
         color: 'yellow'
     }, {
+
         key: 'algiers',
         name: 'Algiers',
         type: 'cityCard',
         country: 'Algeria',
-        location: [30.463737, 3.657282],
+        location: [36.752887, 3.042048],
         connections: ['madrid', 'paris', 'istanbul', 'cairo'],
         color: 'black'
     }, {
+
         key: 'cairo',
         name: 'Cairo',
         type: 'cityCard',
         country: 'Egypt',
-        location: [25.578028, 27.475642],
+        location: [30.044420, 31.235712],
         connections: ['algiers', 'istanbul', 'baghdad', 'riyadh', 'khartoum'],
         color: 'black'
     }, {
@@ -223,7 +228,7 @@ var GeoCities = [
         name: 'Moscow',
         type: 'cityCard',
         country: 'Russia',
-        location: [55.038036, 44.614313],
+        location: [55.755826, 37.6173],
         connections: ['stPetersburg', 'istanbul', 'tehran'],
         color: 'black'
     }, {
@@ -241,7 +246,7 @@ var GeoCities = [
         name: 'Riyadh',
         type: 'cityCard',
         country: 'Saudi Arabia',
-        location: [17.828092, 44.438532],
+        location: [25.005448, 46.544831],
         connections: ['cairo', 'baghdad', 'karachi'],
         color: 'black'
     }, {
@@ -250,7 +255,7 @@ var GeoCities = [
         name: 'Tehran',
         type: 'cityCard',
         country: 'Iran',
-        location: [42.176354, 57.446344],
+        location: [35.689197, 51.388974],
         connections: ['moscow', 'baghdad', 'karachi', 'delhi'],
         color: 'black'
     }, {
@@ -268,7 +273,7 @@ var GeoCities = [
         name: 'Mumbai',
         type: 'cityCard',
         country: 'India',
-        location: [13.342488, 67.202204],
+        location: [19.075984, 72.877656],
         connections: ['karachi', 'delhi', 'chennai'],
         color: 'black'
     }, {
@@ -277,7 +282,7 @@ var GeoCities = [
         name: 'Delhi',
         type: 'cityCard',
         country: 'India',
-        location: [32.547392, 77.382217],
+        location: [21.566381, 73.220507],
         connections: ['tehran', 'kolkata', 'chennai', 'mumbai', 'karachi'],
         color: 'black'
     }, {
@@ -286,7 +291,7 @@ var GeoCities = [
         name: 'Kolkata',
         type: 'cityCard',
         country: 'India',
-        location: [31.203992, 90.653701],
+        location: [22.572646, 88.363895],
         connections: ['delhi', 'hongKong', 'bangkok', 'chennai'],
         color: 'black'
     }, {
@@ -295,7 +300,7 @@ var GeoCities = [
         name: 'Chennai',
         type: 'cityCard',
         country: 'India',
-        location: [5.616669, 82.567764],
+        location: [13.082680, 80.270718],
         connections: ['mumbai', 'delhi', 'kolkata', 'bangkok', 'jakarta'],
         color: 'black'
     }, {
@@ -304,7 +309,7 @@ var GeoCities = [
         name: 'Beijing',
         type: 'cityCard',
         country: 'China',
-        location: [44.083459, 109.557534],
+        location: [39.904211, 116.407395],
         connections: ['seoul', 'shanghai'],
         color: 'red'
     }, {
@@ -313,7 +318,7 @@ var GeoCities = [
         name: 'Seoul',
         type: 'cityCard',
         country: 'South Korea',
-        location: [45.283126, 127.408184],
+        location: [37.566535, 126.977969],
         connections: ['beijing', 'tokyo', 'shanghai'],
         color: 'red'
     }, {
@@ -322,7 +327,7 @@ var GeoCities = [
         name: 'Tokyo',
         type: 'cityCard',
         country: 'Japan',
-        location: [41.609692, 141.795275],
+        location: [35.689487, 139.691706],
         connections: ['sanFrancisco', 'seoul', 'osaka', 'shanghai'],
         color: 'red'
     }, {
@@ -331,7 +336,7 @@ var GeoCities = [
         name: 'Shanghai',
         type: 'cityCard',
         country: 'China',
-        location: [34.924432, 111.244909],
+        location: [31.230416, 121.473701],
         connections: ['beijing', 'tokyo', 'seoul', 'taipei', 'hongKong'],
         color: 'red'
     }, {
@@ -349,7 +354,7 @@ var GeoCities = [
         name: 'Taipei',
         type: 'cityCard',
         country: 'Taiwan',
-        location: [22.747271, 127.319375],
+        location: [25.032969, 121.565418],
         connections: ['osaka', 'hongKong', 'shanghai', 'manila'],
         color: 'red'
     }, {
@@ -357,7 +362,7 @@ var GeoCities = [
         name: 'Osaka',
         type: 'cityCard',
         country: 'Japan',
-        location: [27.961229, 141.972893],
+        location: [34.693738, 135.502165],
         connections: ['taipei', 'tokyo'],
         color: 'red'
     }, {
@@ -375,7 +380,7 @@ var GeoCities = [
         name: 'Jakarta',
         type: 'cityCard',
         country: 'Indonesia',
-        location: [-9.271532, 99.966141],
+        location: [-6.208763, 106.845599],
         connections: ['chennai', 'bangkok', 'hoChiMinhCity', 'sydney'],
         color: 'red'
     }, {
@@ -384,7 +389,7 @@ var GeoCities = [
         name: 'Ho Chi Minh City',
         type: 'cityCard',
         country: 'Vietnam',
-        location: [0.279132, 110.356818],
+        location: [10.823099, 106.629664],
         connections: ['bangkok', 'hongKong', 'jakarta', 'manila'],
         color: 'red'
     }, {
@@ -393,7 +398,7 @@ var GeoCities = [
         name: 'Manila',
         type: 'cityCard',
         country: 'Philippines',
-        location: [0.279132, 132.825546],
+        location: [14.599512, 120.984219],
         connections: ['hoChiMinhCity', 'hongKong', 'taipei', 'sanFrancisco', 'sydney'],
         color: 'red'
     }, {
@@ -409,4 +414,4 @@ var GeoCities = [
 
 ]
 
-exports.GeoCities = GeoCities;
+exports.GeoCitiesBackup = GeoCitiesBackup;
