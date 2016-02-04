@@ -6,6 +6,8 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
     // controller: 'NavbarCtrl',
     link: function (scope) {
 
+      var localCopyOfState;
+
       // helper function to chunk data into columns
       function chunk(arr, size) {
           var newArr = [];
@@ -74,6 +76,8 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
       $rootScope.$on('stateChange', function(event, fbData) {
 
+        localCopyOfState = _.cloneDeep(fbData.gameState);
+
         // who am i?
         scope.username = localStorage.getItem('user');
         console.log('Navbar heard stateChange and has user ', scope.username);
@@ -106,6 +110,31 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           scope.owner.icon = Roles[scope.owner.role].icon;
         }
       });
+
+
+      scope.cardAction = function(_this) {
+        //currentPhase = 'discard'
+        if(localCopyOfState.currentPhase === 'discard' && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)){
+          // discard phase and it is this user's turn
+          if(localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 1) {
+            // remove card selected from hand
+            var hand = localCopyOfState.gamers[localCopyOfState.gamerTurn].hand;
+            localCopyOfState.gamers[localCopyOfState.gamerTurn].hand = hand.filter(function(cardObj) {
+              return cardObj.key !== _this.card.key;
+            })
+
+            // if user has right number of cards, advance game to infect phase and advance turn
+            if(localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length <= 1) {
+              localCopyOfState.currentPhase = 'infect';
+              localCopyOfState.gamerTurn = (localCopyOfState.gamerTurn + 1) % 4;
+            }
+
+            $rootScope.$broadcast('discardCard', {updatedState: localCopyOfState});
+          } else {
+            alert("You can't click this!")
+          }
+        }
+      };
 
 
       //CARDS:
