@@ -34,7 +34,6 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         if (scope.clientUser === scope.gamers[scope.turn].username) {
           if (scope.actionNumber === 5) {
             scope.actionNumber = 1; //need to hide the actions information
-            // clear out the stored states
             scope.storedStates = [];
             //change the phase;
             $rootScope.$broadcast("changeToDraw", {currentPhase : "draw" });
