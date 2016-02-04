@@ -30,7 +30,6 @@ app.config(function ($stateProvider) {
         //       $rootScope.$broadcast("counter", { infectionLevelIndex : $scope.counter , gamerTurn : $scope.turn });
         //     }
         //   };
-
         //   $rootScope.$on("stateChange", function(even, payload) {
         //     console.log("stateChange heard in home.js ", payload);
         //     console.log(payload);
@@ -38,7 +37,6 @@ app.config(function ($stateProvider) {
         //     $scope.turn = payload.gameState.gamerTurn;
         //     $scope.gamers = _.cloneDeep(payload.gameState.gamers);
         //   });
-
         // }
     });
 });

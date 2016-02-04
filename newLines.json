@@ -1,4 +1,6 @@
-[{
+{
+    "type": "FeatureCollection",
+    "features":[{
     "type": "Feature",
     "properties": {
         "id": 1
@@ -1115,3 +1117,4 @@
         ]
     }
 }]
+}
