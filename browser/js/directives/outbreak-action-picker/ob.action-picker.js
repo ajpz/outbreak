@@ -4,14 +4,11 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
     templateUrl : 'js/directives/outbreak-action-picker/ob.action-picker.html',
     //scope : {},
     link : function(scope, elem, attr) {
+
+      // this is recording the action numbers in a given turn
       scope.actionNumber = 1;
-      // functionality to store state, on execution of the game
-      // any time an action is to be executed, you store the previous state
-      // update the state, broadcast a change to update the gameState in GameFactory/FB
-      // when we get to functionality where a user can go back a move,
-      // you would just pop off the previous stack and broadcast another  gameState change
-      // stored state can also be used to keep track of where the user is in their action step
-      // in addition to still being in the action phase and being the current user
+
+      // this is necessary for storing previous state and allows for UNDO
       scope.storedStates = [];
 
 
@@ -22,10 +19,8 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
        */
       $rootScope.$on('stateChange', function(event, payload) {
         let gameState = payload.gameState;
-        // your current counter is the gameState.infectionLevel
         scope.turn = gameState.gamerTurn;
         scope.gamers = _.cloneDeep(payload.gameState.gamers);
-        // might not need the full
         scope.gameState = _.cloneDeep(payload.gameState);
         scope.clientUser = localStorage.getItem("user");
         scope.verbs = ActionFactory.availableVerbs(scope.gamers[scope.turn], gameState);
@@ -145,7 +140,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
 
       ////////// Buttons/ Interactivity //////////////
       scope.show = true;
-      scope.hideText = ""
+      scope.hideText = "";
       scope.arrow = "left";
 
       /**
@@ -193,8 +188,6 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       // where it is located tells you what logic to apply
       function broadcastGoToGameState(info) {
         let packet = {};
-        console.log("in broadcast of go");
-        console.log(walkingFerryKeys);
         if (walkingFerryKeys.includes(info.noun)) {
 
           // move the current user to the new location
@@ -249,13 +242,11 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
             return true;
           }
         })[0];
-        console.log(particularCityToCure);
         let nounSeparate = info.noun.split(":");
         let color = nounSeparate[0].trim();
         let numberToCure = parseInt(nounSeparate[1].trim(), 10);
         particularCityToCure[color] = particularCityToCure[color] - numberToCure;
         scope.gameState.cities[indexInCities] = particularCityToCure; // update the state to send to gameState
-        console.log("in broadcast of treat");
         packet.cities = scope.gameState.cities;
         $rootScope.$broadcast("treat", packet);
       }
@@ -277,8 +268,6 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       // update the user hand of the player who will now get the card
       // note that when you give a card to a user, and your hand is empty, firebase removes the hand key from storage
       function broadcastGiveCityCard(info) {
-        console.log("in broadcast to give a city card");
-        console.log(info);
         let packet = {};
         let givingInformation = JSON.parse(info.noun);
         let giveTo = givingInformation.giveTo;
@@ -301,7 +290,6 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
             return true;
           }
         });
-        console.log(cardToSwitch);
         scope.gameState.gamers[indexOfPlayer].hand.push(cardToSwitch);
         packet.gamers = scope.gameState.gamers;
         $rootScope.$broadcast("giveTo", packet);
@@ -309,8 +297,6 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       }
 
       function broadcastTakeCityCard(info) {
-        console.log("in broadcast to take a city card from the user");
-        console.log(info);
         let packet = {};
         let takingInformation = JSON.parse(info.noun);
         let takeFrom = takingInformation.takeFrom;
@@ -368,8 +354,6 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
       // The user has to be in the action phase
 
       scope.undo = () => {
-        console.log("undo moves");
-        console.log(scope.storedStates);
         scope.actionNumber = scope.actionNumber - 1;
         scope.nouns = [];
         scope.selection.verb = "";
