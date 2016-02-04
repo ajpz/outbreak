@@ -34,8 +34,36 @@ a {
     color: white;
     border-radius: 10px;
     background-color: black;
+    &.blue {
+      background-color: rgb(47, 63, 115);
+    }
+    &.black {
+      background-color: rgb(0, 0, 0);
+    }
+    &.yellow {
+      background-color: rgb(255, 153, 0);
+    }
+    &.red {
+      background-color: rgb(168, 56, 59);
+    }
   }
 }
+
+.list-group-item {
+  button.blue {
+      background-color: rgb(47, 63, 115);
+    }
+  button.black {
+      background-color: rgb(0, 0, 0);
+    }
+  button.yellow {
+      background-color: rgb(255, 153, 0);
+    }
+  button.red {
+      background-color: rgb(168, 56, 59);
+    }
+}
+
 #collapseListGroupHeading1 {
   background-color: #280000;
 
@@ -92,6 +120,24 @@ a {
     }
   }
 }
+
+/*#collapseListGroup4 {
+  button {
+    .blue {
+      background-color: rgb(47, 63, 115);
+    }
+    .black {
+      background-color: rgb(0, 0, 0);
+    }
+    .yellow {
+      background-color: rgb(255, 153, 0);
+    }
+    .red {
+      background-color: rgb(168, 56, 59);
+    }
+
+  }
+}*/
 
 .panel-footer {
   list-style: none;
