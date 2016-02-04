@@ -151,7 +151,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     outbreak.$save();
   });
 
-  $rootScope.on("updateGamerTurn", function(event, payload) {
+  $rootScope.$on("updateGamerTurn", function(event, payload) {
     console.log("changing turns");
     for(let key in payload){
       if (outbreak.gameState.hasOwnProperty(key)){
