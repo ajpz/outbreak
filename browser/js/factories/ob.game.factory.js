@@ -62,11 +62,76 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   $rootScope.$on("go", function(event, payload) {
     console.log("in the goooooooooooo");
     for(let key in payload){
-      outbreak.gameState[key] = payload[key];
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
     }
     outbreak.$save()
   });
 
+  // as you become more sure that this format of updating is the same,
+  // you can create a general $on event name
+  $rootScope.$on("treat", function(event, payload) {
+    console.log("in the treat");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on("build", function(event, payload) {
+    console.log("in the build in game factory");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on("giveTo", function(event, payload) {
+    console.log("in the give to in game factory");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on("takeFrom", function(event, payload) {
+    console.log("taking a card away in the gaming factory");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save();
+  });
+
+  $rootScope.$on("cureDisease", function(event, payload) {
+    console.log("curing a disease");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save();
+  });
 
   /////////////////////////
 	return factory;

@@ -9,6 +9,10 @@ app.factory('ActionFactory', function(Cities) {
      */
 
     availableVerbs: function(gamer, state) {
+      // firebase is stupid and doesn't give users a hand property if it is empty
+      if (!gamer.hand) {
+        gamer.hand = [];
+      }
       // initialize variables outlining current state
       //debugger;
       let currInfections = state.cities.filter(function(cityObj) {
@@ -154,10 +158,20 @@ app.factory('ActionFactory', function(Cities) {
      */
 
     giveWhatToWhom: function(gamer, state) {
+      // firebase dumbness
+      if (!gamer.hand) {
+        gamer.hand = [];
+      }
+      state.gamers = state.gamers.map(function(gamer){
+        if (!gamer.hand) {
+          gamer.hand = [];
+        }
+        return gamer;
+      });
 
       if(gamer.hand.map(function(cardObj) {
         return cardObj.key;
-      }).indexOf(gamer.currentCity) === -1) return {};
+      }).indexOf(gamer.currentCity) === -1) return [{}];
 
       //assumes this will only be called if gamer has cityCard of currentCity
       function GiveObject(giveTo, city) {
@@ -166,12 +180,22 @@ app.factory('ActionFactory', function(Cities) {
       };
 
       let result = [];
-      let others = state.gamers.map(function(other) {
-        return other.role;
-      });
 
+      // filtering out the current player from this list
+      let others = state.gamers.filter(function(other) {
+        if (other.role !== gamer.role){
+          return true;
+        }
+      }).map(function(other) {
+        // returning an array with the currentCity so that I
+        // can check if the user is in the same city as the current player
+        return [other.role, other.currentCity];
+      });
+      // can only give to another user who is in the current city too
       others.forEach(function(other) {
-        result.push(new GiveObject(other, gamer.currentCity));
+        if (other[1] === gamer.currentCity){
+          result.push(new GiveObject(other[0], gamer.currentCity));
+        }
       });
 
       // [{giveTo: 'medic', city: 'dc'}, {giveTo: 'researcher', city: 'dc'}]
@@ -183,7 +207,15 @@ app.factory('ActionFactory', function(Cities) {
      */
 
     takeWhatFromWhom: function(gamer, state) {
-
+      if (!gamer.hand) {
+        gamer.hand = [];
+      }
+      state.gamers = state.gamers.map(function(gamer){
+        if (!gamer.hand) {
+          gamer.hand = [];
+        }
+        return gamer;
+      });
       //assumes you only invoke this if you've already
       //confirmed the other has the city card you are in
       function GiveObject(takeFrom, city) {
@@ -242,8 +274,9 @@ app.factory('ActionFactory', function(Cities) {
 
       for(let color in colorCounter) {
         if(colorCounter[color] >= 5) result[color] = true;
+        else result[color] = false;
       }
-
+      //{red : true, blue: false, etc...}
       return result;
     },
 
@@ -253,6 +286,7 @@ app.factory('ActionFactory', function(Cities) {
      */
     buildResearchCenter : function(gamer) {
       // cannot have a research center at current location already
+
     }
   }
 
