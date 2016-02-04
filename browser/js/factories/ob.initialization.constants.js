@@ -2,7 +2,7 @@
 
 const gameState = {};
 // GAME STATE
-gameState.playerCount = 1; // should be 0 - 3 to rep the number of players connecting
+gameState.playerCount = 0; // should be 0 - 3 to rep the number of players connecting
 gameState.status = 'initialization'; // options : inProgress, gameOver
 gameState.currentPhase = "actions"; // actions, draw, discard, infect // will cycle through for next player
 //gameState.prevPhase = ""; // action, draw, disard, epidemic, event, infect

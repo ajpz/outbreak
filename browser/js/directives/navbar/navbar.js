@@ -75,15 +75,18 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
       $rootScope.$on('stateChange', function(event, fbData) {
 
         // who am i?
-        scope.username = localStorage.getItem('user') || null;
+        scope.username = localStorage.getItem('user');
+        console.log('Navbar heard stateChange and has user ', scope.username);
 
         if(scope.username) {
+          console.log('---> setting scope variables');
           let payload = fbData.gameState;
           let myIndex = payload.gamers.reduce(function(targetIdx, gamer, idx) {
             if(gamer.username === scope.username) targetIdx = idx;
             return targetIdx;
           }, -1);
-          console.log('myIndex is ', myIndex, payload.gamers, scope.username);
+
+          console.log('--->this browser has myIndex of ', myIndex, ' gamers of ', payload.gamers, ' and localStorage user of ', scope.username);
 
           // 'others' is an array of the non-owner-gamers
           scope.others = payload.gamers.filter(function(gamer, index){
