@@ -23,7 +23,7 @@
         <div ng-attr-id="collapseListGroup4" class="" role="tabpanel" aria-labelledby="collapseListGroupHeading4">
             <ul class="list-group">
                 <li class="list-group-item" id="low-padding" ng-repeat="card in owner.hand">
-                    <button class="ng-class: card.color"cityColor">{{card.name}}</button>
+                    <button class="ng-class: card.color" ng-click="cardAction(this)">{{card.name}}</button>
                 </li>
             </ul>
             <ul class="panel-footer">
