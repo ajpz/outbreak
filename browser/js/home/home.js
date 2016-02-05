@@ -3,6 +3,18 @@ app.config(function($stateProvider) {
     url: '/',
     templateUrl: 'js/home/home.html',
     controller: function($scope, $rootScope, ngToast) {
+        let previousMessage = null;
+
+        $rootScope.$on('stateChange', function(event, payload) {
+          if(payload.gameState.message !== previousMessage){
+            createStateChangeToast(payload.gameState.message);
+            previousMessage = payload.gameState.message;
+          }
+        });
+
+        $rootScope.$on('treatedCity', function(event, payload){
+          treatACityToast(payload)
+        })
 
         $rootScope.$on('badClick', function(event, payload) {
             ngToast.create({
@@ -15,7 +27,20 @@ app.config(function($stateProvider) {
               horizontalPostion: 'right',
               veritcalPosition: 'top'
             });
-        })
+        });
+
+        function createStateChangeToast(message){
+            ngToast.create({
+              className: 'success',
+              content: message,
+              dismissOnTimeout: true,
+              timeout: 4000,
+              dismissButton: true,
+              animation: 'fade',
+              horizontalPostion: 'right',
+              veritcalPosition: 'top'
+            });
+        };
           // create a toast with settings:
 
 
