@@ -17,17 +17,21 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         var researchCenterIcon = 'http://i.imgur.com/OO0vx2n.png';
         var markers = [];
 
-
+        map.on('zoomstart', function() {
+          console.log('zoomstart was heard ', map.getZoom());
+          removeMarkerLayers();
+        })
 
         map.on('zoomend', function(){
-          console.log('zoomend was heard ', map.getZoom())
-          if (map.getZoom() < 3) {
-            // myLayer.setFilter(function(){ return true; })
-          }
-          else {
-            // myLayer.setFilter(function(){ return false; })
-          }
+          console.log('zoomend was heard ', map.getZoom());
+          addMarkerToMarkerObj();
         })
+
+        map.on('click', function(e) {
+          console.log('clicked on location', e.latlng)
+          map.panTo(e.latlng);
+        });
+
         var southWest = L.latLng(-57.870914, -146.743145),
             northEast = L.latLng(70.818639, 190.933412),
             bounds = L.latLngBounds(southWest, northEast);
@@ -92,7 +96,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         var colors = {blue: '#0000FF', red: '#A8383B', yellow: '#FF9900', black: '#000'};
         for (var key in Cities){
           if (Cities.hasOwnProperty(key)) {
-            L.circleMarker(Cities[key].location, {
+            var cityMarker = L.circleMarker(Cities[key].location, {
               'className' : 'testING',
               'marker-color' : colors[Cities[key].color],
               'color' : colors[Cities[key].color],
@@ -101,7 +105,9 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
               'fillColor' : colors[Cities[key].color],
               'opacity' : 1,
               'radius' : 6
-            }).addTo(map);
+            })
+
+          cityMarker.addTo(map);
           }
         }
 
@@ -159,7 +165,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
           payload = _.cloneDeep(fbData.gameState);
           removeMarkerLayers();
           addMarkerToMarkerObj();
-          debugger;
+          // debugger;
         })
 
 
@@ -258,12 +264,21 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
 
         function placeOnMap(marker, offset, location, icon){
+
+          var zoomSizeIcon = {
+            '4' : [25,25],
+            '3' : [20,20],
+            '2' : [15,15],
+            '1' : [15,15]
+          };
+
           var oneMapIcon = L.marker([location[0]+offset[0], location[1]+offset[1]], {
                 icon: L.icon({
                     iconUrl: icon,
-                    'iconSize': [30, 30],
+                    'iconSize': zoomSizeIcon[map.getZoom().toString()] || [25,25] ,
                   })
                 })
+
           if (marker.type === 'researchCenter'){
             researchLayerGroup.push(oneMapIcon);
           }
