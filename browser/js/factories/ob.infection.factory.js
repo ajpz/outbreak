@@ -25,6 +25,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
                   })[0];
     // check to see if the target has 3 of the given color --> outbreak?
     if(target[color] === 3) {
+      alert('EPIDEMIC YO! EPIDEMIC YO! EPIDEMIC YO!')
       // add the current key, i.e. newYork, to the alreadyHit array
       // to prevent outbreaks from looping recursively
       alreadyHit.push(target.key);
@@ -41,6 +42,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       });
     } else {
       // else, simply increment color's virust count
+      console.log('\n\nADDING ONE ', color, ' INFECTION TO ', target.name);
       target[color] += num;
     }
   };
@@ -70,6 +72,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
         let infectionRate = infectionLevelArray[state.infectionLevelIndex];
         card = CardFactory.pickCardFromTop(state.infectionDeck);
         addInfectionToACity(card, infectionRate, state);
+        if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
         state.infectionDeckDiscard.push(card);
       }
       return state;
