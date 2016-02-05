@@ -1,0 +1,346 @@
+{ "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [37.774929, -122.419416]},
+        "properties": { "title": "San Francisco",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [41.878114, -87.629798]},
+        "properties": { "title": "Chicago",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [33.748995, -84.387982]},
+        "properties": { "title": "Atlanta",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [45.501689, -73.567256]},
+        "properties": { "title": "Montreal",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [40.712784, -74.005941]},
+        "properties": { "title": "New York",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [38.907192, -77.036871]},
+        "properties": { "title": "Washington D.C.",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [51.507351, -0.127758]},
+        "properties": { "title": "London",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [40.416775, -3.703790]},
+        "properties": { "title": "Madrid",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [48.856614, 2.352222]},
+        "properties": { "title": "Paris",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [52.520007,13.404954]},
+        "properties": { "title": "Berlin",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [45.465422, 9.185924]},
+        "properties": { "title": "Milan",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [59.934280, 30.335099]},
+        "properties": { "title": "St. Petersburg",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [34.052234, -118.243685]},
+        "properties": { "title": "Los Angeles",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [19.432608, -99.133208]},
+        "properties": { "title": "Mexico City",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [25.761680, -80.19179]},
+        "properties": { "title": "Miami",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [4.710989, -74.072092]},
+        "properties": { "title": "Bogota",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-12.046374, -77.042793]},
+        "properties": { "title": "Lima",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-33.472788, -70.629831]},
+        "properties": { "title": "Santiago",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-34.603684, -58.381559]},
+        "properties": { "title": "Buenos Aires",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-23.550520, -46.633309]},
+        "properties": { "title": "Sao Paulo",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [6.524379, 3.379206]},
+        "properties": { "title": "Lagos",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-26.204103, 28.047305]},
+        "properties": { "title": "Johannesburg",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-4.441931, 15.266293]},
+        "properties": { "title": "Kinshasa",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [15.500654, 32.559899]},
+        "properties": { "title": "Khartoum",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [36.752887, 3.042048]},
+        "properties": { "title": "Algiers",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [30.044420, 31.235712]},
+        "properties": { "title": "Cairo",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [41.008238, 28.978359]},
+        "properties": { "title": "Istanbul",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [55.755826, 37.6173]},
+        "properties": { "title": "Moscow",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [33.312806, 44.361488]},
+        "properties": { "title": "Baghdad",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [25.005448, 46.544831]},
+        "properties": { "title": "Riyadh",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [35.689197, 51.388974]},
+        "properties": { "title": "Tehran",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [24.861462, 67.009939]},
+        "properties": { "title": "Karachi",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [19.075984, 72.877656]},
+        "properties": { "title": "Mumbai",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [21.566381, 73.220507]},
+        "properties": { "title": "Delhi",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [22.572646, 88.363895]},
+        "properties": { "title": "Kolkata",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [13.082680, 80.270718]},
+        "properties": { "title": "Chennai",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [39.904211, 116.407395]},
+        "properties": { "title": "Beijing",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [37.566535, 126.977969]},
+        "properties": { "title": "Seoul",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [35.689487, 139.691706]},
+        "properties": { "title": "Tokyo",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [31.230416, 121.473701]},
+        "properties": { "title": "Shanghai",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [22.396428, 114.109497]},
+        "properties": { "title": "Hong Kong",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [25.032969, 121.565418]},
+        "properties": { "title": "Taipei",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [34.693738, 135.502165]},
+        "properties": { "title": "Osaka",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [13.756331, 100.501765]},
+        "properties": { "title": "Bangkok",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-6.208763, 106.845599]},
+        "properties": { "title": "Jakarta",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [10.823099, 106.629664]},
+        "properties": { "title": "Ho Chi Minh City",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+      { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [14.599512, 120.984219]},
+        "properties": { "title": "Manila",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+       { "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-33.867487, 151.20699]},
+        "properties": { "title": "Sydney",
+                        "marker-size": "large",
+                        "marker-color": "#BE9A6B"
+                        }
+      },
+
+       ]
+     }
+
+
+
+
+

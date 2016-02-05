@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<base href="/" />
+		<title>Fullstack Academy Generated Application</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.css' rel='stylesheet' />
+		<link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="/style.css" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <script src="/lodash/index.js"></script>
+    <script src="/shuffle-array/dist/shuffle-array.js"></script>
+    <script src="/angular/angular.js"></script>
+    <script src="/angular-animate/angular-animate.js"></script>
+    <script src="/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/angular-ui-bootstrap/ui-bootstrap.js"></script>
+		<script src="/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+		<!-- Victor added firebase and angularfire -->
+				<!-- Firebase -->
+		<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+
+		<!-- AngularFire -->
+		<script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+		<script src="/socket.io-client/socket.io.js"></script>
+		<script src="/main.js"></script>
+    <style>
+      body { margin:0; padding:0; }
+      #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body ng-app="FullstackGeneratedApp">
+  <div class="container-fluid">
+      <div class="row">
+         <!--  <div class="col-sm-10 col-md-10"> -->
+              <div class="well" id="main" ui-view>
+                  <h1>
+                    Accordion Menu With Icon</h1>
+                    Admin Dashboard Accordion Menu
+              </div>
+          <!-- </div> -->
+          <!-- <div class="col-sm-2 col-md-2"> -->
+
+          <navbar></navbar>
+          <action-picker></action-picker>
+          <outbreak-level>Outbreak</outbreak-level>
+          <infection-rate>Infection</infection-rate>
+          <still-available></still-available>
+          <cures>Cures</cures>
+          <map></map>
+                   <!--  </div> -->
+      </div>
+  </div>
+  <!-- <div id="main" ui-view></div> -->
+  <script>
+  // $( document ).ready(function(){
+  //     jQuery( "a:contains(OpenStreetMap)" ).remove()
+  //     jQuery( "a:contains(Improve this map)" ).remove()
+  // })
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+#outbreak-level{
+  position: fixed;
+  top: 0px;
+  left: 24%;
+  display: inline-block;
+  text-align: center;
+	background: black;
+  color: white;
+  opacity: 0.8;
+	padding-bottom: 0;
+  padding-top: 0.25%;
+  padding-left: 2%;
+  padding-right: 2%;
+  line-height: 1.2em;
+  z-index: 2000;
+  span {
+    font-weight: 100;
+    font-size: 0.8em;
+    letter-spacing: 0.4em;
+  }
+
+}
