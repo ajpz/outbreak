@@ -4,10 +4,11 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 		if(gameState.currentPhase === "draw"){
 			for(let i=0; i<2; i++){
 				gameState = pickACard(gameState);
-        gameState.currentPhase = 'discard';
-			}
-		}else if(gameState.currentPhase === "infect"){
+      }
+      gameState.currentPhase = 'discard';
+		} else if(gameState.currentPhase === "infect"){
 			gameState = InfectionFactory.infect(gameState);
+      gameState.currentPhase = 'actions';
 		}
 		$rootScope.$broadcast('phaseChanged', gameState);
 
@@ -25,9 +26,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 		return gameState;
 	};
 
-	function discardACard(){
-
-	}
 	return function(){
 		console.log("the FlowFactory has been instantiated")
 	};
