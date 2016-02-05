@@ -1,4 +1,4 @@
-app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArray) {
+app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArray, $rootScope) {
 
   //TODO: change GameState to have cities array with key, not name
   //TODO: what does GameFactory inject?
@@ -14,7 +14,8 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
   };
 
   const addInfectionToACity = function(infectionCard, num, state, alreadyHit, outbreakColor) {
-
+    // console.log("\n\n\n\n\n HELLO WORLD")
+    // console.log(infectionCard)
     var color = outbreakColor || infectionCard.color,
         alreadyHit = alreadyHit || [],
         // target is a ref to GameFactory.cities.<cityKey> --> an object
@@ -41,9 +42,16 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
           addInfectionToACity(Cities[nextKey], 1, state, alreadyHit, color);
       });
     } else {
-      // else, simply increment color's virust count
-      console.log('\n\nADDING ONE ', color, ' INFECTION TO ', target.name);
-      target[color] += num;
+      // else, increment color's virus count
+      if(state.remainingCubes[color] > num && state.remainingCubes[color]>0){
+        // console.log('\n\nADDING ONE ', color, ' INFECTION TO ', target.key);
+        target[color] += num;
+        // console.log("\n\n\n\n\n Before infection", state.remainingCubes[color])
+        state.remainingCubes[color] -= num;
+        // console.log("\n\n\n\n\n After infection", state.remainingCubes[color])
+      }else{
+        state.status = 'gameOver';
+      }
     }
   };
 
@@ -59,7 +67,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       for (var infectionRate = 3, card; infectionRate > 0; infectionRate--) {
         for(var i = 0; i < 3; i++) {
           card = CardFactory.pickCardFromTop(state.infectionDeck);
-          console.log('check this card...... is it undefined during the dealing phase? ', card );
+          // console.log('check this card...... is it undefined during the dealing phase? ', card );
           addInfectionToACity(card, infectionRate, state);
           if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
           state.infectionDeckDiscard.push(card);
@@ -70,7 +78,10 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
     infect: function(state) {
       for(var i = 0, card; i < 2; i++) {
         let infectionRate = infectionLevelArray[state.infectionLevelIndex];
+        // console.log("\n\n\n\nSTATE")
+        // console.log(state)
         card = CardFactory.pickCardFromTop(state.infectionDeck);
+        // console.log("\n\n\n\n CARD "+card)
         addInfectionToACity(card, infectionRate, state);
         if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
         state.infectionDeckDiscard.push(card);
