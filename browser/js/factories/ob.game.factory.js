@@ -7,6 +7,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    * This link is currently from Victor's account.
    * Use your own for testing by making an account and  appending /gameState on to it
    */
+
    // homburger: 'https://radiant-fire-7882.firebaseio.com/outbreak'
    // ajpz:      'https://outbreaktest.firebaseio.com/outbreak'
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
@@ -63,9 +64,126 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     outbreak.$save()
   });
 
+  $rootScope.$on('phaseChanged', function(event, payload) {
+    for(let key in payload){
+      outbreak.gameState[key] = payload[key];
+    }
+    outbreak.$save()
+  });
+
   $rootScope.$on('discardCard', function(event, payload) {
-    console.log('heard discard...', payload);
+    //console.log('heard discard...', payload);
     outbreak.gameState = payload.updatedState;
+    outbreak.$save();
+  });
+
+  $rootScope.$on("go", function(event, payload) {
+    //console.log("in the goooooooooooo");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save()
+  });
+
+  // as you become more sure that this format of updating is the same,
+  // you can create a general $on event name
+  $rootScope.$on("treat", function(event, payload) {
+    //console.log("in the treat");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on("build", function(event, payload) {
+    //console.log("in the build in game factory");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on("giveTo", function(event, payload) {
+    //console.log("in the give to in game factory");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on("takeFrom", function(event, payload) {
+    //console.log("taking a card away in the gaming factory");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save();
+  });
+
+  $rootScope.$on("cureDisease", function(event, payload) {
+    //console.log("curing a disease");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save();
+  });
+
+  $rootScope.$on("undo", function(event, payload) {
+    //console.log("undoing now");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save();
+  });
+
+  $rootScope.$on("updateGamerTurn", function(event, payload) {
+    //console.log("changing turns");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save();
+  });
+
+  $rootScope.$on("changeToDraw", function(event, payload){
+    //console.log("change to draw phase");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
     outbreak.$save();
   });
 

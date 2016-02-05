@@ -1,15 +1,69 @@
-<div class="action-picker">
+<div class="action-picker" ng-show="(clientUser === gamers[turn].username) && (gameState.currentPhase==='actions')">
 <div class="slideButton">
   <button ng-click="slide()" class="slider btn"><span class="glyphicon glyphicon-triangle-{{ arrow }}"></span></button>
 </div>
 <div class="action-picker-inner" ng-show="gamers[turn].username === clientUser">
-  <!--<pre>{{ gameState | json }}</pre>-->
-  {{  gamers[turn].username | capitalize }}, please pick action {{ actionNumber }}
-  <div class="showClass">
-    <div ng-class="hideText">Hello in the show</div>
-    <!-- set opacity to 0 add class based on condition-->
+  <div class="introduction">
+    {{  gamers[turn].username | capitalize }}, the {{ gamers[turn].role }}, please pick action {{ actionNumber }}
   </div>
-  <button class="btn" ng-click="toggleDiv()">Execute</button>
+  <!--<div class="showClass">-->
+    <!--<div ng-class="hideText">Hello in the show</div>-->
+    <!--&lt;!&ndash; set opacity to 0 add class based on condition&ndash;&gt;-->
+  <!--</div>-->
+  <div>
+    <div>Make a move</div>
+    <div class="select_style">
+      <!--<label>-->
+        <!-- This ng-change method will kick off a response to update the next possible selection -->
+        <!--<input type="radio" name="verb" ng-change="notifySelectionVerb()"-->
+               <!--ng-model="selection.verb" value="{{verb}}">{{verb}}-->
+      <!--</label>-->
+      <label>
+        <select ng-change="notifySelectionVerb()" ng-model="selection.verb" >
+          <option disabled selected> -- select an option -- </option>
+          <!--ng-model="selection.verb"-->
+          <option  name="verb"  ng-repeat="verb in verbs"  value="{{verb}}">{{verb}}</option>
+        </select>
+      </label>
+      <span></span>
+    </div>
+    <!--My hard code drop down values-->
+    <!--<label>-->
+    <!--<input type="radio" name="verb" ng-change="notifySelectionVerb()"-->
+           <!--ng-model="selection.verb" value="treat">treat-->
+    <!--</label>-->
+    <!--<label>-->
+    <!--<input type="radio" name="verb" ng-change="notifySelectionVerb()"-->
+           <!--ng-model="selection.verb" value="build">build-->
+    <!--</label>-->
+    <!--<label>-->
+    <!--<input type="radio" name="verb" ng-change="notifySelectionVerb()"-->
+           <!--ng-model="selection.verb" value="giveCityCard">giveCityCard-->
+    <!--</label>-->
+    <!--<label>-->
+    <!--<input type="radio" name="verb" ng-change="notifySelectionVerb()"-->
+           <!--ng-model="selection.verb" value="takeCityCard">takeCityCard-->
+    <!--</label>-->
+    <!--<label>-->
+    <!--<input type="radio" name="verb" ng-change="notifySelectionVerb()"-->
+           <!--ng-model="selection.verb" value="cureDisease">cureDisease-->
+    <!--</label>-->
+  </div>
 
+  <div class="noun">
+    <div ng-show="selection.verb" class="select_style">
+      <!--<button>{{noun}}</button>-->
+      <select ng-change="selectNoun()" ng-model="selection.noun">
+        <option value="{{noun}}" ng-repeat="noun in nouns track by $index">{{ noun }}</option>
+      </select>
+      <span></span>
+    </div>
+
+  </div>
+
+
+
+  <button class="btn" ng-disabled="selection.verb ==='' || selection.noun === ''" ng-click="execute()">Execute</button>
+  <button class="btn" ng-show="storedStates.length > 0" ng-click="undo()">Undo</button>
 </div>
 </div>
