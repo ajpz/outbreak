@@ -1,4 +1,13 @@
-app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state, Roles) {
+
+app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
+    $uibTooltipProvider.setTriggers({
+        'click': 'outsideClick'
+    });
+}]);
+
+
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, Roles, $sce) {
+
   return {
     restrict: 'E',
     templateUrl: 'js/directives/navbar/navbar.html',
@@ -16,6 +25,24 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state, R
         }
         return newArr;
       }
+      scope.dynamicTooltipText = 'dynamic';
+      scope.htmlTooltip = $sce.trustAsHtml('I\'ve been made <b>bold</b>!');
+
+
+      // $(function(){
+      //     $('[data-toggle=tooltip]').hover(function(){
+      //         // on mouseenter
+      //         $(this).tooltip('show');
+      //     }, function(){
+      //         // on mouseleave
+      //         $(this).tooltip('hide');
+      //     });
+      // });
+
+      // $(function () {
+      //   $('[data-toggle="tooltip"]').tooltip({delay: 0})
+      // })
+
 
       $rootScope.$on('stateChange', function(event, fbData) {
 
@@ -41,7 +68,8 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state, R
           }).map(function(other) {
             other.roleName = Roles[other.role].name;
             other.icon = Roles[other.role].icon;
-            if (other.hand) {
+            other.tooltip = Roles[other.role].ability;
+            if(other.hand) {
               other.chunkedData = chunk(other.hand, 2);
             };
             return other;
@@ -51,6 +79,13 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state, R
           scope.owner = payload.gamers[myIndex];
           scope.owner.roleName = Roles[scope.owner.role].name;
           scope.owner.icon = Roles[scope.owner.role].icon;
+          scope.owner.tooltip = Roles[scope.owner.role].ability;
+
+          scope.turnBelongsTo = function(role){
+            console.log(role, "role")
+            console.log(payload.gamers[payload.gamerTurn].role, "matches?")
+            return (role === payload.gamers[payload.gamerTurn].role);
+          }
         }
       });
 

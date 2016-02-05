@@ -13,10 +13,33 @@
 }
 a {
   img {
-    padding: none;
     float: right;
+    padding-right: 2%;
+    z-index: 2000;
   }
+  cursor: default;
 }
+#arrowWidget {
+
+   z-index: 2000;
+   margin-left: -12%;
+   color: chartreuse;
+   float: left;
+   clear: none;
+}
+
+#currentCity {
+    float: right;
+    clear: right;
+    display: block;
+    font-size: 0.8em;
+    font-weight: 100;
+    letter-spacing: 0.1em;
+    padding-top: 1%;
+    /*text-align: bottom;*/
+    color: white;
+  }
+
 #table-row{
   padding-top: 0px;
   padding-bottom: 0px;
@@ -25,6 +48,7 @@ a {
 .panel-title {
   border: none;
   text-decoration: none;
+  clear: none;
 }
 .list-group-item {
   padding: none;
