@@ -1,6 +1,7 @@
 app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 	$rootScope.$on("stateChange", function(event, payload){
 		let gameState = payload.gameState;
+
 		if(gameState.currentPhase === "draw"){
 			for(let i=0; i<2; i++){
 				gameState = pickACard(gameState);
