@@ -16,7 +16,7 @@ gameState.infectionDeck = []; // array of card objects // will need to use the c
 gameState.infectionDeckDiscard = [];
 gameState.isCured = {red : false, blue : false, yellow : false, black : false };
 gameState.isEradicated = {red : false, blue : false, yellow : false, black : false };
-gameState.outbreakLevel  = 0;
+gameState.outbreakLevel  = 1;
 gameState.infectionLevelIndex = 0;
 gameState.researchCenterLocations = ['atlanta'];
 gameState.gamerTurn = 0; // will need to set the player to be based on what is the next of this
@@ -316,7 +316,7 @@ gameState.cities =  [
     black: 0
   },
   {
-    name: 'Osaka',
+    key: 'osaka',
     red: 0,
     yellow: 0,
     blue: 0,

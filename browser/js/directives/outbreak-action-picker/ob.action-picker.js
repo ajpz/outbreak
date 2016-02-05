@@ -203,13 +203,13 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         } else if (directFlightKeys.includes(info.noun)) {
 
           packet.gamers = scope.gamers;
-          let indexOfCard = packet.gamers[scope.turn].hands.findIndex(function(card){
+          let indexOfCard = packet.gamers[scope.turn].hand.findIndex(function(card){
             if (card.key === info.noun){
               return true;
             }
           });
           // remove the the card from the user's hand
-          packet.gamers[scope.turn].hands.splice(indexOfCard, 1);
+          packet.gamers[scope.turn].hand.splice(indexOfCard, 1);
           // move user current city
           packet.gamers[scope.turn].currentCity = info.noun;
           $rootScope.$broadcast("go", packet);
