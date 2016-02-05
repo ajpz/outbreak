@@ -46,6 +46,9 @@ a {
     &.red {
       background-color: rgb(168, 56, 59);
     }
+    &.green {
+      background-color: rgb(15, 61, 15);
+    }
   }
 }
 
@@ -61,6 +64,9 @@ a {
     }
   button.red {
       background-color: rgb(168, 56, 59);
+    }
+  button.green {
+      background-color: rgb(15, 61, 15);
     }
 }
 
