@@ -1,4 +1,4 @@
-app.directive('actionPicker', function($rootScope, ActionFactory) {
+app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
   return {
     restrict : 'E',
     templateUrl : 'js/directives/outbreak-action-picker/ob.action-picker.html',
@@ -198,6 +198,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
           // move the current user to the new location
           packet.gamers = scope.gamers;
           packet.gamers[scope.turn].currentCity = info.noun;
+          packet.message = "User \'"+scope.gameState.gamers[scope.turn].username+"\' drove to "+Cities[info.noun].name+"."
           $rootScope.$broadcast("go", packet);
 
         } else if (directFlightKeys.includes(info.noun)) {
@@ -208,6 +209,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
               return true;
             }
           });
+          packet.message = "User \'"+scope.gameState.gamers[scope.turn].username+"\' took a direct flight to "+Cities[info.noun].name+"."
           // remove the the card from the user's hand
           packet.gamers[scope.turn].hand.splice(indexOfCard, 1);
           // move user current city
@@ -227,6 +229,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
           packet.gamers[scope.turn].hand.splice(indexOfCard, 1);
           // move user current city
           packet.gamers[scope.turn].currentCity = info.noun;
+          packet.message = "User \'"+scope.gameState.gamers[scope.turn].username+"\' took a charter flight to "+Cities[info.noun].name+"."
           $rootScope.$broadcast("go", packet);
 
         } else if (shuttleFlightKeys.includes(info.noun)){
@@ -234,6 +237,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
           // move the current user to the new location
           packet.gamers = scope.gamers;
           packet.gamers[scope.turn].currentCity = info.noun;
+          packet.message = "User \'"+scope.gameState.gamers[scope.turn].username+"\' took a shuttle flight to "+Cities[info.noun].name+"."
           $rootScope.$broadcast("go", packet);
         }
       }
@@ -251,8 +255,11 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         let color = nounSeparate[0].trim();
         let numberToCure = parseInt(nounSeparate[1].trim(), 10);
         particularCityToCure[color] = particularCityToCure[color] - numberToCure;
+        let formattedCityName = Cities[particularCityToCure.key].name;
         scope.gameState.cities[indexInCities] = particularCityToCure; // update the state to send to gameState
         packet.cities = scope.gameState.cities;
+        packet.message = "User: \'"+scope.gamers[scope.turn].username+"\' just treated "+numberToCure+" "+color+" infection(s) in "+formattedCityName;
+        // $rootScope.$broadcast('treatedCity', dataToBroadcast)
         $rootScope.$broadcast("treat", packet);
       }
 
@@ -266,6 +273,8 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         console.log(info);
         scope.gameState.researchCenterLocations.push(scope.gamers[scope.turn].currentCity);
         packet.researchCenterLocations  = scope.gameState.researchCenterLocations;
+        packet.message = "User \'"+scope.gameState.gamers[scope.turn].username + "\' just built a research center in "+scope.gamers[scope.turn].currentCity+".";
+
         $rootScope.$broadcast("build", packet);
       }
 
@@ -295,6 +304,10 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
             return true;
           }
         });
+        console.log("\n\n\n\n\n\n"+cityCardToGive)
+        let formattedCityName = Cities[cityCardToGive].name;
+
+        packet.message = 'User \''+scope.gameState.gamers[scope.turn].username +'\' gave the \''+formattedCityName +'\' city card to user \''+ scope.gameState.gamers[indexOfPlayer].username+'.\'';
         scope.gameState.gamers[indexOfPlayer].hand.push(cardToSwitch);
         packet.gamers = scope.gameState.gamers;
         $rootScope.$broadcast("giveTo", packet);
@@ -318,12 +331,13 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
             return true;
           }
         });
-
+        let formattedCityName = Cities[cityCardToTake].name;
         // take the card away
         let card = scope.gameState.gamers[indexOfGamerToTakeFrom].hand.splice(indexOfCard, 1)[0];
         // give to the current player hand
         scope.gameState.gamers[scope.turn].hand.push(card);
         packet.gamers = scope.gameState.gamers;
+        packet.message = 'User \''+scope.gameState.gamers[scope.turn].username +'\' took the \''+formattedCityName +'\' city card from user \''+ scope.gameState.gamers[indexOfGamerToTakeFrom].username +'.\'';
         $rootScope.$broadcast("takeFrom", packet);
       }
 
@@ -331,6 +345,7 @@ app.directive('actionPicker', function($rootScope, ActionFactory) {
         let colorToCure = info.noun;
         scope.gameState.isCured[colorToCure] = true;
         let packet = {isCured : scope.gameState.isCured};
+        packet.message = "User \'"+ scope.gameState.gamers[scope.turn].username + "\' just cured "+ colorToCure;
         $rootScope.$broadcast("cureDisease", packet);
       }
 
