@@ -12,10 +12,6 @@ app.config(function($stateProvider) {
           }
         });
 
-        $rootScope.$on('treatedCity', function(event, payload){
-          treatACityToast(payload)
-        })
-
         $rootScope.$on('badClick', function(event, payload) {
             ngToast.create({
               className: 'danger',
@@ -23,6 +19,21 @@ app.config(function($stateProvider) {
               dismissOnTimeout: true,
               timeout: 4000,
               dismissButton: true,
+              animation: 'fade',
+              horizontalPostion: 'right',
+              veritcalPosition: 'top'
+            });
+        });
+
+        $rootScope.$on('drawCard', function(event, payload) {
+
+
+            ngToast.create({
+              className: payload.className,
+              content: '<img src="' + payload.cardFront + '"/>',
+              dismissOnTimeout: true,
+              timeout: 4000,
+              // dismissButton: true,
               animation: 'fade',
               horizontalPostion: 'right',
               veritcalPosition: 'top'

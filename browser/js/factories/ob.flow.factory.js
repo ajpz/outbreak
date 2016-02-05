@@ -2,7 +2,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 	$rootScope.$on("stateChange", function(event, payload){
 		let gameState = payload.gameState;
 		if(gameState.currentPhase === "draw"){
-      alert('DRAW PHASE SEEN IN FLOWFACTORY')
 			for(let i=0; i<2; i++){
 				gameState = pickACard(gameState);
       }
@@ -30,11 +29,13 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 		if(newCard.type === "epidemicCard"){
       alert('THERE WAS AN EPIDEMIC!')
 			gameState = InfectionFactory.epidemic(gameState);
+      $rootScope.$broadcast('drawCard', {className: 'danger', cardImage: newCard.cardFront })
 		}else{
 			let currentTurn = gameState.gamerTurn;
 			gameState.gamers[currentTurn].hand.push(newCard);
+      $rootScope.$broadcast('drawCard', {className: 'success', cardImage: newCard.type === 'cityCard' ? newCard.cityCardFront : newCard.cardFront })
 		}
-		return gameState;
+  	return gameState;
 	};
 
 	return function(){
