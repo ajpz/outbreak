@@ -6,11 +6,18 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 				gameState = pickACard(gameState);
       }
       gameState.currentPhase = 'discard';
-		} else if(gameState.currentPhase === "infect"){
-			gameState = InfectionFactory.infect(gameState);
+      $rootScope.$broadcast('phaseChanged', gameState);
+		} else if (gameState.currentPhase === "discard") {
+      if(gameState.gamers[gameState.gamerTurn].hand.length <= 7) {
+        gameState.currentPhase = 'infect';
+        $rootScope.$broadcast('phaseChanged', gameState);
+      }
+    } else if(gameState.currentPhase === "infect"){
+      gameState = InfectionFactory.infect(gameState);
       gameState.currentPhase = 'actions';
+      gameState.gamerTurn = (gamerState.gamerTurn + 1) % 4;
+      $rootScope.$broadcast('phaseChanged', gameState);
 		}
-		$rootScope.$broadcast('phaseChanged', gameState);
 
 	});
 

@@ -57,6 +57,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       for (var infectionRate = 3, card; infectionRate > 0; infectionRate--) {
         for(var i = 0; i < 3; i++) {
           card = CardFactory.pickCardFromTop(state.infectionDeck);
+          console.log('check this card...... is it undefined during the dealing phase? ', card );
           addInfectionToACity(card, infectionRate, state);
           if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
           state.infectionDeckDiscard.push(card);
