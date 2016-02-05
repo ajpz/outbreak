@@ -268,13 +268,22 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       // of research center that you can build
       // you are on your current city and there is nothing here and you want to build a research center
       function broadcastBuildResearchCenter(info) {
+        // to build a ressearch center, you need to remove the card of that city card from your hand too
         let packet = {};
         console.log("building a research center in this city");
         console.log(info);
-        scope.gameState.researchCenterLocations.push(scope.gamers[scope.turn].currentCity);
-        packet.researchCenterLocations  = scope.gameState.researchCenterLocations;
-        packet.message = "User \'"+scope.gameState.gamers[scope.turn].username + "\' just built a research center in "+scope.gamers[scope.turn].currentCity+".";
+        let cardIndex = scope.gamers[scope.turn].hand.findIndex(function(card) {
+          if (card.key === scope.gamers[scope.turn].currentCity) {
+            return true;
+          }
+        });
 
+        let card = scope.gamers[scope.turn].hand.splice(cardIndex, 1);
+        scope.gameState.researchCenterLocations.push(card.key);
+        packet.researchCenterLocations  = scope.gameState.researchCenterLocations;
+        // since there is a user whose hand gets changed. - re issue #83
+        packet.gamers = scope.gamers;
+        packet.message = "User \'"+scope.gameState.gamers[scope.turn].username + "\' just built a research center in "+scope.gamers[scope.turn].currentCity+".";
         $rootScope.$broadcast("build", packet);
       }
 
@@ -304,7 +313,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             return true;
           }
         });
-        console.log("\n\n\n\n\n\n"+cityCardToGive)
+        console.log("\n\n\n\n\n\n"+cityCardToGive);
         let formattedCityName = Cities[cityCardToGive].name;
 
         packet.message = 'User \''+scope.gameState.gamers[scope.turn].username +'\' gave the \''+formattedCityName +'\' city card to user \''+ scope.gameState.gamers[indexOfPlayer].username+'.\'';
