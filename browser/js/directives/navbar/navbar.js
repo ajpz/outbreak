@@ -17,63 +17,6 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           return newArr;
       }
 
-      // let payload = {
-      //   gamerTurn: 2,
-      //   gamers: [{
-      //       username : 'victor',
-      //       role : 'medic',
-      //       currentCity : 'atlanta',
-      //       hand : [
-      //         {type: 'cityCard', key: 'chicago', name: 'Chicago', color: 'blue'},
-      //         {type: 'cityCard', key: 'sanFrancisco', name: 'San Francisco', color: 'yellow'},
-      //         {type: 'cityCard', key: 'london', name: 'London', color: 'red'},
-      //         {type: 'cityCard', key: 'madrid', name: 'Madrid', color: 'black'},
-      //         {type: 'cityCard', key: 'paris', name: 'Paris', color: 'blue'}
-      //       ]
-      //     },
-
-      //     {
-      //       username : 'jonathan',
-      //       role : 'researcher',
-      //       currentCity : 'atlanta',
-      //       hand : [
-      //         {type: 'cityCard', key: 'chicago', name: 'Chicago', color: 'blue'},
-      //         {type: 'cityCard', key: 'sanFrancisco', name: 'San Francisco', color: 'blue'},
-      //         {type: 'cityCard', key: 'london', name: 'London', color: 'blue'},
-      //         {type: 'cityCard', key: 'madrid', name: 'Madrid', color: 'blue'},
-      //         {type: 'cityCard', key: 'paris', name: 'Paris', color: 'blue'}
-      //       ]
-      //     },
-
-      //     {
-      //       username : 'julie',
-      //       role : 'scientist',
-      //       currentCity : 'atlanta',
-      //       hand : [
-      //         {type: 'cityCard', key: 'chicago', name: 'Chicago', color: 'blue'},
-      //         {type: 'cityCard', key: 'sanFrancisco', name: 'San Francisco', color: 'yellow'},
-      //         {type: 'cityCard', key: 'london', name: 'London', color: 'red'},
-      //         {type: 'cityCard', key: 'madrid', name: 'Madrid', color: 'black'},
-      //         {type: 'cityCard', key: 'paris', name: 'Paris', color: 'blue'}
-      //       ]
-      //     },
-
-      //     {
-      //       username : 'daniel',
-      //       role : 'operationsExpert',
-      //       currentCity : 'atlanta',
-      //       hand : [
-      //         {type: 'cityCard', key: 'chicago', name: 'Chicago', color: 'blue'},
-      //         {type: 'cityCard', key: 'sanFrancisco', name: 'San Francisco', color: 'blue'},
-      //         {type: 'cityCard', key: 'london', name: 'London', color: 'blue'},
-      //         {type: 'cityCard', key: 'madrid', name: 'Madrid', color: 'blue'},
-      //         {type: 'cityCard', key: 'paris', name: 'Paris', color: 'blue'}
-      //       ]
-      //     }
-      //   ]
-      // };
-
-
       $rootScope.$on('stateChange', function(event, fbData) {
 
         localCopyOfState = _.cloneDeep(fbData.gameState);
@@ -131,7 +74,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
             $rootScope.$broadcast('discardCard', {updatedState: localCopyOfState});
           } else {
-            alert("You can't click this!")
+            $rootScope.$broadcast('badClick', {error: "badClick"})
           }
         }
       };

@@ -1,0 +1,21 @@
+{
+  "name": "outbreak",
+  "description": "A MEAN-stack version of Pandemic",
+  "main": "server/start.js",
+  "authors": [
+    "Leon Thorne <ldthorne@brandeis.edu>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ajpz/outbreak",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ngToast": "ngtoast#~1.5.6"
+  }
+}
