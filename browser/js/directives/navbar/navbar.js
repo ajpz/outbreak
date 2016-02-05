@@ -22,7 +22,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
       //   gamers: [{
       //       username : 'victor',
       //       role : 'medic',
-      //       currentCity : 'atlanta',
+      //       currentCity : 'beijing',
       //       hand : [
       //         {type: 'cityCard', key: 'chicago', name: 'Chicago', color: 'blue'},
       //         {type: 'cityCard', key: 'sanFrancisco', name: 'San Francisco', color: 'yellow'},
@@ -108,6 +108,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           scope.owner = payload.gamers[myIndex];
           scope.owner.roleName = Roles[scope.owner.role].name;
           scope.owner.icon = Roles[scope.owner.role].icon;
+          scope.owner.ability = Roles[scope.owner.role].ability;
         }
       });
 

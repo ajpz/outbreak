@@ -13,10 +13,23 @@
 }
 a {
   img {
-    padding: none;
     float: right;
+    padding-right: 2%;
   }
+
 }
+
+#currentCity {
+    float: right;
+    clear: right;
+    display: block;
+    font-weight: 100;
+    letter-spacing: 0.1em;
+    padding-top: 1%;
+    /*text-align: bottom;*/
+    color: white;
+  }
+
 #table-row{
   padding-top: 0px;
   padding-bottom: 0px;
