@@ -1,9 +1,19 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div class="panel panel-default" id="slide-submenu" ng-repeat="other in others">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{$index+1}}">
+            <span id="arrowWidget" ng-show="turnBelongsTo({{other.roleName}})"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
-                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-controls="collapseListGroup1"><strong>{{other.username}}</strong><img ng-src="{{other.icon}}" height="30"/><br /><i>{{other.roleName}}</i></a>
+                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-controls="collapseListGroup1"><strong>{{other.username}}</strong></a>
+                <span uib-tooltip="{{other.tooltip}}" tooltip-is-open="tooltipIsOpen"
+                tooltip-placement="left-bottom"></span>
+                  <a ng-click="tooltipIsOpen = !tooltipIsOpen" tooltip-animation="true">
+                    <img ng-src="{{other.icon}}" height="30"/><br />
+                  <i>{{other.roleName}}</i><span id="currentCity">{{other.currentCity}}</span></a>
+
             </h4>
+            <script type="text/ng-template" id="myTooltipTemplate.html">
+                <span>Special Tooltip with <strong>markup</strong> and {{ dynamicTooltipText }}</span>
+            </script>
         </div>
         <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
             <div id="table-row" class="list-group-item" ng-repeat="row in other.chunkedData">
@@ -15,27 +25,40 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{others.length + 1}}">
+            <span id="arrowWidget" ng-show="turnBelongsTo({{owner.roleName}})"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
-                <a data-parent="#accordion" ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-controls="collapseListGroup4"><strong>{{owner.username}}</strong>
-                  <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i></a>
+                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup4"><strong>{{owner.username}}</strong></a>
+                  <span uib-tooltip="{{owner.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="left-bottom"></span>
+                  <a ng-click="tooltipIsOpen = !tooltipIsOpen" tooltip-animation="true">
+                  <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i><span id="currentCity">{{owner.currentCity}}</span></a>
                 </h4>
         </div>
-        <div ng-attr-id="collapseListGroup4" class="" role="tabpanel" aria-labelledby="collapseListGroupHeading4">
+        <div ng-attr-id="collapseListGroup{{others.length + 1}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading{{others.length + 1}}">
             <ul class="list-group">
                 <li class="list-group-item" id="low-padding" ng-repeat="card in owner.hand">
                     <button class="ng-class: card.color" ng-click="cardAction(this)">{{card.name}}</button>
                 </li>
             </ul>
-            <ul class="panel-footer">
-                <li><strong>PROPOSED MOVES:</strong></li>
-                <li>1. Move to London</li>
-                <li>2. Build Research Center</li>
-                <li>3. Move to Madrid</li>
-                <li>4. Treat blue disease</li>
-            </ul>
+
         </div>
     </div>
 </div>
+// <script>
+// $(function () {
+//   $('[data-toggle="tooltip"]').tooltip()
+// })
+// </script>
+
+<!--
+                <li>ACTIONS:</li>
+                <li>Move to a city connected by a white line</li>
+                <li>Discard a City card to move to the city on the card.</li>
+                <li>Discard the City card of your current city to move to any city.</li>
+                <li>Move from a Research Center to any other Research Center</li>
+                <li>Discard the City card of your current city to build a Research Center there.</li>
+                <li>Remove 1 Disease unit from your current city. If this color is cured, remove all of that disease from the city.</li>
+                <li>When you are in a city with another player, give that City card to the other player, or take it from them.</li>
+                <li>At any Research Center, discard 5 City cards of the same disease color to cure that disease.</li> -->
 <!-- <div class="container">
     <div class="row">
         <div class="col-xs-12">
