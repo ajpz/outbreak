@@ -1,9 +1,19 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div class="panel panel-default" id="slide-submenu" ng-repeat="other in others">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{$index+1}}">
+            <span id="arrowWidget" ng-show="turnBelongsTo({{other.roleName}})"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
-                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-controls="collapseListGroup1"><strong>{{other.username}}</strong><img ng-src="{{other.icon}}" height="30"/><br /><i>{{other.roleName}}</i><span id="currentCity">{{other.currentCity}}</span></a>
+                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-controls="collapseListGroup1"><strong>{{other.username}}</strong></a>
+                <span uib-tooltip="{{other.tooltip}}" tooltip-is-open="tooltipIsOpen"
+                tooltip-placement="left-bottom"></span>
+                  <a ng-click="tooltipIsOpen = !tooltipIsOpen" tooltip-animation="true">
+                    <img ng-src="{{other.icon}}" height="30"/><br />
+                  <i>{{other.roleName}}</i><span id="currentCity">{{other.currentCity}}</span></a>
+
             </h4>
+            <script type="text/ng-template" id="myTooltipTemplate.html">
+                <span>Special Tooltip with <strong>markup</strong> and {{ dynamicTooltipText }}</span>
+            </script>
         </div>
         <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
             <div id="table-row" class="list-group-item" ng-repeat="row in other.chunkedData">
@@ -15,6 +25,7 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{others.length + 1}}">
+            <span id="arrowWidget" ng-show="turnBelongsTo({{owner.roleName}})"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
                 <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup4"><strong>{{owner.username}}</strong>
                   <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i><span id="currentCity">{{owner.currentCity}}</span></a>
@@ -26,13 +37,15 @@
                     <button class="ng-class: card.color" ng-click="cardAction(this)">{{card.name}}</button>
                 </li>
             </ul>
-            <!-- <ul class="panel-footer">
-                <li>{{owner.ability}}</li>
-            </ul> -->
+
         </div>
     </div>
 </div>
-
+// <script>
+// $(function () {
+//   $('[data-toggle="tooltip"]').tooltip()
+// })
+// </script>
 
 <!--
                 <li>ACTIONS:</li>
