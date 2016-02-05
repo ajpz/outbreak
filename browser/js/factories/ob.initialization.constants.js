@@ -316,7 +316,7 @@ gameState.cities =  [
     black: 0
   },
   {
-    name: 'Osaka',
+    key: 'osaka',
     red: 0,
     yellow: 0,
     blue: 0,
