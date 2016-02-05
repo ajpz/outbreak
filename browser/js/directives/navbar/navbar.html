@@ -27,7 +27,9 @@
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{others.length + 1}}">
             <span id="arrowWidget" ng-show="turnBelongsTo({{owner.roleName}})"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
-                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup4"><strong>{{owner.username}}</strong>
+                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup4"><strong>{{owner.username}}</strong></a>
+                  <span uib-tooltip="{{owner.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="left-bottom"></span>
+                  <a ng-click="tooltipIsOpen = !tooltipIsOpen" tooltip-animation="true">
                   <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i><span id="currentCity">{{owner.currentCity}}</span></a>
                 </h4>
         </div>
