@@ -14,8 +14,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
   };
 
   const addInfectionToACity = function(infectionCard, num, state, alreadyHit, outbreakColor) {
-    // console.log("\n\n\n\n\n HELLO WORLD")
-    // console.log(infectionCard)
+    console.log('\n\n\n infectionCard.key is ', infectionCard.key)
     var color = outbreakColor || infectionCard.color,
         alreadyHit = alreadyHit || [],
         // target is a ref to GameFactory.cities.<cityKey> --> an object
@@ -26,7 +25,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
                   })[0];
     // check to see if the target has 3 of the given color --> outbreak?
     if(target[color] === 3) {
-      alert('EPIDEMIC YO! EPIDEMIC YO! EPIDEMIC YO!')
+      alert('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.city)
       // add the current key, i.e. newYork, to the alreadyHit array
       // to prevent outbreaks from looping recursively
       alreadyHit.push(target.key);
@@ -76,16 +75,15 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       return state;
     },
     infect: function(state) {
-      for(var i = 0, card; i < 2; i++) {
+      // for(var i = 0, card; i < 2; i++) {
         let infectionRate = infectionLevelArray[state.infectionLevelIndex];
-        // console.log("\n\n\n\nSTATE")
-        // console.log(state)
-        card = CardFactory.pickCardFromTop(state.infectionDeck);
-        // console.log("\n\n\n\n CARD "+card)
+        var card = CardFactory.pickCardFromTop(state.infectionDeck);
+        console.log('INFECTION FATORY INFECT DREW CARD', card)
         addInfectionToACity(card, infectionRate, state);
         if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
         state.infectionDeckDiscard.push(card);
-      }
+        state.drawnInfections.push(card);
+      // }
       return state;
     },
     epidemic: function(state) {

@@ -82,8 +82,6 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           scope.owner.tooltip = Roles[scope.owner.role].ability;
 
           scope.turnBelongsTo = function(role){
-            console.log(role, "role")
-            console.log(payload.gamers[payload.gamerTurn].role, "matches?")
             return (role === payload.gamers[payload.gamerTurn].role);
           }
         }
@@ -91,14 +89,12 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
 
       scope.cardAction = function(_this) {
-        console.log('Clicking')
           //currentPhase = 'discard'
         if (localCopyOfState.currentPhase === 'discard' && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
-          console.log('Clicking')
+
 
           // discard phase and it is this user's turn
           if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 7) {
-            console.log('Clicking')
 
             // remove card selected from hand
             var hand = localCopyOfState.gamers[localCopyOfState.gamerTurn].hand;
@@ -112,6 +108,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
               localCopyOfState.gamerTurn = (localCopyOfState.gamerTurn + 1) % 4;
             }
 
+            // $rootScope.$broadcast('discardCardChosen', {discard: _this.card});
             $rootScope.$broadcast('discardCard', {
               updatedState: localCopyOfState
             });

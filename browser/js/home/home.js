@@ -12,10 +12,6 @@ app.config(function($stateProvider) {
           }
         });
 
-        $rootScope.$on('treatedCity', function(event, payload){
-          treatACityToast(payload)
-        })
-
         $rootScope.$on('badClick', function(event, payload) {
             ngToast.create({
               className: 'danger',

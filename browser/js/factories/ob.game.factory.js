@@ -13,7 +13,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
-  const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/');
+  const ref = new Firebase('https://otterbreak.firebaseio.com/');
   let outbreak  = $firebaseObject(ref);
   FlowFactory();
 
@@ -63,6 +63,27 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
 
   $rootScope.$on("counter", function(event, payload) {
     for (let key in payload) {
+      outbreak.gameState[key] = payload[key];
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on('saveDrawnCard', function(event, payload){
+    for(let key in payload){
+      outbreak.gameState[key] = payload[key];
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on('saveDiscardCard', function(event, payload){
+    for(let key in payload){
+      outbreak.gameState[key] = payload[key];
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on('saveInfectionCard', function(event, payload){
+    for(let key in payload){
       outbreak.gameState[key] = payload[key];
     }
     outbreak.$save()
