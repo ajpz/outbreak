@@ -14,7 +14,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/');
-
   let outbreak  = $firebaseObject(ref);
   FlowFactory();
 
@@ -179,6 +178,19 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on("changeToDraw", function(event, payload){
+    //console.log("change to draw phase");
+    for(let key in payload){
+      if (outbreak.gameState.hasOwnProperty(key)){
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save();
+  });
+
+  $rootScope.$on("medicAbility", function(event, payload) {
+    console.log("this is the medic ability")
     //console.log("change to draw phase");
     for(let key in payload){
       if (outbreak.gameState.hasOwnProperty(key)){
