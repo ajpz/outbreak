@@ -1,4 +1,7 @@
 <div ng-show="true">
-  <img class="cardFront" ng-repeat="cardImage in cardImages" ng-src="cardImage"/>
-  <p>HELLO FRIEND</p>
+  <div class="cardcontainer">
+    <span>Drawing 2 player cards:</span>
+    <img class="cardfront" ng-repeat="cardImage in cardImages" src="{{cardImage}}" height="300px"/>
+  </div>
+
 </div>
