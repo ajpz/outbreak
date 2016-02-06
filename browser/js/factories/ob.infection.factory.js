@@ -68,13 +68,14 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       return state;
     },
     infect: function(state) {
-      for(var i = 0, card; i < 2; i++) {
+      // for(var i = 0, card; i < 2; i++) {
         let infectionRate = infectionLevelArray[state.infectionLevelIndex];
         card = CardFactory.pickCardFromTop(state.infectionDeck);
         addInfectionToACity(card, infectionRate, state);
         if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
         state.infectionDeckDiscard.push(card);
-      }
+        state.drawnInfections.push(card);
+      // }
       return state;
     },
     epidemic: function(state) {

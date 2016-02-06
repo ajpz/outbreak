@@ -108,6 +108,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
               localCopyOfState.gamerTurn = (localCopyOfState.gamerTurn + 1) % 4;
             }
 
+            // $rootScope.$broadcast('discardCardChosen', {discard: _this.card});
             $rootScope.$broadcast('discardCard', {
               updatedState: localCopyOfState
             });

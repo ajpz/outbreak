@@ -74,6 +74,20 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     outbreak.$save()
   });
 
+  $rootScope.$on('saveDiscardCard', function(event, payload){
+    for(let key in payload){
+      outbreak.gameState[key] = payload[key];
+    }
+    outbreak.$save()
+  });
+
+  $rootScope.$on('saveInfectionCard', function(event, payload){
+    for(let key in payload){
+      outbreak.gameState[key] = payload[key];
+    }
+    outbreak.$save()
+  });
+
   $rootScope.$on('phaseChanged', function(event, payload) {
     for(let key in payload){
       outbreak.gameState[key] = payload[key];

@@ -15,6 +15,7 @@ gameState.playerDeckDiscard = [];
 gameState.infectionDeck = []; // array of card objects // will need to use the card Factory
 gameState.infectionDeckDiscard = [];
 gameState.drawnCards = [];
+gameState.drawnInfections = [];
 gameState.message = "Welcome to Outbreak!"
 gameState.isCured = {red : false, blue : false, yellow : false, black : false };
 gameState.isEradicated = {red : false, blue : false, yellow : false, black : false };
