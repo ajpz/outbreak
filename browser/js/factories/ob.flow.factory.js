@@ -102,7 +102,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 
 
 
-
 		// let gameState = payload.gameState;
 		// if(gameState.currentPhase === "draw"){
   //     alert('DRAW PHASE SEEN IN FLOWFACTORY')
