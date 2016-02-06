@@ -7,6 +7,7 @@ app.directive('showCard', function($rootScope) {
 
       scope.isCurrentlyDrawPhase = false;
       scope.cardImages = [];
+      scope.drawInfection = false;
 
       // $rootScope.$on('stateChange', function(event, payload) {
 
