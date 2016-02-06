@@ -25,23 +25,6 @@ app.config(function($stateProvider) {
             });
         });
 
-        $rootScope.$on('drawCard', function(event, payload) {
-
-            var html = '<img src="' + payload.cardFront + '"/>';
-            console.log("html is ", html);
-
-            ngToast.create({
-              className: payload.className,
-              content: html,
-              dismissOnTimeout: true,
-              timeout: 4000,
-              // dismissButton: true,
-              animation: 'fade',
-              horizontalPostion: 'right',
-              veritcalPosition: 'top'
-            });
-        });
-
         function createStateChangeToast(message){
             ngToast.create({
               className: 'success',

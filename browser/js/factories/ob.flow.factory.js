@@ -30,12 +30,12 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 		if(newCard.type === "epidemicCard"){
       alert('THERE WAS AN EPIDEMIC!')
 			gameState = InfectionFactory.epidemic(gameState);
-      $rootScope.$broadcast('drawCard', {className: 'danger', cardImage: newCard.cardFront })
 		}else{
 			let currentTurn = gameState.gamerTurn;
 			gameState.gamers[currentTurn].hand.push(newCard);
-      $rootScope.$broadcast('drawCard', {className: 'success', cardImage: newCard.type === 'cityCard' ? newCard.cityCardFront : newCard.cardFront })
+
 		}
+    $rootScope.$broadcast('drawCard', {cardImage: newCard.cardFront });
   	return gameState;
 	};
 
