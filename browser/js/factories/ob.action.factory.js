@@ -38,6 +38,9 @@ app.factory('ActionFactory', function(Cities) {
       });
 
       let verbs = ['go'];
+      // the operation expert has the ability to
+      // move from a research station to any city by discarding any citycard
+      // this logic will go in action-picker.js through a method in action factory
 
       // can i treat?
       if(infectionCount > 0) {
@@ -49,10 +52,22 @@ app.factory('ActionFactory', function(Cities) {
         verbs.push('build');
       };
 
+      // baking in logic of operations expert ability: can build a research station
+      // in any city he is in and no discard is necessary
+      if (gamer.role === "operationsExpert"){
+        if (verbs.indexOf("build") === -1) verbs.push('build');
+      }
+
       // can i give city card?
       if(currentCards.indexOf(gamer.currentCity) > -1 && gamersInSameCity.length > 0) {
         verbs.push('giveCityCard');
       };
+
+      // give the researcher the ability to take and give a card to someone in the same city
+      if (gamer.role === 'researcher') {
+        verbs.push('researcherActions');
+      }
+
 
       // can i take city card?
       let cityKeyArray = gamersInSameCity.reduce(function(cityKeyArray, gamerObj){
@@ -69,6 +84,7 @@ app.factory('ActionFactory', function(Cities) {
         verbs.push('takeCityCard');
       };
 
+
       // can i cure disease?
       if(state.researchCenterLocations.indexOf(gamer.currentCity) > -1) {
         let colorCounter = gamer.hand.reduce(function(colors, cardObj) {
@@ -79,7 +95,10 @@ app.factory('ActionFactory', function(Cities) {
         for(let color in colorCounter) {
           if(colorCounter[color] >= 5) {
             verbs.push('cureDisease');
-          };
+          } else if (colorCounter[color] >= 4 && gamer.role === 'scientist') {
+            // scientist only needs 4 of the same colored card
+            verbs.push('cureDisease');
+          }
         }
       };
 
@@ -132,6 +151,19 @@ app.factory('ActionFactory', function(Cities) {
           // filter out the gamer's currentCity
           return gamer.currentCity !== key;
         });
+    },
+
+    // the condition is also that the op expert is in a city with a research center
+    operationExpertKeys : function(gamer, state) {
+       if (gamer.role === "OperationExpert"
+        && state.researchCenterLocations.indexOf(gamer.currentCity) !== -1) {
+        // the operation expert is allowed to move to any city by discarding any card
+        return Cities.map(city => {
+          return city.key;
+        })
+      } else {
+         return [];
+       }
     },
 
     /*
@@ -266,6 +298,12 @@ app.factory('ActionFactory', function(Cities) {
       });
 
       return result;
+    },
+
+    // we need to give this ability to a researcher
+    // to essentially take / give card to
+    researcherAction : function(gamer, state) {
+      return this.takeWhatFromWhom(gamer, state).concat(this.giveWhatToWhom(gamer, state));
     },
 
     /**

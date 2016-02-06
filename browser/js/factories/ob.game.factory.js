@@ -12,10 +12,9 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // ajpz:      'https://outbreaktest.firebaseio.com/outbreak'
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
-  // dthorne: 'https://outbreak-daniel.firebaseio.com/'
-  const ref = new Firebase('https://outbreak-daniel.firebaseio.com/');
-
-  let outbreak = $firebaseObject(ref);
+   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
+  const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/');
+  let outbreak  = $firebaseObject(ref);
   FlowFactory();
 
   outbreak.$watch(function() {
@@ -192,7 +191,9 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     outbreak.$save();
   });
 
-  $rootScope.$on("cubesReduced", function(event, payload) {
+
+  $rootScope.$on("medicAbility", function(event, payload) {
+    //console.log("change to draw phase");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -201,7 +202,20 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       }
     }
     outbreak.$save();
-  })
+  });
+
+  $rootScope.$on("cubesReduced", function(event, payload) {
+    //console.log("change to draw phase");
+    for (let key in payload) {
+      if (outbreak.gameState.hasOwnProperty(key)) {
+        outbreak.gameState[key] = payload[key];
+      } else {
+        console.log("you sent the incorrect key to save");
+      }
+    }
+    outbreak.$save();
+  });
+
 
   /////////////////////////
   return factory;

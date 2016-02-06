@@ -17,7 +17,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
        * @type {boolean}
        *
        */
-      $rootScope.$on('stateChange', function(event, payload) {
+      $rootScope.$on('stateChange', (event, payload) => {
         let gameState = payload.gameState;
         scope.turn = gameState.gamerTurn;
         scope.gamers = _.cloneDeep(payload.gameState.gamers);
@@ -26,17 +26,39 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         scope.verbs = ActionFactory.availableVerbs(scope.gamers[scope.turn], gameState);
         // if you are the current user and the current phase is the actions phase
         // generate the for the user
-        console.log("in state change");
-        console.log(scope.clientUser);
-        console.log( scope.gamers[scope.turn].username);
-        console.log(scope.gameState.currentPhase);
-        console.log(scope.gameState);
         if (scope.clientUser === scope.gamers[scope.turn].username) {
           if (scope.actionNumber === 5) {
             scope.actionNumber = 1; //need to hide the actions information
             scope.storedStates = [];
             //change the phase;
             $rootScope.$broadcast("changeToDraw", {currentPhase : "draw" });
+          }
+
+
+          // medic logic
+          // could not decide where to put the medic ability
+          // where his presence can auto cure infections from a city
+          // if that infection color is cured
+          // TODO : also stop that disease from going on to that city while he is there? the card is unclear
+          // HAVE TO CLEAN THE BELOW AND TEST
+          if (scope.gamers[scope.turn].role === "medic") {
+            var colors = Object.keys(scope.gameState.isCured);
+            for (var k in colors) {
+              if (scope.gameState.isCured[colors[k]]) {
+                console.log("in checking SOMETHING IS CURED");
+                scope.gameState.cities.forEach(function(city){
+                  if (city.key === scope.gamers[scope.turn].currentCity){
+                    if (city[colors[k]] > 0) {
+                      // there is a color in the city that needs to be updated
+                      city[colors[k]] = 0;
+                      // maybe broadcast a toast
+                      console.log("my presence as the medic just cures every where");
+                      $rootScope.$broadcast("medicAbility", {cities : scope.gameState.cities });
+                    }
+                  }
+                })
+              }
+            }
           }
         } else {
           // you are not the current user
@@ -59,7 +81,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           ActionFactory.walkingOrFerryKeys,
           ActionFactory.directFlightsKeys,
           ActionFactory.charterFlightsKeys,
-          ActionFactory.shuttleFlightsKeys
+          ActionFactory.shuttleFlightsKeys,
+          ActionFactory.operationExpertKeys
         ],
         "treat" : [
           ActionFactory.whatAndHowMuchCanBeTreated
@@ -75,6 +98,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         ],
         "cureDisease" : [
           ActionFactory.cureWhichDisease
+        ],
+        "researcherActions" : [
+          ActionFactory.researcherAction
         ]
       };
       // you select a verb, it will put the verb in here
@@ -98,19 +124,51 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         // this is to ensure that the execution button gets disabled
         scope.selection.noun = "";
         if (verb === "go" ) {
-          verbNounMap[scope.selection.verb].forEach(function(noun, index){
-            // need to clear this when you are ready to submit
-            if (index === 0){
-              walkingFerryKeys = noun(scope.gamers[scope.turn], scope.gameState);
-            } else if (index === 1) {
-              directFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
-            } else if (index === 2) {
-             charterFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
-            } else if (index === 3) {
-              shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+          if (scope.gamers[scope.turn].role === "OperationExpert" && scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) > 1){
+            // TODO : give the op expert the ability to discard through turning currentPhase to "discard"
+            // and have to change it back
+            // then let them go somewhere
+            // you might want to move to a connected line too ????? :(
+            // if it is a connected path, you would not want to give up a card -- it would not be in your
+            // best interest to do so.
+            // essentially, this will get you the the ability to move anywhere if you are in an area with a research area
+            scope.nouns = verbNounMap[scope.selection.verb][4](scope.gamers[scope.turn]);
+            if (scope.nouns.length === 0){
+              // REPEATED :(
+              // idea is that if the above set of noun doesn't work
+              // just get the usual list
+              // next bit of logic will happen in the broadcast go logic
+              verbNounMap[scope.selection.verb].forEach(function(noun, index){
+                // need to clear this when you are ready to submit
+                if (index === 0){
+                  walkingFerryKeys = noun(scope.gamers[scope.turn], scope.gameState);
+                } else if (index === 1) {
+                  directFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+                } else if (index === 2) {
+                  charterFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+                } else if (index === 3) {
+                  shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+                }
+                scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+              });
             }
-            scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
-          });
+            // since the op expert can go anywhere, I should do a best efforts approach
+            // of figuring out what they want to do.
+          } else {
+            verbNounMap[scope.selection.verb].forEach(function(noun, index){
+              // need to clear this when you are ready to submit
+              if (index === 0){
+                walkingFerryKeys = noun(scope.gamers[scope.turn], scope.gameState);
+              } else if (index === 1) {
+                directFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+              } else if (index === 2) {
+                charterFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+              } else if (index === 3) {
+                shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+              }
+              scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+            });
+          }
         } else if (verb === "treat") {
           // turn the key-value pairs into its own array
 
@@ -123,7 +181,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         } else if (verb === "build") {
           // if you are allowed to build because of logic in action factory
           // then I am making the assumption that you can build where you are
-          // the only specialty might be the opperator
+          // the only specialty might be the op expert
           // TODO : the opperator might need a more specialized logic
           scope.nouns = ["research center in: " + scope.gamers[scope.turn].currentCity]
         } else if (verb ===  "giveCityCard") {
@@ -138,8 +196,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               scope.nouns.push(k);
             }
           }
+        } else if (verb === "researcherActions") {
+          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
         }
-
       };
 
       ////////// Buttons/ Interactivity //////////////
@@ -170,6 +229,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             broadcastTakeCityCard(scope.selection)
           } else if (scope.selection.verb === "cureDisease") {
             broadcastCureDisease(scope.selection);
+          } else if (scope.selection.verb === "researcherActions") {
+            broadcastResearcherActions(scope.selection);
           }
 
           scope.nouns = [];
@@ -177,11 +238,6 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           scope.selection.verb = "";
           scope.selection.noun = "";
           console.log("in execute : ", scope.actionNumber);
-          //if (scope.actionNumber === 5) {
-          //  // update the user turn too;
-          //  // get to the next phase;
-          //  //
-          //}
         }
 
       };
@@ -193,6 +249,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       // where it is located tells you what logic to apply
       function broadcastGoToGameState(info) {
         let packet = {};
+        // check if the gamer is the op expert
+        // if they are, make sure walking, direct, charter, and shuttle are empty
+        // this will mean that the op expert can go any city by discarding a card
         if (walkingFerryKeys.includes(info.noun)) {
 
           // move the current user to the new location
@@ -240,6 +299,11 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           packet.message = "User \'"+scope.gameState.gamers[scope.turn].username+"\' took a shuttle flight to "+Cities[info.noun].name+"."
           $rootScope.$broadcast("go", packet);
         }
+        // clear these out
+        walkingFerryKeys = [];
+        directFlightKeys = [];
+        charterFlightKeys = [];
+        shuttleFlightKeys = [];
       }
 
       function broadcastTreatToGameState(info) {
@@ -272,14 +336,21 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         let packet = {};
         console.log("building a research center in this city");
         console.log(info);
-        let cardIndex = scope.gamers[scope.turn].hand.findIndex(function(card) {
-          if (card.key === scope.gamers[scope.turn].currentCity) {
-            return true;
-          }
-        });
 
-        let card = scope.gamers[scope.turn].hand.splice(cardIndex, 1)[0];
-        scope.gameState.researchCenterLocations.push(card.key);
+        // if you are the ops expert, you don't need to discard the city card
+        // just append a research center to the gameState.researchCenterLocations
+        if (scope.gamers[scope.turn].role === "operationsExpert"){
+          scope.gameState.researchCenterLocations.push(scope.gamers[scope.turn].currentCity);
+        } else {
+          let cardIndex = scope.gamers[scope.turn].hand.findIndex(function(card) {
+            if (card.key === scope.gamers[scope.turn].currentCity) {
+              return true;
+            }
+          });
+
+          let card = scope.gamers[scope.turn].hand.splice(cardIndex, 1)[0];
+          scope.gameState.researchCenterLocations.push(card.key);
+        }
         packet.researchCenterLocations  = scope.gameState.researchCenterLocations;
         // since there is a user whose hand gets changed. - re issue #83
         packet.gamers = scope.gamers;
@@ -358,6 +429,17 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         let packet = {isCured : scope.gameState.isCured};
         packet.message = "User \'"+ scope.gameState.gamers[scope.turn].username + "\' just cured "+ colorToCure;
         $rootScope.$broadcast("cureDisease", packet);
+      }
+
+      // Researcher ability
+      // if researcher chooses give or take,
+      // figure which and use the existing broadcast methods
+      function broadcastResearcherActions(info) {
+        if (verb === "giveTo") {
+          broadcastGiveCityCard(info);
+        } else if (verb === "takeFrom") {
+          broadcastTakeCityCard(info);
+        }
       }
 
 
