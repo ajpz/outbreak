@@ -1,7 +1,5 @@
 app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, InfectionLevelArray){
 
-
-
     //TODO: epidemic needs to add another (3rd) card to the drawnCards from the infection deck
     //TODO: need to expand draw phase logic below to accomodate special case of
     //epidemic drawn first, or second
@@ -258,7 +256,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
 	});
 
-	return function(){
-		console.log("the FlowFactory has been instantiated")
-	};
+  return function() {
+    console.log("the FlowFactory has been instantiated")
+  };
 });
