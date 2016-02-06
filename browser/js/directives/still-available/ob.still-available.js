@@ -4,33 +4,19 @@ app.directive("stillAvailable", function($rootScope) {
     templateUrl: 'js/directives/still-available/ob.still-available.html',
     scope: {},
     link: function(scope) {
-      let remainingCubes = {
-        red: 24,
-        blue: 24,
-        black: 24,
-        yellow: 24
-      }
-      //the database should initialize the outbreak level so the above line should not be necessary
-
-
-      //TODO: THIS WILL NOT WORK. DON'T KNOW WHY THIS WAS WRITTEN
       function changeNumRemainingCubes(gameState) {
+        //loop through remaining cubes for each color, empty the div that holds them, then re-append the remaining number of cubes
         for(let key in gameState.remainingCubes){
-          remainingCubes[key] = gameState.remainingCubes[key];
-          console.log("\n\n\nadding")
-          console.log(remainingCubes[key])
-          $("#"+key+"_remaining div").append(""+remainingCubes[key]);
-          // console.log("\n\n\n\n\n\n\n\n\n\n\n\n")
-          // console.log(elem)
+          $("#"+key+"_remaining .remaining_cubes").empty().append(gameState.remainingCubes[key]);
         }
-
+        //empty the div holding the num of remaining research centers and then re-append the num of remaining research centers 
+        $(".remaining_research_centers").empty().append(gameState.researchCentersRemaining);
       }
 
       $rootScope.$on('stateChange', function(event, payload) {
         let gameState = payload.gameState;
         changeNumRemainingCubes(gameState)
       })
-
     }
   };
 });

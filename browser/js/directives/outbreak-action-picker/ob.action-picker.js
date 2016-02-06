@@ -278,12 +278,14 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           }
         });
 
-        let card = scope.gamers[scope.turn].hand.splice(cardIndex, 1);
+        let card = scope.gamers[scope.turn].hand.splice(cardIndex, 1)[0];
         scope.gameState.researchCenterLocations.push(card.key);
         packet.researchCenterLocations  = scope.gameState.researchCenterLocations;
         // since there is a user whose hand gets changed. - re issue #83
         packet.gamers = scope.gamers;
-        packet.message = "User \'"+scope.gameState.gamers[scope.turn].username + "\' just built a research center in "+scope.gamers[scope.turn].currentCity+".";
+        packet.researchCentersRemaining = scope.gameState.researchCentersRemaining-1;
+        let formattedCityName = Cities[scope.gamers[scope.turn].currentCity].name;
+        packet.message = "User \'"+scope.gameState.gamers[scope.turn].username + "\' just built a research center in "+formattedCityName+".";
         $rootScope.$broadcast("build", packet);
       }
 

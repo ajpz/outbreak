@@ -36,6 +36,7 @@ gameState.remainingCubes = {
 gameState.outbreakLevel = 1;
 gameState.infectionLevelIndex = 0;
 gameState.researchCenterLocations = ['atlanta'];
+gameState.researchCentersRemaining = 5;
 gameState.gamerTurn = 0; // will need to set the player to be based on what is the next of this
 gameState.cities = [{
     key: 'sanFrancisco',
