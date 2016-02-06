@@ -163,7 +163,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
         break;
 
       case 'infect':
-        var infectionRate = InfectionLevelArray[gameState.infectionLevelIndex];
+        var infectionRate = InfectionLevelArray.levels[gameState.infectionLevelIndex];
         //notify players of stateChange, but only the first time we enter 'infect'
         //everyone browser sees this, every browser does this
         if(!gameState.drawnInfections) {
@@ -182,7 +182,8 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
             callback: function() {
               if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
                 gameState = InfectionFactory.infect(gameState);
-                $rootScope.$broadcast('saveInfectionCards', gameState);
+                console.log('WHAT AM I 1', gameState.drawnInfections)
+                $rootScope.$broadcast('saveInfectionCard', gameState);
               }
             }
           });
@@ -195,7 +196,8 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
             callback: function() {
               //if this browser has the turn, this browser picks a card and saves to firebase
               if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
-                gameState = InfectionFactory(gameState);
+                gameState = InfectionFactory.infect(gameState);
+                console.log('WHAT AM I 2', gameState.drawnInfections)
                 $rootScope.$broadcast('saveInfectionCard', gameState);
               }
             }

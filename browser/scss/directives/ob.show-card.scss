@@ -1,4 +1,4 @@
-.cardfront {
+/*.cardfront {
   z-index: 2000;
   margin-left: 2%;
   padding-top: 2%;
@@ -10,17 +10,20 @@
     display: block;
     clear: none;
   }
-}
+}*/
 
 .cardcontainer {
   z-index: 2000;
   position: fixed;
   background-color: black;
-  opacity: 0.8;
-  min-height: 43%;
-  min-width: 29%;
-  top: 10%;
-  left: 4%;
+  opacity: 0.9;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  /*min-height: 43%;
+  min-width: 29%;*/
+  top: 0%;
+  left: 5%;
   span {
     width: 100%;
     display: block;
@@ -28,7 +31,27 @@
     color: white;
   }
 
+}
 
+.cardcontainerInfection {
+  z-index: 2000;
+  position: fixed;
+  background-color: black;
+  opacity: 0.9;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  /*min-height: 43%;
+  min-width: 29%;
+*/
+  top: 0%;
+  left: 30%;
+  span {
+    width: 100%;
+    display: block;
+    text-align: center;
+    color: white;
+  }
 
 }
 

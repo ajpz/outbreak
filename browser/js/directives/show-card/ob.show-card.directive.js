@@ -11,6 +11,8 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
       scope.cardImages = [];
       scope.infectionImages = [];
       scope.discardImages = [];
+      // scope.drawInfection = false;
+
 
       // $rootScope.$on('stateChange', function(event, payload) {
 
@@ -40,13 +42,13 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
           });
 
           setTimeout(function() {
+            scope.cardImages = [];
             payload.callback();
             if(numCardsDrawn === 2) {
               scope.isCurrentlyDrawPhase = false;
               numCardsDrawn = 0;
             }
-            scope.cardImages = [];
-          }, 5000);
+          }, 2000);
 
         }
       })
@@ -60,7 +62,7 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
         } else {
 
           payload.chosenDiscards.forEach(function(cardObj) {
-            scope.infectionImages.push(cardObj.cardFront);
+            scope.discardImages.push(cardObj.cardFront);
           });
 
           if(payload.callback) {
@@ -68,7 +70,7 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
               payload.callback();
               scope.isCurrentlyDiscardPhase = false;
               scope.discardImages = [];
-            }, 5000);
+            }, 2000);
           }
         }
 
@@ -76,24 +78,26 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
 
       $rootScope.$on('renderInfectionEvent', function(event, payload) {
         scope.isCurrentlyInfectionPhase = true;
+        console.log('\n\n\nscope.infectionImages', scope.infectionImages)
         if(payload.message) {
           alert(payload.message);
           setTimeout(payload.callback, 2000);
         } else {
           numInfectionsDrawn++;
 
+          scope.infectionImages = [];//TODO: FIGURE THIS OUT
           payload.drawnInfections.forEach(function(cardObj) {
-            scope.infectionImages.push(cardObj.cardFront);
+            scope.infectionImages.push(cardObj.infectionCardFront);
           });
 
           setTimeout(function() {
+            scope.infectionImages = [];//TODO: FIGURE THIS OUT
             payload.callback();
             if(numInfectionsDrawn === payload.infectionRate) {
               scope.isCurrentlyInfectionPhase = false;
               numInfectionsDrawn = 0;
             }
-            scope.infectionImages = [];
-          }, 5000);
+          }, 2000);
 
         }
 
