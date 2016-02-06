@@ -25,7 +25,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
                   })[0];
     // check to see if the target has 3 of the given color --> outbreak?
     if(target[color] === 3) {
-      alert('EPIDEMIC YO! EPIDEMIC YO! EPIDEMIC YO!')
+      alert('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO!')
       // add the current key, i.e. newYork, to the alreadyHit array
       // to prevent outbreaks from looping recursively
       alreadyHit.push(target.key);

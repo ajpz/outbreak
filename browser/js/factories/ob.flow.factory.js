@@ -1,6 +1,11 @@
 app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
 
 
+
+    //TODO: epidemic needs to add another (3rd) card to the drawnCards from the infection deck
+    //TODO: need to expand draw phase logic below to accomodate special case of
+    //epidemic drawn first, or second
+
     var pickACard = function (gameState){
 
     let newCard = CardFactory.pickCardFromTop(gameState.playerDeck);
@@ -8,11 +13,11 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
     if(newCard.type === "epidemicCard"){
       alert('THERE WAS AN EPIDEMIC!')
       gameState = InfectionFactory.epidemic(gameState);
-      gameState.cardDrawn.push(newCard);
+      gameState.drawnCards.push(newCard);
     } else {
       let currentTurn = gameState.gamerTurn;
       gameState.gamers[currentTurn].hand.push(newCard);
-      gameState.cardDrawn.push(newCard);
+      gameState.drawnCards.push(newCard);
     }
     return gameState;
   };
@@ -35,7 +40,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
           var message = 'The '+ gameState.gamers[gameState.gamerTurn].role +
             ' is about to draw new player cards.';
           //TODO: remove this when things works
-          alert(message);
+          // alert(message);
           // get ngToast in home state controller to render message to all browsers
           $rootScope.$broadcast('renderDrawEvent', {
             message: message,
@@ -69,7 +74,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope){
             callback: function() {
               //if this browser has the turn, this browser advances phase to discard, wipes drawnCards, and saves to firebase
               if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
-                gameState = gameState.currentPhase = 'discard';
+                gameState.currentPhase = 'discard';
                 gameState.drawnCards = [];
                 $rootScope.$broadcast('phaseChanged', gameState);
               }
