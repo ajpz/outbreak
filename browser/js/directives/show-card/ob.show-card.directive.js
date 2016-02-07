@@ -28,7 +28,6 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
           });
 
           setTimeout(function() {
-            scope.cardImages = [];
             payload.callback();
             if(numCardsDrawn === 2) {
               scope.isCurrentlyDrawPhase = false;
@@ -62,10 +61,11 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
           setTimeout(function() {
             console.log(">>>> in renderInfectionEvent else CALLBACK")
 
-            scope.infectionImages = [];//TODO: FIGURE THIS OUT
             if(numInfectionsDrawn === payload.infectionRate) {
               scope.isCurrentlyInfectionPhase = false;
+              console.log(scope.isCurrentlyInfectionPhase, 'is the ng-show trigger')
               numInfectionsDrawn = 0;
+              $rootScope.$digest();
             }
             payload.callback();
           }, 2000);
