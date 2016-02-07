@@ -73,18 +73,33 @@ a {
     background-color: black;
     &.blue {
       background-color: rgb(47, 63, 115);
+      &:hover {
+        darken: (rgb(47, 63, 115), 6%);
+      }
     }
     &.black {
       background-color: rgb(0, 0, 0);
+      &:hover {
+        background-color: #181818;
+      };
     }
     &.yellow {
       background-color: rgb(255, 153, 0);
+      &:hover {
+        background-color: #FF7500;
+      }
     }
     &.red {
       background-color: rgb(168, 56, 59);
+      &:hover {
+        background-color: #B22222;
+      }
     }
     &.green {
-      background-color: rgb(15, 61, 15);
+      background-color: #008000;
+      &:hover {
+        background-color: #006600;
+      };
     }
   }
 

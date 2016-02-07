@@ -16,19 +16,31 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         var diseaseLayerGroup = [];
         var researchCenterIcon = 'http://i.imgur.com/OO0vx2n.png';
         var markers = [];
+        var llama = L.icon({
+          iconUrl: 'http://i.imgur.com/FbMNWIK.png',
+          iconSize: [68.4, 74]
+        })
+        var llamaLayer = L.marker([-10.604774, -73.372619], {icon: llama});
+
+
 
         map.on('zoomstart', function() {
-          console.log('zoomstart was heard ', map.getZoom());
           removeMarkerLayers();
         })
 
         map.on('zoomend', function(){
-          console.log('zoomend was heard ', map.getZoom());
           addMarkerToMarkerObj();
+
+          // this is for showing and hiding the llama
+          if (map.getZoom() > 4){
+            map.addLayer(llamaLayer);
+          }
+          else {
+           map.removeLayer(llamaLayer);
+          }
         })
 
         map.on('click', function(e) {
-          console.log('clicked on location', e.latlng)
           map.panTo(e.latlng);
         });
 
@@ -122,44 +134,6 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
             }).addTo(map);
           }
         }
-        /////////// static ends above
-
-        // var payload = {
-        //   gamers: [
-        //     {
-        //       role: 'medic',
-        //       currentCity: 'newYork'
-        //     },
-        //     {
-        //       role: 'scientist',
-        //       currentCity: 'montreal'
-        //     },
-        //     {
-        //       role: 'researcher',
-        //       currentCity: 'madrid'
-        //     },
-        //     {
-        //       role: 'operationsExpert',
-        //       currentCity: 'mumbai'
-        //     }
-        //   ],
-        //   researchCenterLocations: ['atlanta', 'mexicoCity', 'newYork'],
-        //   cities: [
-        //     {
-        //       key: 'newYork',
-        //       red: 0,
-        //       black: 0,
-        //       blue: 3,
-        //       yellow: 1
-        //     }
-        //   ],
-
-        // }
-
-
-
-
-
 
         $rootScope.$on('stateChange', function(event, fbData){
           payload = _.cloneDeep(fbData.gameState);
@@ -168,10 +142,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
           // debugger;
         })
 
-
-
         function removeMarkerLayers() {
-          console.log('REMOVING LAYERS.....');
           rolesLayerGroup.forEach(function(role) {
             map.removeLayer(role);
           });
