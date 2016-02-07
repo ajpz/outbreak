@@ -4,13 +4,24 @@
   border: none;
 }
 
-#table-column{
+#table-column {
   text-align: center;
   display: inline-block;
   width: 50%;
-
-
+  padding-top: 3%;
+  padding-left: 2%;
+  padding-right: 2%;
+  background: #303030;
 }
+
+#table-row{
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  background: #303030;
+}
+
 a {
   img {
     float: right;
@@ -20,7 +31,6 @@ a {
   cursor: default;
 }
 #arrowWidget {
-
    z-index: 2000;
    margin-left: -12%;
    color: chartreuse;
@@ -29,20 +39,14 @@ a {
 }
 
 #currentCity {
-    float: right;
-    clear: right;
-    display: block;
-    font-size: 0.8em;
-    font-weight: 100;
-    letter-spacing: 0.1em;
-    padding-top: 1%;
-    /*text-align: bottom;*/
-    color: white;
-  }
-
-#table-row{
-  padding-top: 0px;
-  padding-bottom: 0px;
+  float: right;
+  clear: right;
+  display: block;
+  font-size: 0.8em;
+  font-weight: 100;
+  letter-spacing: 0.1em;
+  padding-top: 1%;
+  color: white;
 }
 
 .panel-title {
@@ -50,53 +54,60 @@ a {
   text-decoration: none;
   clear: none;
 }
+
+.list-group,
 .list-group-item {
-  padding: none;
+  padding: none !important;
+  background: #303030;
+  margin: none;
+  border-top: none !important;
+  border: none;
   button {
     width: 100%;
+    font-size: 0.9em;
+    font-weight: 300;
     margin: none;
     color: white;
     border-radius: 10px;
+    border: none;
     background-color: black;
     &.blue {
       background-color: rgb(47, 63, 115);
+      &:hover {
+        darken: (rgb(47, 63, 115), 6%);
+      }
     }
     &.black {
       background-color: rgb(0, 0, 0);
+      &:hover {
+        background-color: #181818;
+      };
     }
     &.yellow {
       background-color: rgb(255, 153, 0);
+      &:hover {
+        background-color: #FF7500;
+      }
     }
     &.red {
       background-color: rgb(168, 56, 59);
+      &:hover {
+        background-color: #B22222;
+      }
     }
     &.green {
-      background-color: rgb(15, 61, 15);
+      background-color: #008000;
+      &:hover {
+        background-color: #006600;
+      };
     }
   }
-}
 
-.list-group-item {
-  button.blue {
-      background-color: rgb(47, 63, 115);
-    }
-  button.black {
-      background-color: rgb(0, 0, 0);
-    }
-  button.yellow {
-      background-color: rgb(255, 153, 0);
-    }
-  button.red {
-      background-color: rgb(168, 56, 59);
-    }
-  button.green {
-      background-color: rgb(15, 61, 15);
-    }
 }
 
 #collapseListGroupHeading1 {
-  background-color: #280000;
-
+/*  background-color: #280000;*/
+  background: black;
   border: none;
   a {
     font-size: 12px;
@@ -104,13 +115,13 @@ a {
     color: white;
     text-decoration: none;
     &:hover {
-      color: gray;
+      color: #D3D3D3;
     }
   }
 }
 #collapseListGroupHeading2 {
-  background-color: #000033;
-
+  /*background-color: #000033;*/
+  background: black;
   border: none;
   a {
     font-size: 12px;
@@ -118,13 +129,13 @@ a {
     line-height: 0.5em;
     text-decoration: none;
     &:hover {
-      color: gray;
+      color: #D3D3D3;
     }
   }
 }
 #collapseListGroupHeading3 {
-  background-color: #001901;
-
+  /*background-color: #001901;*/
+  background: black;
   border: none;
   a {
     font-size: 12px;
@@ -132,13 +143,13 @@ a {
     line-height: 0.5em;
     text-decoration: none;
     &:hover {
-      color: gray;
+      color: #D3D3D3;
     }
   }
 }
 #collapseListGroupHeading4 {
-  background-color: #003366;
-
+/*  background-color: #003366;*/
+  background: black ;
   border: none;
   a {
     font-size: 12px;
@@ -146,28 +157,10 @@ a {
     line-height: 0.5em;
     text-decoration: none;
     &:hover {
-      color: gray;
+      color: #D3D3D3;
     }
   }
 }
-
-/*#collapseListGroup4 {
-  button {
-    .blue {
-      background-color: rgb(47, 63, 115);
-    }
-    .black {
-      background-color: rgb(0, 0, 0);
-    }
-    .yellow {
-      background-color: rgb(255, 153, 0);
-    }
-    .red {
-      background-color: rgb(168, 56, 59);
-    }
-
-  }
-}*/
 
 .panel-footer {
   list-style: none;
@@ -175,11 +168,13 @@ a {
 }
 
 ul.list-group {
-    margin-bottom: 0px !important;
+  border: none;
+  margin-bottom: 0px !important;
 }
 
 .panel-group {
-    margin-bottom: -10px !important;
+  border: none;
+  margin-bottom: -10px !important;
 }
 
 #no-padding {
@@ -188,13 +183,13 @@ ul.list-group {
   line-height: 0.5em;
   font-size: 12px;
 }
-
+/*
 #low-padding {
   padding-top: none;
   padding-bottom: none;
   line-height: 1.3em;
   font-size: 12px;
-}
+}*/
 
 
 navbar {
@@ -209,8 +204,7 @@ navbar {
   padding-right: 0.5%;
   padding-left: 0.25%;*/
   display: inline-block;
-/*  background: transparent;*/
-  background: #000;
+  background: #303030;
   opacity: 0.9;
 
 
