@@ -26,29 +26,25 @@ app.config(function($stateProvider) {
         });
 
         $rootScope.$on('renderDrawEvent', function(event, payload){
-          console.log('renderDRAW before')
           if(payload.message) {
-            console.log('renderDRAW during')
-
             createPhaseChangeToast(payload.message);
           }
-          console.log('renderDRAW after')
 
         });
 
         $rootScope.$on('renderDiscardEvent', function(event, payload){
           if(payload.message) {
             createPhaseChangeToast(payload.message);
+            if(payload.callback) {
+              setTimeout(payload.callback, 2000);
+            }
           }
         });
 
         $rootScope.$on('renderInfectionEvent', function(event, payload){
-          console.log('renderDRAW before')
           if(payload.message) {
-            console.log('renderDRAW during')
             createPhaseChangeToast(payload.message);
           }
-          console.log('renderDRAW after')
         });
 
         function createStateChangeToast(message){

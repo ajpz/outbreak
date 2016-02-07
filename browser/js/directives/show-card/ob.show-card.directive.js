@@ -19,11 +19,10 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
       $rootScope.$on('renderDrawEvent', function(event, payload) {
         scope.isCurrentlyDrawPhase = true;
         if(payload.message) {
-          // alert(payload.message);
           setTimeout(payload.callback, 2000);
         } else {
           numCardsDrawn++;
-
+          scope.cardImages = []; //TODO: FIGURE THIS OUT
           payload.drawnCards.forEach(function(cardObj) {
             scope.cardImages.push(cardObj.cardFront);
           });
@@ -38,29 +37,6 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
           }, 2000);
 
         }
-      })
-
-      $rootScope.$on('renderDiscardEvent', function(event, payload) {
-
-        scope.isCurrentlyDiscardPhase = true;
-
-        if(payload.message) {
-          alert(payload.message);
-        } else {
-
-          payload.chosenDiscards.forEach(function(cardObj) {
-            scope.discardImages.push(cardObj.cardFront);
-          });
-
-          if(payload.callback) {
-            setTimeout(function() {
-              scope.isCurrentlyDiscardPhase = false;
-              scope.discardImages = [];
-              payload.callback();
-            }, 2000);
-          }
-        }
-
       })
 
       $rootScope.$on('renderInfectionEvent', function(event, payload) {
