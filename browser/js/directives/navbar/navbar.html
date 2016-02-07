@@ -35,7 +35,7 @@
         </div>
         <div ng-attr-id="collapseListGroup{{others.length + 1}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading{{others.length + 1}}">
             <ul class="list-group">
-                <li class="list-group-item" id="low-padding" ng-repeat="card in owner.hand">
+                <li class="list-group-item" ng-repeat="card in owner.hand">
                     <button class="ng-class: card.color" ng-click="cardAction(this)">{{card.name}}</button>
                 </li>
             </ul>
@@ -43,7 +43,7 @@
         </div>
     </div>
 </div>
-// <script>
+<script>
 // $(function () {
 //   $('[data-toggle="tooltip"]').tooltip()
 // })

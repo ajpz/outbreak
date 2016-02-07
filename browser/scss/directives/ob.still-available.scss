@@ -20,5 +20,24 @@
     letter-spacing: 0.4em;
     color: white;
   }
-
 }
+
+.remaining_research_centers,
+.remaining_cubes {
+  display: block;
+  min-width: 1.5em;
+  min-height: 1.5em;
+  position: fixed;
+  color: white;
+  font-weight: 500;
+  opacity: 0.8;
+  background: black;
+  border-radius: 30px;
+  margin-left: 0.35%;
+  padding-top: 0.25%;
+  z-index: 2001;
+  bottom: 1.25%;
+}
+
+
+
