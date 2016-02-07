@@ -40,7 +40,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       outbreak.$save();
       return;
     }
-
+    //TODO: FIX THIS LOGIC... right now game will never end.
     //Once 4 gamers have joined the game (playerCount of 4) create decks and deal cards
     if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === 4 && (localStorage.getItem('user') === outbreak.gameState.gamers[0].username)) {
       console.log('$watch sees 4 players, ', localStorage.getItem('user'), ' is dealing....', outbreak.gameState);
@@ -83,6 +83,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on('saveInfectionCard', function(event, payload){
+    console.log('saveInfectionCard emitted ', event)
     for(let key in payload){
       outbreak.gameState[key] = payload[key];
     }
@@ -90,6 +91,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on('phaseChanged', function(event, payload) {
+    console.log('phaseChanged emitted', event)
     for (let key in payload) {
       outbreak.gameState[key] = payload[key];
     }
