@@ -18,17 +18,14 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         var markers = [];
 
         map.on('zoomstart', function() {
-          console.log('zoomstart was heard ', map.getZoom());
           removeMarkerLayers();
         })
 
         map.on('zoomend', function(){
-          console.log('zoomend was heard ', map.getZoom());
           addMarkerToMarkerObj();
         })
 
         map.on('click', function(e) {
-          console.log('clicked on location', e.latlng)
           map.panTo(e.latlng);
         });
 
@@ -171,7 +168,6 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
 
         function removeMarkerLayers() {
-          console.log('REMOVING LAYERS.....');
           rolesLayerGroup.forEach(function(role) {
             map.removeLayer(role);
           });
@@ -259,7 +255,6 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
             })
           })
-          console.log(rolesLayerGroup, researchLayerGroup, diseaseLayerGroup, "here are the groups")
         }
 
 
