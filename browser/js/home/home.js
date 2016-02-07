@@ -25,6 +25,32 @@ app.config(function($stateProvider) {
             });
         });
 
+        $rootScope.$on('renderDrawEvent', function(event, payload){
+          console.log('renderDRAW before')
+          if(payload.message) {
+            console.log('renderDRAW during')
+
+            createPhaseChangeToast(payload.message);
+          }
+          console.log('renderDRAW after')
+
+        });
+
+        $rootScope.$on('renderDiscardEvent', function(event, payload){
+          if(payload.message) {
+            createPhaseChangeToast(payload.message);
+          }
+        });
+
+        $rootScope.$on('renderInfectionEvent', function(event, payload){
+          console.log('renderDRAW before')
+          if(payload.message) {
+            console.log('renderDRAW during')
+            createPhaseChangeToast(payload.message);
+          }
+          console.log('renderDRAW after')
+        });
+
         function createStateChangeToast(message){
             ngToast.create({
               className: 'success',
@@ -37,6 +63,19 @@ app.config(function($stateProvider) {
               veritcalPosition: 'top'
             });
         };
+
+        function createPhaseChangeToast(message) {
+            ngToast.create({
+              className: 'success',
+              content: message,
+              dismissOnTimeout: true,
+              timeout: 2000,
+              dismissButton: true,
+              animation: 'fade',
+              horizontalPostion: 'right',
+              veritcalPosition: 'top'
+            });
+        }
           // create a toast with settings:
 
 
