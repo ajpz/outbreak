@@ -98,12 +98,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     outbreak.$save()
   });
 
-  $rootScope.$on('discardCard', function(event, payload) {
-    //console.log('heard discard...', payload);
-    outbreak.gameState = payload.updatedState;
-    outbreak.$save();
-  });
-
   $rootScope.$on("go", function(event, payload) {
     //console.log("in the goooooooooooo");
     for (let key in payload) {
