@@ -23,6 +23,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
   };
 
   $rootScope.$on('discardCardChosen', function(event, discard) {
+    console.log('in dscardCardChosen with ', discard.name);
 
     if(!gameState.chosenDiscards) gameState.chosenDiscards = [];
     if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
@@ -47,7 +48,9 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     // currentPhase will determine what FlowFactory will do
     switch (gameState.currentPhase) {
 
+
       case 'draw':
+      console.log('\n>>>>>>>Remaining player cards: ', gameState.playerDeck.length);
         //notify players of stateChange, but only the first time we enter 'draw'
         //everyone browser sees this, every browser does this
         if(!gameState.drawnCards) {
@@ -129,7 +132,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
             });
           } else if (gameState.gamers[gameState.gamerTurn].hand.length > 2 ) {
             //broadcast so that show-card can display the event, show-card handles setting a timeout
-
+            console.log('hand is greater than 2, chosenDiscards are ', gameState.chosenDiscards);
             var message = 'The '+ gameState.gamers[gameState.gamerTurn].role +
               ' has discarded ';
             gameState.chosenDiscards.forEach(function(discard) {
@@ -143,7 +146,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
           } else if (gameState.gamers[gameState.gamerTurn].hand.length = 2) {
             //broadcast so that show-card can display the event, show-card handles setting a timeout
-
+            console.log('hand is 2, chosenDiscards are ', gameState.chosenDiscards);
             var message = 'The '+ gameState.gamers[gameState.gamerTurn].role +
               ' has discarded ';
             gameState.chosenDiscards.forEach(function(discard) {

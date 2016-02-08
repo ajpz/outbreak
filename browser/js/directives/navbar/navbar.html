@@ -32,7 +32,7 @@
         <div ng-attr-id="collapseListGroup{{others.length + 1}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading{{others.length + 1}}">
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="card in owner.hand">
-                    <button class="ng-class: card.color" ng-click="cardAction(this)">{{card.name}}</button>
+                    <button class="ng-class: card.color" ng-click="cardAction(card)">{{card.name}}</button>
                 </li>
             </ul>
         </div>

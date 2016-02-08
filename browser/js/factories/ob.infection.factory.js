@@ -24,7 +24,8 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
                   })[0];
     // check to see if the target has 3 of the given color --> outbreak?
     if(target[color] === 3) {
-      alert('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.city)
+      alert('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color])
+      console.log('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color]);
       // add the current key, i.e. newYork, to the alreadyHit array
       // to prevent outbreaks from looping recursively
       alreadyHit.push(target.key);
@@ -77,10 +78,10 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       // for(var i = 0, card; i < 2; i++) {
         // let infectionRate = infectionLevelArray[state.infectionLevelIndex];
         var card = CardFactory.pickCardFromTop(state.infectionDeck);
+        state.drawnInfections.push(card);
         addInfectionToACity(card, 1, state);
         if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
         state.infectionDeckDiscard.push(card);
-        state.drawnInfections.push(card);
       // }
       return state;
     },

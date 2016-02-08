@@ -3,13 +3,9 @@ app.config(function($stateProvider) {
     url: '/',
     templateUrl: 'js/home/home.html',
     controller: function($scope, $rootScope, ngToast) {
-        let previousMessage = null;
 
         $rootScope.$on('stateChange', function(event, payload) {
-          if(payload.gameState.message !== previousMessage){
-            createStateChangeToast(payload.gameState.message);
-            previousMessage = payload.gameState.message;
-          }
+          createStateChangeToast(payload.gameState.message);
         });
 
         $rootScope.$on('badClick', function(event, payload) {
@@ -21,7 +17,7 @@ app.config(function($stateProvider) {
               dismissButton: true,
               animation: 'fade',
               horizontalPostion: 'right',
-              veritcalPosition: 'top'
+              verticalPosition: 'top'
             });
         });
 
@@ -47,7 +43,14 @@ app.config(function($stateProvider) {
           }
         });
 
+        let previousStateMessage = null;
         function createStateChangeToast(message){
+            if (message === previousStateMessage) {
+              return;
+            }
+
+            previousStateMessage = message;
+
             ngToast.create({
               className: 'success',
               content: message,
@@ -56,11 +59,18 @@ app.config(function($stateProvider) {
               dismissButton: true,
               animation: 'fade',
               horizontalPostion: 'right',
-              veritcalPosition: 'top'
+              verticalPosition: 'top'
             });
         };
 
+        let previousPhaseMessage = null;
         function createPhaseChangeToast(message) {
+            if (message === previousPhaseMessage) {
+              return;
+            }
+
+            previousPhaseMessage = message;
+
             ngToast.create({
               className: 'success',
               content: message,
@@ -69,7 +79,7 @@ app.config(function($stateProvider) {
               dismissButton: true,
               animation: 'fade',
               horizontalPostion: 'right',
-              veritcalPosition: 'top'
+              verticalPosition: 'top'
             });
         }
           // create a toast with settings:
