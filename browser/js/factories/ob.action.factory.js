@@ -68,6 +68,20 @@ app.factory('ActionFactory', function(Cities) {
         verbs.push('researcherActions');
       }
 
+      let researcher = gamersInSameCity.find(function(otherGamer){
+        if (otherGamer.role === "researcher"){
+          if (otherGamer.currentCity === gamer.currentCity) {
+            return true;
+          }
+        }
+      });
+      if (researcher){
+        if (gamer.currentCity ===  researcher.currentCity) {
+          verbs.push('takeFromResearcher');
+        }
+      }
+
+
 
       // can i take city card?
       let cityKeyArray = gamersInSameCity.reduce(function(cityKeyArray, gamerObj){
@@ -303,7 +317,92 @@ app.factory('ActionFactory', function(Cities) {
     // we need to give this ability to a researcher
     // to essentially take / give card to
     researcherAction : function(gamer, state) {
-      return this.takeWhatFromWhom(gamer, state).concat(this.giveWhatToWhom(gamer, state));
+      //return this.takeWhatFromWhom(gamer, state).concat(this.giveWhatToWhom(gamer, state));
+      // firebase dumbness
+      if (!gamer.hand) {
+        gamer.hand = [];
+      }
+      state.gamers = state.gamers.map(function(gamer){
+        if (!gamer.hand) {
+          gamer.hand = [];
+        }
+        return gamer;
+      });
+
+      //if(gamer.hand.map(function(cardObj) {
+      //    return cardObj.key;
+      //  }).indexOf(gamer.currentCity) === -1) return [{}];
+
+      //assumes this will only be called if gamer has cityCard of currentCity
+      function GiveObject(giveTo, city) {
+        this.giveTo = giveTo;
+        this.city = city;
+      };
+
+      let result = [];
+
+      // filtering out the current player from this list
+      let others = state.gamers.filter(function(other) {
+        if (other.role !== gamer.role){
+          return true;
+        }
+      }).map(function(other) {
+        // returning an array with the currentCity so that I
+        // can check if the user is in the same city as the current player
+        return [other.role, other.currentCity];
+      });
+      // can only give to another user who is in the current city too
+      others.forEach(function(other) {
+        if (other[1] === gamer.currentCity){
+          gamer.hand.forEach(function(card){
+            if (card.type === "cityCard"){
+              result.push(new GiveObject(other[0], card.key));
+            }
+          })
+
+        }
+      });
+
+      // [{giveTo: 'medic', city: 'dc'}, {giveTo: 'researcher', city: 'dc'}]
+      return result;
+    },
+
+    takeFromResearcher : function(gamer, state) {
+      if (!gamer.hand) {
+        gamer.hand = [];
+      }
+      state.gamers = state.gamers.map(function(gamer){
+        if (!gamer.hand) {
+          gamer.hand = [];
+        }
+        return gamer;
+      });
+
+      function GiveObject(takeFrom, city) {
+        this.takeFrom = takeFrom;
+        this.city = city;
+      };
+
+      let result = [];
+
+      let gamersInSameCity = state.gamers.filter(function(other) {
+        return other.currentCity === gamer.currentCity && gamer.role !== other.role;
+      });
+
+      let researcher = gamersInSameCity.filter(function(otherGamer){
+        if (otherGamer.role === "researcher"){
+          return true;
+        }
+      })[0];
+
+      researcher.hand.forEach(function(card) {
+        if (card.type === "cityCard"){
+          result.push(new GiveObject("researcher", card.key));
+        }
+      });
+
+      return result;
+
     },
 
     /**

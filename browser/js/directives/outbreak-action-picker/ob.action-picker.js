@@ -101,6 +101,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         ],
         "researcherActions" : [
           ActionFactory.researcherAction
+        ],
+        "takeFromResearcher" : [
+          ActionFactory.takeFromResearcher
         ]
       };
       // you select a verb, it will put the verb in here
@@ -198,6 +201,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           }
         } else if (verb === "researcherActions") {
           scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+        } else  if (verb === 'takeFromResearcher') {
+          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
         }
       };
 
@@ -231,6 +236,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             broadcastCureDisease(scope.selection);
           } else if (scope.selection.verb === "researcherActions") {
             broadcastResearcherActions(scope.selection);
+          } else if (scope.selection.verb === "takeFromResearcher") {
+            broadcastTakeCityCard(scope.selection);
           }
 
           scope.nouns = [];
@@ -323,8 +330,22 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         scope.gameState.cities[indexInCities] = particularCityToCure; // update the state to send to gameState
         packet.cities = scope.gameState.cities;
         packet.message = "User: \'"+scope.gamers[scope.turn].username+"\' just treated "+numberToCure+" "+color+" infection(s) in "+formattedCityName;
+        // repopulating the number of cubes in the game for a particular color that is treated
+        scope.gameState.remainingCubes[color] = scope.gameState.remainingCubes[color] + numberToCure;
+        packet.remainingCubes = scope.gameState.remainingCubes;
+
+        // check if we can eradicate the disease during a treatment
+        packet.isEradicted = checkEradication(color);
         // $rootScope.$broadcast('treatedCity', dataToBroadcast)
         $rootScope.$broadcast("treat", packet);
+      }
+
+      function checkEradication(color) {
+        if (scope.gameState.isCured[color] && scope.gameState.remainingCubes[color] === 24) {
+          scope.gameState.isEradicated[color] = true;
+        }
+        return scope.gameState.isEradicated;
+
       }
 
 
