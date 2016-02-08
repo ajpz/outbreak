@@ -188,9 +188,15 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           // TODO : the opperator might need a more specialized logic
           scope.nouns = ["research center in: " + scope.gamers[scope.turn].currentCity]
         } else if (verb ===  "giveCityCard") {
-          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          let gives = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          scope.nouns = gives.map(function(give) {
+            return "give the " + give.city + " card to the " + give.giveTo;
+          });
         } else if (verb === "takeCityCard") {
-          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          let takes = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          scope.nouns = takes.map(function(take){
+            return "take the " + take.city + " card from the " + take.takeFrom;
+          });
         } else if (verb === "cureDisease") {
           // array of colors
           let cureObj = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
@@ -200,9 +206,17 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             }
           }
         } else if (verb === "researcherActions") {
-          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          //scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          let gives = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          scope.nouns = gives.map(function(give) {
+            return "give the " + give.city + " card to the " + give.giveTo;
+          });
         } else  if (verb === 'takeFromResearcher') {
-          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          //scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          let takes = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          scope.nouns = takes.map(function(take){
+            return "take the " + take.city + " card from the " + take.takeFrom;
+          });
         }
       };
 
@@ -504,5 +518,14 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
 app.filter('capitalize', function() {
   return function(input) {
     return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+  }
+});
+
+// taken from stackoverflow http://stackoverflow.com/questions/4149276/javascript-camelcase-to-regular-form
+app.filter('camelcasechange', function() {
+  return function(input) {
+    return input.replace(/([A-Z])/g, ' $1')
+      // uppercase the first character
+      .replace(/^./, function(str){ return str.toUpperCase(); })
   }
 });

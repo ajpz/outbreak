@@ -22,7 +22,7 @@
         <select ng-change="notifySelectionVerb()" ng-model="selection.verb" >
           <option disabled selected> -- select an option -- </option>
           <!--ng-model="selection.verb"-->
-          <option  name="verb"  ng-repeat="verb in verbs"  value="{{verb}}">{{verb}}</option>
+          <option  name="verb"  ng-repeat="verb in verbs"  value="{{verb}}">{{verb | camelcasechange }}</option>
         </select>
       </label>
       <span></span>
