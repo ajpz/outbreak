@@ -7,7 +7,8 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
     templateUrl: 'js/directives/map/ob.map.directive.html',
     link: function(scope, element, attributes){
         L.mapbox.accessToken = 'pk.eyJ1Ijoib3BwZXJhdG9yIiwiYSI6ImNpanluaXp1NzIxbm52Ymx6NGx1dWl3MXUifQ.ND7TeWHOVFWg39S7nB-FTQ';
-        var map = L.mapbox.map('map', 'opperator.60d841d4').setView([25.578028, 27.475642], 3);
+        var map = L.mapbox.map('map', 'opperator.60d841d4', {minZoom: 2, maxZoom: 5}).setView([25.578028, 27.475642], 3);
+        map.scrollWheelZoom.disable();
 
         // addMarkerToMarkerObj();
         var payload;
