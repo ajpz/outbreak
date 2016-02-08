@@ -11,7 +11,12 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     let newCard = CardFactory.pickCardFromTop(gameState.playerDeck);
 
     if(newCard.type === "epidemicCard"){
-      alert('THERE WAS AN EPIDEMIC!')
+
+      $rootScope.$broadcast('renderEpidemicEvent', {message: "EPIDEMIC IN EFFECT!"});
+      $rootScope.$broadcast('renderEpidemicEvent', {message: "The infection rate marker has advanced."});
+      $rootScope.$broadcast('renderEpidemicEvent', {message: "Drawing an infection card from the bottom of the deck and adding 3 disease units to that city."});
+      $rootScope.$broadcast('renderEpidemicEvent', {message: "Shuffling the infection discard deck and returning to the top of the infection deck."});
+
       gameState = InfectionFactory.epidemic(gameState);
       gameState.drawnCards.push(newCard);
     } else {

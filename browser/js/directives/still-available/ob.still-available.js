@@ -5,8 +5,12 @@ app.directive("stillAvailable", function($rootScope) {
     scope: {},
     link: function(scope) {
       function changeNumRemainingCubes(gameState) {
+        var remainingCards;
+        if(!gameState.playerDeck) remainingCards = 0;
+        else remainingCards = gameState.playerDeck.length;
+
         scope.remaining = {
-          playercards: gameState.playerDeck.length || 0,
+          playercards: remainingCards,
           research: gameState.researchCentersRemaining,
           red: gameState.remainingCubes["red"],
           blue: gameState.remainingCubes["blue"],

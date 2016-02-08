@@ -5,15 +5,32 @@ app.directive("infectionDecks", function($rootScope) {
     scope: {},
     link: function(scope) {
       function changeNumRemainingCubes(gameState) {
+
+        var infectionDeckLength;
+        var infectionDeckDiscardLength;
+
+        var infectionDeckDiscardImage;
+        console.log()
+        if(!gameState.infectionDeckDiscard) infectionDeckDiscardImage = 'http://i.imgur.com/I15XGV4.png';
+        else infectionDeckDiscardImage = gameState.infectionDeckDiscard[gameState.infectionDeckDiscard.length-1].infectionCardFront;
+
+        // setting variables for deck length remaining, need to do this as
+        // firebase drops empty arrays, so need to ensure it exists at all
+        if(!gameState.infectionDeck) infectionDeckLength = 0;
+        else infectionDeckLength = gameState.infectionDeck.length;
+
+        if(!gameState.infectionDeckDiscard) infectionDeckDiscardLength = 0;
+        else infectionDeckDiscardLength = gameState.infectionDeckDiscard.length;
+
+        // image of the top card on the infectionDeckDiscard
         scope.infectiondecks = {
-          // infectiondeck: gameState.infectionDeck.length || 0,
-          // infectiondiscard: gameState.infectionDeckDiscard,
-          infectiondiscardTopCard: gameState.infectionDeckDiscard[gameState.infectionDeckDiscard.length-1].infectionCardFront || 'http://i.imgur.com/I15XGV4.png',
+          infectiondiscardTopCard: infectionDeckDiscardImage
         }
-        console.log("\n\n\n\n\n\n\n\n\n"+scope.infectiondecks)
+
+        // number of infection cards left in infectionDeck, and infectionDeckDiscard
         scope.numCardsInDeck = {
-          infectiondeckRemaining: gameState.infectionDeck.length || 0,
-          infectiondiscardNumber: gameState.infectionDeckDiscard.length || 0
+          infectiondeckRemaining: infectionDeckLength,
+          infectiondiscardNumber: infectionDeckDiscardLength
         }
       }
 
