@@ -33,17 +33,13 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
         // who am i?
         scope.username = localStorage.getItem('user');
-        console.log('Navbar heard stateChange and has user ', scope.username);
 
         if (scope.username) {
-          console.log('---> setting scope variables');
           let payload = fbData.gameState;
           let myIndex = payload.gamers.reduce(function(targetIdx, gamer, idx) {
             if (gamer.username === scope.username) targetIdx = idx;
             return targetIdx;
           }, -1);
-
-          console.log('--->this browser has myIndex of ', myIndex, ' gamers of ', payload.gamers, ' and localStorage user of ', scope.username);
 
           // 'others' is an array of the non-owner-gamers
           scope.others = payload.gamers.filter(function(gamer, index) {
@@ -71,30 +67,12 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
       });
 
 
-      scope.cardAction = function(_this) {
+      scope.cardAction = function(card) {
           //currentPhase = 'discard'
         if (localCopyOfState.currentPhase === 'discard' && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
-
-
           // discard phase and it is this user's turn
-          if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 7) {
-
-            // remove card selected from hand
-            var hand = localCopyOfState.gamers[localCopyOfState.gamerTurn].hand;
-            localCopyOfState.gamers[localCopyOfState.gamerTurn].hand = hand.filter(function(cardObj) {
-              return cardObj.key !== _this.card.key;
-            })
-
-            // if user has right number of cards, advance game to infect phase and advance turn
-            if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length <= 7) {
-              localCopyOfState.currentPhase = 'infect';
-              localCopyOfState.gamerTurn = (localCopyOfState.gamerTurn + 1) % 4;
-            }
-
-            // $rootScope.$broadcast('discardCardChosen', {discard: _this.card});
-            $rootScope.$broadcast('discardCard', {
-              updatedState: localCopyOfState
-            });
+          if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 2) {
+            $rootScope.$broadcast('discardCardChosen', card);
           }
         } else {
           $rootScope.$broadcast('badClick', {

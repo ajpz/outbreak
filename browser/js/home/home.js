@@ -3,13 +3,9 @@ app.config(function($stateProvider) {
     url: '/',
     templateUrl: 'js/home/home.html',
     controller: function($scope, $rootScope, ngToast) {
-        let previousMessage = null;
 
         $rootScope.$on('stateChange', function(event, payload) {
-          if(payload.gameState.message !== previousMessage){
-            createStateChangeToast(payload.gameState.message);
-            previousMessage = payload.gameState.message;
-          }
+          createStateChangeToast(payload.gameState.message);
         });
 
         $rootScope.$on('badClick', function(event, payload) {
@@ -21,11 +17,40 @@ app.config(function($stateProvider) {
               dismissButton: true,
               animation: 'fade',
               horizontalPostion: 'right',
-              veritcalPosition: 'top'
+              verticalPosition: 'top'
             });
         });
 
+        $rootScope.$on('renderDrawEvent', function(event, payload){
+          if(payload.message) {
+            createPhaseChangeToast(payload.message);
+          }
+
+        });
+
+        $rootScope.$on('renderDiscardEvent', function(event, payload){
+          if(payload.message) {
+            createPhaseChangeToast(payload.message);
+            if(payload.callback) {
+              setTimeout(payload.callback, 2000);
+            }
+          }
+        });
+
+        $rootScope.$on('renderInfectionEvent', function(event, payload){
+          if(payload.message) {
+            createPhaseChangeToast(payload.message);
+          }
+        });
+
+        let previousStateMessage = null;
         function createStateChangeToast(message){
+            if (message === previousStateMessage) {
+              return;
+            }
+
+            previousStateMessage = message;
+
             ngToast.create({
               className: 'success',
               content: message,
@@ -34,9 +59,29 @@ app.config(function($stateProvider) {
               dismissButton: true,
               animation: 'fade',
               horizontalPostion: 'right',
-              veritcalPosition: 'top'
+              verticalPosition: 'top'
             });
         };
+
+        let previousPhaseMessage = null;
+        function createPhaseChangeToast(message) {
+            if (message === previousPhaseMessage) {
+              return;
+            }
+
+            previousPhaseMessage = message;
+
+            ngToast.create({
+              className: 'success',
+              content: message,
+              dismissOnTimeout: true,
+              timeout: 2000,
+              dismissButton: true,
+              animation: 'fade',
+              horizontalPostion: 'right',
+              verticalPosition: 'top'
+            });
+        }
           // create a toast with settings:
 
 

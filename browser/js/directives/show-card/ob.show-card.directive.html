@@ -1,18 +1,18 @@
-<!-- <div ng-show="isCurrentlyDrawPhase"> -->
-<div ng-show="true">
+<div ng-show="isCurrentlyDrawPhase">
+<!-- <div ng-show="true"> -->
   <div class="cardcontainer">
     <span>Drawn player cards:</span>
-    <img class="cardfront" ng-repeat="cardImage in cardImages" src="{{cardImage}}" height="200px"/>
+    <img class="cardfront" ng-repeat="cardImage in cardImages" ng-src="{{cardImage}}" height="200px"/>
     <!-- <img class="cardfront" src="http://i.imgur.com/yn2NXMr.png" height='200px'/> -->
    <!--  <img class="cardfront" src="http://i.imgur.com/yn2NXMr.png" height='250px'/> -->
   </div>
 </div>
 
-<!-- <div ng-show="drawInfection"> -->
-<div ng-show="true">
+<div ng-show="isCurrentlyInfectionPhase">
+<!-- <div ng-show="true"> -->
   <div class="cardcontainerInfection">
     <span>Drawn infection cards:</span>
-    <img class="infectionCardfront" ng-repeat="infectionImage in infectionImages" src="{{infectionImage}}" height="200px"/>
+    <img class="infectionCardfront" ng-repeat="infectionImage in infectionImages" ng-src="{{infectionImage}}" height="200px"/>
     <!-- <img class="infectionCardfront" src="http://i.imgur.com/0Mh2rl8.png" height="200px"/>
     <img class="infectionCardfront" src="http://i.imgur.com/0Mh2rl8.png" height="200px"/>
     <img class="infectionCardfront" src="http://i.imgur.com/0Mh2rl8.png" height="200px"/> -->

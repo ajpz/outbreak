@@ -231,7 +231,6 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
             })
           })
-          console.log(rolesLayerGroup, researchLayerGroup, diseaseLayerGroup, "here are the groups")
         }
 
 
