@@ -118,7 +118,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
         //   $rootScope.$broadcast('phaseChanged', gameState);
         // }
 
-        if(gameState.gamers[gameState.gamerTurn].hand.length <= 2 && !gameState.chosenDiscards) {
+        if(gameState.gamers[gameState.gamerTurn].hand.length <= 7 && !gameState.chosenDiscards) {
           gameState.currentPhase = 'infect';
           console.log('in discard event but switching to infect')
           $rootScope.$broadcast('phaseChanged', gameState);
@@ -135,7 +135,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               message: message,
               chosenDiscards: null
             });
-          } else if (gameState.gamers[gameState.gamerTurn].hand.length > 2 ) {
+          } else if (gameState.gamers[gameState.gamerTurn].hand.length > 7 ) {
             //broadcast so that show-card can display the event, show-card handles setting a timeout
             console.log('hand is greater than 2, chosenDiscards are ', gameState.chosenDiscards);
             var message = 'The '+ gameState.gamers[gameState.gamerTurn].role +
@@ -149,7 +149,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               chosenDiscards: gameState.chosenDiscards
             });
 
-          } else if (gameState.gamers[gameState.gamerTurn].hand.length = 2) {
+          } else if (gameState.gamers[gameState.gamerTurn].hand.length === 7) {
             //broadcast so that show-card can display the event, show-card handles setting a timeout
             console.log('hand is 2, chosenDiscards are ', gameState.chosenDiscards);
             var message = 'The '+ gameState.gamers[gameState.gamerTurn].role +
