@@ -5,15 +5,11 @@
             <h4 class="panel-title">
                 <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-controls="collapseListGroup1"><strong>{{other.username}}</strong></a>
                 <span uib-tooltip="{{other.tooltip}}" tooltip-is-open="tooltipIsOpen"
-                tooltip-placement="left-bottom"></span>
-                  <a ng-click="tooltipIsOpen = !tooltipIsOpen" tooltip-animation="true">
+                tooltip-placement="left-bottom" tooltip-class="customClass"></span>
+                  <a ng-click="tooltipIsOpen = !tooltipIsOpen">
                     <img ng-src="{{other.icon}}" height="30"/><br />
                   <i>{{other.roleName}}</i><span id="currentCity">{{other.currentCity}}</span></a>
-
             </h4>
-            <script type="text/ng-template" id="myTooltipTemplate.html">
-                <span>Special Tooltip with <strong>markup</strong> and {{ dynamicTooltipText }}</span>
-            </script>
         </div>
         <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
             <div id="table-row" class="list-group-item" ng-repeat="row in other.chunkedData">
@@ -28,26 +24,21 @@
             <span id="arrowWidget" ng-show="turnBelongsTo(owner.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
                 <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup4"><strong>{{owner.username}}</strong></a>
-                  <span uib-tooltip="{{owner.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="left-bottom"></span>
-                  <a ng-click="tooltipIsOpen = !tooltipIsOpen" tooltip-animation="true">
+                  <span uib-tooltip="{{owner.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="left-bottom" tooltip-class="customClass"></span>
+                  <a ng-click="tooltipIsOpen = !tooltipIsOpen">
                   <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i><span id="currentCity">{{owner.currentCity}}</span></a>
                 </h4>
         </div>
         <div ng-attr-id="collapseListGroup{{others.length + 1}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading{{others.length + 1}}">
             <ul class="list-group">
-                <li class="list-group-item" id="low-padding" ng-repeat="card in owner.hand">
-                    <button class="ng-class: card.color" ng-click="cardAction(card)">{{card.name}}</button>
+                <li class="list-group-item" ng-repeat="card in owner.hand">
+                    <button class="ng-class: card.color" ng-click="cardAction(this)">{{card.name}}</button>
                 </li>
             </ul>
-
         </div>
     </div>
 </div>
-// <script>
-// $(function () {
-//   $('[data-toggle="tooltip"]').tooltip()
-// })
-// </script>
+
 
 <!--
                 <li>ACTIONS:</li>

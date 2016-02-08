@@ -4,13 +4,30 @@
   border: none;
 }
 
-#table-column{
+.tooltip.customClass .tooltip-inner {
+  color: #880000;
+  background-color: #ffff66;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+#table-column {
   text-align: center;
   display: inline-block;
   width: 50%;
-
-
+  padding-top: 3%;
+  padding-left: 2%;
+  padding-right: 2%;
+  background: #303030;
 }
+
+#table-row{
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  background: #303030;
+}
+
 a {
   img {
     float: right;
@@ -20,7 +37,6 @@ a {
   cursor: default;
 }
 #arrowWidget {
-
    z-index: 2000;
    margin-left: -12%;
    color: chartreuse;
@@ -29,157 +45,103 @@ a {
 }
 
 #currentCity {
-    float: right;
-    clear: right;
-    display: block;
-    font-size: 0.8em;
-    font-weight: 100;
-    letter-spacing: 0.1em;
-    padding-top: 1%;
-    /*text-align: bottom;*/
-    color: white;
-  }
-
-#table-row{
-  padding-top: 0px;
-  padding-bottom: 0px;
+  float: right;
+  clear: right;
+  display: block;
+  font-size: 0.8em;
+  font-weight: 100;
+  letter-spacing: 0.1em;
+  padding-top: 1%;
+  color: white;
 }
 
 .panel-title {
+  padding-top: 0;
   border: none;
   text-decoration: none;
   clear: none;
 }
+
+.list-group,
 .list-group-item {
-  padding: none;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  background: #303030;
+  margin: none;
+  border-top: none !important;
+  border: none;
   button {
     width: 100%;
+    font-size: 0.9em;
+    font-weight: 300;
     margin: none;
     color: white;
     border-radius: 10px;
+    border: none;
     background-color: black;
+
     &.blue {
       background-color: rgb(47, 63, 115);
-    }
+      &:hover {
+        background-color: #202b4f;
+      }
+    };
     &.black {
       background-color: rgb(0, 0, 0);
-    }
+      &:hover {
+        background-color: #181818;
+      }
+    };
     &.yellow {
       background-color: rgb(255, 153, 0);
-    }
+      &:hover {
+        background-color: #FF7500;
+      }
+    };
     &.red {
       background-color: rgb(168, 56, 59);
-    }
+      &:hover {
+        background-color: #B22222;
+      }
+    };
     &.green {
-      background-color: rgb(15, 61, 15);
+      background-color: #008000;
+      &:hover {
+        background-color: #006600;
+      }
     }
   }
+
 }
 
-.list-group-item {
-  button.blue {
-      background-color: rgb(47, 63, 115);
-    }
-  button.black {
-      background-color: rgb(0, 0, 0);
-    }
-  button.yellow {
-      background-color: rgb(255, 153, 0);
-    }
-  button.red {
-      background-color: rgb(168, 56, 59);
-    }
-  button.green {
-      background-color: rgb(15, 61, 15);
-    }
-}
-
-#collapseListGroupHeading1 {
-  background-color: #280000;
-
-  border: none;
-  a {
-    font-size: 12px;
-    line-height: 0.5em;
-    color: white;
-    text-decoration: none;
-    &:hover {
-      color: gray;
-    }
-  }
-}
-#collapseListGroupHeading2 {
-  background-color: #000033;
-
-  border: none;
-  a {
-    font-size: 12px;
-    color: white;
-    line-height: 0.5em;
-    text-decoration: none;
-    &:hover {
-      color: gray;
-    }
-  }
-}
-#collapseListGroupHeading3 {
-  background-color: #001901;
-
-  border: none;
-  a {
-    font-size: 12px;
-    color: white;
-    line-height: 0.5em;
-    text-decoration: none;
-    &:hover {
-      color: gray;
-    }
-  }
-}
+#collapseListGroupHeading1,
+#collapseListGroupHeading2,
+#collapseListGroupHeading3,
 #collapseListGroupHeading4 {
-  background-color: #003366;
-
+/*  background-color: #280000;*/
+  background: black;
   border: none;
+  padding-top: 3px;
+  padding-bottom: 7px;
   a {
     font-size: 12px;
-    color: white;
     line-height: 0.5em;
+    color: white;
     text-decoration: none;
     &:hover {
-      color: gray;
+      color: #D3D3D3;
     }
   }
-}
-
-/*#collapseListGroup4 {
-  button {
-    .blue {
-      background-color: rgb(47, 63, 115);
-    }
-    .black {
-      background-color: rgb(0, 0, 0);
-    }
-    .yellow {
-      background-color: rgb(255, 153, 0);
-    }
-    .red {
-      background-color: rgb(168, 56, 59);
-    }
-
-  }
-}*/
-
-.panel-footer {
-  list-style: none;
-  margin: none;
 }
 
 ul.list-group {
-    margin-bottom: 0px !important;
+  border: none;
+  margin-bottom: 0px !important;
 }
 
 .panel-group {
-    margin-bottom: -10px !important;
+  border: none;
+  margin-bottom: -10px !important;
 }
 
 #no-padding {
@@ -189,14 +151,6 @@ ul.list-group {
   font-size: 12px;
 }
 
-#low-padding {
-  padding-top: none;
-  padding-bottom: none;
-  line-height: 1.3em;
-  font-size: 12px;
-}
-
-
 navbar {
   position: fixed;
   width: 15%;
@@ -204,73 +158,8 @@ navbar {
   top: 0;
   right: 0;
   box-shadow:  -2px 3px 11px 0px rgba(50, 50, 50, 0.55);
-  /*height: 100%;*/
-  /*padding-top: 0.25%;
-  padding-right: 0.5%;
-  padding-left: 0.25%;*/
   display: inline-block;
-/*  background: transparent;*/
-  background: #000;
+  background: #303030;
   opacity: 0.9;
-
-
-
-
-  /*border-bottom: 1px solid black;
-  box-shadow: 1px 1px 14px -3px black;
-
-  .container {
-    width: 91%;
-    max-width: 1340px;
-    padding-top: 20px;
-  }
-
-  fullstack-logo {
-    margin-top: 5px;
-    margin-right: 20px;
-    width: 40px;
-  }*/
-
-  /*a {
-    color: black;
-    font-size: 16px;
-  }
-
-  .nav > li > a {
-    cursor: pointer;
-    transition: color 0.2s;
-    &.active {
-      color: darken(#f31214, 10%);
-    }
-    &:hover {
-      background: none;
-      color: #f31214;
-    }
-    &:focus {
-      background: none;
-    }
-  }
-
-  .login-button {
-    float: right;
-    border: 1px solid black;
-    margin-top: 10px;
-    background: none;
-    outline: none !important;
-  }
-
-  .welcome {
-    float: right;
-    margin-top: 12px;
-    span {
-      color: black;
-      font-size: 16px;
-      margin-right: 5px;
-    }
-    a {
-      color: #f30046;
-      cursor: pointer;
-    }
-  }*/
 
 }

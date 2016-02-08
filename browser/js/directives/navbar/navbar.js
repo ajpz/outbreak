@@ -1,12 +1,12 @@
 
-app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
-    $uibTooltipProvider.setTriggers({
-        'click': 'outsideClick'
-    });
-}]);
+// app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
+//     $uibTooltipProvider.setTriggers({
+//         'outsideClick': 'outsideClick'
+//     });
+// }]);
 
 
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, Roles, $sce) {
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, Roles) {
 
   return {
     restrict: 'E',
@@ -25,23 +25,6 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
         }
         return newArr;
       }
-      scope.dynamicTooltipText = 'dynamic';
-      scope.htmlTooltip = $sce.trustAsHtml('I\'ve been made <b>bold</b>!');
-
-
-      // $(function(){
-      //     $('[data-toggle=tooltip]').hover(function(){
-      //         // on mouseenter
-      //         $(this).tooltip('show');
-      //     }, function(){
-      //         // on mouseleave
-      //         $(this).tooltip('hide');
-      //     });
-      // });
-
-      // $(function () {
-      //   $('[data-toggle="tooltip"]').tooltip({delay: 0})
-      // })
 
 
       $rootScope.$on('stateChange', function(event, fbData) {
@@ -99,38 +82,38 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
       };
 
 
-      //CARDS:
-      // add new card(s) to hand via drawing or receiving during a share
-      scope.addCard = function() {};
+      // //CARDS:
+      // // add new card(s) to hand via drawing or receiving during a share
+      // scope.addCard = function() {};
 
-      // select card(s) from current hand, to do something with it
-      // card(s) placed in SELECTED section
-      scope.selectCard = function() {};
+      // // select card(s) from current hand, to do something with it
+      // // card(s) placed in SELECTED section
+      // scope.selectCard = function() {};
 
-      // selected citycard is given to another player
-      scope.shareCard = function() {};
+      // // selected citycard is given to another player
+      // scope.shareCard = function() {};
 
-      // selected citycard played and discarded (for a move /flight)
-      scope.playCard = function() {};
+      // // selected citycard played and discarded (for a move /flight)
+      // scope.playCard = function() {};
 
-      // selected Eventcard played and discarded
-      scope.playEvent = function() {};
+      // // selected Eventcard played and discarded
+      // scope.playEvent = function() {};
 
-      // 5 city cards of same color discarded to cure a disease
-      // these cards have already been moved into SELECTED section, it is emptied.
-      scope.cureDisease = function() {};
+      // // 5 city cards of same color discarded to cure a disease
+      // // these cards have already been moved into SELECTED section, it is emptied.
+      // scope.cureDisease = function() {};
 
-      // discard city cards to have max 7 in hand
-      // these cards have already been moved into SELECTED section, it is emptied.
-      scope.discardCards = function() {};
+      // // discard city cards to have max 7 in hand
+      // // these cards have already been moved into SELECTED section, it is emptied.
+      // scope.discardCards = function() {};
 
-      // toggle between tabs to see other gamer's roles and hands
-      // default should be tab of the respective gamer
-      scope.setTab = function() {};
+      // // toggle between tabs to see other gamer's roles and hands
+      // // default should be tab of the respective gamer
+      // scope.setTab = function() {};
 
-      // indicates who has active turn and
-      // disables playing (but not selecting) non-event cards in your hand
-      scope.isTurn = function() {};
+      // // indicates who has active turn and
+      // // disables playing (but not selecting) non-event cards in your hand
+      // scope.isTurn = function() {};
 
 
 
