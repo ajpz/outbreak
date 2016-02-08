@@ -13,7 +13,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
-  const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/outbreak');
+  const ref = new Firebase('https://outbreak-daniel.firebaseio.com/');
   let outbreak  = $firebaseObject(ref);
   FlowFactory();
 
@@ -40,7 +40,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       outbreak.$save();
       return;
     }
-
+    //TODO: FIX THIS LOGIC... right now game will never end.
     //Once 4 gamers have joined the game (playerCount of 4) create decks and deal cards
     if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === 4 && (localStorage.getItem('user') === outbreak.gameState.gamers[0].username)) {
       console.log('$watch sees 4 players, ', localStorage.getItem('user'), ' is dealing....', outbreak.gameState);
@@ -50,7 +50,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     }
 
     //Broadcast stateChange to rest of app
-    console.log('$watch broadcasting stateChange', outbreak.gameState);
+    console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase);
     $rootScope.$broadcast("stateChange", {
       gameState: outbreak.gameState
     });
@@ -62,6 +62,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   /////////////////////////////////////////////////////
 
   $rootScope.$on("counter", function(event, payload) {
+    console.log('>>>>>>>>counter')
     for (let key in payload) {
       outbreak.gameState[key] = payload[key];
     }
@@ -69,6 +70,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on('saveDrawnCard', function(event, payload){
+    console.log('>>>>>>>>saveDrawnCard');
     for(let key in payload){
       outbreak.gameState[key] = payload[key];
     }
@@ -76,6 +78,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on('saveDiscardCard', function(event, payload){
+    console.log('>>>>>>>>saveDiscardCard');
     for(let key in payload){
       outbreak.gameState[key] = payload[key];
     }
@@ -83,6 +86,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on('saveInfectionCard', function(event, payload){
+    console.log('saveInfectionCard emitted ', event)
     for(let key in payload){
       outbreak.gameState[key] = payload[key];
     }
@@ -90,20 +94,15 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on('phaseChanged', function(event, payload) {
+    console.log('phaseChanged emitted', event, payload)
     for (let key in payload) {
       outbreak.gameState[key] = payload[key];
     }
     outbreak.$save()
   });
 
-  $rootScope.$on('discardCard', function(event, payload) {
-    //console.log('heard discard...', payload);
-    outbreak.gameState = payload.updatedState;
-    outbreak.$save();
-  });
-
   $rootScope.$on("go", function(event, payload) {
-    //console.log("in the goooooooooooo");
+    console.log("in the goooooooooooo");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -117,7 +116,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // as you become more sure that this format of updating is the same,
   // you can create a general $on event name
   $rootScope.$on("treat", function(event, payload) {
-    //console.log("in the treat");
+    console.log("in the treat");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -129,7 +128,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on("build", function(event, payload) {
-    //console.log("in the build in game factory");
+    console.log("in the build in game factory");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -141,7 +140,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on("giveTo", function(event, payload) {
-    //console.log("in the give to in game factory");
+    console.log("in the give to in game factory");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -153,7 +152,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on("takeFrom", function(event, payload) {
-    //console.log("taking a card away in the gaming factory");
+    console.log("taking a card away in the gaming factory");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -165,7 +164,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on("cureDisease", function(event, payload) {
-    //console.log("curing a disease");
+    console.log("curing a disease");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -177,7 +176,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on("undo", function(event, payload) {
-    //console.log("undoing now");
+    console.log("undoing now");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -189,7 +188,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on("updateGamerTurn", function(event, payload) {
-    //console.log("changing turns");
+    console.log("changing turns");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -201,7 +200,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on("changeToDraw", function(event, payload) {
-    //console.log("change to draw phase");
+    console.log("change to draw phase");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -214,7 +213,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
 
 
   $rootScope.$on("medicAbility", function(event, payload) {
-    //console.log("change to draw phase");
+    console.log("change to draw phase");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
@@ -226,7 +225,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   });
 
   $rootScope.$on("cubesReduced", function(event, payload) {
-    //console.log("change to draw phase");
+    console.log("change to draw phase");
     for (let key in payload) {
       if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
