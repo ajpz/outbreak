@@ -127,6 +127,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         // this is to ensure that the execution button gets disabled
         scope.selection.noun = "";
         if (verb === "go" ) {
+          // my attempt to give the op expert the ability to go to different areas with research locations
+          // TODO : need to verify this works
           if (scope.gamers[scope.turn].role === "OperationExpert" && scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) > 1){
             // TODO : give the op expert the ability to discard through turning currentPhase to "discard"
             // and have to change it back
@@ -155,6 +157,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
                 scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
               });
             }
+            // need to emit in the other nouns to remove the circles -- or maybe I can keep it there.
+            $rootScope.$broadcast("CircleMarkersOnMap", {nouns : scope.nouns});
             // since the op expert can go anywhere, I should do a best efforts approach
             // of figuring out what they want to do.
           } else {
@@ -170,7 +174,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
                 shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
               }
               scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+
             });
+            $rootScope.$broadcast("CircleMarkersOnMap", {nouns : scope.nouns});
           }
         } else if (verb === "treat") {
           // turn the key-value pairs into its own array

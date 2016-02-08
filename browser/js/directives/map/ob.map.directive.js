@@ -274,9 +274,39 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
           return result;
         }
 
+        let trackGoCirlces = [];
+        let cities;
+        $rootScope.$on("CircleMarkersOnMap", function(event, payload){
+          cities = payload.nouns;  // an array of all the keys
+          cities.forEach(function(city){
+
+            var circle = new L.circleMarker(Cities[city]["location"] ,{
+              radius : 30,
+              fillColor : '#A7383D',
+              fill : true,
+              fillOpacity : 3,
+              opacity : 3,
+              stroke : false,
+              color : '#A7383D',
+              className : 'golocation-circle golocation',
+              weight : 0
+            }).addTo(map)
+              .on('add', function(){
+              setInterval(function(){
+                // the set interval is causing the toggle class;
+                // if I just remove the circle, then the set interval
+                // should not be a problem
+                $(".golocation-circle").toggleClass('golocation');
+              }, 700);
+            });
+            trackGoCirlces.push(circle);
+            /////////////
+          });
+        });
 
 
       }
+      //////////// THIS IS THE END OF THE LINK /////////////////////
     }
 
 })
