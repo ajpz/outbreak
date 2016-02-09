@@ -11,7 +11,6 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       // this is necessary for storing previous state and allows for UNDO
       scope.storedStates = [];
 
-
       /**
        *  This event is fired off on load
        * @type {boolean}
@@ -185,7 +184,10 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           let infections = ["black", "blue", "red", "yellow"];
 
           infections.forEach(function(infection) {
-            scope.nouns.push(infection + " : " + infectionsInCity[infection]);
+            if (infectionsInCity[infection] > 0) {
+              scope.nouns.push(infection + " : " + infectionsInCity[infection]);
+            }
+
           });
         } else if (verb === "build") {
           // if you are allowed to build because of logic in action factory
@@ -194,15 +196,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           // TODO : the opperator might need a more specialized logic
           scope.nouns = ["research center in: " + scope.gamers[scope.turn].currentCity]
         } else if (verb ===  "giveCityCard") {
-          let gives = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
-          scope.nouns = gives.map(function(give) {
-            return "give the " + give.city + " card to the " + give.giveTo;
-          });
+          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
         } else if (verb === "takeCityCard") {
-          let takes = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
-          scope.nouns = takes.map(function(take){
-            return "take the " + take.city + " card from the " + take.takeFrom;
-          });
+          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
         } else if (verb === "cureDisease") {
           // array of colors
           let cureObj = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
@@ -212,17 +208,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             }
           }
         } else if (verb === "researcherActions") {
-          //scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
-          let gives = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
-          scope.nouns = gives.map(function(give) {
-            return "give the " + give.city + " card to the " + give.giveTo;
-          });
-        } else  if (verb === 'takeFromResearcher') {
-          //scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
-          let takes = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
-          scope.nouns = takes.map(function(take){
-            return "take the " + take.city + " card from the " + take.takeFrom;
-          });
+          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+        } else if (verb === 'takeFromResearcher') {
+          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
         }
       };
 
@@ -535,5 +523,19 @@ app.filter('camelcasechange', function() {
     return input.replace(/([A-Z])/g, ' $1')
       // uppercase the first character
       .replace(/^./, function(str){ return str.toUpperCase(); })
+  }
+});
+// {giveTo: 'medic', city: 'dc'}
+// {takeFrom: 'medic', city: 'dc'}
+app.filter('takeOrGive', function() {
+  return function(input) {
+    if (input.takeFrom) {
+      console.log("Take " + input.city + " from " + input.takeFrom)
+      return "Take " + input.city + " from " + input.takeFrom
+    } else if (input.giveTo){
+      return "Give " + input.city + " to " + input.giveTo
+    }
+
+    return input;
   }
 });

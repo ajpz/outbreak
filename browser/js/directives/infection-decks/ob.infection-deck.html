@@ -1,5 +1,6 @@
 <div id='infectiondecks'>
-    <div class="row" ><span>Infection Deck</span><br />
+    <div class="row" ><span uib-tooltip="{{infectionDeck.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="top" tooltip-class="customClass">Infection Deck</span><br />
+      <a ng-click="tooltipIsOpen = !tooltipIsOpen"></a>
         <label>
             <img src="http://i.imgur.com/I15XGV4.png" height="30"/>
             <div class='infectiondeck_remaining'>{{numCardsInDeck.infectiondeckRemaining}}</div>

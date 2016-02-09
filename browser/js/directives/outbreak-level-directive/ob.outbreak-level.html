@@ -1,5 +1,7 @@
 <div id='outbreak-level'>
-    <div class="row" ><span>Outbreak Level</span><br />
+    <div class="row" ><span uib-tooltip="{{outbreakInfo.tooltip}}" tooltip-is-open="tooltipIsOpen"
+          tooltip-placement="top" tooltip-class="customClass">Outbreak Level</span><br />
+          <a ng-click="tooltipIsOpen = !tooltipIsOpen"></a>
         <label id="level_1">
             <img src="http://i.imgur.com/B92RfV5.png" height='30'/>
         </label>

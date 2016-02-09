@@ -1,11 +1,3 @@
-
-// app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
-//     $uibTooltipProvider.setTriggers({
-//         'outsideClick': 'outsideClick'
-//     });
-// }]);
-
-
 app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, Roles) {
 
   return {

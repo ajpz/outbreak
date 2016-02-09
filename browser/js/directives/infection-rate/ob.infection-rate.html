@@ -1,5 +1,8 @@
 <div id='infection-rate'>
-    <div class="row" ><span>Infection Rate</span><br />
+    <div class="row" >
+      <span uib-tooltip="{{infectionRate.tooltip}}" tooltip-is-open="tooltipIsOpen"
+          tooltip-placement="top" tooltip-class="customClass">Infection Rate</span><br />
+          <a ng-click="tooltipIsOpen = !tooltipIsOpen"></a>
         <label id="index_0">
             <img src="http://i.imgur.com/R4h0sLR.png" height="30"/>
         </label>

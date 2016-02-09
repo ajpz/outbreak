@@ -27,6 +27,10 @@ app.directive("infectionDecks", function($rootScope) {
           infectiondiscardTopCard: infectionDeckDiscardImage
         }
 
+        scope.infectionDeck = {
+          tooltip: "Shows the number of cards in the Infection card deck (left), as well as the number of cards in the Infection discard pile (right)."
+        }
+
         // number of infection cards left in infectionDeck, and infectionDeckDiscard
         scope.numCardsInDeck = {
           infectiondeckRemaining: infectionDeckLength,
