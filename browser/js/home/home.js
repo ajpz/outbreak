@@ -23,15 +23,15 @@ app.config(function($stateProvider) {
 
         $rootScope.$on('renderDrawEvent', function(event, payload){
           if(payload.message) {
-            createPhaseChangeToast(payload.message, 3000);
+            createPhaseChangeToast(payload.message, 6000);
           }
 
         });
 
         $rootScope.$on('renderDiscardEvent', function(event, payload){
           if(payload.message) {
-            createPhaseChangeToast(payload.message, 3000);
-            if(payload.callback) {
+            createPhaseChangeToast(payload.message, 5000);
+            if(payload.callback) {//TODO: what is this?
               setTimeout(payload.callback, 2000);
             }
           }
@@ -39,13 +39,19 @@ app.config(function($stateProvider) {
 
         $rootScope.$on('renderInfectionEvent', function(event, payload){
           if(payload.message) {
-            createPhaseChangeToast(payload.message, 3000);
+            createPhaseChangeToast(payload.message, 6000);
           }
         });
 
         $rootScope.$on('renderEpidemicEvent', function(event, payload) {
           if(payload.message) {
-            createPhaseChangeToast(payload.message, 4000);
+            createPhaseChangeToast(payload.message, 5000);
+          }
+        });
+
+        $rootScope.$on('outbreak', function(event, payload) {
+          if(payload.message) {
+            createPhaseChangeToast(payload.message, 5000);
           }
         });
 

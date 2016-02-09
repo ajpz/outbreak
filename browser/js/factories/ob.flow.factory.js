@@ -5,6 +5,9 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     //epidemic drawn first, or second
 
   var gameState;
+  var previousLengthOfDrawnCards = null;
+  var previousLengthOfInfectedCards = null;
+
 
   var pickACard = function (gameState){
 
@@ -58,9 +61,10 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
       console.log('\n>>>>>>>Remaining player cards: ', gameState.playerDeck.length);
         //notify players of stateChange, but only the first time we enter 'draw'
         //everyone browser sees this, every browser does this
-        if(!gameState.drawnCards) {
+        if(!gameState.drawnCards && !previousLengthOfDrawnCards) {
           //create drawnCards array
           gameState.drawnCards = [];
+          previousLengthOfDrawnCards = 0;
 
           var message = 'The '+ gameState.gamers[gameState.gamerTurn].role +
             ' is about to draw new player cards.';
@@ -76,7 +80,8 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               }
             }
           });
-        } else if (gameState.drawnCards.length === 1) {
+        } else if (gameState.drawnCards.length === 1 && previousLengthOfDrawnCards === 0) {
+          previousLengthOfDrawnCards++;
           //broadcast so that show-card can display the event, show-card handles setting a timeout
           $rootScope.$broadcast('renderDrawEvent', {
             message: null,
@@ -85,13 +90,24 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               //if this browser has the turn, this browser picks a card and saves to firebase
               if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
                 gameState = pickACard(gameState);
+                gameState.drawnInfections = [];
                 console.log('<><><><><><>< BROADCASTING FROM DRAW 2')
                 $rootScope.$broadcast('saveDrawnCard', gameState);
               }
             }
           });
 
-        } else if (gameState.drawnCards.length === 2) {
+          if(gameState.drawnInfections) {
+            console.log('calling renderInfectionEvent from first else in draw')
+            $rootScope.$broadcast('renderInfectionEvent', {
+              message: null,
+              drawnInfections: gameState.drawnInfections,
+              currentPhase: gameState.currentPhase
+            })
+          }
+
+        } else if (gameState.drawnCards.length === 2 && previousLengthOfDrawnCards === 1) {
+          previousLengthOfDrawnCards = null;
           //broadcast so that show-card can display the event, show-card handles setting a timeout
           $rootScope.$broadcast('renderDrawEvent', {
             message: null,
@@ -101,11 +117,21 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
                 gameState.currentPhase = 'discard';
                 gameState.drawnCards = [];
+                gameState.drawnInfections = [];
                 console.log('<><><><><><>< BROADCASTING FROM DRAW 3')
                 $rootScope.$broadcast('phaseChanged', gameState);
               }
             }
           });
+
+          if(gameState.drawnInfections) {
+            console.log('calling renderInfectionEvent from second else in draw')
+            $rootScope.$broadcast('renderInfectionEvent', {
+              message: null,
+              drawnInfections: gameState.drawnInfections,
+              currentPhase: gameState.currentPhase
+            })
+          }
         }
 
         break;
@@ -182,9 +208,10 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
         //notify players of stateChange, but only the first time we enter 'infect'
         //everyone browser sees this, every browser does this
         console.log('\n\nEntering infect with ', gameState.drawnInfections)
-        if(!gameState.drawnInfections) {
+        if(!gameState.drawnInfections && previousLengthOfInfectedCards === null) {
           //create drawnInfections array
-          gameState.drawnInfections = [];
+          previousLengthOfInfectedCards = 0;
+
           console.log('\n\n..........in infect with no drawnInfections')
           var message = 'New infections are rapidly spreading! Infecting '+ infectionRate + ' cities';
 
@@ -196,6 +223,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               console.log('\n\n..........in infect with no drawnInfections CALLBACK')
 
               if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
+                gameState.drawnInfections = [];
                 console.log('before infect: ', gameState.drawnInfections)
                 gameState = InfectionFactory.infect(gameState);
                 console.log('after infect: ', gameState.drawnInfections)
@@ -204,9 +232,10 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               }
             }
           });
-        } else if (gameState.drawnInfections.length < infectionRate) {
+        } else if (gameState.drawnInfections && gameState.drawnInfections.length < infectionRate && previousLengthOfInfectedCards !== gameState.drawnInfections.length) {
           //broadcast so that show-card can display the event, show-card handles setting a timeout
           console.log('\n\n..........in infect with drawnInfections less than')
+          previousLengthOfInfectedCards++;
 
           $rootScope.$broadcast('renderInfectionEvent', {
             message: null,
@@ -224,9 +253,10 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
             }
           });
 
-        } else if (gameState.drawnInfections.length === infectionRate) {
+        } else if (gameState.drawnInfections && gameState.drawnInfections.length === infectionRate && previousLengthOfInfectedCards === (gameState.drawnInfections.length - 1)) {
           console.log('\n\n..........in infect with drawnInfections equal to')
 
+          previousLengthOfInfectedCards = null;
           //broadcast so that show-card can display the event, show-card handles setting a timeout
           $rootScope.$broadcast('renderInfectionEvent', {
             message: null,
