@@ -4,7 +4,13 @@ const gameState = {};
 // GAME STATE
 gameState.playerCount = 0; // should be 0 - 3 to rep the number of players connecting
 gameState.status = 'initialization'; // options : inProgress, gameOver
+gameState.gameOver = {
+  win: false,
+  lossType: null // values can be outbreakLevel8, noMoreCubes, noMoreCards
+}
+
 gameState.currentPhase = "actions"; // actions, draw, discard, infect // will cycle through for next player
+
 //gameState.prevPhase = ""; // action, draw, disard, epidemic, event, infect
 //gameState.nextPhase = "";
 gameState.epidemicInEffect = false; //set to be a boolean

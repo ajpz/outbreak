@@ -1,4 +1,4 @@
-app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory, FlowFactory) {
+app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory, FlowFactory, Reasons) {
   // factory is returned at the end
   const factory = {};
   //factory.gameState = {};
@@ -13,7 +13,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
-  const ref = new Firebase('https://radiant-fire-7882.firebaseio.com/outbreak');
+  const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/');
   let outbreak  = $firebaseObject(ref);
   FlowFactory();
 
@@ -49,6 +49,14 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       return;
     }
 
+    if (outbreak.gameState.status === "gameOver"){
+      if (outbreak.gameState.gameOver.win){
+        alert("You cured all the diseases and saved the world from destruction :-)")
+      }
+      else {
+        alert("You lost because " + Reasons[outbreak.gameState.gameOver.lossType])
+      }
+    }
     //Broadcast stateChange to rest of app
     console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase);
     $rootScope.$broadcast("stateChange", {

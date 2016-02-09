@@ -459,7 +459,19 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       function broadcastCureDisease(info) {
         let colorToCure = info.noun;
         scope.gameState.isCured[colorToCure] = true;
+        var allCured = true;
+        Object.key(scope.gameState.isCured).forEach(function(color){
+          if (!scope.gameState.isCured[color]) {
+            allCured = false
+          }
+        })
+
+
         let packet = {isCured : scope.gameState.isCured};
+        if (allCured){
+          packet.status = "gameOver";
+          packet.gameOver = {win: true}
+        }
         packet.message = "User \'"+ scope.gameState.gamers[scope.turn].username + "\' just cured "+ colorToCure;
         $rootScope.$broadcast("cureDisease", packet);
       }

@@ -6,8 +6,10 @@ app.directive("stillAvailable", function($rootScope) {
     link: function(scope) {
       function changeNumRemainingCubes(gameState) {
         var remainingCards;
+        // if remainingCards is zero, game is over, right?
         if(!gameState.playerDeck) remainingCards = 0;
         else remainingCards = gameState.playerDeck.length;
+
 
         scope.remaining = {
           tooltip: "Show how many Player Cards, Research Centers, and disease units are remaining. If the cards or disease cubes (of any color) run out, the game ends.",

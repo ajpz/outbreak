@@ -32,6 +32,12 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       alreadyHit.push(target.key);
       // increment outbreakLevel on state
       state.outbreakLevel++;
+      // check whether outbreak level has reached 8
+      if (state.outbreakLevel === 8){
+        state.status = "gameOver";
+        state.gameOver.win = false;
+        state.gameOver.lossType = "outbreakLevel8";
+      }
       // grab the connections of the current key
       var nextKeys = Cities[target.key].connections;
       // add 1 infection of give color to each key
@@ -51,6 +57,8 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
         // console.log("\n\n\n\n\n After infection", state.remainingCubes[color])
       }else{
         state.status = 'gameOver';
+        state.gameOver.win = false;
+        state.gameOver.lossType =  "noMoreCubes";
       }
     }
   };
