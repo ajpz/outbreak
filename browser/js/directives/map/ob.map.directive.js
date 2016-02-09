@@ -274,7 +274,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
           return result;
         }
 
-        let trackGoCirlces = [];
+        let trackGoCircles = [];
         let cities;
         $rootScope.$on("CircleMarkersOnMap", function(event, payload){
           cities = payload.nouns;  // an array of all the keys
@@ -284,24 +284,41 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
               radius : 30,
               fillColor : '#A7383D',
               fill : true,
-              fillOpacity : 3,
-              opacity : 3,
+              fillOpacity : 6,
+              opacity : 6,
               stroke : false,
               color : '#A7383D',
               className : 'golocation-circle golocation',
               weight : 0
             }).addTo(map)
-              .on('add', function(){
-              setInterval(function(){
-                // the set interval is causing the toggle class;
-                // if I just remove the circle, then the set interval
-                // should not be a problem
-                $(".golocation-circle").toggleClass('golocation');
-              }, 700);
-            });
-            trackGoCirlces.push(circle);
+            //  .on('add', function(){
+            //  setInterval(function(){
+            //    // the set interval is causing the toggle class;
+            //    // if I just remove the circle, then the set interval
+            //    // should not be a problem
+            //    $(".golocation-circle").toggleClass('golocation');
+            //  }, 700);
+            //});
+            trackGoCircles.push(circle);
             /////////////
+
+
+            //setInterval(function(){
+            //  // the set interval is causing the toggle class;
+            //  // if I just remove the circle, then the set interval
+            //  // should not be a problem
+            //  $(".golocation-circle").toggleClass('golocation');
+            //}, 700);
           });
+        });
+
+        $rootScope.$on("RemoveCircleMarkers", function(event, payload){
+          trackGoCircles.forEach(function(circle){
+            map.removeLayer(circle);
+            console.log(trackGoCircles);
+          });
+          trackGoCircles = [];
+          
         });
 
 

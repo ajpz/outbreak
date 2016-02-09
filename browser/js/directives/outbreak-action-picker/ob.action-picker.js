@@ -331,6 +331,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         directFlightKeys = [];
         charterFlightKeys = [];
         shuttleFlightKeys = [];
+
+        $rootScope.$broadcast("RemoveCircleMarkers", {});
       }
 
       function broadcastTreatToGameState(info) {
