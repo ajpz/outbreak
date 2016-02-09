@@ -1,6 +1,6 @@
 .action-picker {
   padding-left: 20px;
-  opacity: 0.5;
+  opacity: 0.7;
   position: fixed;
   left: 0;
   top: 300px;
@@ -8,6 +8,8 @@
   width : 300px;
   height : 500px;
   background-color: #8c8c8c;
+  color : white;
+  font-size : 1.2em;
 }
 
 .action-picker-inner{

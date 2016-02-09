@@ -127,6 +127,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         // this is to ensure that the execution button gets disabled
         scope.selection.noun = "";
         if (verb === "go" ) {
+          // my attempt to give the op expert the ability to go to different areas with research locations
+          // TODO : need to verify this works
           if (scope.gamers[scope.turn].role === "OperationExpert" && scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) > 1){
             // TODO : give the op expert the ability to discard through turning currentPhase to "discard"
             // and have to change it back
@@ -155,6 +157,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
                 scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
               });
             }
+            // need to emit in the other nouns to remove the circles -- or maybe I can keep it there.
+            $rootScope.$broadcast("CircleMarkersOnMap", {nouns : scope.nouns});
             // since the op expert can go anywhere, I should do a best efforts approach
             // of figuring out what they want to do.
           } else {
@@ -170,7 +174,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
                 shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
               }
               scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+
             });
+            $rootScope.$broadcast("CircleMarkersOnMap", {nouns : scope.nouns});
           }
         } else if (verb === "treat") {
           // turn the key-value pairs into its own array
@@ -188,9 +194,15 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           // TODO : the opperator might need a more specialized logic
           scope.nouns = ["research center in: " + scope.gamers[scope.turn].currentCity]
         } else if (verb ===  "giveCityCard") {
-          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          let gives = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          scope.nouns = gives.map(function(give) {
+            return "give the " + give.city + " card to the " + give.giveTo;
+          });
         } else if (verb === "takeCityCard") {
-          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          let takes = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          scope.nouns = takes.map(function(take){
+            return "take the " + take.city + " card from the " + take.takeFrom;
+          });
         } else if (verb === "cureDisease") {
           // array of colors
           let cureObj = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
@@ -200,9 +212,17 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             }
           }
         } else if (verb === "researcherActions") {
-          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          //scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          let gives = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          scope.nouns = gives.map(function(give) {
+            return "give the " + give.city + " card to the " + give.giveTo;
+          });
         } else  if (verb === 'takeFromResearcher') {
-          scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          //scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          let takes = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          scope.nouns = takes.map(function(take){
+            return "take the " + take.city + " card from the " + take.takeFrom;
+          });
         }
       };
 
@@ -311,6 +331,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         directFlightKeys = [];
         charterFlightKeys = [];
         shuttleFlightKeys = [];
+
+        $rootScope.$broadcast("RemoveCircleMarkers", {});
       }
 
       function broadcastTreatToGameState(info) {
@@ -504,5 +526,14 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
 app.filter('capitalize', function() {
   return function(input) {
     return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+  }
+});
+
+// taken from stackoverflow http://stackoverflow.com/questions/4149276/javascript-camelcase-to-regular-form
+app.filter('camelcasechange', function() {
+  return function(input) {
+    return input.replace(/([A-Z])/g, ' $1')
+      // uppercase the first character
+      .replace(/^./, function(str){ return str.toUpperCase(); })
   }
 });
