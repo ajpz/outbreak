@@ -24,7 +24,7 @@
             <div ng-show="selection.verb" class="select_style">
               <label>
                 <select ng-change="selectNoun()" ng-model="selection.noun">
-                    <option value="{{noun}}" ng-repeat="noun in nouns track by $index">{{ noun | camelcasechange }}</option>
+                    <option value="{{noun}}" ng-repeat="noun in nouns track by $index">{{ noun | takeOrGive }}</option>
                 </select>
               </label>
             </div>
