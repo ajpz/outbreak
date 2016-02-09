@@ -194,7 +194,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           // then I am making the assumption that you can build where you are
           // the only specialty might be the op expert
           // TODO : the opperator might need a more specialized logic
-          scope.nouns = ["research center in: " + scope.gamers[scope.turn].currentCity]
+          if (scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) === -1){
+            scope.nouns = ["research center in: " + scope.gamers[scope.turn].currentCity]
+          }
         } else if (verb ===  "giveCityCard") {
           scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
         } else if (verb === "takeCityCard") {
