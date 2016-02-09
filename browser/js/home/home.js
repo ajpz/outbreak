@@ -66,7 +66,7 @@ app.config(function($stateProvider) {
             ngToast.create({
               className: htmlClass,
               content: message,
-              dismissOnTimeout: false,
+              dismissOnTimeout: true,
               timeout: 4000,
               dismissButton: true,
               animation: 'fade',
