@@ -314,8 +314,11 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         });
 
         $rootScope.$on("RemoveCircleMarkers", function(event, payload){
+          map.setView(Cities[payload.zoomCity].location, 4)
+
           trackGoCircles.forEach(function(circle){
             map.removeLayer(circle);
+
             console.log(trackGoCircles);
           });
           trackGoCircles = [];
