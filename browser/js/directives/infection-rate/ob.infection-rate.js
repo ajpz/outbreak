@@ -20,7 +20,7 @@ app.directive("infectionRate", function($rootScope) {
 
       scope.changeTheIndex = function(gameState) {
         scope.infectionLevelIndex = gameState.infectionLevelIndex;
-        
+
         for (let i = 0; i < 7; i++) {
           let elem = $(element).find("#index_" + i)
           if (i !== scope.infectionLevelIndex) {
@@ -29,6 +29,10 @@ app.directive("infectionRate", function($rootScope) {
             elem.children("img").attr("src", pictures[i])
           }
         }
+      }
+
+      scope.infectionRate = {
+        tooltip: 'The Infection Rate dictates how many infection cards are flipped over during each Infect Cities stage, controlling the rate at which diseases spread.'
       }
 
       $rootScope.$on('stateChange', function(event, payload) {

@@ -1,5 +1,5 @@
 <div id='still-available'>
-    <div class="row" ><span>Still Available</span><br />
+    <div class="row" ><span uib-tooltip="{{remaining.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="top" tooltip-class="customClass">Still Available</span><br /><a ng-click="tooltipIsOpen = !tooltipIsOpen"></a>
         <label id='playercards_remaining'>
             <img src="http://i.imgur.com/QzLrBX4.png" height="30"/><div class='playercards_remaining'>{{remaining.playercards}}</div>
         </label>

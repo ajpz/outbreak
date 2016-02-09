@@ -4,6 +4,8 @@ app.directive("cures", function($rootScope) {
     templateUrl: 'js/directives/cures/ob.cures.html',
     scope: {},
     link: function(scope, element) {
+
+
       scope.diseases = {
         red: {
           cured: false,
@@ -31,6 +33,8 @@ app.directive("cures", function($rootScope) {
         }
       };
 
+      scope.diseases.tooltip = "Shows whether a disease has been cured (filled bottle) or eradicated (check mark)";
+
 
       let notCured = 'https://i.imgur.com/RobelMv.png';
       // test data
@@ -45,11 +49,11 @@ app.directive("cures", function($rootScope) {
       // }
 
       /**
-      NOTE: Current unimportant limitation: 
-      If you change the cured status of a disease from false to true, you cannot change it back to false. 
-      Similarly, you can change a disease that is cured to eradicated (isCured=true, isEradicated=false ===> isCured=false, isEradicated=true), 
-      but you can not change it back (isCured=false, isEradicated=true ===> isCured=true, isEradicated=false). 
-      This ***SHOULD NOT*** be a problem, as the rules to the game should not support that behavior. 
+      NOTE: Current unimportant limitation:
+      If you change the cured status of a disease from false to true, you cannot change it back to false.
+      Similarly, you can change a disease that is cured to eradicated (isCured=true, isEradicated=false ===> isCured=false, isEradicated=true),
+      but you can not change it back (isCured=false, isEradicated=true ===> isCured=true, isEradicated=false).
+      This ***SHOULD NOT*** be a problem, as the rules to the game should not support that behavior.
       **/
       scope.cureTheDisease = function(gameState) {
         for (let key in gameState.isCured) {

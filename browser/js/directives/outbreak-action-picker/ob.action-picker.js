@@ -11,7 +11,6 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       // this is necessary for storing previous state and allows for UNDO
       scope.storedStates = [];
 
-
       /**
        *  This event is fired off on load
        * @type {boolean}
@@ -196,12 +195,12 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         } else if (verb ===  "giveCityCard") {
           let gives = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
           scope.nouns = gives.map(function(give) {
-            return "give the " + give.city + " card to the " + give.giveTo;
+            return "give " + give.city + " card to " + give.giveTo;
           });
         } else if (verb === "takeCityCard") {
           let takes = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
           scope.nouns = takes.map(function(take){
-            return "take the " + take.city + " card from the " + take.takeFrom;
+            return "take " + take.city + " card from " + take.takeFrom;
           });
         } else if (verb === "cureDisease") {
           // array of colors
@@ -215,13 +214,13 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           //scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
           let gives = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
           scope.nouns = gives.map(function(give) {
-            return "give the " + give.city + " card to the " + give.giveTo;
+            return "give " + give.city + " card to " + give.giveTo;
           });
-        } else  if (verb === 'takeFromResearcher') {
+        } else if (verb === 'takeFromResearcher') {
           //scope.nouns = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
           let takes = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
           scope.nouns = takes.map(function(take){
-            return "take the " + take.city + " card from the " + take.takeFrom;
+            return "take Researcher's " + take.city + " card"
           });
         }
       };

@@ -1,7 +1,7 @@
 #infectiondecks {
   position: fixed;
   bottom: 0px;
-  right: 75%;
+  right: 71%;
   display: inline-block;
   text-align: center;
   background: black;
@@ -13,6 +13,10 @@
   padding-right: 2%;
   line-height: 1.2em;
   z-index: 2000;
+  img {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
   span {
     font-weight: 100;
     font-size: 0.8em;

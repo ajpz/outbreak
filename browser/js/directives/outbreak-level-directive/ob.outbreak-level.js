@@ -14,6 +14,10 @@ app.directive("outbreakLevel", function($rootScope) {
       let litUpPicture = "http://i.imgur.com/B92RfV5.png"
       let blankPicture = "http://i.imgur.com/GLfit2U.png"
 
+      scope.outbreakInfo = {
+        tooltip: "Every time a disease outbreak occurs the marker advances 1 space. If the outbreaks marker reaches the last space on the track the game ends."
+      }
+
       scope.changeTheLevel = function(gameState) {
         scope.outbreakLevel = gameState.outbreakLevel;
 

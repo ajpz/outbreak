@@ -237,8 +237,9 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         function placeOnMap(marker, offset, location, icon){
 
           var zoomSizeIcon = {
-            '4' : [25,25],
-            '3' : [20,20],
+            '5' : [40,40],
+            '4' : [30,30],
+            '3' : [25,25],
             '2' : [15,15],
             '1' : [15,15]
           };
