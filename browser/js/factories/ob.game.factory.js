@@ -9,11 +9,11 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    */
 
   // homburger: 'https://radiant-fire-7882.firebaseio.com/outbreak'
-  // ajpz:      'https://outbreaktest.firebaseio.com/outbreak'
+  // ajpz:      'https://otterbreak.firebaseio.com/outbreak'
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
-  const ref = new Firebase('https://outbreak-daniel.firebaseio.com/');
+  const ref = new Firebase('https://otterbreak.firebaseio.com/');
   let outbreak  = $firebaseObject(ref);
   FlowFactory();
 
@@ -40,9 +40,8 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       outbreak.$save();
       return;
     }
-    //TODO: FIX THIS LOGIC... right now game will never end.
     //Once 4 gamers have joined the game (playerCount of 4) create decks and deal cards
-    if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === 4 && (localStorage.getItem('user') === outbreak.gameState.gamers[0].username)) {
+    if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === 4 && (localStorage.getItem('user') === outbreak.gameState.gamers[0].username) && outbreak.gameState.status === 'initialization') {
       console.log('$watch sees 4 players, ', localStorage.getItem('user'), ' is dealing....', outbreak.gameState);
       outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState);
       outbreak.$save();
