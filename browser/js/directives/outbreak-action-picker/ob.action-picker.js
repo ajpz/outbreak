@@ -322,7 +322,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         charterFlightKeys = [];
         shuttleFlightKeys = [];
 
-        $rootScope.$broadcast("RemoveCircleMarkers", {});
+        $rootScope.$broadcast("RemoveCircleMarkers", {zoomCity: packet.gamers[scope.turn].currentCity});
       }
 
       function broadcastTreatToGameState(info) {
