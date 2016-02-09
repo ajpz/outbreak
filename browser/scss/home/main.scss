@@ -1,29 +1,48 @@
 #home {
-  fullstack-logo {
-    padding-top: 30px;
-    width: 150px;
-    margin: 0 auto;
-  }
-  h1 {
-    margin-top: 40px;
-    text-align: center;
-  }
+    h1 {
+        margin-top: 40px;
+        text-align: center;
+    }
 }
 
 #top-directives {
-  top: 0;
-  position: fixed;
-  left: 5%;
-  z-index: 2000;
+    top: 0;
+    position: fixed;
+    left: 0;
+    z-index: 2000;
 }
 
+.ng-toast {
+    z-index: 2010;
+    position: fixed;
+    float: right;
+    width: 25%;
+    margin-top: 1%;
+    margin-left: 59%;
+}
 
+#map {
+    left: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
 
-.ng-toast{
-  z-index: 2010;
-  position: fixed;
-  float: right;
-  width: 25%;
-  margin-top: 1%;
-  margin-left: 59%;
+.alert-alert {
+    color: #FFF;
+    background-color: #FC3000;
+    border: .5px solid white;
+}
+
+.alert-infection {
+    color: #545D00;
+    background-color: #ABBA1E;
+    border: .5px solid white;
+}
+
+.alert-unimportant {
+    color: #FFF;
+    background-color: #0F6EA7;
+    border: .5px solid white;
 }

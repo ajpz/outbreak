@@ -5,7 +5,7 @@ app.config(function($stateProvider) {
     controller: function($scope, $rootScope, ngToast) {
 
         $rootScope.$on('stateChange', function(event, payload) {
-          createStateChangeToast(payload.gameState.message);
+          createStateChangeToast(payload.gameState.message, "unimportant");
         });
 
         $rootScope.$on('badClick', function(event, payload) {
@@ -23,14 +23,14 @@ app.config(function($stateProvider) {
 
         $rootScope.$on('renderDrawEvent', function(event, payload){
           if(payload.message) {
-            createPhaseChangeToast(payload.message, 6000);
+            createPhaseChangeToast(payload.message, 6000, "unimportant");
           }
 
         });
 
         $rootScope.$on('renderDiscardEvent', function(event, payload){
           if(payload.message) {
-            createPhaseChangeToast(payload.message, 5000);
+            createPhaseChangeToast(payload.message, 5000, "unimportant");
             if(payload.callback) {//TODO: what is this?
               setTimeout(payload.callback, 2000);
             }
@@ -39,24 +39,24 @@ app.config(function($stateProvider) {
 
         $rootScope.$on('renderInfectionEvent', function(event, payload){
           if(payload.message) {
-            createPhaseChangeToast(payload.message, 6000);
+            createPhaseChangeToast(payload.message, 6000, "infection");
           }
         });
 
         $rootScope.$on('renderEpidemicEvent', function(event, payload) {
           if(payload.message) {
-            createPhaseChangeToast(payload.message, 5000);
+            createPhaseChangeToast(payload.message, 5000, "alert");
           }
         });
 
         $rootScope.$on('outbreak', function(event, payload) {
           if(payload.message) {
-            createPhaseChangeToast(payload.message, 5000);
+            createPhaseChangeToast(payload.message, 5000, "alert");
           }
         });
 
         let previousStateMessage = null;
-        function createStateChangeToast(message){
+        function createStateChangeToast(message, htmlClass){
             if (message === previousStateMessage) {
               return;
             }
@@ -64,9 +64,9 @@ app.config(function($stateProvider) {
             previousStateMessage = message;
 
             ngToast.create({
-              className: 'success',
+              className: htmlClass,
               content: message,
-              dismissOnTimeout: true,
+              dismissOnTimeout: false,
               timeout: 4000,
               dismissButton: true,
               animation: 'fade',
@@ -76,7 +76,10 @@ app.config(function($stateProvider) {
         };
 
         let previousPhaseMessage = null;
-        function createPhaseChangeToast(message, timeout) {
+        function createPhaseChangeToast(message, timeout, htmlClass) {
+            if (!htmlClass){
+              htmlClass = "unimportant";
+            }
             if (message === previousPhaseMessage) {
               return;
             }
@@ -84,7 +87,7 @@ app.config(function($stateProvider) {
             previousPhaseMessage = message;
 
             ngToast.create({
-              className: 'success',
+              className: htmlClass,
               content: message,
               dismissOnTimeout: true,
               timeout: timeout,
