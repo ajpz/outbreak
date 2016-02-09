@@ -71,7 +71,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           //currentPhase = 'discard'
         if (localCopyOfState.currentPhase === 'discard' && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
           // discard phase and it is this user's turn
-          if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 2) {
+          if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 7) {
             $rootScope.$broadcast('discardCardChosen', card);
           }
         } else {

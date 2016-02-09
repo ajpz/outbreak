@@ -318,7 +318,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
             console.log(trackGoCircles);
           });
           trackGoCircles = [];
-          
+
         });
 
 

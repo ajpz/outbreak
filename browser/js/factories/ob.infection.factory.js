@@ -24,8 +24,9 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
                   })[0];
     // check to see if the target has 3 of the given color --> outbreak?
     if(target[color] === 3) {
-      alert('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color])
+      // alert('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color])
       console.log('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color]);
+      $rootScope.$broadcast('outbreak', {message: 'An Outbreak hit ' + target.key + '. The ' + color + ' disease is spreading to nearby cities.'})
       // add the current key, i.e. newYork, to the alreadyHit array
       // to prevent outbreaks from looping recursively
       alreadyHit.push(target.key);
@@ -91,6 +92,9 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       //2) pick card from bottom of infectionDeck and infect with 3 virus
       let card = CardFactory.pickCardFromBottom(state.infectionDeck);
       addInfectionToACity(card, 3, state);
+
+      state.drawnInfections = [card]; // add drawnInfections array to capture infection card picked from bottom
+
       state.infectionDeckDiscard.push(card);
       //3) shuffle discards and add to top of infectionDeck
       shuffleDiscardAndAddToInfectionDeck(state);
