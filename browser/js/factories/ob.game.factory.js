@@ -249,6 +249,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
 });
 
 
-app.run(function(GameFactory) {
-  console.log('GameFactory injected.');
-});
+// app.run(function(GameFactory) {
+//   console.log('GameFactory injected.');
+// });

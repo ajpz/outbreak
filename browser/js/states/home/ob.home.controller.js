@@ -41,6 +41,11 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
   $scope.goToLogin = function() {
     $state.go("login")
   }
+  $scope.goToSignup = function() {
+    console.log('hfew')
+    $state.go("signup")
+  }
+
 
   $scope.isLoggedIn = function() {
     return AuthService.isAuthenticated();

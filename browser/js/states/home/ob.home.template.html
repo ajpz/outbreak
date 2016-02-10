@@ -2,6 +2,9 @@
   <button type='button' ng-show=!isLoggedIn() ng-click="goToLogin()">Login</button>
 </div>
 <div>
+  <button type='button' ng-show=!isLoggedIn() ng-click="goToSignup()">Signup</button>
+</div>
+<div>
   <button type='button' ng-show=isLoggedIn() ng-click="logout()">Logout {{loggedInUser.email}}</button>
 </div>
 <div>

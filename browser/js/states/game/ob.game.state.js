@@ -5,7 +5,7 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/states/game/ob.game.template.html',
         controller: 'GameCtrl',
         resolve: {
-        	lobbyId: function($stateParams){
+        	lobbyId: function($stateParams, GameFactory){
         		return $stateParams.id;
         	}
         }
