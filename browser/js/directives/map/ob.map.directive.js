@@ -27,12 +27,17 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
 
         map.on('zoomstart', function() {
-          removeMarkerLayers();
+          if(payload.currentPhase !== 'infect') {
+            removeMarkerLayers();
+          }
         })
 
         map.on('zoomend', function(){
-          addMarkerToMarkerObj();
-          addSquaresToMap();
+
+          if(payload.currentPhase !== 'infect') {
+            addMarkerToMarkerObj();
+            addSquaresToMap();
+          }
 
           // this is for showing and hiding the llama
           if (map.getZoom() > 4){
@@ -110,7 +115,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
             }).addTo(map);
 
         // these are the city markers
-        var colors = {blue: '#0000FF', red: '#A8383B', yellow: '#FF9900', black: '#000'};
+        var colors = {blue: '#0000FF', red: '#FF0000', yellow: '#FF9900', black: '#000'};
         for (var key in Cities){
           if (Cities.hasOwnProperty(key)) {
             var cityMarker = L.circleMarker(Cities[key].location, {
@@ -142,10 +147,22 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         // whenever someone or something moves/changes we remove all markers and then place them again.
         $rootScope.$on('stateChange', function(event, fbData){
           payload = _.cloneDeep(fbData.gameState);
-          removeMarkerLayers();
-          addMarkerToMarkerObj();
-          // debugger;
+
+          //if it's infect phase, and drawnInfections is > 0, then zoom, then remove, then re-render
+          if(payload.currentPhase === 'infect' && payload.drawnInfections) {
+            var infectArray = payload.drawnInfections;
+            removeMarkerLayers();
+            map.setView(Cities[infectArray[infectArray.length - 1].key].location, 4);
+            addMarkerToMarkerObj();
+          } else {
+            removeMarkerLayers();
+            addMarkerToMarkerObj();
+          }
         })
+
+        // $rootScope.$on('zoomToInfectionCity', function(event, payload) {
+        //   map.setView(Cities[payload.cityKey].location, 4);
+        // });
 
         function removeMarkerLayers() {
           rolesLayerGroup.forEach(function(role) {
@@ -173,6 +190,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
           diseaseLayerGroup = [];
           circleDiseaseLayerGroup = [];
           trackGoSquares = [];
+          cities = [];
           markers = [];
         }
 
@@ -284,11 +302,18 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
                 })
           }
           else {
+
+            var mult;
+
+            if(count === 3) mult = 1.6;
+            else if (count === 2) mult = 1.0;
+            else if (count === 1) mult = 0.8;
+
             var circle = new L.circleMarker(location ,{
-              radius : zoomRadiusCircle[map.getZoom().toString()] || 30,
+              radius : zoomRadiusCircle[map.getZoom().toString()] * mult || 30,
               fillColor : colors[color],
               fill : true,
-              fillOpacity : 0.5,
+              fillOpacity : 0.6,
               opacity : 6,
               className : 'golocation-circle golocation',
               stroke : false,
@@ -315,11 +340,6 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
              map.addLayer(circle);
           }
 
-          // map.addLayer(oneMapIcon);
-// var colors = {blue: '#0000FF', red: '#A8383B', yellow: '#FF9900', black: '#000'};
-          // this is adding the circles for infected cities to the map
-
-
         }
 
 
@@ -334,13 +354,14 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
           return result;
         }
 
-        let trackGoSquares = [];
-        let cities = [];
-        let localPayload;
+        var trackGoSquares = [];
+        var cities = [];
+        var localPayload;
 
         function addSquaresToMap(payload) {
           if (payload) localPayload = payload;
-          cities = [];
+          if (!localPayload) return;
+
           var zoomSizeSquare = {
             '5' : [160,160],
             '4' : [100,100],
@@ -357,15 +378,6 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
             var square= new L.marker(Cities[city]["location"] ,{
               icon: goToHereIcon
-              // radius : 30,
-              // fillColor : '#A7383D',
-              // fill : false,
-              // fillOpacity : 6,
-              // opacity : 6,
-              // stroke : false,
-              // color : '#A7383D',
-              // className : 'golocation-circle golocation',
-              // weight : 0
             }).addTo(map)
 
             trackGoSquares.push(square);
@@ -394,6 +406,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
             console.log(trackGoSquares);
           });
           trackGoSquares = [];
+          cities = [];
 
         });
 
@@ -403,34 +416,4 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
     }
 
 })
-
-// $rootScope.$on("CircleMarkersOnMap", function(event, payload){
-//           cities = payload.nouns;  // an array of all the keys
-//           cities.forEach(function(city){
-// // var llamaLayer = L.marker([-10.604774, -73.372619], {icon: llama});
-
-//             var circle = new L.marker(Cities[city]["location"] ,{
-//               radius : 30,
-//               fillColor : '#A7383D',
-//               fill : false,
-//               fillOpacity : 6,
-//               opacity : 6,
-//               stroke : false,
-//               color : '#A7383D',
-//               className : 'golocation-circle golocation',
-//               weight : 0
-//             }).addTo(map)
-
-//             trackGoCircles.push(circle);
-//             /////////////
-
-
-//             //setInterval(function(){
-//             //  // the set interval is causing the toggle class;
-//             //  // if I just remove the circle, then the set interval
-//             //  // should not be a problem
-//             //  $(".golocation-circle").toggleClass('golocation');
-//             //}, 700);
-//           });
-//         });
 

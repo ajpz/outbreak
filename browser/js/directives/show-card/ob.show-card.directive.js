@@ -46,6 +46,13 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
 
       $rootScope.$on('renderInfectionEvent', function(event, payload) {
         scope.isCurrentlyInfectionPhase = true;
+
+        //
+
+
+
+        //
+
         console.log('in renderInfectionEvent top')
         if(payload.currentPhase !== 'draw') {
 
@@ -58,6 +65,7 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
             }, 2000);
             console.log('>>>>after setting timeout for message callback')
           } else {
+            // $rootScope.$broadcast('zoomToInfectionCity', {cityKey :
             numInfectionsDrawn++;
             console.log(">>>> in renderInfectionEvent else")
 
@@ -75,7 +83,7 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
                 scope.infectionImages = [];
               }
               payload.callback();
-            }, 2000);
+            }, 3000);
           };
 
         } else {
