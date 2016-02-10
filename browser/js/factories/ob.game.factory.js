@@ -1,4 +1,8 @@
-app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory, FlowFactory) {
+app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory, FlowFactory, $location) {
+    let fullPathArr = $location.path().split('/');
+    let lobbyId = fullPathArr[fullPathArr.length-1]
+    console.log("lobbyId", lobbyId)
+
   // factory is returned at the end
   const factory = {};
   //factory.gameState = {};
@@ -13,11 +17,14 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
-  const ref = new Firebase('https://outbreak-daniel.firebaseio.com/');
+   let link = 'https://outbreak-daniel.firebaseio.com/'+lobbyId;
+  console.log(link)
+  const ref = new Firebase(link);
   let outbreak  = $firebaseObject(ref);
   FlowFactory();
 
   outbreak.$watch(function() {
+      console.log("FHIUOFHEOIGH")
 
     //Initialize basic game state if none exists
     if (!outbreak.hasOwnProperty('gameState')) {
@@ -244,4 +251,4 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
 
 app.run(function(GameFactory) {
   console.log('GameFactory injected.');
-})
+});

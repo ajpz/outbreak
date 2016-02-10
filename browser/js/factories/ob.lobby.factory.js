@@ -11,6 +11,18 @@ app.factory("LobbyFactory", function($http){
 			.then(function(response){
 				return response.data
 			})
+		},
+		joinLobby: function(data){
+			return $http.put('/api/lobby/'+data.lobby, data)
+			.then(function(response){
+				return response.data
+			})
+		},
+		getALobby: function(id){
+			return $http.get('/api/lobby/'+id)
+			.then(function(response){
+				return response.data;
+			})
 		}
 	}
 })
