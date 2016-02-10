@@ -45,6 +45,18 @@
             bottom: 0;
             width: 100%;
         }
+
+        #bottom-directives {
+          position: fixed;
+          bottom: 0;
+          height: 54px;
+          background: #303030;
+          opacity: 0.6;
+          width: 100%;
+          z-index: 2000;
+
+        }
+
     </style>
 </head>
 
@@ -53,25 +65,25 @@
     <div class="container-fluid">
         <div class="row">
             <!--  <div class="col-sm-10 col-md-10"> -->
-            <div class="well" id="main" ui-view>
-                <h1>
-                    Accordion Menu With Icon</h1> Admin Dashboard Accordion Menu
-            </div>
+          <!--   <div class="well" id="main" ui-view>
+            </div> -->
             <!-- </div> -->
             <!-- <div class="col-sm-2 col-md-2"> -->
             <navbar></navbar>
-            <action-picker></action-picker>
-            <outbreak-level>Outbreak</outbreak-level>
-            <infection-rate>Infection</infection-rate>
-            <still-available></still-available>
-            <cures>Cures</cures>
-            <show-card></show-card>
-            <infection-decks></infection-decks>
+           <!--  <action-picker></action-picker> -->
+           <div id="bottom-directives"></div>
+              <outbreak-level></outbreak-level>
+              <infection-rate></infection-rate>
+              <still-available></still-available>
+              <cures></cures>
+              <show-card></show-card>
+              <infection-decks></infection-decks>
+
             <map></map>
             <!--  </div> -->
         </div>
     </div>
-    <!-- <div id="main" ui-view></div> -->
+    <div id="main" ui-view></div>
     <script>
     // $( document ).ready(function(){
     //     jQuery( "a:contains(OpenStreetMap)" ).remove()

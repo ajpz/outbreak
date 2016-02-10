@@ -1,4 +1,4 @@
-.action-picker {
+/*.action-picker {
   padding-left: 10px;
   opacity: 0.9;
   position: fixed;
@@ -20,6 +20,31 @@
     span {
       font-weight: 600;
     }
+  }*/
+
+  .action-picker {
+  padding-left: 10px;
+  opacity: 0.9;
+  /*position: fixed;
+  left: 0;
+  bottom: 0px;*/
+  z-index: 3000;
+  width : 230px;
+  height : 200px;
+  background-color: #303030;
+  color : white;
+  font-size : 1.1em;
+}
+
+.action-picker-inner{
+  .introduction {
+    padding-top: 10px;
+    /*margin-top: 10px;*/
+    font-size: 0.9em;
+    font-weight: 300;
+    span {
+      font-weight: 600;
+    }
   }
 
 /*  .showClass {
@@ -30,6 +55,7 @@
   .noun {
     width: 100%;
     height : 55px;
+    margin-top: 2px;
   }
 
 /*  .hideText {
@@ -137,10 +163,12 @@
 .btn {
   color: silver;
   background-color: black;
+  font-size: 0.8em;
+  line-height: 1.1em;
 }
-#red {
+/*#red {
   background-color:   #400000;
-}
+}*/
 
 /*.select_style span
 {
