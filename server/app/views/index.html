@@ -33,51 +33,14 @@
     <script src="/socket.io-client/socket.io.js"></script>
     <script src="/main.js"></script>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    
 </head>
 
 <body ng-app="FullstackGeneratedApp">
-    <toast></toast>
-    <div class="container-fluid">
+    <div class="container-fluid" ui-view>
         <div class="row">
-            <!--  <div class="col-sm-10 col-md-10"> -->
-            <div class="well" id="main" ui-view>
-                <h1>
-                    Accordion Menu With Icon</h1> Admin Dashboard Accordion Menu
-            </div>
-            <!-- </div> -->
-            <!-- <div class="col-sm-2 col-md-2"> -->
-            <navbar></navbar>
-            <action-picker></action-picker>
-            <outbreak-level>Outbreak</outbreak-level>
-            <infection-rate>Infection</infection-rate>
-            <still-available></still-available>
-            <cures>Cures</cures>
-            <show-card></show-card>
-            <infection-decks></infection-decks>
-            <map></map>
-            <!--  </div> -->
         </div>
     </div>
-    <!-- <div id="main" ui-view></div> -->
-    <script>
-    // $( document ).ready(function(){
-    //     jQuery( "a:contains(OpenStreetMap)" ).remove()
-    //     jQuery( "a:contains(Improve this map)" ).remove()
-    // })
-    </script>
 </body>
 
 </html>

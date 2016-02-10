@@ -1,16 +1,7 @@
-app.config(function ($stateProvider) {
+app.controller("LoginCtrl", function($scope, AuthService, $state){
+	console.log("login ctrl");
 
-    $stateProvider.state('login', {
-        url: '/login',
-        templateUrl: 'js/login/login.html',
-        controller: 'LoginCtrl'
-    });
-
-});
-
-app.controller('LoginCtrl', function ($scope, AuthService, $state) {
-
-    $scope.login = {};
+	$scope.login = {};
     $scope.error = null;
 
     $scope.sendLogin = function (loginInfo) {
@@ -19,10 +10,13 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state) {
 
         AuthService.login(loginInfo).then(function () {
             $state.go('home');
+            console.log(AuthService.isAuthenticated())
         }).catch(function () {
             $scope.error = 'Invalid login credentials.';
         });
 
     };
-
-});
+    $scope.isLoggedIn = function(){
+        return AuthService.isAuthenticated();
+    }
+})
