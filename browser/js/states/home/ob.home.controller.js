@@ -1,5 +1,9 @@
-app.controller("HomeCtrl", function($scope, AuthService, $state, CreateLobbyFactory) {
+app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory) {
   console.log("home ctrl");
+  LobbyFactory.getAllLobbies()
+  .then(function(lobbies) {
+    $scope.lobbies = lobbies
+  })
 
   $scope.goToLogin = function() {
     $state.go("login")
@@ -15,11 +19,22 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, CreateLobbyFact
   $scope.createGame = function(game) {
     AuthService.getLoggedInUser().then(function(user) {
       let data = {
+        title: game.title,
         type: game.typeOfGame,
         user: user
       }
-      CreateLobbyFactory.makeALobby(data)
-    })
+      LobbyFactory.makeALobby(data)
+      .then(function() {
+        LobbyFactory.getAllLobbies()
+        .then(function(lobbies) {
+          $scope.lobbies = lobbies
+        })
+      })
 
+    })
+  }
+
+  $scope.joinGame = function(something){
+    console.log(something)
   }
 })

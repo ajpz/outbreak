@@ -24,6 +24,9 @@ var schema = new mongoose.Schema({
     },
     google: {
         id: String
+    },
+    username: {
+        type: String
     }
 });
 
