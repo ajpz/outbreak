@@ -157,7 +157,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               });
             }
             // need to emit in the other nouns to remove the circles -- or maybe I can keep it there.
-            $rootScope.$broadcast("CircleMarkersOnMap", {nouns : scope.nouns});
+            $rootScope.$broadcast("SquareMarkersOnMap", {nouns : scope.nouns});
             // since the op expert can go anywhere, I should do a best efforts approach
             // of figuring out what they want to do.
           } else {
@@ -175,7 +175,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
 
             });
-            $rootScope.$broadcast("CircleMarkersOnMap", {nouns : scope.nouns});
+            $rootScope.$broadcast("SquareMarkersOnMap", {nouns : scope.nouns});
           }
         } else if (verb === "treat") {
           // turn the key-value pairs into its own array
@@ -322,7 +322,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         charterFlightKeys = [];
         shuttleFlightKeys = [];
 
-        $rootScope.$broadcast("RemoveCircleMarkers", {zoomCity: packet.gamers[scope.turn].currentCity});
+        $rootScope.$broadcast("RemoveSquareMarkers", {zoomCity: packet.gamers[scope.turn].currentCity});
       }
 
       function broadcastTreatToGameState(info) {
