@@ -5,9 +5,9 @@ path {
   opacity: 0.9;
 }
 
-.testING {
+/*.testING {
   stroke: white;
-}
+}*/
 
 .label {
   color: white;
@@ -17,7 +17,15 @@ path {
 
 }
 
-//.golocation {
+.golocation {
+  stroke: transparent;
+  stroke-width: 0.2em;
+  stroke-opacity: 0;
+  opacity: 0.5;
+
+}
+
+/*//.golocation {
 //  //animation: blinker 1s linear infinite;
 //  opacity : .1;
 //}
@@ -28,4 +36,4 @@ path {
 
 //.golocation {
 //  opacity: .1;
-//}
+//}*/

@@ -1,8 +1,9 @@
 <!-- <div class="action-picker" ng-show="(clientUser === gamers[turn].username) && (gameState.currentPhase==='actions')"> -->
-<div class="action-picker" ng-show="true">
-    <div class="slideButton">
+<!-- <div class="action-picker" ng-show="true"> -->
+  <div class="action-picker" >
+   <!--  <div class="slideButton">
         <button ng-click="slide()" class="slider btn"><span class="glyphicon glyphicon-triangle-{{ arrow }}"></span></button>
-    </div>
+    </div> -->
     <div class="action-picker-inner" ng-show="gamers[turn].username === clientUser">
         <div class="introduction">
             {{ gamers[turn].username | capitalize }}, the {{ gamers[turn].role | capitalize }}<br />Please pick action #{{ actionNumber }} of 4
@@ -13,9 +14,12 @@
             <!--<label>-->
             <!-- This ng-change method will kick off a response to update the next possible selection -->
             <label>
-                <select ng-change="notifySelectionVerb()" ng-model="selection.verb">
-                   <option ng-repeat="verb in verbs" value="{{verb}}">{{verb | camelcasechange }}</option>
-                </select>
+                <nice-selector
+                  options="verbs"
+                  select-text="Select a verb . . ."
+                  display="option | camelcasechange"
+                  on-change="notifySelectionVerb()"
+                  ng-model="selection.verb"></nice-selector>
             </label>
         </div>
 
@@ -23,14 +27,17 @@
 
             <div ng-show="selection.verb" class="select_style">
               <label>
-                <select ng-change="selectNoun()" ng-model="selection.noun">
-                    <option value="{{noun}}" ng-repeat="noun in nouns track by $index">{{ noun | takeOrGive  | camelcasechange }}</option>
-                </select>
+                  <nice-selector
+                    options="nouns"
+                    select-text="Select a noun . . ."
+                    display="option | takeOrGive  | camelcasechange"
+                    on-change="selectNoun()"
+                    ng-model="selection.noun"></nice-selector>
               </label>
             </div>
 
         </div>
-        <button class="btn btn-sm" ng-disabled="!selection.verb || !selection.noun" ng-click="execute()">Execute</button>
+        <button ng-show="selection.noun" class="btn btn-sm" ng-disabled="!selection.verb || !selection.noun" ng-click="execute()">Execute</button>
         <button class="btn btn-sm" id="red" ng-show="storedStates.length > 0" ng-click="undo()">Undo</button>
     </div>
 </div>
