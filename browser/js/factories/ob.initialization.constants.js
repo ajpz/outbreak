@@ -15,6 +15,7 @@ gameState.currentPhase = "actions"; // actions, draw, discard, infect // will cy
 //gameState.nextPhase = "";
 gameState.epidemicInEffect = false; //set to be a boolean
 gameState.eventCardInEffect = false; // set to be a boolean
+gameState.eventCardQueue = [];
 gameState.proposedActions = []; // need a way to generate the action objects //array of {type, user, verb, goType, placeFrom, placeTo, cityCardToDiscard, giveTo, takeFrom, cardColorToCure}
 gameState.playerDeck = []; // array of card objects // will need to use the card Factory
 gameState.playerDeckDiscard = [];

@@ -1,4 +1,4 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, Roles) {
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, Roles, Cities) {
 
   return {
     restrict: 'E',
@@ -6,8 +6,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
     scope: {},
     // controller: 'NavbarCtrl',
     link: function(scope) {
-
+      scope.roles = Roles;
+      scope.CITIES = Cities; 
       var localCopyOfState;
+
 
       // helper function to chunk data into columns
       function chunk(arr, size) {
@@ -51,6 +53,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           scope.owner.roleName = Roles[scope.owner.role].name;
           scope.owner.icon = Roles[scope.owner.role].icon;
           scope.owner.tooltip = Roles[scope.owner.role].ability;
+          scope.gamers = payload.gamers;
 
           scope.turnBelongsTo = function(role){
             return (role === payload.gamers[payload.gamerTurn].role);
@@ -61,54 +64,168 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
       scope.cardAction = function(card) {
           //currentPhase = 'discard'
-        if (localCopyOfState.currentPhase === 'discard' && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
+        if (localCopyOfState.currentPhase === 'discard' 
+          && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
           // discard phase and it is this user's turn
           if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 7) {
             $rootScope.$broadcast('discardCardChosen', card);
-          }
+          } 
         } else {
           $rootScope.$broadcast('badClick', {
             error: "It's not your turn to discard!"
           })
-        }
+      };
+    }
+
+      scope.eventCardOptions = {
+        showAirlift : false,
+        showGovernmentGrant : false,
       };
 
 
-      // //CARDS:
-      // // add new card(s) to hand via drawing or receiving during a share
-      // scope.addCard = function() {};
+      
 
-      // // select card(s) from current hand, to do something with it
-      // // card(s) placed in SELECTED section
-      // scope.selectCard = function() {};
+      scope.eventAction = function(card) {
+        if (localCopyOfState.currentPhase === "actions" && card.type === "eventCard") {
+          if (card.key === "airlift"){
+            scope.eventCardOptions.showAirlift = true;
+          } else if (card.key === "oneQuietNight") {
+            playOneQuietNight();
+          } else if (card.key === "governmentGrant") {
+            scope.eventCardOptions.showGovernmentGrant = true;
+            scope.notifyGovernmentGrantChange();
+          } else if (card.key === "forecast"){
 
-      // // selected citycard is given to another player
-      // scope.shareCard = function() {};
+          } else if (card.key === "resilientPopulation") {
 
-      // // selected citycard played and discarded (for a move /flight)
-      // scope.playCard = function() {};
+          }
+        }
+      }
 
-      // // selected Eventcard played and discarded
-      // scope.playEvent = function() {};
+      ////////////////////// AIRLIFT //////////////////
+      scope.airlift = {
+        role : "",
+        city : ""
+      }
 
-      // // 5 city cards of same color discarded to cure a disease
-      // // these cards have already been moved into SELECTED section, it is emptied.
-      // scope.cureDisease = function() {};
+      scope.notifyRoleChange = function() {
+        let player = scope.gamers.filter(function(gamer){
+            return gamer.role === scope.airlift.role;
+        })[0];
+        scope.airliftCities = localCopyOfState.cities.filter(function(city) {
+          return city.key !== player.currentCity;
+        })
+      };
 
-      // // discard city cards to have max 7 in hand
-      // // these cards have already been moved into SELECTED section, it is emptied.
-      // scope.discardCards = function() {};
+      scope.notifyCityChange = function() {
+        console.log("THIS IS  AIRLIFT IN notifyCityChange, ", scope.airlift.city);
+      }
 
-      // // toggle between tabs to see other gamer's roles and hands
-      // // default should be tab of the respective gamer
-      // scope.setTab = function() {};
-
-      // // indicates who has active turn and
-      // // disables playing (but not selecting) non-event cards in your hand
-      // scope.isTurn = function() {};
+      scope.executeAirlift = function(){
+        console.log("in execute airlift: ", scope.airlift);
 
 
+        // TODO change game state by removing airlift event card
+        // move the pawn to new city
 
+        // broadcast stateChange to gameFactory
+        //localCopyOfState
+        localCopyOfState.gamers.forEach(function(gamer){
+          if (gamer.role === scope.airlift.role) {
+            gamer.currentCity = scope.airlift.city;
+          }
+        });
+
+        localCopyOfState.gamers.forEach(function(gamer){
+          let airliftCardIndex;
+          gamer.hand.forEach(function(card, index){
+            if (card.type === "eventCard" && card.key === "airlift"){
+              airliftCardIndex = index;
+            }
+          });
+          if (airliftCardIndex) {
+            gamer.hand.splice(airliftCardIndex, 1);
+            airliftCardIndex = undefined;
+          }
+        });
+
+        // need to pass the hand into the
+        $rootScope.$broadcast("go", {gamers : localCopyOfState.gamers});
+        scope.eventCardOptions.showAirlift = false;
+        scope.airlift.role = "";
+        scope.airlift.city = "";
+
+      }
+      ////////////////////// AIRLIFT END //////////////////
+
+      /////////////////////// GOVERNMENT GRANT ///////////
+      scope.governmentGrant = {
+        city : ""
+      }
+
+      scope.notifyGovernmentGrantChange = function() {
+        // generate a list of cities that do not have research centers as options to build a research center
+        // researchCenterLocations is an array of locations city keys
+        scope.governmentGrantCities = localCopyOfState.cities.filter(function(city) {
+          return (localCopyOfState.researchCenterLocations.indexOf(city.key) === -1);
+        })
+      }
+
+      scope.executeGovernmentGrant = function() {
+        if (localCopyOfState.researchCentersRemaining > 0) {
+            localCopyOfState.gamers.forEach(function(gamer){
+              let governmentGrantCardIndex;
+              gamer.hand.forEach(function(card, index){
+                if (card.type === "eventCard" && card.key === "governmentGrant"){
+                  governmentGrantCardIndex = index;
+                }
+              });
+              if (governmentGrantCardIndex) {
+                gamer.hand.splice(governmentGrantCardIndex, 1);
+                governmentGrantCardIndex = undefined;
+              }
+            });
+
+
+          localCopyOfState.researchCenterLocations.push(scope.governmentGrant.city);
+          localCopyOfState.researchCentersRemaining = localCopyOfState.researchCentersRemaining - 1;
+          $rootScope.$broadcast("build", {
+            researchCenterLocations : localCopyOfState.researchCenterLocations,
+            researchCentersRemaining : localCopyOfState.researchCentersRemaining,
+            gamers : localCopyOfState.gamers
+          });
+          scope.governmentGrant.city  = "";
+          scope.eventCardOptions.showGovernmentGrant = false;
+        }
+
+        // will update gameState and add something to researchCenters and update firebase
+      }
+      //////////////////////////GOVERNMENT GRANT END/////////////////////////
+
+      ///////////////////////// ONE QUIET NIGHT /////////////////////////////
+      function playOneQuietNight() {
+        // localCopyOfState.gamers.forEach(function(gamer){
+        //   let oneQuietCardIndex;
+        //   gamer.hand.forEach(function(card, index){
+        //     if (card.type === "eventCard" && card.key === "oneQuietNight"){
+        //       oneQuietCardIndex = index;
+        //     }
+        //   });
+        //   if (governmentGrantCardIndex) {
+        //     gamer.hand.splice(oneQuietCardIndex, 1);
+        //     oneQuietCardIndex = undefined;
+        //   }
+        // });
+
+        // broadcast the removed card // do this part last
+        $rootScope.$broadcast("genericUpdates", { 
+          eventCardInEffect : true, 
+          eventCardQueue : ["oneQuietNight"]
+        })
+      }
+
+
+      ////////////////////////ONE QUIET NIGHT END//////////////////////
     }
 
   };
