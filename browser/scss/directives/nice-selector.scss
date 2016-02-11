@@ -15,19 +15,20 @@ nice-selector {
     position: relative;
     right: 0;
     color: white;
-    overflow: hidden;
+    overflow: auto;
+    max-height: 70px;
 
     li {
       margin-top: 5px;
     }
 
     &.ng-hide-add, &.ng-hide-remove {
-      transition: all linear 0.15s;
+      transition: all linear 0.25s;
     }
 
     &.ng-hide {
       opacity: 0;
-      right: -300px;
+      right: -100px;
     }
 
   }

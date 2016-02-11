@@ -3,7 +3,7 @@
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{$index+1}}">
             <span id="arrowWidget" ng-show="turnBelongsTo(other.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
-                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-controls="collapseListGroup1"><strong>{{other.username}}</strong></a>
+                <a class role="button" data-toggle="collapse"  ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-multiselectable="true" aria-controls="collapseListGroup{{$index+1}}"><strong>{{other.username}}</strong></a>
                 <span uib-tooltip="{{other.tooltip}}" tooltip-is-open="tooltipIsOpen"
                 tooltip-placement="left-bottom" tooltip-class="customClass"></span>
                   <a ng-click="tooltipIsOpen = !tooltipIsOpen">
@@ -11,7 +11,7 @@
                   <i>{{other.roleName}}</i><span id="currentCity">{{other.currentCity}}</span></a>
             </h4>
         </div>
-        <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
+        <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading{{$index+1}}" aria-multiselectable="true">
             <div id="table-row" class="list-group-item" ng-repeat="row in other.chunkedData">
                 <span id="table-column" ng-repeat="card in row">
                     <button class="ng-class: card.color">{{card.name}}</button>
@@ -23,13 +23,13 @@
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{others.length + 1}}">
             <span id="arrowWidget" ng-show="turnBelongsTo(owner.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
-                <a class role="button" data-toggle="collapse" data-parent="#accordion" ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup4"><strong>{{owner.username}}</strong></a>
+                <a class role="button" data-toggle="collapse"  ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup{{others.length + 1}}"><strong>{{owner.username}}</strong></a>
                   <span uib-tooltip="{{owner.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="left-bottom" tooltip-class="customClass"></span>
                   <a ng-click="tooltipIsOpen = !tooltipIsOpen">
                   <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i><span id="currentCity">{{owner.currentCity}}</span></a>
                 </h4>
         </div>
-        <div ng-attr-id="collapseListGroup{{others.length + 1}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading{{others.length + 1}}">
+        <div ng-attr-id="collapseListGroup{{others.length + 1}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading{{others.length + 1}}" aria-multiselectable="true">
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="card in owner.hand">
                     <button class="ng-class: card.color" ng-click="cardAction(card)">{{card.name}}</button>
