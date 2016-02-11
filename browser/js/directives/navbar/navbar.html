@@ -14,7 +14,21 @@
         <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
             <div id="table-row" class="list-group-item" ng-repeat="row in other.chunkedData">
                 <span id="table-column" ng-repeat="card in row">
-                    <button class="ng-class: card.color">{{card.name}}</button>
+                    <button class="ng-class: card.color" ng-click="eventAction(card)">{{card.name}}</button>
+                </span>
+                <span ng-show="eventCardOptions.showAirlift">
+                    This is the airlift
+                    <div>
+                    <select name="" id="" ng-change="notifyRoleChange()" ng-model="airlift.role">
+                        <option value="{{key}}" ng-repeat="(key,role) in roles">{{role.name}}</option>    
+                    </select>
+                    </div>
+                    <div>
+                    <select ng-show="airlift.role" name="" id="" ng-change="notifyCityChange()" ng-model="airlift.city">
+                        <option value="{{city.key}}" ng-repeat="city in airliftCities">{{ city.key  | camelcasechange }}</option>
+                    </select>
+                    </div>
+                    <button ng-show="airlift.city" class="btn btn-sm" ng-click="executeAirlift()">Execute</button>
                 </span>
             </div>
         </div>

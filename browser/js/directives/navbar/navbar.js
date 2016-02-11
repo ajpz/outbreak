@@ -1,4 +1,4 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, Roles) {
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, Roles, Cities) {
 
   return {
     restrict: 'E',
@@ -6,8 +6,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
     scope: {},
     // controller: 'NavbarCtrl',
     link: function(scope) {
-
+      scope.roles = Roles;
+      scope.CITIES = Cities; 
       var localCopyOfState;
+
 
       // helper function to chunk data into columns
       function chunk(arr, size) {
@@ -51,6 +53,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           scope.owner.roleName = Roles[scope.owner.role].name;
           scope.owner.icon = Roles[scope.owner.role].icon;
           scope.owner.tooltip = Roles[scope.owner.role].ability;
+          scope.gamers = payload.gamers;
 
           scope.turnBelongsTo = function(role){
             return (role === payload.gamers[payload.gamerTurn].role);
@@ -61,51 +64,95 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
       scope.cardAction = function(card) {
           //currentPhase = 'discard'
-        if (localCopyOfState.currentPhase === 'discard' && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
+        if (localCopyOfState.currentPhase === 'discard' 
+          && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
           // discard phase and it is this user's turn
           if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 7) {
             $rootScope.$broadcast('discardCardChosen', card);
-          }
+          } 
         } else {
           $rootScope.$broadcast('badClick', {
             error: "It's not your turn to discard!"
           })
-        }
+      };
+    }
+
+      scope.eventCardOptions = {
+        showAirlift : false
       };
 
 
-      // //CARDS:
-      // // add new card(s) to hand via drawing or receiving during a share
-      // scope.addCard = function() {};
+      
 
-      // // select card(s) from current hand, to do something with it
-      // // card(s) placed in SELECTED section
-      // scope.selectCard = function() {};
+      scope.eventAction = function(card) {
+        if (localCopyOfState.currentPhase === "actions" && card.type === "eventCard") {
+          if (card.key === "airlift"){
+            scope.eventCardOptions.showAirlift = true;
+          } else if (card.key === "oneQuietNight") {
 
-      // // selected citycard is given to another player
-      // scope.shareCard = function() {};
+          } else if (card.key === "governmentGrant") {
 
-      // // selected citycard played and discarded (for a move /flight)
-      // scope.playCard = function() {};
+          } else if (card.key === "forecast"){
 
-      // // selected Eventcard played and discarded
-      // scope.playEvent = function() {};
+          } else if (card.key === "resilientPopulation") {
 
-      // // 5 city cards of same color discarded to cure a disease
-      // // these cards have already been moved into SELECTED section, it is emptied.
-      // scope.cureDisease = function() {};
+          }
+        }
+      }
 
-      // // discard city cards to have max 7 in hand
-      // // these cards have already been moved into SELECTED section, it is emptied.
-      // scope.discardCards = function() {};
+      scope.airlift = {
+        role : "",
+        city : ""
+      }
 
-      // // toggle between tabs to see other gamer's roles and hands
-      // // default should be tab of the respective gamer
-      // scope.setTab = function() {};
+      scope.notifyRoleChange = function() {
+        let player = scope.gamers.filter(function(gamer){
+            return gamer.role === scope.airlift.role;
+        })[0];
+        scope.airliftCities = localCopyOfState.cities.filter(function(city) {
+          return city.key !== player.currentCity;
+        })
+      };
 
-      // // indicates who has active turn and
-      // // disables playing (but not selecting) non-event cards in your hand
-      // scope.isTurn = function() {};
+      scope.notifyCityChange = function() {
+        console.log("THIS IS  AIRLIFT IN notifyCityChange, ", scope.airlift.city);
+      }
+
+      scope.executeAirlift = function(){
+        console.log("in execute airlift: ", scope.airlift);
+
+
+        // TODO change game state by removing airlift event card
+        // move the pawn to new city
+
+        // broadcast stateChange to gameFactory
+        //localCopyOfState
+        localCopyOfState.gamers.forEach(function(gamer){
+          if (gamer.role === scope.airlift.role) {
+            gamer.currentCity = scope.airlift.city;
+          }
+        });
+
+        localCopyOfState.gamers.forEach(function(gamer){
+          let airliftCardIndex;
+          gamer.hand.forEach(function(card, index){
+            if (card.type === "eventCard" && card.key === "airlift"){
+              airliftCardIndex = index;
+            }
+          });
+          if (airliftCardIndex) {
+            gamer.hand.splice(airliftCardIndex, 1);
+            airliftCardIndex = undefined;
+          }
+        });
+
+        // need to pass the hand into the
+        $rootScope.$broadcast("go", {gamers : localCopyOfState.gamers});
+        scope.eventCardOptions.showAirlift = false;
+        scope.airlift.role = "";
+        scope.airlift.city = "";
+
+      }
 
 
 
