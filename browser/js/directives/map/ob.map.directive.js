@@ -1,23 +1,28 @@
 app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
   return {
     restrict: 'EA',
-    scope: {
-      // callback: '='
-    },
+    scope: {},
     templateUrl: 'js/directives/map/ob.map.directive.html',
     link: function(scope, element, attributes){
+
+        //initialize mapbox map
         L.mapbox.accessToken = 'pk.eyJ1Ijoib3BwZXJhdG9yIiwiYSI6ImNpanluaXp1NzIxbm52Ymx6NGx1dWl3MXUifQ.ND7TeWHOVFWg39S7nB-FTQ';
+
         var map = L.mapbox.map('map', 'opperator.60d841d4', {minZoom: 2, maxZoom: 5}).setView([25.578028, 27.475642], 3);
+
         map.scrollWheelZoom.disable();
 
-        // addMarkerToMarkerObj();
+        //initialize variables for maintaining map state
         var payload;
         var rolesLayerGroup = [];
         var researchLayerGroup = [];
         var diseaseLayerGroup = [];
         var circleDiseaseLayerGroup = [];
-        var researchCenterIcon = 'http://i.imgur.com/OO0vx2n.png';
         var markers = [];
+        var researchCenterIcon = 'http://i.imgur.com/OO0vx2n.png';
+        var userZoomed = true;
+
+        //create llama icon and llama layers
         var llama = L.icon({
           iconUrl: 'http://i.imgur.com/FbMNWIK.png',
           iconSize: [68.4, 74]
@@ -25,19 +30,23 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         var llamaLayer = L.marker([-10.604774, -73.372619], {icon: llama});
 
 
-
+        //when user zooms, remove all icons to avoid resizing delays
         map.on('zoomstart', function() {
-          if(payload.currentPhase !== 'infect') {
+          // during infect phase, we force the map to re-center
+          // and to zoom setting 4, ignore this listener
+          if(userZoomed) {
             removeMarkerLayers();
           }
         })
 
+        // when the user zoom is finished, redraw all map icons
         map.on('zoomend', function(){
-
-          if(payload.currentPhase !== 'infect') {
+          //again, infect phase will handle redraw itself
+          if(userZoomed) {
             addMarkerToMarkerObj();
             addSquaresToMap();
           }
+          userZoomed = true;
 
           // this is for showing and hiding the llama
           if (map.getZoom() > 4){
@@ -60,6 +69,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         map.setMaxBounds(bounds)
 
         // L.marker is a low-level marker constructor in Leaflet.
+        // add lines from city to city
         var geojsonLines = GeoLines.lines[0].features;
         var myStyle = {'strokeColor': 'red'};
         var myLayer = L.mapbox.featureLayer().setGeoJSON(geojsonLines, {style: myStyle}).addTo(map);
@@ -146,12 +156,14 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
         // whenever someone or something moves/changes we remove all markers and then place them again.
         $rootScope.$on('stateChange', function(event, fbData){
+          //create local, semi-persistent copy of the gameState
           payload = _.cloneDeep(fbData.gameState);
-
-          //if it's infect phase, and drawnInfections is > 0, then zoom, then remove, then re-render
+          //if it's infect phase, and drawnInfections array exists, remove all markers,
+          //recenter and zoom, then re-render
           if(payload.currentPhase === 'infect' && payload.drawnInfections) {
             var infectArray = payload.drawnInfections;
             removeMarkerLayers();
+            userZoomed = false;
             map.setView(Cities[infectArray[infectArray.length - 1].key].location, 4);
             addMarkerToMarkerObj();
           } else {
@@ -159,10 +171,6 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
             addMarkerToMarkerObj();
           }
         })
-
-        // $rootScope.$on('zoomToInfectionCity', function(event, payload) {
-        //   map.setView(Cities[payload.cityKey].location, 4);
-        // });
 
         function removeMarkerLayers() {
           rolesLayerGroup.forEach(function(role) {
@@ -398,12 +406,11 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         });
 
         $rootScope.$on("RemoveSquareMarkers", function(event, payload){
+          userZoomed = false;
           map.setView(Cities[payload.zoomCity].location, 4)
 
           trackGoSquares.forEach(function(square){
             map.removeLayer(square);
-
-            console.log(trackGoSquares);
           });
           trackGoSquares = [];
           cities = [];
