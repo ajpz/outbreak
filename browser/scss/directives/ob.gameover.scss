@@ -1,0 +1,37 @@
+#gameover-win {
+  z-index: 2900;
+  position: fixed;
+
+
+  h1 {
+    position: fixed;
+    top: 25%;
+    left: 32%;
+    width: 500px;
+    text-align: center;
+    color: white;
+    z-index: 3000;
+
+  }
+  img{
+    z-index: 2900;
+    height: 110vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
+
+
+}
+
+.outline {
+  border: 3px solid white;
+  background: lightblue;
+  opacity: 0.8;
+  color: white;
+  border-radius: 25px;
+  font-size: 0.75em;
+  font-weight: 300;
+  width: 360px;
+
+}

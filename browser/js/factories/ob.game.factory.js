@@ -15,7 +15,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
 
 
-  const ref = new Firebase('https://outbreak-daniel.firebaseio.com/');
+  const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/');
 
 
   let outbreak  = $firebaseObject(ref);
