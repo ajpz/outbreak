@@ -13,6 +13,12 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
     let newCard = CardFactory.pickCardFromTop(gameState.playerDeck);
 
+    if (!gameState.playerDeck.length) {
+      gameState.status = "gameOver";
+      gameState.gameOver.win = false;
+      gameState.gameOver.lossType = "noMoreCards";
+    }
+
     if(newCard.type === "epidemicCard"){
 
       $rootScope.$broadcast('renderEpidemicEvent', {message: "EPIDEMIC IN EFFECT!"});

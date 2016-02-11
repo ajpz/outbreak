@@ -57,6 +57,16 @@
 
         }
 
+        /*#no-ghosting {
+          position: fixed;
+          z-index: 1000;
+          background: transparent;
+          top: 0;
+          right: 200px;
+          width: 400px;
+          height: 100vh;
+        }*/
+
     </style>
 </head>
 
@@ -70,14 +80,18 @@
             <!-- </div> -->
             <!-- <div class="col-sm-2 col-md-2"> -->
             <navbar></navbar>
+
            <!--  <action-picker></action-picker> -->
            <div id="bottom-directives"></div>
+          <!--  <div id="no-ghosting"></div> -->
+              <game-over></game-over>
               <outbreak-level></outbreak-level>
               <infection-rate></infection-rate>
               <still-available></still-available>
               <cures></cures>
               <show-card></show-card>
               <infection-decks></infection-decks>
+
 
             <map></map>
             <!--  </div> -->
