@@ -1,0 +1,35 @@
+nice-selector {
+
+  display: block;
+  width: 100%;
+  cursor: pointer;
+
+  .selection-bar {
+  }
+
+  ul {
+
+    list-style-type: none;
+    padding: 0;
+    opacity: 1;
+    position: relative;
+    right: 0;
+    color: white;
+    overflow: hidden;
+
+    li {
+      margin-top: 5px;
+    }
+
+    &.ng-hide-add, &.ng-hide-remove {
+      transition: all linear 0.15s;
+    }
+
+    &.ng-hide {
+      opacity: 0;
+      right: -300px;
+    }
+
+  }
+
+}

@@ -14,9 +14,12 @@
             <!--<label>-->
             <!-- This ng-change method will kick off a response to update the next possible selection -->
             <label>
-                <select ng-change="notifySelectionVerb()" ng-model="selection.verb">
-                   <option ng-repeat="verb in verbs" value="{{verb}}">{{verb | camelcasechange }}</option>
-                </select>
+                <nice-selector
+                  options="verbs"
+                  select-text="Select a verb . . ."
+                  display="option | camelcasechange"
+                  on-change="notifySelectionVerb()"
+                  ng-model="selection.verb"></nice-selector>
             </label>
         </div>
 
@@ -24,9 +27,12 @@
 
             <div ng-show="selection.verb" class="select_style">
               <label>
-                <select ng-change="selectNoun()" ng-model="selection.noun">
-                    <option value="{{noun}}" ng-repeat="noun in nouns track by $index">{{ noun | takeOrGive  | camelcasechange }}</option>
-                </select>
+                  <nice-selector
+                    options="nouns"
+                    select-text="Select a noun . . ."
+                    display="option | takeOrGive  | camelcasechange"
+                    on-change="selectNoun()"
+                    ng-model="selection.noun"></nice-selector>
               </label>
             </div>
 
