@@ -5,7 +5,10 @@ app.config(function ($stateProvider) {
         resolve: {
         	loggedInUser: function(AuthService){
         		return AuthService.getLoggedInUser()
-        	}
+        	},
+            isLoggedIn: function(AuthService){
+                return AuthService.isAuthenticated()
+            }
         },
         controller: 'HomeCtrl'
     });

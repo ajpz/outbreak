@@ -1,4 +1,4 @@
-app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, loggedInUser) {
+app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, loggedInUser, isLoggedIn) {
   $scope.lobbyIndex = {};
 
   $scope.loggedInUser = loggedInUser
@@ -42,14 +42,11 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
     $state.go("login")
   }
   $scope.goToSignup = function() {
-    console.log('hfew')
     $state.go("signup")
   }
 
 
-  $scope.isLoggedIn = function() {
-    return AuthService.isAuthenticated();
-  }
+  $scope.isLoggedIn = isLoggedIn;
 
   $scope.game = {
     typeOfGame: 'public'

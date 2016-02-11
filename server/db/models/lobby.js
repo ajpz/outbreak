@@ -1,8 +1,7 @@
 'use strict'
 
 var mongoose = require('mongoose');
-var User = require('./user');
-var Game = require('./game');
+var User =  mongoose.model('User')
 var Schema = mongoose.Schema;
 
 
@@ -11,22 +10,22 @@ var schema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
-  game: {
-    type: Schema.Types.ObjectId,
-    ref: 'Game'
-  },
   public: {
     type: Boolean,
     default: true
   },
   title: {
     type: String
+  },
+  status: {
+    type: String,
+    enum: ['inProgress', 'gameOver']
   }
 });
 
 schema.statics.getPublicLobbies = function(){
   let self = this;
-  return self.find().find().populate('users game')
+  return self.find().populate('users')
   .then(function(lobbies){
     return lobbies.filter(function(lobby){
       return lobby.users.length<4 && lobby.public === true
@@ -36,12 +35,16 @@ schema.statics.getPublicLobbies = function(){
 
 schema.statics.addUserToLobby = function(data){
   let self = this;
-  return self.findById(data.lobby).populate('users game')
+  let updatedLobbyId;
+  return self.findById(data.lobby).populate('users')
   .then(function(lobby){
     lobby.users.push(data.user);
     return lobby.save()
   }).then(function(updatedLobby){
-    return self.findById(updatedLobby._id).populate('users game')
+    updatedLobbyId = updatedLobby._id
+    return User.findByIdAndUpdate(data.user, {$push: {'lobbies': updatedLobbyId}}, {new: true}).populate('lobbies')
+  }).then(function(){
+    return self.findById(updatedLobbyId).populate('users')
   })
 }
 mongoose.model('Lobby', schema);

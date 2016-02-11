@@ -1,7 +1,7 @@
 var app = require('express').Router();
 var mongoose = require('mongoose')
 var Lobby =  mongoose.model('Lobby');
-var Game =  mongoose.model('Game')
+var User =  mongoose.model('User')
 
 
 app.post('/', function(req, res, next){
@@ -13,17 +13,17 @@ app.post('/', function(req, res, next){
 	}else{
 		typeOfGame = false;
 	}
-	Game.create({
-		firebaseUrl: 'victor_is_a_butt'
-	}).then(function(game){
-		return Lobby.create({
-			users: [user._id],
-			public: typeOfGame,
-			game: game._id,
-			title: title
-		})
+  let lobbyId;
+	Lobby.create({
+		users: [user._id],
+		public: typeOfGame,
+		title: title,
+		status: 'inProgress'
 	}).then(function(lobby){
-		return Lobby.findOne({_id:lobby._id}).populate('users game')
+    lobbyId = lobby._id
+		return User.findByIdAndUpdate(user._id, {$push: {'lobbies': lobbyId}}, {new: true}).populate('lobbies')
+  }).then(function(updatedUser){
+		return Lobby.findOne({_id:lobbyId}).populate('users')
 	}).then(function(populatedLobby){
 		res.status(201).send(populatedLobby)
 	}).then(null,next)
@@ -39,7 +39,7 @@ app.get('/', function(req, res, next){
 })
 
 app.get('/:id', function(req, res, next){
-	Lobby.findById(req.params.id).populate('users game')
+	Lobby.findById(req.params.id).populate('users')
 	.then(function(lobby){
 		res.status(200).send(lobby)
 	})
