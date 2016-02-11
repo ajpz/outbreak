@@ -7,7 +7,10 @@ app.config(function ($stateProvider) {
         resolve: {
         	lobbyId: function($stateParams, GameFactory){
         		return $stateParams.id;
-        	}
+        	},
+            lobby: function(LobbyFactory){
+                return LobbyFactory.getALobby(this.lobbyId)
+            }
         }
 
     });
