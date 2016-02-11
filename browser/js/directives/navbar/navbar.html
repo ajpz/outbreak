@@ -30,6 +30,16 @@
                     </div>
                     <button ng-show="airlift.city" class="btn btn-sm" ng-click="executeAirlift()">Execute</button>
                 </span>
+
+                <span ng-show="eventCardOptions.showGovernmentGrant">
+                    This is the build research center event card being selected.
+                    <div>
+                        <select name="" id="" ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">
+                           <option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.key  | camelcasechange }}</option>
+                        </select>
+                        <button ng-show="governmentGrant.city" class="btn btn-sm" ng-click="executeGovernmentGrant()">Execute</button>
+                    </div>
+                </span>
             </div>
         </div>
     </div>

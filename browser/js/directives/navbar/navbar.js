@@ -78,7 +78,8 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
     }
 
       scope.eventCardOptions = {
-        showAirlift : false
+        showAirlift : false,
+        showGovernmentGrant : false,
       };
 
 
@@ -91,7 +92,8 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           } else if (card.key === "oneQuietNight") {
 
           } else if (card.key === "governmentGrant") {
-
+            scope.eventCardOptions.showGovernmentGrant = true;
+            scope.notifyGovernmentGrantChange();
           } else if (card.key === "forecast"){
 
           } else if (card.key === "resilientPopulation") {
@@ -100,6 +102,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
         }
       }
 
+      ////////////////////// AIRLIFT //////////////////
       scope.airlift = {
         role : "",
         city : ""
@@ -153,7 +156,51 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
         scope.airlift.city = "";
 
       }
+      ////////////////////// AIRLIFT END //////////////////
 
+      /////////////////////// GOVERNMENT GRANT ///////////
+      scope.governmentGrant = {
+        city : ""
+      }
+
+      scope.notifyGovernmentGrantChange = function() {
+        // generate a list of cities that do not have research centers as options to build a research center
+        // researchCenterLocations is an array of locations city keys
+        scope.governmentGrantCities = localCopyOfState.cities.filter(function(city) {
+          return (localCopyOfState.researchCenterLocations.indexOf(city.key) === -1);
+        })
+      }
+
+      scope.executeGovernmentGrant = function() {
+        if (localCopyOfState.researchCentersRemaining > 0) {
+            localCopyOfState.gamers.forEach(function(gamer){
+              let governmentGrantCardIndex;
+              gamer.hand.forEach(function(card, index){
+                if (card.type === "eventCard" && card.key === "governmentGrant"){
+                  governmentGrantCardIndex = index;
+                }
+              });
+              if (governmentGrantCardIndex) {
+                gamer.hand.splice(governmentGrantCardIndex, 1);
+                governmentGrantCardIndex = undefined;
+              }
+            });
+
+
+          localCopyOfState.researchCenterLocations.push(scope.governmentGrant.city);
+          localCopyOfState.researchCentersRemaining = localCopyOfState.researchCentersRemaining - 1;
+          $rootScope.$broadcast("build", {
+            researchCenterLocations : localCopyOfState.researchCenterLocations,
+            researchCentersRemaining : localCopyOfState.researchCentersRemaining,
+            gamers : localCopyOfState.gamers
+          });
+          scope.governmentGrant.city  = "";
+          scope.eventCardOptions.showGovernmentGrant = false;
+        }
+
+        // will update gameState and add something to researchCenters and update firebase
+      }
+      //////////////////////////GOVERNMENT GRANT END/////////////////////////
 
 
     }
