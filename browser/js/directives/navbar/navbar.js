@@ -90,7 +90,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           if (card.key === "airlift"){
             scope.eventCardOptions.showAirlift = true;
           } else if (card.key === "oneQuietNight") {
-
+            playOneQuietNight();
           } else if (card.key === "governmentGrant") {
             scope.eventCardOptions.showGovernmentGrant = true;
             scope.notifyGovernmentGrantChange();
@@ -202,7 +202,30 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
       }
       //////////////////////////GOVERNMENT GRANT END/////////////////////////
 
+      ///////////////////////// ONE QUIET NIGHT /////////////////////////////
+      function playOneQuietNight() {
+        // localCopyOfState.gamers.forEach(function(gamer){
+        //   let oneQuietCardIndex;
+        //   gamer.hand.forEach(function(card, index){
+        //     if (card.type === "eventCard" && card.key === "oneQuietNight"){
+        //       oneQuietCardIndex = index;
+        //     }
+        //   });
+        //   if (governmentGrantCardIndex) {
+        //     gamer.hand.splice(oneQuietCardIndex, 1);
+        //     oneQuietCardIndex = undefined;
+        //   }
+        // });
 
+        // broadcast the removed card // do this part last
+        $rootScope.$broadcast("genericUpdates", { 
+          eventCardInEffect : true, 
+          eventCardQueue : ["oneQuietNight"]
+        })
+      }
+
+
+      ////////////////////////ONE QUIET NIGHT END//////////////////////
     }
 
   };
