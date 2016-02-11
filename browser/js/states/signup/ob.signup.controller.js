@@ -8,6 +8,7 @@ app.controller("SignupCtrl", function($scope, AuthService, $state){
         $scope.error = null;
 
         AuthService.signup(accountInfo).then(function () {
+            localStorage.setItem('user', accountInfo.username)
             $state.go('home');
         }).catch(function () {
             $scope.error = 'Invalid login credentials.';

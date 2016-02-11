@@ -332,28 +332,28 @@ gameState.cities = [{
 
 ]
 gameState.gamers = [{
-    username: 'HOMBURGER',
+    username: '',
     role: 'medic',
     currentCity: 'atlanta',
     hand: [] //contains an array of card objects
   },
 
   {
-    username: 'AJ PEREZIDENT',
+    username: '',
     role: 'researcher',
     currentCity: 'atlanta',
     hand: []
   },
 
   {
-    username: 'JULIE OPPERATOR',
+    username: '',
     role: 'scientist',
     currentCity: 'atlanta',
     hand: []
   },
 
   {
-    username: 'LEON DANVINCI',
+    username: '',
     role: 'operationsExpert',
     currentCity: 'atlanta',
     hand: []

@@ -8,9 +8,10 @@ app.controller("LoginCtrl", function($scope, AuthService, $state){
 
         $scope.error = null;
 
-        AuthService.login(loginInfo).then(function () {
+        AuthService.login(loginInfo)
+        .then(function (nowLoggedInUser) {
+            localStorage.setItem('user', nowLoggedInUser.username)
             $state.go('home');
-            console.log(AuthService.isAuthenticated())
         }).catch(function () {
             $scope.error = 'Invalid login credentials.';
         });

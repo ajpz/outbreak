@@ -1,4 +1,4 @@
-app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFactory, LobbyFactory) {
+app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFactory, LobbyFactory, $location) {
 
   //TODO: GameFactory to remove all references to CitiesCardFactory and InfectionFactory
   // console.log(lobbyId)
@@ -27,6 +27,7 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
     //TODO: needs to call CitiesCardFactory method to add epidemic cards to deck
     return workingState;
   };
+
 
 
   return {

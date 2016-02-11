@@ -4,6 +4,7 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/states/home/ob.home.template.html',
         resolve: {
         	loggedInUser: function(AuthService){
+                console.log('in state')
         		return AuthService.getLoggedInUser()
         	},
             isLoggedIn: function(AuthService){
