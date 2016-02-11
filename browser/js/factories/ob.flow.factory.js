@@ -147,7 +147,9 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
         if(gameState.gamers[gameState.gamerTurn].hand.length <= 7 && !gameState.chosenDiscards) {
           gameState.currentPhase = 'infect';
           console.log('in discard event but switching to infect')
+
           $rootScope.$broadcast('phaseChanged', gameState);
+          
         } else {
           //notify players of stateChange, but only the first time we enter 'draw'
           //everyone browser sees this, every browser does this
@@ -204,6 +206,31 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
         break;
 
       case 'infect':
+        // logic for the one quiet night event card
+        // the set up for this is played in the navbar.js
+        console.log("in infect about the event in effect: ", gameState.eventInEffect);
+        if (gameState.eventCardInEffect){
+          console.log("short circuit infect");
+          if (gameState.eventCardQueue[0] === "oneQuietNight"){
+            console.log("one quiet night is in array");
+            gameState.eventCardQueue.shift();
+          }
+          gameState.currentPhase = 'actions';
+          gameState.drawnInfections = [];
+          gameState.gamerTurn = (gameState.gamerTurn + 1) % 4;
+          // the assumption is to turn eventCardInEffect
+          // how and when do I know to eventInEffect should be turned to false
+          $rootScope.$broadcast('genericUpdates', {
+            message : 'One Quiet night was played. The infection state will be skipped.',
+            currentPhase : gameState.currentPhase,
+            drawnInfections : gameState.drawnInfections,
+            gamerTurn : gameState.gamerTurn,
+            eventCardQueue : gameState.eventCardQueue,
+            eventCardInEffect : false
+          });
+          break;
+        }
+
         var infectionRate = InfectionLevelArray.levels[gameState.infectionLevelIndex];
         //notify players of stateChange, but only the first time we enter 'infect'
         //everyone browser sees this, every browser does this

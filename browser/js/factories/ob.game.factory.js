@@ -235,6 +235,13 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     outbreak.$save();
   });
 
+  $rootScope.$on("genericUpdates", function(event, payload) {
+    for (let key in payload) {
+      outbreak.gameState[key] = payload[key];
+    }
+    outbreak.$save()
+  });
+
 
   /////////////////////////
   return factory;
