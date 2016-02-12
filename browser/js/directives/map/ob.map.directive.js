@@ -21,6 +21,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         var markers = [];
         var researchCenterIcon = 'http://i.imgur.com/OO0vx2n.png';
         var userZoomed = true;
+        var lastPhase = 'actions';
 
         //create llama icon and llama layers
         var llama = L.icon({
@@ -33,7 +34,8 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         //when user zooms, remove all icons to avoid resizing delays
         map.on('zoomstart', function() {
           // during infect phase, we force the map to re-center
-          // and to zoom setting 4, ignore this listener
+          // and to zoom. Ignore this listener as the zoom was not
+          // initiated by the user, i.e. userZoomed is false
           if(userZoomed) {
             removeMarkerLayers();
           }
@@ -158,18 +160,27 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         $rootScope.$on('stateChange', function(event, fbData){
           //create local, semi-persistent copy of the gameState
           payload = _.cloneDeep(fbData.gameState);
-          //if it's infect phase, and drawnInfections array exists, remove all markers,
-          //recenter and zoom, then re-render
+
           if(payload.currentPhase === 'infect' && payload.drawnInfections) {
-            var infectArray = payload.drawnInfections;
+            //if it's infect phase, and drawnInfections array exists, remove all markers,
+            //recenter and zoom, then re-render  var infectArray = payload.drawnInfections;
             removeMarkerLayers();
             userZoomed = false;
             map.setView(Cities[infectArray[infectArray.length - 1].key].location, 4);
+            addMarkerToMarkerObj();
+          } else if (payload.currentPhase === 'actions' && lastPhase !== 'actions') {
+            //if it's action phase and is so for the first time, move the map to current
+            //gamer's location
+            removeMarkerLayers();
+            userZoomed = false;
+            map.setView(Cities[payload.gamers[payload.gamerTurn].currentCity].location, 4);
             addMarkerToMarkerObj();
           } else {
             removeMarkerLayers();
             addMarkerToMarkerObj();
           }
+          //update lastPhase
+          lastPhase = payload.currentPhase;
         })
 
         function removeMarkerLayers() {
