@@ -4,6 +4,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   let fullPathArr = $location.path().split('/');
   let lobbyId = fullPathArr[fullPathArr.length-1]
   let usersObj;
+  let playerCount;
 
   //factory.gameState = {};
   //const gameState = factory.gameState;
@@ -28,6 +29,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     giveTheLobby: function(receivedLobby){
       console.log('give the lobby')
       usersObj = receivedLobby.users;
+      playerCount = receivedLobby.playerCount;
       console.log('testing: ', usersObj[0].username, localStorage.getItem('user'));
       if((!outbreak.hasOwnProperty('gameState')) && (localStorage.getItem('user') === usersObj[0].username)){
         console.log('i am testing!')
@@ -40,7 +42,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   function assignRoles(gameState, usersObj){
     gameState.gamers = _.shuffle(gameState.gamers);
 
-    gameState.gamers = gameState.gamers.slice(0,usersObj.length);
+    gameState.gamers = gameState.gamers.slice(0,playerCount);
 
     usersObj.forEach(function(userObj, index){
       gameState.gamers[index].username = userObj.username;
@@ -75,10 +77,10 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       outbreak.$save();
       return;
     }
-    //Once required gamers have joined the game (playerCount of usersObj.length) create decks and deal cards
-    if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === usersObj.length && (localStorage.getItem('user') === usersObj[0].username) && (outbreak.gameState.status === 'initialization') ) {
-      console.log('$watch sees ' + usersObj.length + ' players, ', localStorage.getItem('user'), ' is dealing....', outbreak.gameState);
-      outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState);
+    //Once required gamers have joined the game (playerCount of playerCount) create decks and deal cards
+    if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === playerCount && (localStorage.getItem('user') === usersObj[0].username) && (outbreak.gameState.status === 'initialization') ) {
+      console.log('$watch sees ' + playerCount + ' players, ', localStorage.getItem('user'), ' is dealing....', outbreak.gameState);
+      outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState, playerCount);
       outbreak.$save();
       return;
     }

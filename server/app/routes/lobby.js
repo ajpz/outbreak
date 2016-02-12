@@ -18,7 +18,9 @@ app.post('/', function(req, res, next){
 		users: [user._id],
 		public: typeOfGame,
 		title: title,
-		status: 'inProgress'
+		status: 'inProgress',
+    playerCount: req.body.playerCount,
+    difficulty: req.body.difficulty
 	}).then(function(lobby){
     lobbyId = lobby._id
 		return User.findByIdAndUpdate(user._id, {$push: {'lobbies': lobbyId}}, {new: true}).populate('lobbies')
@@ -27,7 +29,7 @@ app.post('/', function(req, res, next){
 	}).then(function(populatedLobby){
 		res.status(201).send(populatedLobby)
 	}).then(null,next)
-	
+
 
 });
 

@@ -3,7 +3,7 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
 
   $scope.loggedInUser = loggedInUser;
   $scope.isLoggedIn = isLoggedIn;
-  
+
   getAllLobbies();
   function getAllLobbies(){
     if(loggedInUser){
@@ -29,7 +29,7 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
       })
     }
   }
-  
+
 
   $scope.logout = function() {
     AuthService.logout()
@@ -56,20 +56,26 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
 
   // $scope.isLoggedIn = isLoggedIn;
 
+  $scope.difficulties = ['Introductory', 'Standard', 'Heroic'];
+
   $scope.game = {
-    typeOfGame: 'public'
-  }
+    typeOfGame: 'public',
+    difficulty: $scope.difficulties[0]
+  };
+
   $scope.createGame = function(game) {
-    console.log("FROM CREATE GAME");
+    console.log("FROM CREATE GAME", game.playerCount, typeof game.playerCount, game.difficulty);
     console.log($scope.loggedInUser)
     let data = {
       title: game.title,
       type: game.typeOfGame,
-      user: $scope.loggedInUser
+      user: $scope.loggedInUser,
+      playerCount: game.playerCount,
+      difficulty: game.difficulty
     }
     LobbyFactory.makeALobby(data)
     .then(function(lobby) {
-      
+
       console.log("CALLING GET LOBBIES FROM CREATEGAME")
       getAllLobbies();
       console.log("ABOUT TO GO TO WAITING AREA")

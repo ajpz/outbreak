@@ -6,7 +6,7 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
   let lobbyId = fullPathArr[fullPathArr.length-1]
 
   const cardNumMap = { "2": 4, "3": 3, "4": 2 };
-  const numEpidemicMap = { Introductory: 4, Standard: 5, Heroic: 6 };
+  const numEpidemicMap = { Amateur: 4, Standard: 5, Heroic: 6 };
 
   const addEpidemicCardsToCitiesAndEventsDeck = CitiesCardFactory.addEpidemicCardsToCitiesAndEventsDeck;
   const createInfectionDeck = InfectionFactory.createInfectionDeck;
@@ -38,7 +38,7 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
     //  3) setTimeout delay before resolving
     //  4) subsequent methods are invoked once the above is finished
 
-    initializeGameElements: function(workingState) {
+    initializeGameElements: function(workingState, difficulty) {
       // defaults right now to 'Introductory' difficulty
       //create a deck consisting of only city and event cards
       let deck = createDeckWithCitiesAndEvents();
@@ -46,7 +46,7 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
       //deal out those cards to the games
       workingState = dealCardsToGamers(workingState);
       //add the epidemic cards to the deck with players and events
-      workingState.playerDeck = addEpidemicCardsToCitiesAndEventsDeck(deck);
+      workingState.playerDeck = addEpidemicCardsToCitiesAndEventsDeck(deck, numEpidemicMap[difficulty]);
       workingState.infectionDeck = createInfectionDeck();
       workingState = InfectionFactory.initialize(workingState);
       workingState.status = 'inProgress';

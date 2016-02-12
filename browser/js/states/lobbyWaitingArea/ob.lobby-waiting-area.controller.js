@@ -1,16 +1,17 @@
 app.controller("LobbyWaitingAreaCtrl", function($scope, AuthService, $state, LobbyFactory, loggedInUser, lobby) {
 	$scope.loggedInUser = loggedInUser;
 	$scope.lobby = lobby;
-	$scope.playerCount = lobby.users.length;
+	$scope.numberOfPlayersInLobby = lobby.users.length;
+  $scope.expectedNumberOfPlayers = lobby.playerCount;
 	var intervalId = setInterval(function(){
 		console.log('lobby waiting area')
 		LobbyFactory.getALobby($scope.lobby._id)
 		.then(function(updatedLobby){
 			$scope.lobby = updatedLobby
-			$scope.playerCount = updatedLobby.users.length;
-			console.log('checking for players... currently at', $scope.playerCount)
+			$scope.numberOfPlayersInLobby = updatedLobby.users.length;
+			console.log('checking for players... currently at', $scope.numberOfPlayersInLobby, lobby.numberOfPlayersInLobby)
 			console.log($scope.lobby)
-			if($scope.playerCount === 4){
+			if($scope.numberOfPlayersInLobby === $scope.expectedNumberOfPlayers){
 				clearInterval(intervalId)
 				$state.go('game', {id: $scope.lobby._id})
 			}

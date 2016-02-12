@@ -14,6 +14,10 @@
     <br>
     <input type="radio" name="private" ng-model="game.typeOfGame" value="private"> Private
     <br>
+    <input type="number" ng-model="game.playerCount" placeholder="Number of Players">
+    <br>
+    <select ng-options="difficulty as difficulty for difficulty in difficulties" ng-model="game.difficulty"></select>
+    <br>
     <button type="submit" class="btn btn-default">Create a Game</button>
   </form>
 </div>

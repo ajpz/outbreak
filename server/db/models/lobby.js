@@ -20,6 +20,13 @@ var schema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['inProgress', 'gameOver']
+  },
+  playerCount: {
+    type: Number
+  },
+  difficulty: {
+    type: String,
+    enum: ['Introductory', 'Standard', 'Heroic']
   }
 });
 
