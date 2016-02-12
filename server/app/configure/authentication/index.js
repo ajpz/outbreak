@@ -43,7 +43,7 @@ module.exports = function (app) {
         .then(function(user){
             done(null, user)
         })
-        .catch(done);
+        .then(null, done);
     });
 
     // We provide a simple GET /session in order to get session information directly.

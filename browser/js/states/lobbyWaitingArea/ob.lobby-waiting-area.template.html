@@ -1,7 +1,15 @@
-<h1>Hi, {{loggedInUser.username}}. There are currently {{playerCount}} users in this lobby.
-<br>We are waiting for {{4-playerCount}} more users until the game starts.</h1>
-<ul>
-	<li ng-repeat="user in lobby.users">
-	{{user.username}}
-	</li>
-</ul>
+<div id="backgroundimage">
+  <div id="showfrontlobby">
+    <div id="centeredlobby">
+      <h2>Welcome, {{loggedInUser.username}}!</h2><br />
+      <h3>You are waiting in the lobby for {{lobby.title | uppercase}}. <br />
+        We are waiting for {{4-playerCount}} more players to join before the game can begin. Your current teammates are:
+      </h3>
+
+      	<button ng-repeat="user in lobby.users">
+      	{{user.username}}</button>
+        <h3>We hope you've packed your bags and have your vaccinations in order, the viruses are spreading rapidly and the world REALLY needs your help!</h3>
+
+    </div>
+  </div>
+</div>
