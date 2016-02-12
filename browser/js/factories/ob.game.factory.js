@@ -17,15 +17,20 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
+
   let link = 'https://luminous-fire-8700.firebaseio.com/'+lobbyId;
+
   console.log(link)
   const ref = new Firebase(link);
   let outbreak  = $firebaseObject(ref);
   // factory is returned at the end
   const factory = {
     giveTheLobby: function(receivedLobby){
+      console.log('give the lobby')
       usersObj = receivedLobby.users;
+      console.log('testing: ', usersObj[0].username, localStorage.getItem('user'));
       if((!outbreak.hasOwnProperty('gameState')) && (localStorage.getItem('user') === usersObj[0].username)){
+        console.log('i am testing!')
         outbreak.gameState = Initialize;
         assignRoles(outbreak.gameState, usersObj);
         outbreak.$save()
