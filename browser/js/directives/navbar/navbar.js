@@ -139,14 +139,11 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
       };
 
       scope.notifyCityChange = function() {
-        console.log("THIS IS  AIRLIFT IN notifyCityChange, ", scope.airlift.city);
+        //console.log("THIS IS  AIRLIFT IN notifyCityChange, ", scope.airlift.city);
+        // TODO : remove from the navbar.html too
       }
 
       scope.executeAirlift = function(){
-        console.log("in execute airlift: ", scope.airlift);
-
-
-        // TODO change game state by removing airlift event card
         // move the pawn to new city
 
         // broadcast stateChange to gameFactory

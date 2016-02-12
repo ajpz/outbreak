@@ -38,8 +38,7 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
     console.log('hello')
     AuthService.logout()
       .then(function() {
-        console.log('fewwf')
-        $state.go('home')
+        $state.go('home', {}, {reload: true})
       })
   }
 
