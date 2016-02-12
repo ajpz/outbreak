@@ -30,6 +30,9 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
         if (localCopyOfState.currentPhase === 'actions'){
           scope.actionPhase = true;
         }
+        else {
+          scope.actionPhase = false;
+        }
         // who am i?
         scope.username = localStorage.getItem('user');
 
