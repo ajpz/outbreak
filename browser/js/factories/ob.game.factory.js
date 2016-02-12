@@ -88,14 +88,14 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       return;
     }
 
-    if (outbreak.gameState.status === "gameOver"){
-      if (outbreak.gameState.gameOver.win){
-        alert("You cured all the diseases and saved the world from destruction :-)")
-      }
-      else {
-        alert("You lost because " + Reasons[outbreak.gameState.gameOver.lossType])
-      }
-    }
+    // if (outbreak.gameState.status === "gameOver"){
+    //   if (outbreak.gameState.gameOver.win){
+    //     alert("You cured all the diseases and saved the world from destruction :-)")
+    //   }
+    //   else {
+    //     alert("You lost because " + Reasons[outbreak.gameState.gameOver.lossType])
+    //   }
+    // }
     //Broadcast stateChange to rest of app
     console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase);
     $rootScope.$broadcast("stateChange", {
