@@ -21,7 +21,7 @@ app.directive("outbreakLevel", function($rootScope) {
       scope.changeTheLevel = function(gameState) {
         scope.outbreakLevel = gameState.outbreakLevel;
 
-        for (let i=1; i<8; i++) {
+        for (let i=1; i<=8; i++) {
           let elem = $(element).find("#level_" + i)
           if (i !== scope.outbreakLevel) {
             elem.children("img").attr("src", blankPicture)
@@ -29,6 +29,7 @@ app.directive("outbreakLevel", function($rootScope) {
             elem.children("img").attr("src", litUpPicture)
           }
         }
+
       }
 
       // scope.changeTheLevel(gameState)

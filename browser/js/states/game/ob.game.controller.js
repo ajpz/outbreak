@@ -65,7 +65,7 @@ app.controller("GameCtrl", function($scope, $rootScope, ngToast, GameFactory, lo
     ngToast.create({
       className: htmlClass,
       content: message,
-      dismissOnTimeout: false,
+      dismissOnTimeout: true,
       timeout: 4000,
       dismissButton: true,
       animation: 'fade',

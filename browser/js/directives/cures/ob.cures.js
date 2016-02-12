@@ -5,6 +5,7 @@ app.directive("cures", function($rootScope) {
     scope: {},
     link: function(scope, element) {
 
+      // if scope.diseases for each color is cured/eradicated, GAME OVER WIN!
 
       scope.diseases = {
         red: {

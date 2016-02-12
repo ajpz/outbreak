@@ -157,7 +157,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               });
             }
             // need to emit in the other nouns to remove the circles -- or maybe I can keep it there.
-            $rootScope.$broadcast("CircleMarkersOnMap", {nouns : scope.nouns});
+            $rootScope.$broadcast("SquareMarkersOnMap", {nouns : scope.nouns});
             // since the op expert can go anywhere, I should do a best efforts approach
             // of figuring out what they want to do.
           } else {
@@ -175,7 +175,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
 
             });
-            $rootScope.$broadcast("CircleMarkersOnMap", {nouns : scope.nouns});
+            $rootScope.$broadcast("SquareMarkersOnMap", {nouns : scope.nouns});
           }
         } else if (verb === "treat") {
           // turn the key-value pairs into its own array
@@ -322,7 +322,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         charterFlightKeys = [];
         shuttleFlightKeys = [];
 
-        $rootScope.$broadcast("RemoveCircleMarkers", {});
+        $rootScope.$broadcast("RemoveSquareMarkers", {zoomCity: packet.gamers[scope.turn].currentCity});
       }
 
       function broadcastTreatToGameState(info) {
@@ -459,7 +459,19 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       function broadcastCureDisease(info) {
         let colorToCure = info.noun;
         scope.gameState.isCured[colorToCure] = true;
+        var allCured = true;
+        Object.key(scope.gameState.isCured).forEach(function(color){
+          if (!scope.gameState.isCured[color]) {
+            allCured = false
+          }
+        })
+
+
         let packet = {isCured : scope.gameState.isCured};
+        if (allCured){
+          packet.status = "gameOver";
+          packet.gameOver = {win: true}
+        }
         packet.message = "User \'"+ scope.gameState.gamers[scope.turn].username + "\' just cured "+ colorToCure;
         $rootScope.$broadcast("cureDisease", packet);
       }

@@ -1,23 +1,36 @@
 <style>
-  body {
+body {
     margin: 0;
     padding: 0;
-  }
+}
 
-  #map {
+#map {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
-  }
+}
+
+#bottom-directives {
+    position: fixed;
+    bottom: 0;
+    height: 54px;
+    background: #303030;
+    opacity: 1;
+    width: 100%;
+    z-index: 2000;
+}
 </style>
-<toast></toast>
-<navbar></navbar>
-<action-picker></action-picker>
-<outbreak-level>Outbreak</outbreak-level>
-<infection-rate>Infection</infection-rate>
-<still-available></still-available>
-<cures>Cures</cures>
-<show-card></show-card>
-<infection-decks></infection-decks>
-<map></map>
+<div class="row">
+    <toast></toast>
+    <navbar></navbar>
+    <div id="bottom-directives"></div>
+    <game-over></game-over>
+    <outbreak-level></outbreak-level>
+    <infection-rate></infection-rate>
+    <still-available></still-available>
+    <cures></cures>
+    <show-card></show-card>
+    <infection-decks></infection-decks>
+    <map></map>
+</div>
