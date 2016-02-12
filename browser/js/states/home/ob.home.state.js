@@ -5,11 +5,8 @@ app.config(function ($stateProvider) {
         resolve: {
         	loggedInUser: function(AuthService){
                 console.log('in state')
-        		return AuthService.getLoggedInUser()
-        	},
-            isLoggedIn: function(AuthService){
-                return AuthService.isAuthenticated()
-            }
+        		return AuthService.getLoggedInUser(true)
+        	}
         },
         controller: 'HomeCtrl'
     });
