@@ -163,7 +163,8 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
           if(payload.currentPhase === 'infect' && payload.drawnInfections) {
             //if it's infect phase, and drawnInfections array exists, remove all markers,
-            //recenter and zoom, then re-render  var infectArray = payload.drawnInfections;
+            //recenter and zoom, then re-render
+            var infectArray = payload.drawnInfections;
             removeMarkerLayers();
             userZoomed = false;
             map.setView(Cities[infectArray[infectArray.length - 1].key].location, 4);
