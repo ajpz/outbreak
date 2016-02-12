@@ -5,8 +5,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   let lobbyId = fullPathArr[fullPathArr.length-1]
   let usersObj;
 
-  console.log('figured the lobbyId to be ', lobbyId);
-
   //factory.gameState = {};
   //const gameState = factory.gameState;
   /**
@@ -19,7 +17,8 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
-  let link = 'https://radiant-fire-7882.firebaseio.com/outbreak/'+lobbyId;
+  let link = 'https://luminous-fire-8700.firebaseio.com/'+lobbyId;
+
   console.log(link)
   const ref = new Firebase(link);
   let outbreak  = $firebaseObject(ref);
@@ -88,14 +87,14 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       return;
     }
 
-    if (outbreak.gameState.status === "gameOver"){
-      if (outbreak.gameState.gameOver.win){
-        alert("You cured all the diseases and saved the world from destruction :-)")
-      }
-      else {
-        alert("You lost because " + Reasons[outbreak.gameState.gameOver.lossType])
-      }
-    }
+    // if (outbreak.gameState.status === "gameOver"){
+    //   if (outbreak.gameState.gameOver.win){
+    //     alert("You cured all the diseases and saved the world from destruction :-)")
+    //   }
+    //   else {
+    //     alert("You lost because " + Reasons[outbreak.gameState.gameOver.lossType])
+    //   }
+    // }
     //Broadcast stateChange to rest of app
     console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase);
     $rootScope.$broadcast("stateChange", {

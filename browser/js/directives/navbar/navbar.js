@@ -7,7 +7,8 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
     // controller: 'NavbarCtrl',
     link: function(scope) {
       scope.roles = Roles;
-      scope.CITIES = Cities; 
+      scope.CITIES = Cities;
+      scope.actionPhase = false;
       var localCopyOfState;
 
 
@@ -25,6 +26,13 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
         localCopyOfState = _.cloneDeep(fbData.gameState);
 
+
+        if (localCopyOfState.currentPhase === 'actions'){
+          scope.actionPhase = true;
+        }
+        else {
+          scope.actionPhase = false;
+        }
         // who am i?
         scope.username = localStorage.getItem('user');
 
@@ -64,12 +72,12 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
       scope.cardAction = function(card) {
           //currentPhase = 'discard'
-        if (localCopyOfState.currentPhase === 'discard' 
+        if (localCopyOfState.currentPhase === 'discard'
           && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
           // discard phase and it is this user's turn
           if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 7) {
             $rootScope.$broadcast('discardCardChosen', card);
-          } 
+          }
         } else {
           $rootScope.$broadcast('badClick', {
             error: "It's not your turn to discard!"
@@ -83,7 +91,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
       };
 
 
-      
+
 
       scope.eventAction = function(card) {
         if (localCopyOfState.currentPhase === "actions" && card.type === "eventCard") {
@@ -218,8 +226,8 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
         // });
 
         // broadcast the removed card // do this part last
-        $rootScope.$broadcast("genericUpdates", { 
-          eventCardInEffect : true, 
+        $rootScope.$broadcast("genericUpdates", {
+          eventCardInEffect : true,
           eventCardQueue : ["oneQuietNight"]
         })
       }
