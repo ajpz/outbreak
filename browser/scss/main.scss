@@ -1,17 +1,26 @@
 * {
   box-sizing: border-box;
 }
-
+/*
 body {
   background: #fdfdfd;
 }
-
+*/
 @mixin clearfix {
   &:after {
     content: "";
     display: table;
     clear: both;
   }
+}
+
+#backgroundimage {
+  display: block;
+  position: fixed;
+  top: 0;
+  height: 110vh;
+  width: 100%;
+  clear: none;
 }
 
 #main {
@@ -24,3 +33,4 @@ body {
 @import 'about/main';
 @import 'tutorial/main';
 @import 'login/main';
+

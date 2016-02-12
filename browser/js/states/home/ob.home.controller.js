@@ -35,8 +35,10 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
   }
 
   $scope.logout = function() {
+    console.log('hello')
     AuthService.logout()
       .then(function() {
+        console.log('fewwf')
         $state.go('home')
       })
   }
@@ -62,7 +64,7 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
   $scope.game = {
     typeOfGame: 'public'
   }
-  let lobbyToGoTo; 
+  let lobbyToGoTo;
   $scope.createGame = function(game) {
     console.log("FROM CREATE GAME");
     console.log($scope.loggedInUser)

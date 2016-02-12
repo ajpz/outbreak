@@ -15,8 +15,10 @@ app.controller("LobbyWaitingAreaCtrl", function($scope, AuthService, $state, Lob
 			}
 		})
 	},2000)
+
 	$scope.$on('$destroy', function(event){
 		clearInterval(intervalId)
 	})
 
 });
+
