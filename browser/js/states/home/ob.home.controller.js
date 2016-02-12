@@ -4,6 +4,7 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
   $scope.loggedInUser = loggedInUser;
   $scope.isLoggedIn = !!loggedInUser;
   $scope.lobbiesJoined = [];
+
   getAllLobbies();
   function getAllLobbies(){
     if($scope.loggedInUser){
@@ -60,17 +61,26 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
     $state.go("signup")
   }
 
+  // $scope.isLoggedIn = isLoggedIn;
+
+  $scope.difficulties = ['Introductory', 'Standard', 'Heroic'];
+
   $scope.game = {
-    typeOfGame: 'public'
-  }
+    typeOfGame: 'public',
+    difficulty: $scope.difficulties[0]
+  };
+
   let lobbyToGoTo;
+
   $scope.createGame = function(game) {
-    console.log("FROM CREATE GAME");
+    console.log("FROM CREATE GAME", game.playerCount, typeof game.playerCount, game.difficulty);
     console.log($scope.loggedInUser)
     let data = {
       title: game.title,
       type: game.typeOfGame,
-      user: $scope.loggedInUser
+      user: $scope.loggedInUser,
+      playerCount: game.playerCount,
+      difficulty: game.difficulty
     }
     LobbyFactory.makeALobby(data)
     .then(function(lobby) {

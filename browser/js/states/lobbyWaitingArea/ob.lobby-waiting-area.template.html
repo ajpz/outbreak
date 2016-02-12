@@ -3,7 +3,7 @@
     <div id="centeredlobby">
       <h2>Welcome, {{loggedInUser.username}}!</h2><br />
       <h3>You are waiting in the lobby for {{lobby.title | uppercase}}. <br />
-        We are waiting for {{4-playerCount}} more players to join before the game can begin. Your current teammates are:
+        We are waiting for {{expectedNumberOfPlayers-numberOfPlayersInLobby}} more player(s) to join before the game can begin. Your current teammates are:
       </h3>
 
       	<button ng-repeat="user in lobby.users">
