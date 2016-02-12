@@ -193,7 +193,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
           }
           gameState.currentPhase = 'actions';
           gameState.drawnInfections = [];
-          gameState.gamerTurn = (gameState.gamerTurn + 1) % 4;
+          gameState.gamerTurn = (gameState.gamerTurn + 1) % gameState.gamers.length;
           // the assumption is to turn eventCardInEffect
           // how and when do I know to eventInEffect should be turned to false
           $rootScope.$broadcast('genericUpdates', {
@@ -272,7 +272,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
                 gameState.currentPhase = 'actions';
                 gameState.drawnInfections = [];
-                gameState.gamerTurn = (gameState.gamerTurn + 1) % 4;
+                gameState.gamerTurn = (gameState.gamerTurn + 1) % gameState.gamers.length;
                 $rootScope.$broadcast('phaseChanged', gameState);
               }
             }
