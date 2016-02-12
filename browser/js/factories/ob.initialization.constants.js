@@ -43,6 +43,7 @@ gameState.remainingCubes = {
   black: 24
 };
 gameState.outbreakLevel = 1;
+gameState.outbreaksDuringTurn = []; // [{epicenter: 'newYork', citiesHit: ['atlanta', 'dc']}]
 gameState.infectionLevelIndex = 0;
 gameState.researchCenterLocations = ['atlanta'];
 gameState.researchCentersRemaining = 5;

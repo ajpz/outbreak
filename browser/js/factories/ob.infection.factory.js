@@ -22,11 +22,17 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
         target = state.cities.filter(function(target) {
                     return target.key === infectionCard.key;
                   })[0];
+
+    //create an object to store outbreaks during turn
+    if(!state.outbreaksDuringTurn) state.outbreaksDuringTurn = {};
+
     // check to see if the target has 3 of the given color --> outbreak?
     if(target[color] === 3) {
-      // alert('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color])
       console.log('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color]);
-      $rootScope.$broadcast('outbreak', {message: 'An Outbreak hit ' + target.key + '. The ' + color + ' disease is spreading to nearby cities.'})
+
+      //create an array to store outbreaks during turn for current outbreak
+      if(!state.outbreaksDuringTurn[target.key]) state.outbreaksDuringTurn[target.key] = [];
+
       // add the current key, i.e. newYork, to the alreadyHit array
       // to prevent outbreaks from looping recursively
       alreadyHit.push(target.key);
@@ -43,8 +49,10 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       // add 1 infection of give color to each key
       nextKeys.forEach(function(nextKey) {
         // check to see whether the target.key was 'alreadyHit'
-        // don't infect if it's already part of this outbreak
         if(alreadyHit.indexOf(nextKey) === -1)
+          //push this nextKey infection onto the outbreak city's array
+          state.outbreaksDuringTurn[target.key].push(Cities[nextKey].name);
+          // don't infect if it's already part of this outbreak
           addInfectionToACity(Cities[nextKey], 1, state, alreadyHit, color);
       });
     } else {
@@ -64,10 +72,6 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
   };
 
   return {
-    //TODO: wrap exposed function below in a decorator function that
-    //  will kick off Firebase save. This can occur through mutator
-    //  or otherwise....
-
     createInfectionDeck : () => {
       return CardFactory.createADeck(Cities);
     },
@@ -75,7 +79,6 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       for (var infectionRate = 3, card; infectionRate > 0; infectionRate--) {
         for(var i = 0; i < 3; i++) {
           card = CardFactory.pickCardFromTop(state.infectionDeck);
-          // console.log('check this card...... is it undefined during the dealing phase? ', card );
           addInfectionToACity(card, infectionRate, state);
           if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
           state.infectionDeckDiscard.push(card);
@@ -84,14 +87,12 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       return state;
     },
     infect: function(state) {
-      // for(var i = 0, card; i < 2; i++) {
-        // let infectionRate = infectionLevelArray[state.infectionLevelIndex];
         var card = CardFactory.pickCardFromTop(state.infectionDeck);
         state.drawnInfections.push(card);
         addInfectionToACity(card, 1, state);
+        console.log('In infect with card and outbreak object: ', card, state.outbreaksDuringTurn);
         if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
         state.infectionDeckDiscard.push(card);
-      // }
       return state;
     },
     epidemic: function(state) {
