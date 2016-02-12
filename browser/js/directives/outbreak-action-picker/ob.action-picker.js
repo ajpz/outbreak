@@ -245,8 +245,10 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           } else if (scope.selection.verb === "cureDisease") {
             broadcastCureDisease(scope.selection);
           } else if (scope.selection.verb === "researcherActions") {
+            console.log(scope.selection);
             broadcastResearcherActions(scope.selection);
           } else if (scope.selection.verb === "takeFromResearcher") {
+            console.log(scope.selection)
             broadcastTakeCityCard(scope.selection);
           }
 
@@ -398,7 +400,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       // note that when you give a card to a user, and your hand is empty, firebase removes the hand key from storage
       function broadcastGiveCityCard(info) {
         let packet = {};
-        let givingInformation = JSON.parse(info.noun);
+        let givingInformation = info.noun;
         let giveTo = givingInformation.giveTo;
         let cityCardToGive = givingInformation.city;
         // though it would be the current city that you are in
@@ -430,8 +432,10 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       }
 
       function broadcastTakeCityCard(info) {
+        console.log("in broadcastTakeCityCArd: ", info);
         let packet = {};
-        let takingInformation = JSON.parse(info.noun);
+        let takingInformation = info.noun;
+        console.log(takingInformation);
         let takeFrom = takingInformation.takeFrom;
         let cityCardToTake = takingInformation.city;
 
@@ -480,11 +484,12 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       // if researcher chooses give or take,
       // figure which and use the existing broadcast methods
       function broadcastResearcherActions(info) {
-        if (verb === "giveTo") {
+        console.log("in broadcast Research actions: ", info);
+        //if (verb === "giveTo") {
           broadcastGiveCityCard(info);
-        } else if (verb === "takeFrom") {
-          broadcastTakeCityCard(info);
-        }
+        //} else if (verb === "takeFrom") {
+        //  broadcastTakeCityCard(info);
+        //}
       }
 
 
