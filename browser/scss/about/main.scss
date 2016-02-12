@@ -10,7 +10,7 @@
   padding-right: 15%;
   height: 100%;
   overflow: scroll;
-  width: 90%;
+  width: 100%;
   @include clearfix;
 
   p {
@@ -22,6 +22,69 @@
     overflow: scroll;
   }
 
+  #indented {
+    margin-left: 4%;
+  }
+
+  #backdrop{
+    background-color: #DCDCDC;
+    opacity: 0.9;
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 5%;
+    padding-bottom: 10%;
+  }
+
+  #eventCardAbout {
+    display: block;
+    float: left;
+    clear: none;
+    margin-right: 2%;
+    width: 18%;
+    img {
+      width: 100%;
+    }
+  }
+
+  #epidemicCard {
+    display: block;
+    float: left;
+    clear: none;
+    margin-right: 2%;
+    width: 15%;
+    img {
+      width: 100%;
+    }
+  }
+    #epidemicText {
+    display: block;
+    float: left;
+    clear: right;
+
+    width: 83%;
+
+  }
+
+    #roleCard {
+    display: block;
+    float: left;
+    clear: none;
+    margin-right: 2%;
+    width: 10%;
+    img {
+      height: 50px;
+    }
+  }
+
+  #cardsRow {
+    display: block;
+    float: left;
+    width: 100%;
+    clear: right;
+    margin-bottom: 3%;
+
+  }
 
 
 }
