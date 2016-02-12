@@ -207,7 +207,6 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
                   governmentGrantCardIndex = index;
                 }
               });
-              console.log(governmentGrantCardIndex);
               if (governmentGrantCardIndex >= 0) {
                 console.log("governmentGrantCardIndex, :", governmentGrantCardIndex);
                 gamer.hand.splice(governmentGrantCardIndex, 1);
@@ -240,7 +239,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
                oneQuietCardIndex = index;
              }
            });
-           if (governmentGrantCardIndex >= 0 ) {
+           if (oneQuietCardIndex >= 0 ) {
              gamer.hand.splice(oneQuietCardIndex, 1);
              oneQuietCardIndex = undefined;
            }

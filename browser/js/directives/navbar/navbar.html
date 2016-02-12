@@ -21,14 +21,14 @@
                 <span ng-show="eventCardOptions.showAirlift">
                     This is the airlift
                     <div>
-                    <select  ng-change="notifyRoleChange()" ng-model="airlift.role">
-                        <option value="{{key}}" ng-repeat="(key,role) in roles">{{role.name}}</option>
-                    </select>
+                    <!--<select  ng-change="notifyRoleChange()" ng-model="airlift.role">-->
+                        <!--<option value="{{key}}" ng-repeat="(key,role) in roles">{{role.name}}</option>-->
+                    <!--</select>-->
                     </div>
                     <div>
-                    <select ng-show="airlift.role" ng-change="notifyCityChange()" ng-model="airlift.city">
-                        <option value="{{city.key}}" ng-repeat="city in airliftCities">{{ city.key  | camelcasechange }}</option>
-                    </select>
+                    <!--<select ng-show="airlift.role" ng-change="notifyCityChange()" ng-model="airlift.city">-->
+                        <!--<option value="{{city.key}}" ng-repeat="city in airliftCities">{{ city.key  | camelcasechange }}</option>-->
+                    <!--</select>-->
                     </div>
                     <button ng-show="airlift.city" class="btn btn-sm" ng-click="executeAirlift()">Execute</button>
                 </span>
@@ -36,10 +36,10 @@
                 <span ng-show="eventCardOptions.showGovernmentGrant" >
                     This is the build research center event card being selected.
                     <div>
-                        <select ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">
-                           <option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.key | camelcasechange }}</option>
-                        </select>
-                        <button ng-show="governmentGrant.city" class="btn btn-sm" ng-click="executeGovernmentGrant()">Execute</button>
+                        <!--<select ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">-->
+                           <!--<option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.key | camelcasechange }}</option>-->
+                        <!--</select>-->
+                        <!--<button ng-show="governmentGrant.city" class="btn btn-sm" ng-click="executeGovernmentGrant()">Execute</button>-->
                     </div>
                 </span>
             </div>
@@ -66,7 +66,7 @@
           <!-- GETTING THE event to show up for current user-->
           <!-- show user only if it is the user-->
           <div id="table-row" class="list-group-item">
-                <span ng-show="eventCardOptions.showAirlift">
+                <span ng-show="eventCardOptions.showAirlift && owner.role === other.role">
                     This is the airlift
                     <div>
                       <select name="" id="" ng-change="notifyRoleChange()" ng-model="airlift.role">
