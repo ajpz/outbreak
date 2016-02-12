@@ -94,7 +94,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
 
       scope.eventAction = function(card) {
-        if (localCopyOfState.currentPhase === "actions" && card.type === "eventCard") {
+        // added in a quick check to make sure that the user is also the same user that is going
+        // this would ensure that all  other players don't get the ability to get that ability
+        if (localCopyOfState.currentPhase === "actions" && card.type === "eventCard"
+          && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
           if (card.key === "airlift"){
             scope.eventCardOptions.showAirlift = true;
           } else if (card.key === "oneQuietNight") {
