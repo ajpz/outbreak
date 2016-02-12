@@ -78,7 +78,14 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 7) {
             $rootScope.$broadcast('discardCardChosen', card);
           }
-        } else {
+
+        } else if (localCopyOfState.currentPhase === "actions" && card.type === "eventCard"
+            && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
+          // making use of the scope.eventAction ability since it should apply similarly
+          // if the current player has an event card which we did not take care of.
+          scope.eventAction(card);
+        }
+        else {
           $rootScope.$broadcast('badClick', {
             error: "It's not your turn to discard!"
           })
