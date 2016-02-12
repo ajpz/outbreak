@@ -22,6 +22,8 @@ var Promise = require('bluebird');
 var chalk = require('chalk');
 var connectToDb = require('./server/db');
 var User = Promise.promisifyAll(mongoose.model('User'));
+var User2 = mongoose.model('User');
+var Lobby = mongoose.model('Lobby');
 
 var seedUsers = function () {
 
@@ -60,8 +62,27 @@ connectToDb.then(function () {
             console.log(chalk.magenta('Seems to already be user data, exiting!'));
             process.kill(0);
         }
-    }).then(function () {
+    }).then(function() {
+      return User.find({}).exec();
+    }).then(function(fourUsers){
+      fourUsers = fourUsers.map(function(user){
+        return user._id;
+      })
+      return Lobby.create({
+        users: fourUsers,
+        public: true,
+        title: 'Test game from seed.js',
+        status: 'inProgress'
+      })
+    }).then(function(lobby) {
+      return User2.findById(lobby.users[0]).exec()
+      .then(function(user){
+        return [lobby._id, user]
+      })
+    }).then(function (lobbyAndUserIds) {
         console.log(chalk.green('Seed successful!'));
+        console.log(chalk.green('Seed LobbyId: ', lobbyAndUserIds[0]));
+        console.log(chalk.green('Sedd user is ', lobbyAndUserIds[1]));
         process.kill(0);
     }).catch(function (err) {
         console.error(err);
