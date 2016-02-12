@@ -1,10 +1,10 @@
 app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory, FlowFactory, Reasons, $location) {
-  
+
   console.log('gameFactory is registering.....')
   let fullPathArr = $location.path().split('/');
   let lobbyId = fullPathArr[fullPathArr.length-1]
   let usersObj;
-  
+
   //factory.gameState = {};
   //const gameState = factory.gameState;
   /**
@@ -17,7 +17,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
-  let link = 'https://outbreak-daniel.firebaseio.com/'+lobbyId;
+  let link = 'https://luminous-fire-8700.firebaseio.com/'+lobbyId;
   console.log(link)
   const ref = new Firebase(link);
   let outbreak  = $firebaseObject(ref);

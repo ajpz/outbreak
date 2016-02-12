@@ -20,7 +20,7 @@
                     This is the airlift
                     <div>
                     <select name="" id="" ng-change="notifyRoleChange()" ng-model="airlift.role">
-                        <option value="{{key}}" ng-repeat="(key,role) in roles">{{role.name}}</option>    
+                        <option value="{{key}}" ng-repeat="(key,role) in roles">{{role.name}}</option>
                     </select>
                     </div>
                     <div>
@@ -60,7 +60,7 @@
                 </li>
             </ul>
         </div>
-        <div ng-show="turnBelongsTo(owner.role)"><action-picker></action-picker>
+        <div ng-show="turnBelongsTo(owner.role) && scope.actionPhase"><action-picker></action-picker>
         </div>
     </div>
 </div>

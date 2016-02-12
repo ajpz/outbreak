@@ -35,3 +35,29 @@
   width: 360px;
 
 }
+
+#gameover-loss {
+  z-index: 2900;
+  position: fixed;
+
+
+  h1 {
+    position: fixed;
+    top: 25%;
+    left: 32%;
+    width: 500px;
+    text-align: center;
+    color: white;
+    z-index: 3000;
+
+  }
+  img{
+    z-index: 2900;
+    height: 110vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
+
+
+}
