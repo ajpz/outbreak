@@ -6,7 +6,7 @@ app.directive('niceSelector', function ($parse) {
       <div>
         <div class="selection-bar" ng-click="toggleList()">{{ formatOption(currentlySelectedOption) || selectText }}</div>
         <ul class="selection-list" ng-show="showList">
-          <li ng-repeat="option in options" ng-click="setOption(option)">
+          <li ng-repeat="option in options track by $index" ng-click="setOption(option)">
             {{ formatOption(option) }}
           </li>
         </ul>
@@ -29,6 +29,7 @@ app.directive('niceSelector', function ($parse) {
       scope.formatOption = option => displayFormat({ option });
 
       scope.setOption = option => {
+        console.log(option);
         scope.currentlySelectedOption = option;
         ngModelCtrl.$setViewValue(option);
         scope.onChange();
