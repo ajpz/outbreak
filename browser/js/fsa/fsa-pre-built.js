@@ -49,7 +49,7 @@
     });
 
     app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, $q) {
-
+        let self = this;
         function onSuccessfulLogin(response) {
             var data = response.data;
             Session.create(data.id, data.user);
@@ -100,6 +100,12 @@
                 $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
             });
         };
+        this.signup = function(accountInfo){
+            return $http.post('/signup', accountInfo)
+            .then(function(createdAccount){
+                return self.login(accountInfo)
+            })
+        }
 
     });
 

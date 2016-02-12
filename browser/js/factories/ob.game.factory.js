@@ -1,6 +1,10 @@
-app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory, FlowFactory, Reasons) {
-  // factory is returned at the end
-  const factory = {};
+app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory, FlowFactory, Reasons, $location) {
+  
+  console.log('gameFactory is registering.....')
+  let fullPathArr = $location.path().split('/');
+  let lobbyId = fullPathArr[fullPathArr.length-1]
+  let usersObj;
+  
   //factory.gameState = {};
   //const gameState = factory.gameState;
   /**
@@ -13,39 +17,66 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
-
-
-  const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/');
-
-
+  let link = 'https://outbreak-daniel.firebaseio.com/'+lobbyId;
+  console.log(link)
+  const ref = new Firebase(link);
   let outbreak  = $firebaseObject(ref);
+  // factory is returned at the end
+  const factory = {
+    giveTheLobby: function(receivedLobby){
+      usersObj = receivedLobby.users;
+      if((!outbreak.hasOwnProperty('gameState')) && (localStorage.getItem('user') === usersObj[0].username)){
+        outbreak.gameState = Initialize;
+        assignRoles(outbreak.gameState, usersObj);
+        outbreak.$save()
+      }
+    }
+  };
+  function assignRoles(gameState, usersObj){
+    gameState.gamers = _.shuffle(gameState.gamers);
+    usersObj.forEach(function(userObj, index){
+      gameState.gamers[index].username = userObj.username;
+      gameState.playerCount++;
+    })
+  }
+
   FlowFactory();
 
   outbreak.$watch(function() {
-
     //Initialize basic game state if none exists
-    if (!outbreak.hasOwnProperty('gameState')) {
-      console.log('$watch has no gameState, intializing....')
-      outbreak.gameState = Initialize;
-      localStorage.setItem('user', Initialize.gamers[0].username);
-      outbreak.gameState.playerCount++;
-      console.log('--->set the localStorage user to ', localStorage.getItem('user'));
-      outbreak.$save();
-      return;
-    }
+    // if (!outbreak.hasOwnProperty('gameState')) {
+    //   console.log('$watch has no gameState, intializing....')
+    //   outbreak.gameState = Initialize;
+    //   localStorage.setItem('user', Initialize.gamers[0].username);
+    //   outbreak.gameState.playerCount++;
+    //   console.log('--->set the localStorage user to ', localStorage.getItem('user'));
+    //   outbreak.$save();
+    //   return;
+    // }
 
+    if(!outbreak.hasOwnProperty('gameState')){
+      return;
+    };
     //Initialize browser localStorage if 'user' doesn't exists
-    if (!localStorage.getItem('user')) {
+    let roleAssigned = outbreak.gameState.gamers.filter(function(gamer){
+      return gamer.username === localStorage.getItem('user');
+    }).length;
+    let usersNames = usersObj.map(function(user){
+      return user.username;
+    })
+
+    if (!roleAssigned) {
       console.log('$watch no user yet, setting to playerCount ', outbreak.gameState)
-      localStorage.setItem('user', outbreak.gameState.gamers[outbreak.gameState.playerCount].username);
+      // localStorage.setItem('user', outbreak.gameState.gamers[outbreak.gameState.playerCount].username);
       console.log('--->set the localStorage user to ', localStorage.getItem('user'));
+      outbreak.gameState.gamers[usersNames.indexOf(localStorage.getItem('user'))].username = localStorage.getItem('user');
       outbreak.gameState.playerCount++;
       console.log('--->and increment the playerCount to ', outbreak.gameState.playerCount);
       outbreak.$save();
       return;
     }
     //Once 4 gamers have joined the game (playerCount of 4) create decks and deal cards
-    if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === 4 && (localStorage.getItem('user') === outbreak.gameState.gamers[0].username) && outbreak.gameState.status === 'initialization') {
+    if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === 4 && (localStorage.getItem('user') === usersObj[0].username) && (outbreak.gameState.status === 'initialization') ) {
       console.log('$watch sees 4 players, ', localStorage.getItem('user'), ' is dealing....', outbreak.gameState);
       outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState);
       outbreak.$save();
@@ -260,6 +291,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
 });
 
 
-app.run(function(GameFactory) {
-  console.log('GameFactory injected.');
-})
+// app.run(function(GameFactory) {
+//   console.log('GameFactory injected.');
+// });

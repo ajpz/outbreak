@@ -54,4 +54,14 @@ module.exports = function (app) {
 
     });
 
+    app.post('/signup', function(req,res,next){
+        User.create({
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password
+        }).then(function(createdUser){
+            res.status(200).send(createdUser)
+        })
+    })
+
 };
