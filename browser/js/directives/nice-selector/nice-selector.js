@@ -29,6 +29,7 @@ app.directive('niceSelector', function ($parse) {
       scope.formatOption = option => displayFormat({ option });
 
       scope.setOption = option => {
+        console.log(option);
         scope.currentlySelectedOption = option;
         ngModelCtrl.$setViewValue(option);
         scope.onChange();

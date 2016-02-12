@@ -245,8 +245,10 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           } else if (scope.selection.verb === "cureDisease") {
             broadcastCureDisease(scope.selection);
           } else if (scope.selection.verb === "researcherActions") {
+            console.log(scope.selection);
             broadcastResearcherActions(scope.selection);
           } else if (scope.selection.verb === "takeFromResearcher") {
+            console.log(scope.selection)
             broadcastTakeCityCard(scope.selection);
           }
 
