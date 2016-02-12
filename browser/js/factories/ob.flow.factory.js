@@ -8,9 +8,8 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
   var previousLengthOfDrawnCards = null;
   var previousLengthOfInfectedCards = null;
 
-
+  //picks a card from the player deck - handles both epidemics & city cards
   var pickACard = function (gameState){
-
     let newCard = CardFactory.pickCardFromTop(gameState.playerDeck);
 
     if (!gameState.playerDeck.length) {
@@ -20,12 +19,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     }
 
     if(newCard.type === "epidemicCard"){
-
-      $rootScope.$broadcast('renderEpidemicEvent', {message: "EPIDEMIC IN EFFECT!"});
-      $rootScope.$broadcast('renderEpidemicEvent', {message: "The infection rate marker has advanced."});
-      $rootScope.$broadcast('renderEpidemicEvent', {message: "Drawing an infection card from the bottom of the deck and adding 3 disease units to that city."});
-      $rootScope.$broadcast('renderEpidemicEvent', {message: "Shuffling the infection discard deck and returning to the top of the infection deck."});
-
       gameState = InfectionFactory.epidemic(gameState);
       gameState.drawnCards.push(newCard);
     } else {
@@ -36,10 +29,12 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     return gameState;
   };
 
+
+  //waits on user to make discard selections
   $rootScope.$on('discardCardChosen', function(event, discard) {
-    console.log('in dscardCardChosen with ', discard.name);
 
     if(!gameState.chosenDiscards) gameState.chosenDiscards = [];
+
     if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
       var hand = gameState.gamers[gameState.gamerTurn].hand;
 
@@ -48,7 +43,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
       })
 
       gameState.chosenDiscards.push(discard);
-      console.log('<><><><><><>< BROADCASTING FROM discardCardChosen')
       $rootScope.$broadcast('saveDiscardCard', gameState);
     }
 
@@ -61,8 +55,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
     // currentPhase will determine what FlowFactory will do
     switch (gameState.currentPhase) {
-
-
       case 'draw':
       console.log('\n>>>>>>>Remaining player cards: ', gameState.playerDeck.length);
         //notify players of stateChange, but only the first time we enter 'draw'
@@ -103,6 +95,13 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
             }
           });
 
+          if(gameState.drawnCards[gameState.drawnCards.length - 1].type === 'epidemicCard') {
+            $rootScope.$broadcast('renderEpidemicEvent', {message: "EPIDEMIC IN EFFECT!"});
+            $rootScope.$broadcast('renderEpidemicEvent', {message: "The infection rate marker has advanced."});
+            $rootScope.$broadcast('renderEpidemicEvent', {message: "Drawing an infection card from the bottom of the deck and adding 3 disease units to that city."});
+            $rootScope.$broadcast('renderEpidemicEvent', {message: "Shuffling the infection discard deck and returning to the top of the infection deck."});
+          }
+
           if(gameState.drawnInfections) {
             console.log('calling renderInfectionEvent from first else in draw')
             $rootScope.$broadcast('renderInfectionEvent', {
@@ -111,6 +110,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               currentPhase: gameState.currentPhase
             })
           }
+
 
         } else if (gameState.drawnCards.length === 2 && previousLengthOfDrawnCards === 1) {
           previousLengthOfDrawnCards = null;
@@ -129,6 +129,13 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               }
             }
           });
+
+          if(gameState.drawnCards[gameState.drawnCards.length - 1].type === 'epidemicCard') {
+            $rootScope.$broadcast('renderEpidemicEvent', {message: "EPIDEMIC IN EFFECT!"});
+            $rootScope.$broadcast('renderEpidemicEvent', {message: "The infection rate marker has advanced."});
+            $rootScope.$broadcast('renderEpidemicEvent', {message: "Drawing an infection card from the bottom of the deck and adding 3 disease units to that city."});
+            $rootScope.$broadcast('renderEpidemicEvent', {message: "Shuffling the infection discard deck and returning to the top of the infection deck."});
+          }
 
           if(gameState.drawnInfections) {
             console.log('calling renderInfectionEvent from second else in draw')
