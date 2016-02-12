@@ -1,5 +1,5 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-default" id="slide-submenu" ng-repeat="other in others">
+    <div class="panel panel-default" id="slide-submenu" ng-repeat="other in others track by $index" ng-init="playerIndex = $index">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{$index+1}}">
             <span id="arrowWidget" ng-show="turnBelongsTo(other.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
@@ -12,6 +12,7 @@
                   <i>{{other.roleName}}</i><span id="currentCityB">{{CITIES[other.currentCity].name}}</span></a>
             </h4>
         </div>
+      <!-- show user only if it is the user-->
         <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading{{$index+1}}" aria-multiselectable="true">
             <div id="table-row" class="list-group-item" ng-repeat="row in other.chunkedData">
                 <span id="table-column" ng-repeat="card in row">
@@ -32,7 +33,7 @@
                     <button ng-show="airlift.city" class="btn btn-sm" ng-click="executeAirlift()">Execute</button>
                 </span>
 
-                <span ng-show="eventCardOptions.showGovernmentGrant">
+                <span ng-show="eventCardOptions.showGovernmentGrant" >
                     This is the build research center event card being selected.
                     <div>
                         <select ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">
@@ -63,7 +64,8 @@
             </ul>
 
           <!-- GETTING THE event to show up for current user-->
-          <div id="table-row" class="list-group-item" ng-repeat="row in other.chunkedData">
+          <!-- show user only if it is the user-->
+          <div id="table-row" class="list-group-item">
                 <span ng-show="eventCardOptions.showAirlift">
                     This is the airlift
                     <div>
@@ -83,7 +85,7 @@
                     This is the build research center event card being selected.
                     <div>
                       <select name="" id="" ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">
-                        <option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.name  | camelcasechange }}</option>
+                        <option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.key | camelcasechange }}</option>
                       </select>
                       <button ng-show="governmentGrant.city" class="btn btn-sm" ng-click="executeGovernmentGrant()">Execute</button>
                     </div>
