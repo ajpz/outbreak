@@ -8,7 +8,7 @@
                 tooltip-placement="left-bottom" tooltip-class="customClass"></span>
                   <a ng-click="tooltipIsOpen = !tooltipIsOpen">
                     <img ng-src="{{other.icon}}" height="30"/><br />
-                  <i>{{other.roleName}}</i><span id="currentCity">{{other.currentCity}}</span></a>
+                  <i>{{other.roleName}}</i><span id="currentCity">{{CITIES[other.currentCity].name}}</span></a>
             </h4>
         </div>
         <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading{{$index+1}}" aria-multiselectable="true">
@@ -35,7 +35,7 @@
                     This is the build research center event card being selected.
                     <div>
                         <select name="" id="" ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">
-                           <option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.key  | camelcasechange }}</option>
+                           <option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.name  | camelcasechange }}</option>
                         </select>
                         <button ng-show="governmentGrant.city" class="btn btn-sm" ng-click="executeGovernmentGrant()">Execute</button>
                     </div>
@@ -50,7 +50,7 @@
                 <a class role="button" data-toggle="collapse"  ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup{{others.length + 1}}"><strong>{{owner.username}}</strong></a>
                   <span uib-tooltip="{{owner.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="left-bottom" tooltip-class="customClass"></span>
                   <a ng-click="tooltipIsOpen = !tooltipIsOpen">
-                  <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i><span id="currentCity">{{owner.currentCity}}</span></a>
+                  <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i><span id="currentCity">{{CITIES[owner.currentCity].name}}</span></a>
                 </h4>
         </div>
         <div ng-attr-id="collapseListGroup{{others.length + 1}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading{{others.length + 1}}" aria-multiselectable="true">
