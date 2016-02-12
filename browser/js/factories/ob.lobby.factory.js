@@ -23,6 +23,13 @@ app.factory("LobbyFactory", function($http){
 			.then(function(response){
 				return response.data;
 			})
+		},
+		updateLoggedInUser: function(userId){
+			console.log('updating user from factory')
+			return $http.get('/api/user/'+userId)
+			.then(function(response){
+				return response.data;
+			})
 		}
 	}
 })

@@ -11,9 +11,14 @@ app.controller("LobbyWaitingAreaCtrl", function($scope, AuthService, $state, Lob
 			console.log('checking for players... currently at', $scope.playerCount)
 			console.log($scope.lobby)
 			if($scope.playerCount === 4){
-				clearInterval(intervalId)
 				$state.go('game', {id: $scope.lobby._id})
 			}
 		})
 	},2000)
+
+	$scope.$on('$destroy', function(event){
+		clearInterval(intervalId)
+	})
+
 });
+
