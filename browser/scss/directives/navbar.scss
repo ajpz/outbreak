@@ -36,7 +36,7 @@ a {
   }
   cursor: default;
 }
-#arrowWidget {
+.arrowWidget {
    z-index: 2000;
    margin-left: -12%;
    color: chartreuse;
@@ -44,7 +44,7 @@ a {
    clear: none;
 }
 
-#currentCity {
+.currentCity {
   float: right;
   clear: right;
   display: block;

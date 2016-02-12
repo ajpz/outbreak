@@ -1,15 +1,14 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-default" id="slide-submenu" ng-repeat="other in others track by $index" ng-init="playerIndex = $index">
+    <div class="panel panel-default" id="slide-submenu" ng-repeat="other in others">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{$index+1}}">
-            <span id="arrowWidget" ng-show="turnBelongsTo(other.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <span class="arrowWidget" ng-show="turnBelongsTo(other.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
                 <a class role="button" data-toggle="collapse"  ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-multiselectable="true" aria-controls="collapseListGroup{{$index+1}}"><strong>{{other.username}}</strong></a>
                 <span uib-tooltip="{{other.tooltip}}" tooltip-is-open="tooltipIsOpen"
                 tooltip-placement="left-bottom" tooltip-class="customClass"></span>
                   <a ng-click="tooltipIsOpen = !tooltipIsOpen">
                     <img ng-src="{{other.icon}}" height="30"/><br />
-                    <!--duplicate id for currentCityB-->
-                  <i>{{other.roleName}}</i><span id="currentCityB">{{CITIES[other.currentCity].name}}</span></a>
+                  <i>{{other.roleName}}</i><span class="currentCity">{{CITIES[other.currentCity].name}}</span></a>
             </h4>
         </div>
       <!-- show user only if it is the user-->
@@ -18,42 +17,18 @@
                 <span id="table-column" ng-repeat="card in row">
                     <button class="ng-class: card.color" ng-click="eventAction(card)">{{card.name}}</button>
                 </span>
-                <span ng-show="eventCardOptions.showAirlift">
-                    This is the airlift
-                    <div>
-                    <!--<select  ng-change="notifyRoleChange()" ng-model="airlift.role">-->
-                        <!--<option value="{{key}}" ng-repeat="(key,role) in roles">{{role.name}}</option>-->
-                    <!--</select>-->
-                    </div>
-                    <div>
-                    <!--<select ng-show="airlift.role" ng-change="notifyCityChange()" ng-model="airlift.city">-->
-                        <!--<option value="{{city.key}}" ng-repeat="city in airliftCities">{{ city.key  | camelcasechange }}</option>-->
-                    <!--</select>-->
-                    </div>
-                    <button ng-show="airlift.city" class="btn btn-sm" ng-click="executeAirlift()">Execute</button>
-                </span>
-
-                <span ng-show="eventCardOptions.showGovernmentGrant" >
-                    This is the build research center event card being selected.
-                    <div>
-                        <!--<select ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">-->
-                           <!--<option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.key | camelcasechange }}</option>-->
-                        <!--</select>-->
-                        <!--<button ng-show="governmentGrant.city" class="btn btn-sm" ng-click="executeGovernmentGrant()">Execute</button>-->
-                    </div>
-                </span>
             </div>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{others.length + 1}}">
             <!--duplicate id ref for arrowWidgetB-->
-          <span id="arrowWidgetB" ng-show="turnBelongsTo(owner.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
+          <span class="arrowWidget" ng-show="turnBelongsTo(owner.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
                 <a class role="button" data-toggle="collapse"  ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup{{others.length + 1}}"><strong>{{owner.username}}</strong></a>
                   <span uib-tooltip="{{owner.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="left-bottom" tooltip-class="customClass"></span>
                   <a ng-click="tooltipIsOpen = !tooltipIsOpen">
-                  <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i><span id="currentCity">{{CITIES[owner.currentCity].name}}</span></a>
+                  <img ng-src="{{owner.icon}}" height="30"/><br /><i>{{owner.roleName}}</i><span class="currentCity">{{CITIES[owner.currentCity].name}}</span></a>
                 </h4>
         </div>
         <div ng-attr-id="collapseListGroup{{others.length + 1}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading{{others.length + 1}}" aria-multiselectable="true">
@@ -66,7 +41,20 @@
           <!-- GETTING THE event to show up for current user-->
           <!-- show user only if it is the user-->
           <div id="table-row" class="list-group-item">
-                <span ng-show="eventCardOptions.showAirlift && owner.role === other.role">
+
+            <!--<div class="select_style">-->
+              <!--&lt;!&ndash;<label>&ndash;&gt;-->
+              <!--&lt;!&ndash; This ng-change method will kick off a response to update the next possible selection &ndash;&gt;-->
+              <!--<label>-->
+                <!--<nice-selector-->
+                  <!--options="verbs"-->
+                  <!--select-text="Select a verb . . ."-->
+                  <!--display="option | camelcasechange"-->
+                  <!--on-change="notifySelectionVerb()"-->
+                  <!--ng-model="selection.verb"></nice-selector>-->
+              <!--</label>-->
+            <!--</div>-->
+                <span ng-show="eventCardOptions.showAirlift">
                     This is the airlift
                     <div>
                       <select name="" id="" ng-change="notifyRoleChange()" ng-model="airlift.role">
@@ -109,38 +97,3 @@
                 <li>Remove 1 Disease unit from your current city. If this color is cured, remove all of that disease from the city.</li>
                 <li>When you are in a city with another player, give that City card to the other player, or take it from them.</li>
                 <li>At any Research Center, discard 5 City cards of the same disease color to cure that disease.</li> -->
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: choice === 'gamer'}" ng-click="setTab('gamer')"><a>my hand</a></li>
-                <li ng-repeat="gamer in othergamers" role="presentation" ng-class="{active: choice === '{{gamer}}'}" ng-click="setTab('{{gamer}}')"><a>{{gamer}}</a></li>
-            </ul>
-            <div id='gamer' ng-show="choice==='gamer'">
-                <ul class="col-xs-2">
-                    <li>Avatar image</li>
-                    <li>Role Card</li>
-                </ul>
-                <ul class="col-xs-8">
-                    <li ng-repeat="card in gamerHand" ng-click="selectCard()"></li>
-                </ul>
-                <ul class="col-xs-2">
-                    <li ng-repeat="card in gamerDiscard"></li>
-                    <li><button ng-click="discardCards()">Discard cards</button></li>
-                </ul>
-            </div>
-            <div ng-repeat="gamer in otherGamers" id='{{gamer}}' ng-show="choice==='{{gamer}}'">
-                <ul class="col-xs-2">
-                    <li><img src="{{gamer.avatar}}"/></li>
-                    <li><img src="{{gamer.rolecard}}"/></li>
-                </ul>
-                <ul class="col-xs-8">
-                    <li ng-repeat="card in {{gamer.hand}}"></li>
-                </ul>
-                <ul class="col-xs-2">
-                    <li ng-repeat="card in {{gamer.discard}}"></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div> -->
