@@ -41,7 +41,20 @@
           <!-- GETTING THE event to show up for current user-->
           <!-- show user only if it is the user-->
           <div id="table-row" class="list-group-item">
-                <span ng-show="eventCardOptions.showAirlift && owner.role === other.role">
+
+            <!--<div class="select_style">-->
+              <!--&lt;!&ndash;<label>&ndash;&gt;-->
+              <!--&lt;!&ndash; This ng-change method will kick off a response to update the next possible selection &ndash;&gt;-->
+              <!--<label>-->
+                <!--<nice-selector-->
+                  <!--options="verbs"-->
+                  <!--select-text="Select a verb . . ."-->
+                  <!--display="option | camelcasechange"-->
+                  <!--on-change="notifySelectionVerb()"-->
+                  <!--ng-model="selection.verb"></nice-selector>-->
+              <!--</label>-->
+            <!--</div>-->
+                <span ng-show="eventCardOptions.showAirlift">
                     This is the airlift
                     <div>
                       <select name="" id="" ng-change="notifyRoleChange()" ng-model="airlift.role">
