@@ -1,7 +1,7 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div class="panel panel-default" id="slide-submenu" ng-repeat="other in others">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{$index+1}}">
-            <span id="arrowWidget" ng-show="turnBelongsTo(other.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <span class="arrowWidget" ng-show="turnBelongsTo(other.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
                 <a class role="button" data-toggle="collapse"  ng-href="#collapseListGroup{{$index+1}}" aria-expanded="false" aria-multiselectable="true" aria-controls="collapseListGroup{{$index+1}}"><strong>{{other.username}}</strong></a>
                 <span uib-tooltip="{{other.tooltip}}" tooltip-is-open="tooltipIsOpen"
@@ -47,7 +47,7 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{others.length + 1}}">
             <!--duplicate id ref for arrowWidgetB-->
-          <span id="arrowWidgetB" ng-show="turnBelongsTo(owner.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
+          <span class="arrowWidget" ng-show="turnBelongsTo(owner.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
                 <a class role="button" data-toggle="collapse"  ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup{{others.length + 1}}"><strong>{{owner.username}}</strong></a>
                   <span uib-tooltip="{{owner.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="left-bottom" tooltip-class="customClass"></span>
