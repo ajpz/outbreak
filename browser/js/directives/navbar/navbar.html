@@ -8,7 +8,8 @@
                 tooltip-placement="left-bottom" tooltip-class="customClass"></span>
                   <a ng-click="tooltipIsOpen = !tooltipIsOpen">
                     <img ng-src="{{other.icon}}" height="30"/><br />
-                  <i>{{other.roleName}}</i><span id="currentCity">{{CITIES[other.currentCity].name}}</span></a>
+                    <!--duplicate id for currentCityB-->
+                  <i>{{other.roleName}}</i><span id="currentCityB">{{CITIES[other.currentCity].name}}</span></a>
             </h4>
         </div>
         <div ng-attr-id="collapseListGroup{{$index+1}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading{{$index+1}}" aria-multiselectable="true">
@@ -19,12 +20,12 @@
                 <span ng-show="eventCardOptions.showAirlift">
                     This is the airlift
                     <div>
-                    <select name="" id="" ng-change="notifyRoleChange()" ng-model="airlift.role">
+                    <select  ng-change="notifyRoleChange()" ng-model="airlift.role">
                         <option value="{{key}}" ng-repeat="(key,role) in roles">{{role.name}}</option>
                     </select>
                     </div>
                     <div>
-                    <select ng-show="airlift.role" name="" id="" ng-change="notifyCityChange()" ng-model="airlift.city">
+                    <select ng-show="airlift.role" ng-change="notifyCityChange()" ng-model="airlift.city">
                         <option value="{{city.key}}" ng-repeat="city in airliftCities">{{ city.key  | camelcasechange }}</option>
                     </select>
                     </div>
@@ -34,8 +35,8 @@
                 <span ng-show="eventCardOptions.showGovernmentGrant">
                     This is the build research center event card being selected.
                     <div>
-                        <select name="" id="" ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">
-                           <option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.name  | camelcasechange }}</option>
+                        <select ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">
+                           <option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.key | camelcasechange }}</option>
                         </select>
                         <button ng-show="governmentGrant.city" class="btn btn-sm" ng-click="executeGovernmentGrant()">Execute</button>
                     </div>
@@ -45,7 +46,8 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" ng-attr-id="collapseListGroupHeading{{others.length + 1}}">
-            <span id="arrowWidget" ng-show="turnBelongsTo(owner.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <!--duplicate id ref for arrowWidgetB-->
+          <span id="arrowWidgetB" ng-show="turnBelongsTo(owner.role)"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <h4 class="panel-title">
                 <a class role="button" data-toggle="collapse"  ng-href="#collapseListGroup{{others.length + 1}}" aria-expanded="true" aria-multiselectable="true" aria-controls="collapseListGroup{{others.length + 1}}"><strong>{{owner.username}}</strong></a>
                   <span uib-tooltip="{{owner.tooltip}}" tooltip-is-open="tooltipIsOpen" tooltip-placement="left-bottom" tooltip-class="customClass"></span>
@@ -59,6 +61,35 @@
                     <button class="ng-class: card.color" ng-click="cardAction(card)">{{card.name}}</button>
                 </li>
             </ul>
+
+          <!-- GETTING THE event to show up for current user-->
+          <div id="table-row" class="list-group-item" ng-repeat="row in other.chunkedData">
+                <span ng-show="eventCardOptions.showAirlift">
+                    This is the airlift
+                    <div>
+                      <select name="" id="" ng-change="notifyRoleChange()" ng-model="airlift.role">
+                        <option value="{{key}}" ng-repeat="(key,role) in roles">{{role.name}}</option>
+                      </select>
+                    </div>
+                    <div>
+                      <select ng-show="airlift.role" name="" id="" ng-change="notifyCityChange()" ng-model="airlift.city">
+                        <option value="{{city.key}}" ng-repeat="city in airliftCities">{{ city.key  | camelcasechange }}</option>
+                      </select>
+                    </div>
+                    <button ng-show="airlift.city" class="btn btn-sm" ng-click="executeAirlift()">Execute</button>
+                </span>
+
+                <span ng-show="eventCardOptions.showGovernmentGrant">
+                    This is the build research center event card being selected.
+                    <div>
+                      <select name="" id="" ng-model="governmentGrant.city" ng-change="notifyGovernmentGrantChange()">
+                        <option value="{{city.key}}" ng-repeat="city in governmentGrantCities">{{ city.name  | camelcasechange }}</option>
+                      </select>
+                      <button ng-show="governmentGrant.city" class="btn btn-sm" ng-click="executeGovernmentGrant()">Execute</button>
+                    </div>
+                </span>
+          </div>
+          <!-- end of GETTING THE  EVENT TO SHOW UP for current user-->
         </div>
         <div ng-show="turnBelongsTo(owner.role) && actionPhase"><action-picker></action-picker>
         </div>

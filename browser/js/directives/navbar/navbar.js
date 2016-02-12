@@ -78,7 +78,15 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
           if (localCopyOfState.gamers[localCopyOfState.gamerTurn].hand.length > 7) {
             $rootScope.$broadcast('discardCardChosen', card);
           }
-        } else {
+
+        }
+        else if (localCopyOfState.currentPhase === "actions" && card.type === "eventCard"
+            && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
+          // making use of the scope.eventAction ability since it should apply similarly
+          // if the current player has an event card which we did not take care of.
+          scope.eventAction(card);
+        }
+        else {
           $rootScope.$broadcast('badClick', {
             error: "It's not your turn to discard!"
           })
@@ -94,12 +102,17 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
 
       scope.eventAction = function(card) {
-        if (localCopyOfState.currentPhase === "actions" && card.type === "eventCard") {
+        // added in a quick check to make sure that the user is also the same user that is going
+        // this would ensure that all  other players don't get the ability to get that ability
+        //
+        if (localCopyOfState.currentPhase === "actions" && card.type === "eventCard"
+          && (localStorage.getItem('user') === localCopyOfState.gamers[localCopyOfState.gamerTurn].username)) {
           if (card.key === "airlift"){
             scope.eventCardOptions.showAirlift = true;
           } else if (card.key === "oneQuietNight") {
             playOneQuietNight();
           } else if (card.key === "governmentGrant") {
+            console.log("first in event action arae");
             scope.eventCardOptions.showGovernmentGrant = true;
             scope.notifyGovernmentGrantChange();
           } else if (card.key === "forecast"){
@@ -172,10 +185,15 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
       }
 
       scope.notifyGovernmentGrantChange = function() {
+        console.log("in notify government grant area ", scope.governmentGrant.city);
         // generate a list of cities that do not have research centers as options to build a research center
         // researchCenterLocations is an array of locations city keys
+
         scope.governmentGrantCities = localCopyOfState.cities.filter(function(city) {
-          return (localCopyOfState.researchCenterLocations.indexOf(city.key) === -1);
+          if (localCopyOfState.researchCenterLocations.indexOf(city.key) === -1){
+            console.log(city);
+            return true;
+          }
         })
       }
 

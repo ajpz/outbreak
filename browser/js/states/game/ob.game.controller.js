@@ -42,8 +42,9 @@ app.controller("GameCtrl", function($scope, $rootScope, ngToast, GameFactory, lo
   });
 
   $rootScope.$on('renderEpidemicEvent', function(event, payload) {
+    var duration = payload.duration || 5000;
     if (payload.message) {
-      createPhaseChangeToast(payload.message, 5000, "alert");
+      createPhaseChangeToast(payload.message, duration, "alert");
     }
   });
 
