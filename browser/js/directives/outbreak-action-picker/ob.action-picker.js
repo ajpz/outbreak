@@ -484,12 +484,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       // if researcher chooses give or take,
       // figure which and use the existing broadcast methods
       function broadcastResearcherActions(info) {
-        console.log("in broadcast Research actions: ", info);
-        //if (verb === "giveTo") {
           broadcastGiveCityCard(info);
-        //} else if (verb === "takeFrom") {
-        //  broadcastTakeCityCard(info);
-        //}
       }
 
 
