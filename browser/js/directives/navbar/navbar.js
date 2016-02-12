@@ -164,7 +164,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
               airliftCardIndex = index;
             }
           });
-          if (airliftCardIndex) {
+          if (airliftCardIndex >= 0) {
             gamer.hand.splice(airliftCardIndex, 1);
             airliftCardIndex = undefined;
           }
@@ -203,10 +203,12 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
               let governmentGrantCardIndex;
               gamer.hand.forEach(function(card, index){
                 if (card.type === "eventCard" && card.key === "governmentGrant"){
+                  console.log("HERE WHERE Gover Grant is");
                   governmentGrantCardIndex = index;
                 }
               });
-              if (governmentGrantCardIndex) {
+              if (governmentGrantCardIndex >= 0) {
+                console.log("governmentGrantCardIndex, :", governmentGrantCardIndex);
                 gamer.hand.splice(governmentGrantCardIndex, 1);
                 governmentGrantCardIndex = undefined;
               }
@@ -230,23 +232,24 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
       ///////////////////////// ONE QUIET NIGHT /////////////////////////////
       function playOneQuietNight() {
-        // localCopyOfState.gamers.forEach(function(gamer){
-        //   let oneQuietCardIndex;
-        //   gamer.hand.forEach(function(card, index){
-        //     if (card.type === "eventCard" && card.key === "oneQuietNight"){
-        //       oneQuietCardIndex = index;
-        //     }
-        //   });
-        //   if (governmentGrantCardIndex) {
-        //     gamer.hand.splice(oneQuietCardIndex, 1);
-        //     oneQuietCardIndex = undefined;
-        //   }
-        // });
+         localCopyOfState.gamers.forEach(function(gamer){
+           let oneQuietCardIndex;
+           gamer.hand.forEach(function(card, index){
+             if (card.type === "eventCard" && card.key === "oneQuietNight"){
+               oneQuietCardIndex = index;
+             }
+           });
+           if (oneQuietCardIndex >= 0 ) {
+             gamer.hand.splice(oneQuietCardIndex, 1);
+             oneQuietCardIndex = undefined;
+           }
+         });
 
         // broadcast the removed card // do this part last
         $rootScope.$broadcast("genericUpdates", {
           eventCardInEffect : true,
-          eventCardQueue : ["oneQuietNight"]
+          eventCardQueue : ["oneQuietNight"],
+          gamers : localCopyOfState.gamers
         })
       }
 

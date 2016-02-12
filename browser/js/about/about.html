@@ -1,11 +1,70 @@
 <section id="about">
-    <p>
-        This website--the very one at which you currently gaze--was created by a basic scaffolding
-        concocted at Fullstack Academy. Here are some of the people who make it all very real:
-    </p>
-    <carousel interval="2000">
-        <slide ng-repeat="image in images">
-            <img height="300" ng-src="{{ image }}" />
-        </slide>
-    </carousel>
+    <!-- <div id="backgroundimage"> -->
+      <!-- <div id="centered"> -->
+        <p><h2>OVERVIEW</h2><br />
+        You and your fellow players are members of a disease control team. Working together, you must develop cures and prevent disease outbreaks, before 4 deadly diseases (red, yellow, black and red) destroy the world.<br /><br />
+
+          The game is collaborative, and all players win or lose together. Each player has a specific role with special abilities to help improve the team's chances of winning.
+          The goal (and only way to win) is to discover cures for all 4 diseases. <br /><br />
+
+
+
+        The players will lose if any of the following occur: <br />
+        &emsp;  1. If 8 outbreaks occur (a worldwide panic happens) <br />
+        &emsp;  2. If a disease spreads so much that not enough units of the color remain when an infection occurs.<br />
+        &emsp;  3. If the Player cards run out before all the diseases have been cured. <br /><br /></p>
+
+          <p><h2>SETUP</h2><br />
+          The game starts with all players and one Research Center in Atlanta, home of the CDC.
+            The Outbreak marker starts at "0", and the Infection rate begins at "1"; no diseases have been cured.
+            The Infection deck is shuffled, 3 cards are drawn, each of the cities on the cards is infected with 3 units of the indicated color. 3 more cards are drawn and the new cities are infected with 2 units. Finally, 3 further cards are drawn and each is infected with one unit. The 9 cards are added, face up to the Infection discard pile.
+            Each player is assigned a Role with special abilities and dealt Player cards.
+            Depending on the game difficulty level, 4, 5, or 6 Epidemic cards are shuffled into the remaining Player deck.
+          </p><br /><br />
+
+          <p><h2>PLAYING A TURN</h2><br />
+          Each turn is divided into 3 parts:  the Actions phase, Draw phase, and Infect Cities phase <br /><br />
+
+          Because the game is cooperative, players can and should give each other advice and suggest actions for a turn. However, the player whose turn it is should be the one to decide what to do. A player’s hand can include City cards as well as Event cards. City cards can be used in some actions; Event cards can be played at any time.</p><br /><br />
+
+          <p><h2>ACTIONS PHASE</h2><br />
+          A player can choose 4 actions on each turn, made up of any combination of the actions listed below. An action can be repeated several times, each time counting as 1 action, and a Role’s special abilities may change how an action is done. Some actions involve discarding a card from your hand; these cards are removed from the game.<br />
+
+          DRIVE/FERRY:    Move to any city directly connected by a white line to your current city.<br />
+          DIRECT FLIGHT:    Discard a City card to move to the city named on the card.<br />
+          CHARTER FLIGHT: Discard the City card of your current city to move to any city. <br />
+          SHUTTLE FLIGHT: Move directly from any Research Center to another.<br />
+          BUILD RESEARCH: Discard the City card of your current city to build a research center there.<br />
+          TREAT DISEASE:    Remove 1 disease unit from your current city. If the disease has already been cured,remove all disease units of that  color from your current city.<br />
+          SHARE KNOWLEDGE:  Give the City card matching your current city to another player currently in the same city (or take this card from them). If the player receiving the card now has more than 7 cards in their hand they must immediately discard a card or play an Event card.<br />
+          DISCOVER A CURE:  At any research center, discard 5 City cards of the same color to cure that disease color.
+                If all units of this color have been cleared from the board it has been eradicated.<br /></p><br /><br />
+
+          <p><h2>DRAW PHASE</h2><br />
+          After Actions are complete, 2 new Player cards are drawn. If there are fewer than 2 cards left in the deck before you draw, the game ends and your team has lost. <br /><br />
+
+          If your draws include any Epidemic cards, the following steps occur immediately:<br />
+          &emsp;&emsp;1.  INCREASE: The infection rate marker advances one space on the Infection rate track.<br />
+          &emsp;&emsp;2.  INFECT: The bottom card of the Infection Deck is drawn, and unless it’s disease color has been eradicated, that city is infected with 3 disease units of the color.  If the city has already been infected with this color, units are added until it has 3, and then an outbreak of this disease occurs in the city. The card is discarded to the Infection discard pile.<br />
+          &emsp;&emsp;3.  INTENSIFY: The infection discard pile is shuffled and returned to the top of the Infection deck.<br /><br />
+
+          At the end of the draw phase and after any epidemics, players can have a maximum of 7 cards in their hand. They must immediately play Event cards or discard cards to reach 7.</p><br /><br />
+          <h2>INFECTION PHASE</h2>
+          <p>At the end of every turn, new cities are infected with disease. The number of new cities infected depends on the infection rate: its number indicates how many cards are drawn, and each city is infected with one unit. If a city to be infected already has 3 units of that color, no additional units are added, but an outbreak occurs.</p><br /><br />
+
+          <p><h2>OUTBREAKS</h2><br />
+          When a disease outbreak occurs, the Outbreak marker advances one space on the Outbreaks track. Then, all neighboring cities (connected to where the outbreak occurred by a white line) are infected with one unit of that color, which may, in turn, lead to further outbreaks. If a chain reaction outbreak occurs, the Outbreaks marker advances again, and neighboring cities are infected, however, cities where an outbreak has just occurred will not be affected this time. Following an outbreak, a city may have disease units of multiple colors on it; up to 3 units of each color.</p><br /><br />
+
+          <p><h2>TURN END</h2><br />
+          After completing 4 actions, drawing 2 new Player cards, infecting new cities, resolving epidemics and/or dealing with outbreaks and discarding to 7 cards, a player’s turn ends and passes to the next player.</p><br /><br />
+
+          <p><h2>EVENT CARDS</h2><br />
+          During a turn, any player may play Event cards. Playing an Event card is not an action. The player who plays an Event card decides how it is used. Event cards can be played at any time, except in between drawing and resolving a card. When 2 Epidemic cards are drawn together, events can be played after resolving the first epidemic. </p><br /><br />
+
+          <p><h2>GAME END</h2><br />
+          The players win as soon as cures to all 4 diseases are discovered.
+          The players lose if the outbreaks marker reaches the last space on the Outbreaks track, if the number of available disease units runs out and you are unable to place the number of units needed on the board, or if a player cannot draw 2 Player cards during his/her turn.</p>
+
+     <!--  </div> -->
+  <!--   </div> -->
 </section>

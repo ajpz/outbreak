@@ -1,4 +1,27 @@
 #login-form {
-  width: 60%;
+
+  position: fixed;
+  top: 30%;
+  left: 35%;
+  width: 30%;
+  padding-top: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
+  background: powderblue;
+  opacity: 0.9;
+  border: 5px solid black;
+  border-radius: 25px;
   margin: 0 auto;
+  z-index: 100;
 }
+
+/*#backgroundimage {
+  z-index: 0;
+  display: block;
+  position: fixed;
+  top: 0;
+  height: 110vh;
+  width: 100%;
+  clear: none;
+}*/
