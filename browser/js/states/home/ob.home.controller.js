@@ -1,14 +1,18 @@
-app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, loggedInUser, isLoggedIn) {
+app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, loggedInUser) {
   $scope.lobbyIndex = {};
 
   $scope.loggedInUser = loggedInUser;
-  $scope.isLoggedIn = isLoggedIn;
-  
+  $scope.isLoggedIn = !!loggedInUser;
+  $scope.lobbiesJoined = [];
   getAllLobbies();
   function getAllLobbies(){
-    if(loggedInUser){
-      console.log('FROM GET ALL LOBBIES', Date.now())
-      console.log($scope.loggedInUser)
+    if($scope.loggedInUser){
+      console.log("LOGGED IN USER: ")
+      console.log($scope.loggedInUser);
+      if($scope.loggedInUser.lobbies.length){
+        $scope.lobbiesJoined = $scope.loggedInUser.lobbies;
+        console.log($scope.lobbiesJoined)
+      }
       LobbyFactory.getAllLobbies()
       .then(function(lobbies) {
         $scope.lobbies = lobbies
@@ -29,13 +33,11 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
       })
     }
   }
-  
 
   $scope.logout = function() {
     AuthService.logout()
       .then(function() {
-        clearInterval(intervalId)
-        $state.go("home")
+        $state.go('home')
       })
   }
 
@@ -43,6 +45,10 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
     console.log('INTERVAL GET LOBBIES', Date.now())
     getAllLobbies();
   }, 2000)
+
+  $scope.$on('$destroy', function(event){
+    clearInterval(intervalId)
+  })
 
   $scope.goToLogin = function() {
     clearInterval(intervalId)
@@ -53,12 +59,10 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
     $state.go("signup")
   }
 
-
-  // $scope.isLoggedIn = isLoggedIn;
-
   $scope.game = {
     typeOfGame: 'public'
   }
+  let lobbyToGoTo; 
   $scope.createGame = function(game) {
     console.log("FROM CREATE GAME");
     console.log($scope.loggedInUser)
@@ -69,12 +73,15 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
     }
     LobbyFactory.makeALobby(data)
     .then(function(lobby) {
-      
-      console.log("CALLING GET LOBBIES FROM CREATEGAME")
+      lobbyToGoTo = lobby;
       getAllLobbies();
-      console.log("ABOUT TO GO TO WAITING AREA")
+    }).then(function(){
+      console.log('\n\n\n\n\nabout to go to factory')
+      return LobbyFactory.updateLoggedInUser($scope.loggedInUser._id)
+    }).then(function(updatedUser){
+      $scope.loggedInUser = updatedUser;
       clearInterval(intervalId)
-      $state.go('lobbyWaitingArea', {id: lobby._id})
+      $state.go('lobbyWaitingArea', {id: lobbyToGoTo._id})
     })
   }
 
