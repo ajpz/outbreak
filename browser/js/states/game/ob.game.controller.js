@@ -1,5 +1,5 @@
 app.controller("GameCtrl", function($scope, $rootScope, ngToast, GameFactory, lobby) {
-  console.log('in the GameCtrl')
+  console.log('in the GameCtrl', lobby)
   GameFactory.giveTheLobby(lobby);
 
   $rootScope.$on('stateChange', function(event, payload) {

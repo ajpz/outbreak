@@ -155,7 +155,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
           console.log('in discard event but switching to infect')
 
           $rootScope.$broadcast('phaseChanged', gameState);
-          
+
         } else {
           //notify players of stateChange, but only the first time we enter 'draw'
           //everyone browser sees this, every browser does this
@@ -285,6 +285,21 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               }
             }
           });
+          //TODO: how to get color?
+          //if outbreaks occured when infectin the city - broadcast them so toasts are made!
+          if(gameState.outbreaksDuringTurn) {
+            console.log('outbreaks happened! should send toast', gameState.outbreaksDuringTurn)
+            Object.keys(gameState.outbreaksDuringTurn).forEach(function(epicenter){
+              var message = 'An OUTBREAK hit ' + epicenter + '. Infections have spread to ';
+              gameState.outbreaksDuringTurn[epicenter].forEach(function(cityHit) {
+                message += cityHit + ', ';
+              })
+              message = message.slice(0, message.length-1);
+              message += '.'
+              console.log('message is ', message)
+              $rootScope.$broadcast('outbreak', { message: message });
+            });
+          };
 
         } else if (gameState.drawnInfections && gameState.drawnInfections.length === infectionRate && previousLengthOfInfectedCards === (gameState.drawnInfections.length - 1)) {
           console.log('\n\n..........in infect with drawnInfections equal to')
@@ -307,6 +322,23 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               }
             }
           });
+
+          //TODO: how to get color?
+          //if outbreaks occured when infectin the city - broadcast them so toasts are made!
+          if(gameState.outbreaksDuringTurn) {
+            console.log('outbreaks happened! should send toast', gameState.outbreaksDuringTurn)
+            Object.keys(gameState.outbreaksDuringTurn).forEach(function(epicenter){
+              var message = 'An OUTBREAK hit ' + epicenter + '. Infections have spread to ';
+              gameState.outbreaksDuringTurn[epicenter].forEach(function(cityHit) {
+                message += cityHit + ', ';
+              })
+              message = message.slice(0, message.length-1);
+              message += '.'
+              console.log('message is ', message)
+              $rootScope.$broadcast('outbreak', { message: message });
+            });
+          };
+
         }
         break;
     }
