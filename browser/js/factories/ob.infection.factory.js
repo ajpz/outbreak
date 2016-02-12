@@ -90,7 +90,6 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
         var card = CardFactory.pickCardFromTop(state.infectionDeck);
         state.drawnInfections.push(card);
         addInfectionToACity(card, 1, state);
-        console.log('In infect with card and outbreak object: ', card, state.outbreaksDuringTurn);
         if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
         state.infectionDeckDiscard.push(card);
       return state;
@@ -101,9 +100,9 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       //2) pick card from bottom of infectionDeck and infect with 3 virus
       let card = CardFactory.pickCardFromBottom(state.infectionDeck);
       addInfectionToACity(card, 3, state);
-
-      state.drawnInfections = [card]; // add drawnInfections array to capture infection card picked from bottom
-
+      // add drawnInfections array to capture infection card picked from bottom
+      state.drawnInfections = [card];
+      //discard
       state.infectionDeckDiscard.push(card);
       //3) shuffle discards and add to top of infectionDeck
       shuffleDiscardAndAddToInfectionDeck(state);
