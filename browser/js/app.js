@@ -13,8 +13,7 @@ app.factory('Firebase', function() {
 });
 
 // This app.run is for controlling access to specific states.
-app.run(function ($rootScope, AuthService, $state) {
-
+app.run(function ($rootScope, AuthService, $state, FindEnvironmentFactory) {
     // The given state requires an authenticated user.
     var destinationStateRequiresAuth = function (state) {
         return state.data && state.data.authenticate;
@@ -50,6 +49,10 @@ app.run(function ($rootScope, AuthService, $state) {
             }
         });
 
-    });
 
+    });
 });
+
+
+
+
