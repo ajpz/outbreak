@@ -1,5 +1,9 @@
-app.controller("LoginCtrl", function($scope, AuthService, $state){
-	console.log("login ctrl");
+app.controller("LoginCtrl", function($scope, AuthService, $state,loggedInUser){
+	if(!!loggedInUser){
+        $state.go('home')
+    }
+
+    console.log("login ctrl");
 
 	$scope.login = {};
     $scope.error = null;
