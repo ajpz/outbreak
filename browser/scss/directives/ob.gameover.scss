@@ -39,17 +39,19 @@
 #gameover-loss {
   z-index: 2900;
   position: fixed;
-
-
   h1 {
+    font-weight: 300;
     position: fixed;
-    top: 25%;
+    background-color: black;
+    opacity: 0.8;
+    border: 3px solid red;
+    padding: 2%;
+    top: 20%;
     left: 32%;
     width: 500px;
     text-align: center;
     color: white;
     z-index: 3000;
-
   }
   img{
     z-index: 2900;
@@ -58,6 +60,5 @@
     left: 0;
     top: 0;
   }
-
 
 }
