@@ -21,8 +21,42 @@ body {
     opacity: 1;
     width: 100%;
     z-index: 2000;
+
+}
+
+#help {
+    text-decoration: none;
+    position: fixed;
+    font-weight: 100;
+    font-size: 0.8em;
+    letter-spacing: 0.4em;
+    bottom: 0.8%;
+    padding-top: 0.2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    right: 36%;
+    z-index: 2000;
+    opacity: 1;
+    display: inline-block;
+    line-height: 1.1em;
+    text-align: right;
+    background: transparent;
+    color: white;
+    a {
+      color: white !important;
+      text-decoration: none !important;
+      a img {
+        display: block;
+        float: left !important;
+        margin-right: 5px;
+
+      }
+
+    }
+
 }
 </style>
+
 <div class="row">
     <toast></toast>
     <navbar></navbar>
@@ -31,6 +65,8 @@ body {
     <outbreak-level></outbreak-level>
     <infection-rate></infection-rate>
     <still-available></still-available>
+ <!--    <div id="helplabel">Game Rules</div> -->
+    <div id="help" class="row"><a id="help" ui-sref="about" target="_blank">  Rules</br /><img src="http://i.imgur.com/tOGfi4D.png" height="30px"/></a></div>
     <cures></cures>
     <show-card></show-card>
     <infection-decks></infection-decks>

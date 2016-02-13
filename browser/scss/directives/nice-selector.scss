@@ -8,15 +8,16 @@ nice-selector {
   }
 
   ul {
-
+    margin-bottom: 0px !important;
     list-style-type: none;
     padding: 0;
+    padding-bottom: 0;
     opacity: 1;
     position: relative;
     right: 0;
     color: white;
     overflow: auto;
-    max-height: 70px;
+    max-height: 85px;
 
     li {
       margin-top: 5px;

@@ -19,7 +19,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
    // dthorne: 'https://outbreak-daniel.firebaseio.com/'
 
-  let link = 'https://radiant-fire-7882.firebaseio.com/outbreak/'+lobbyId;
+  let link = 'https://luminous-fire-8700.firebaseio.com/outbreak/'+lobbyId;
 
   console.log(link)
   const ref = new Firebase(link);

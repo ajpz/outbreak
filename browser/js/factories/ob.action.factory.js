@@ -65,7 +65,10 @@ app.factory('ActionFactory', function(Cities) {
 
       // give the researcher the ability to take and give a card to someone in the same city
       if (gamer.role === 'researcher') {
-        verbs.push('researcherActions');
+        if (gamersInSameCity.length >= 1){
+          verbs.push('researcherActions');
+        }
+
       }
 
       let researcher = gamersInSameCity.find(function(otherGamer){

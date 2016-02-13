@@ -6,9 +6,8 @@
     </div> -->
     <div class="action-picker-inner" ng-show="gamers[turn].username === clientUser">
         <div class="introduction">
-            {{ gamers[turn].username | capitalize }}, the {{ gamers[turn].role | capitalize }}<br />Please pick action #{{ actionNumber }} of 4
-            <br/><br/>
-        </div>
+            Please pick action #{{ actionNumber }} of 4
+            <br/></div>
 
         <div class="select_style">
             <!--<label>-->
@@ -30,14 +29,16 @@
                   <nice-selector
                     options="nouns"
                     select-text="Select a noun . . ."
-                    display="option | takeOrGive  | camelcasechange"
+                    display="option | takeOrGive | camelcasechange "
                     on-change="selectNoun()"
                     ng-model="selection.noun"></nice-selector>
               </label>
             </div>
 
         </div>
-        <button ng-show="selection.noun" class="btn btn-sm" ng-disabled="!selection.verb || !selection.noun" ng-click="execute()">Execute</button>
-        <button class="btn btn-sm" id="red" ng-show="storedStates.length > 0" ng-click="undo()">Undo</button>
+        <div id="execute-undo">
+          <button ng-show="selection.noun" class="btn btn-sm" ng-disabled="!selection.verb || !selection.noun" ng-click="execute()">Execute</button>
+          <button class="btn btn-sm" id="red" ng-show="storedStates.length > 0" ng-click="undo()">Undo</button>
+        </div>
     </div>
 </div>
