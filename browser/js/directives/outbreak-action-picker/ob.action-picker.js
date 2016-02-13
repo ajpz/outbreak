@@ -115,20 +115,26 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       let directFlightKeys = [];
       let charterFlightKeys = [];
       let shuttleFlightKeys = [];
+      let operationKeys = [];
 
       // go is related with drive/ferry, shuttle flight, direct flight, charter flight
       // treat is with treat disease and discover a cure
       // build is with build a research station
       // card actions are with share knowledge
       scope.notifySelectionVerb = () => {
+        console.log("notify a change has occurred at notify selection verb")
         scope.nouns = [];
         let verb = scope.selection.verb;
         // this is to ensure that the execution button gets disabled
         scope.selection.noun = "";
         if (verb === "go" ) {
+          console.log("in go of the notify selction verb");
+          console.log(scope.gamers[scope.turn].role);
+          console.log(scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) );
           // my attempt to give the op expert the ability to go to different areas with research locations
           // TODO : need to verify this works
-          if (scope.gamers[scope.turn].role === "OperationExpert" && scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) > 1){
+          if (scope.gamers[scope.turn].role === "operationsExpert" && scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) > -1){
+            console.log("In the operations areaaaaa!!!!!!!")
             // TODO : give the op expert the ability to discard through turning currentPhase to "discard"
             // and have to change it back
             // then let them go somewhere
@@ -136,7 +142,22 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             // if it is a connected path, you would not want to give up a card -- it would not be in your
             // best interest to do so.
             // essentially, this will get you the the ability to move anywhere if you are in an area with a research area
-            scope.nouns = verbNounMap[scope.selection.verb][4](scope.gamers[scope.turn]);
+            console.log("operation ", scope.selection.verb);
+            scope.nouns = verbNounMap[scope.selection.verb][4](scope.gamers[scope.turn], scope.gameState);
+            operationKeys = verbNounMap[scope.selection.verb][4](scope.gamers[scope.turn], scope.gameState);
+            verbNounMap[scope.selection.verb].forEach(function(noun, index){
+              // need to clear this when you are ready to submit
+              if (index === 0){
+                walkingFerryKeys = noun(scope.gamers[scope.turn], scope.gameState);
+              } else if (index === 1) {
+                directFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+              } else if (index === 2) {
+                charterFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+              } else if (index === 3) {
+                //shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+              }
+              scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+            });
             if (scope.nouns.length === 0){
               // REPEATED :(
               // idea is that if the above set of noun doesn't work
@@ -231,7 +252,6 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
 
         if (scope.selection.verb !=='' && scope.selection.noun !== ''){
           scope.storedStates.push(_.cloneDeep(scope.gameState));
-          console.log(scope.selection);
           if (scope.selection.verb === "go") {
             broadcastGoToGameState(scope.selection);
           } else if (scope.selection.verb === "treat") {
@@ -245,10 +265,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           } else if (scope.selection.verb === "cureDisease") {
             broadcastCureDisease(scope.selection);
           } else if (scope.selection.verb === "researcherActions") {
-            console.log(scope.selection);
             broadcastResearcherActions(scope.selection);
           } else if (scope.selection.verb === "takeFromResearcher") {
-            console.log(scope.selection)
             broadcastTakeCityCard(scope.selection);
           }
 
@@ -317,13 +335,20 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           packet.gamers[scope.turn].currentCity = info.noun;
           packet.message = "User \'"+scope.gameState.gamers[scope.turn].username+"\' took a shuttle flight to "+Cities[info.noun].name+"."
           $rootScope.$broadcast("go", packet);
+        } else if (operationKeys.includes(info.noun)) {
+          // move the current user to the new location
+          packet.gamers = scope.gamers;
+          packet.gamers[scope.turn].currentCity = info.noun;
+          packet.message = "User \'"+scope.gameState.gamers[scope.turn].username+"\' transported to "+Cities[info.noun].name+" because of the research center."
+          $rootScope.$broadcast("go", packet);
         }
         // clear these out
         walkingFerryKeys = [];
         directFlightKeys = [];
         charterFlightKeys = [];
         shuttleFlightKeys = [];
-
+        operationKeys = [];
+        console.log("near the broadcast: ", packet);
         $rootScope.$broadcast("RemoveSquareMarkers", {zoomCity: packet.gamers[scope.turn].currentCity});
       }
 
