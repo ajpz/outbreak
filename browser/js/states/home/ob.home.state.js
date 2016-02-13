@@ -10,6 +10,7 @@ app.config(function ($stateProvider) {
             environment: function(FindEnvironmentFactory) {
                 FindEnvironmentFactory.getEnvironment()
                     .then(function(environment) {
+                        console.log(environment);
                         return environment;
                     })
             }
