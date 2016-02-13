@@ -14,7 +14,8 @@ app.config(function($stateProvider) {
             lobby: function(LobbyFactory, $stateParams) {
                 console.log('in lobby resolve')
                 return LobbyFactory.getALobby($stateParams.id);
-            }        }
+            }
+        }
 
     });
 

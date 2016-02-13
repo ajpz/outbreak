@@ -3,6 +3,7 @@ app.factory('FindEnvironmentFactory', function($http){
 		getEnvironment: function(){
 			return $http.get('/api/environment')
 			.then(function(response){
+				console.log(response)
 				return response.data;
 			})
 		}
