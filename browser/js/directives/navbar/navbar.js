@@ -24,6 +24,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
       $rootScope.$on('stateChange', function(event, fbData) {
 
+        //for use in all card click handlers
         localCopyOfState = _.cloneDeep(fbData.gameState);
 
 
@@ -37,7 +38,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
         scope.username = localStorage.getItem('user');
 
         if (scope.username) {
-          let payload = fbData.gameState;
+          let payload = _.cloneDeep(fbData.gameState);
           let myIndex = payload.gamers.reduce(function(targetIdx, gamer, idx) {
             if (gamer.username === scope.username) targetIdx = idx;
             return targetIdx;

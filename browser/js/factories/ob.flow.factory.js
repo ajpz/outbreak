@@ -7,6 +7,9 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
   var gameState;
   var previousLengthOfDrawnCards = null;
   var previousLengthOfInfectedCards = null;
+  var infectionRate;
+
+  var counter = 0;
 
   //picks a card from the player deck - handles both epidemics & city cards
   var pickACard = function (gameState){
@@ -59,6 +62,10 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
         //make toasts for EPIDEMICS!
         if(gameState.drawnCards && (gameState.drawnCards[gameState.drawnCards.length - 1].type === 'epidemicCard')) {
+
+          if((previousLengthOfDrawnCards === 0 && gameState.drawnCards.length === 1) ||
+             (previousLengthOfDrawnCards === 1 && gameState.drawnCards.length === 2))
+
           $rootScope.$broadcast('renderEpidemicEvent', {message: "EPIDEMIC IN EFFECT!", duration: 5000});
           $rootScope.$broadcast('renderEpidemicEvent', {message: "The infection rate marker has advanced.", duration: 6000});
           $rootScope.$broadcast('renderEpidemicEvent', {message: "Drawing an infection card from the bottom of the deck and adding 3 disease units to that city.", duration: 7000});
@@ -74,6 +81,19 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
           })
           gameState.drawnInfections = [];
         }
+
+        if(gameState.outbreaksDuringTurn) {
+          Object.keys(gameState.outbreaksDuringTurn).forEach(function(epicenter){
+            var message = 'An OUTBREAK hit ' + epicenter + '. Infections have spread to ';
+            gameState.outbreaksDuringTurn[epicenter].forEach(function(cityHit) {
+              message += cityHit + ', ';
+            })
+            message = message.slice(0, message.length-2);
+            message += '.'
+            $rootScope.$broadcast('outbreak', { message: message });
+          });
+          gameState.outbreaksDuringTurn = {};
+        };
 
         //notify players of stateChange, but only the first time we enter 'draw'
         //everyone browser sees this, every browser does this
@@ -105,7 +125,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               //if this browser has the turn, this browser picks a card and saves to firebase
               if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
                 gameState = pickACard(gameState);
-                gameState.drawnInfections = [];
+                // gameState.drawnInfections = [];
                 $rootScope.$broadcast('saveDrawnCard', gameState);
               }
             }
@@ -185,6 +205,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
         break;
 
       case 'infect':
+        counter++;
         // logic for the one quiet night event card
         // the set up for this is played in the navbar.js
         if (gameState.eventCardInEffect){
@@ -194,6 +215,15 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
           gameState.currentPhase = 'actions';
           gameState.drawnInfections = [];
           gameState.gamerTurn = (gameState.gamerTurn + 1) % gameState.gamers.length;
+
+
+          console.log('>>>>>GAMERTURN INCREMENTED: event card and broadcast counter is ', counter);
+          console.log('gamerTurn is now: ', gameState.gamerTurn)
+          console.log('currentPhase is now: ', gameState.currentPhase)
+          gameState.gamers.forEach(function(gamer, index) {
+            console.log('gamer ', index, ' is ', gamer.role, gamer.username);
+          })
+
           // the assumption is to turn eventCardInEffect
           // how and when do I know to eventInEffect should be turned to false
           $rootScope.$broadcast('genericUpdates', {
@@ -214,19 +244,23 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
             gameState.outbreaksDuringTurn[epicenter].forEach(function(cityHit) {
               message += cityHit + ', ';
             })
-            message = message.slice(0, message.length-1);
+            message = message.slice(0, message.length-2);
             message += '.'
             $rootScope.$broadcast('outbreak', { message: message });
           });
           gameState.outbreaksDuringTurn = {};
         };
 
-        var infectionRate = InfectionLevelArray.levels[gameState.infectionLevelIndex];
         //notify players of stateChange, but only the first time we enter 'infect'
         //everyone browser sees this, every browser does this
         if(!gameState.drawnInfections && previousLengthOfInfectedCards === null) {
           //create drawnInfections array
+          gameState.drawnInfections = [];
           previousLengthOfInfectedCards = 0;
+
+          infectionRate = InfectionLevelArray.levels[gameState.infectionLevelIndex];
+
+          counter = 1;
 
           var message = 'New infections are rapidly spreading! Infecting '+ infectionRate + ' cities';
 
@@ -236,13 +270,12 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
             infectionRate: infectionRate,
             callback: function() {
               if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
-                gameState.drawnInfections = [];
                 gameState = InfectionFactory.infect(gameState);
                 $rootScope.$broadcast('saveInfectionCard', gameState);
               }
             }
           });
-        } else if (gameState.drawnInfections && gameState.drawnInfections.length < infectionRate && previousLengthOfInfectedCards !== gameState.drawnInfections.length) {
+        } else if (gameState.drawnInfections && gameState.drawnInfections.length < infectionRate && previousLengthOfInfectedCards === gameState.drawnInfections.length - 1) {
           //broadcast so that show-card can display the event, show-card handles setting a timeout
           previousLengthOfInfectedCards++;
 
@@ -273,6 +306,13 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
                 gameState.currentPhase = 'actions';
                 gameState.drawnInfections = [];
                 gameState.gamerTurn = (gameState.gamerTurn + 1) % gameState.gamers.length;
+                console.log('>>>>>GAMERTURN INCREMENTED: after infections, broadcast counter is ', counter);
+                console.log('gamerTurn is now: ', gameState.gamerTurn)
+                console.log('currentPhase is now: ', gameState.currentPhase)
+                gameState.gamers.forEach(function(gamer, index) {
+                  console.log('gamer ', index, ' is ', gamer.role, gamer.username);
+                })
+
                 $rootScope.$broadcast('phaseChanged', gameState);
               }
             }
