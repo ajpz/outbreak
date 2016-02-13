@@ -157,6 +157,10 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
                 //shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
               }
               scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+              scope.nouns.sort()
+
+
+
             });
             if (scope.nouns.length === 0){
               // REPEATED :(
@@ -175,6 +179,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
                   shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
                 }
                 scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+                scope.nouns.sort()
+
+
               });
             }
             // need to emit in the other nouns to remove the circles -- or maybe I can keep it there.
@@ -194,6 +201,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
                 shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
               }
               scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+              scope.nouns.sort()
+
 
             });
             $rootScope.$broadcast("SquareMarkersOnMap", {nouns : scope.nouns});
