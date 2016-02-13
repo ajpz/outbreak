@@ -4,13 +4,11 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/states/home/ob.home.template.html',
         resolve: {
         	loggedInUser: function(AuthService){
-                console.log('in state')
         		return AuthService.getLoggedInUser(true)
         	},
             environment: function(FindEnvironmentFactory) {
-                FindEnvironmentFactory.getEnvironment()
+                return FindEnvironmentFactory.getEnvironment()
                     .then(function(environment) {
-                        console.log(environment);
                         return environment;
                     })
             }

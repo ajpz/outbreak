@@ -1,11 +1,8 @@
 app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, loggedInUser, environment) {
   if(environment){
-    console.log('heloooo')
     console.log = function(){
       return;
     }
-  }else{
-    console.log(environment)
   }
   $scope.lobbyIndex = {};
 
