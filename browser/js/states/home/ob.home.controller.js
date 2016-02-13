@@ -1,4 +1,9 @@
-app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, loggedInUser) {
+app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, loggedInUser, environment) {
+  if(environment){
+    console.log = function(){
+      return;
+    }
+  }
   $scope.lobbyIndex = {};
 
   $scope.loggedInUser = loggedInUser;

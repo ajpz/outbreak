@@ -1,8 +1,12 @@
 var app = require('express').Router();
 
 app.get('/', function(req,res,next){
-	console.log('received', process.env)
-	res.status(201).send(process.env)
+	if(process.env.NODE_ENV){
+		res.status(201).send(true)
+	}else{
+		res.status(201).send(false)
+	}
+	
 })
 
 module.exports = app;
