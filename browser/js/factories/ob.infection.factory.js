@@ -88,6 +88,7 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
     },
     infect: function(state) {
         var card = CardFactory.pickCardFromTop(state.infectionDeck);
+        if(!state.drawnInfections) state.drawnInfections = [];
         state.drawnInfections.push(card);
         addInfectionToACity(card, 1, state);
         if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
