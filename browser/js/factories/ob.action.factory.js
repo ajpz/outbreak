@@ -169,11 +169,15 @@ app.factory('ActionFactory', function(Cities) {
 
     // the condition is also that the op expert is in a city with a research center
     operationExpertKeys : function(gamer, state) {
-       if (gamer.role === "OperationExpert"
+       if (gamer.role === "operationsExpert"
         && state.researchCenterLocations.indexOf(gamer.currentCity) !== -1) {
         // the operation expert is allowed to move to any city by discarding any card
-        return Cities.map(city => {
+        return state.cities.map(city => {
           return city.key;
+        }).filter(function(cityKey){
+          if (state.researchCenterLocations.indexOf(cityKey) > - 1) {
+            return true;
+          }
         })
       } else {
          return [];
