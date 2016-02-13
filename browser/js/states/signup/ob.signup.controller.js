@@ -1,5 +1,7 @@
-app.controller("SignupCtrl", function($scope, AuthService, $state){
-
+app.controller("SignupCtrl", function($scope, AuthService, $state, loggedInUser){
+    if(!!loggedInUser){
+        $state.go('home')
+    }
 	$scope.account = {};
     $scope.error = null;
 
