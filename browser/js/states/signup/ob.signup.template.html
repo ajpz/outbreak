@@ -1,6 +1,6 @@
 <div id="backgroundimage">
     <div id="showfrontsignup">
-
+    <div id="centered">
         <form id="signup-form" name="signupForm" ng-submit="signupForm.$valid && signup(account)">
             <alert type="danger" ng-show="error">
                 {{ error }}
@@ -19,8 +19,12 @@
                 <input type="password" ng-model="account.password" class="form-control" id="login-password" placeholder="Password">
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
+            <div id="centered">
+                <span><h3>Already have an account?</h3></span>
+                <button type="button" class="btn btn-default" ui-sref="login">Login</button>
+            </div>
         </form>
-
+        </div>
   </div>
 </div>
 
