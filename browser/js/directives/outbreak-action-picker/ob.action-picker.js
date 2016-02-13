@@ -134,7 +134,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           // my attempt to give the op expert the ability to go to different areas with research locations
           // TODO : need to verify this works
           if (scope.gamers[scope.turn].role === "operationsExpert" && scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) > -1){
-            console.log("In the operations areaaaaa!!!!!!!")
+            //console.log("In the operations areaaaaa!!!!!!!")
             // TODO : give the op expert the ability to discard through turning currentPhase to "discard"
             // and have to change it back
             // then let them go somewhere
@@ -338,7 +338,6 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           $rootScope.$broadcast("go", packet);
 
         } else if (shuttleFlightKeys.includes(info.noun)){
-
           // move the current user to the new location
           packet.gamers = scope.gamers;
           packet.gamers[scope.turn].currentCity = info.noun;

@@ -157,14 +157,15 @@ app.factory('ActionFactory', function(Cities) {
     },
 
     shuttleFlightsKeys: function(gamer, state) {
-      //r eturn an array of city keys that have researchCenters not including where the user is
+      //return an array of city keys that have researchCenters not including where the user is
       // baked in that the gamer is on the current city
       // if they are not, return an empty array
-      if (Object.keys(state.researchCenterLocations).indexOf(gamer.currentCity) === -1) {
+      if (state.researchCenterLocations.indexOf(gamer.currentCity) === -1) {
         return [];
       }
       return state.researchCenterLocations
         .filter(function(key) {
+          console.log("this is setting shuttleFlightsKeys for travelling to other research locations")
           // filter out the gamer's currentCity
           return gamer.currentCity !== key;
         });

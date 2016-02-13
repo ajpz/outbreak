@@ -72,7 +72,9 @@ connectToDb.then(function () {
         users: fourUsers,
         public: true,
         title: 'Test game from seed.js',
-        status: 'inProgress'
+        status: 'inProgress',
+        playerCount : 4,
+        difficulty :  "Heroic"
       })
     }).then(function(lobby) {
       return User2.findById(lobby.users[0]).exec()
