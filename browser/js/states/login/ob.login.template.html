@@ -3,20 +3,21 @@
 <!--   <div id="showfront"> -->
     <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
         <span><h3>Sign in to Outbreak</h3></span><br />
-        <alert type="danger" ng-show="error">
-            {{ error }}
+        <alert type="danger" ng-show="error || (loginForm.email.$invalid && loginForm.email.$touched) || (loginForm.password.$invalid && loginForm.password.$touched)">
+            <p ng-show="error" >{{ error }}</p>
+            <p ng-show="loginForm.email.$invalid && loginForm.email.$touched">An email address is required.</p>
+            <p ng-show="loginForm.password.$invalid && loginForm.password.$touched">A password of minimum length 8 and maximum length 16 is required.</p>
         </alert>
-
         <div class="form-group">
             <label for="email">Email address</label>
-            <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email" />
+            <input type="email" name='email' required ng-model="login.email" class="form-control" id="email" placeholder="Enter email" />
         </div>
         <div class="form-group">
             <label for="login-password">Password</label>
-            <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password" />
+            <input name="password" type="password" required ng-minlength="8" ng-maxlength="16" ng-model="login.password" class="form-control" id="login-password" placeholder="Password" />
         </div>
         <div id="centered">
-        <button type="submit">Login</button>
+        <button ng-disabled="(loginForm.email.$invalid && loginForm.email.$touched) || (loginForm.password.$invalid && loginForm.password.$touched)"type="submit">Login</button>
       </div>
     <div id="centered">
         <span><h3>Don't have an account yet? Make one!</h3></span>
