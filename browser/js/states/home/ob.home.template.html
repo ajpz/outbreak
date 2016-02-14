@@ -1,40 +1,33 @@
 <div id="backgroundimage">
   <div id="showfronthome">
-    <span id="centered"><h3>Welcome to Outbreak</h3></span><br /><br />
+    <span id="centered"><h3>Welcome to Outbreak</h3></span>
+    <br />
+    <br />
     <div id="centered">
-      <button type='button' ng-show=!isLoggedIn ng-click="goToLogin()">Login</button>
-      <button type='button' ng-show=!isLoggedIn ng-click="goToSignup()">Signup</button>
+      <button type='button' ng-show='!isLoggedIn' ng-click="goToLogin()">Login</button>
+      <button type='button' ng-show='!isLoggedIn' ng-click="goToSignup()">Signup</button>
     </div>
-
     <div id="centeredhome">
-      <form ng-show=isLoggedIn id="create-game-form" name="createAGame" ng-submit="createGame(game)">
-
-        <input type="text" ng-model="game.title" placeholder="Create a new game (enter title)"/>
-        <input type="number" ng-model="game.playerCount" placeholder="Number of Players">
-        <select ng-options="difficulty as difficulty for difficulty in difficulties" ng-model="game.difficulty"></select>
-<!--         <input type="radio" name="public" ng-model="game.typeOfGame" value="public" /> Public
-        <input type="radio" name="private" ng-model="game.typeOfGame" value="private" /> Private -->
-        <button type="submit">Create</button>
+      <alert type="danger" ng-show="(createAGame.title.$invalid && createAGame.title.$touched)">
+        <p ng-show="createAGame.title.$invalid && createAGame.title.$touched">You must enter a title for the game.</p>
+      </alert>
+      <form ng-show="isLoggedIn" id="create-game-form" name="createAGame" ng-submit="createGame(game)">
+        <input name="title" required type="text" ng-minlength="4" ng-maxlength="12" ng-model="game.title" placeholder="Create a new game (enter title)" />
+        <select selected='2' required ng-model="game.playerCount">
+          <option value="2" ng-selected='true'>2 players</option>
+          <option value="3">3 players</option>
+          <option value="4">4 players</option>
+        </select>
+        <select required ng-options="difficulty as difficulty for difficulty in difficulties" ng-model="game.difficulty"></select>
+        <button ng-disabled="createAGame.title.$invalid && createAGame.title.$touched" type="submit">Create</button>
         <div id="uncenteredhome">
           <span>Join an exisiting game:</span>
           <div ng-repeat="lobby in lobbies track by $index" ng-show=isLoggedIn>
-            <button type="button" ng-show="lobbyIndex[$index] && lobby.playerCount > lobby.users.length" ng-click="joinGame(this.lobby, $index)">{{lobby.title | uppercase}}
-            ({{lobby.users.length}} of {{lobby.playerCount}} Players)</button>
-        <!-- <button type="button" ng-show="lobbyIndex[$index]" ng-click="joinGame(this.lobby, $index)">Join</button> -->
+            <button type="button" ng-show="lobbyIndex[$index] && lobby.playerCount > lobby.users.length" ng-click="joinGame(this.lobby, $index)">{{lobby.title | uppercase}} ({{lobby.users.length}} of {{lobby.playerCount}} Players)</button>
           </div>
-<!--           <h2>Games you've already joined</h2>
-            <div ng-repeat="lobby in lobbiesJoined">
-              <div ng-if="lobby.status==='inProgress'">
-                Rejoin <a ui-sref="game" ui-sref-opts="{id: lobby._id }">{{lobby.title}}</a>
-
-              </div>
-            </div> -->
         </div>
-
         <button type='button' ng-show=isLoggedIn ng-click="logout()">Logout {{loggedInUser.email}}</button>
       </form>
     </div>
   </div>
 </div>
-
-

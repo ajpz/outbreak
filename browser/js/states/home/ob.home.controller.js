@@ -80,6 +80,8 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
   $scope.createGame = function(game) {
     console.log("FROM CREATE GAME", game.playerCount, typeof game.playerCount, game.difficulty);
     console.log($scope.loggedInUser)
+    game.playerCount = parseInt(game.playerCount, 10)
+    console.log(typeof game.playerCount)
     let data = {
       title: game.title,
       type: game.typeOfGame,

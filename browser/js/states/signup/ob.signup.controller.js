@@ -13,7 +13,7 @@ app.controller("SignupCtrl", function($scope, AuthService, $state, loggedInUser)
             localStorage.setItem('user', accountInfo.username)
             $state.go('home');
         }).catch(function () {
-            $scope.error = 'Invalid login credentials.';
+            $scope.error = 'Something went wrong.';
         });
 
     };
