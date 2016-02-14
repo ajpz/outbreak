@@ -508,19 +508,32 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         //remove the hand
         scope.gameState.gamers.forEach(function(gamer) {
           if (gamer.role === "scientist") {
-            let scientistHand = gamer.hand;
-            let fourCardCount = 0;
-            scientistHand.forEach(function(card) {
-              
+            let fourCardCount = [];
+            gamer.hand = gamer.hand.filter(function(card, index) {
+              if (card.color === colorToCure && fourCardCount.length < 4){
+                fourCardCount.push(index);
+                return false;
+              } else {
+                return true;
+              }
             })
 
           } else {
-
+            let fiveCardCount = [];
+            gamer.hand = gamer.hand.filter(function(card, index) {
+              if (card.color === colorToCure && fourCardCount.length < 5){
+                fiveCardCount.push(index);
+                return false;
+              } else {
+                return true;
+              }
+            })
           }
         })
 
 
         let packet = {isCured : scope.gameState.isCured};
+        packet.gamers = gamers;
         if (allCured){
           packet.status = "gameOver";
           packet.gameOver = {win: true}
