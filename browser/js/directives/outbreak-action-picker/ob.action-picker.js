@@ -497,9 +497,25 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         let colorToCure = info.noun;
         scope.gameState.isCured[colorToCure] = true;
         var allCured = true;
-        Object.key(scope.gameState.isCured).forEach(function(color){
+        Object.keys(scope.gameState.isCured).forEach(function(color){
           if (!scope.gameState.isCured[color]) {
             allCured = false
+          }
+        })
+
+        //if gamer.role === "scientist"
+        // else
+        //remove the hand
+        scope.gameState.gamers.forEach(function(gamer) {
+          if (gamer.role === "scientist") {
+            let scientistHand = gamer.hand;
+            let fourCardCount = 0;
+            scientistHand.forEach(function(card) {
+              
+            })
+
+          } else {
+
           }
         })
 

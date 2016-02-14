@@ -104,6 +104,7 @@ app.factory('ActionFactory', function(Cities) {
 
       // can i cure disease?
       if(state.researchCenterLocations.indexOf(gamer.currentCity) > -1) {
+        console.log("we are in a location where we check for research locations")
         let colorCounter = gamer.hand.reduce(function(colors, cardObj) {
           colors[cardObj.color]++;
           return colors;
@@ -425,8 +426,13 @@ app.factory('ActionFactory', function(Cities) {
       }, {red: 0, blue: 0, yellow: 0, black: 0});
 
       for(let color in colorCounter) {
-        if(colorCounter[color] >= 5) result[color] = true;
-        else result[color] = false;
+        if (gamer.role === "scientist"){
+          if(colorCounter[color] >= 4) result[color] = true;
+          else result[color] = false;
+        } else {
+          if(colorCounter[color] >= 5) result[color] = true;
+          else result[color] = false;
+        }
       }
       //{red : true, blue: false, etc...}
       return result;
