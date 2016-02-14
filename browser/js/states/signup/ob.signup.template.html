@@ -1,6 +1,6 @@
 <div id="backgroundimage">
     <div id="showfrontsignup">
-
+    <div id="centered">
         <form id="signup-form" name="signupForm" ng-submit="signupForm.$valid && signup(account)">
             <alert type="danger" ng-show="error">
                 {{ error }}
@@ -8,7 +8,13 @@
 
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="text" ng-model="account.email" class="form-control" id="email" placeholder="Enter email">
+                <input type="email" ng-model="account.email" class="form-control" id="email" placeholder="Enter email">
+            </div>
+            <div role="alert">
+              <span class="error" ng-show="myForm.input.$error.required">
+                Required!</span>
+              <span class="error" ng-show="myForm.input.$error.email">
+                Not valid email!</span>
             </div>
             <div class="form-group">
                 <label for="username">Username</label>
@@ -18,9 +24,13 @@
                 <label for="login-password">Password</label>
                 <input type="password" ng-model="account.password" class="form-control" id="login-password" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default">Sign up</button>
+            <div id="centered">
+                <span><h3>Already have an account?</h3></span>
+                <button type="button" class="btn btn-default" ui-sref="login">Login</button>
+            </div>
         </form>
-
+        </div>
   </div>
 </div>
 
