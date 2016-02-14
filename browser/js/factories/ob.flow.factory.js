@@ -79,21 +79,23 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
             drawnInfections: gameState.drawnInfections,
             currentPhase: gameState.currentPhase
           })
+
+          //if an outbreak occured, make toast!
+          if(gameState.outbreaksDuringTurn) {
+            Object.keys(gameState.outbreaksDuringTurn).forEach(function(epicenter){
+              var message = 'An OUTBREAK hit ' + epicenter + '. Infections have spread to ';
+              gameState.outbreaksDuringTurn[epicenter].forEach(function(cityHit) {
+                message += cityHit + ', ';
+              })
+              message = message.slice(0, message.length-2);
+              message += '.'
+              $rootScope.$broadcast('outbreak', { message: message });
+            });
+            gameState.outbreaksDuringTurn = {};
+          };
+
           gameState.drawnInfections = [];
         }
-
-        if(gameState.outbreaksDuringTurn) {
-          Object.keys(gameState.outbreaksDuringTurn).forEach(function(epicenter){
-            var message = 'An OUTBREAK hit ' + epicenter + '. Infections have spread to ';
-            gameState.outbreaksDuringTurn[epicenter].forEach(function(cityHit) {
-              message += cityHit + ', ';
-            })
-            message = message.slice(0, message.length-2);
-            message += '.'
-            $rootScope.$broadcast('outbreak', { message: message });
-          });
-          gameState.outbreaksDuringTurn = {};
-        };
 
         //notify players of stateChange, but only the first time we enter 'draw'
         //everyone browser sees this, every browser does this
