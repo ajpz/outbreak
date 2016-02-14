@@ -6,11 +6,11 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
     scope: {},
     // controller: 'NavbarCtrl',
     link: function(scope) {
-      scope.roles = Roles;
       scope.CITIES = Cities;
       scope.actionPhase = false;
       var localCopyOfState;
 
+      scope.roles = {};
 
       // helper function to chunk data into columns
       function chunk(arr, size) {
@@ -24,8 +24,18 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
       $rootScope.$on('stateChange', function(event, fbData) {
 
+
+        //for use in all card click handlers
         localCopyOfState = _.cloneDeep(fbData.gameState);
 
+        //filter Roles down to active roles in this game, i.e. playerCount
+        Object.keys(Roles).forEach(function(aRole) {
+          if(localCopyOfState.gamers.map(function(gamer) {
+            return gamer.role;
+          }).indexOf(aRole) > -1) {
+            scope.roles[aRole] = Roles[aRole];
+          }
+        })
 
         if (localCopyOfState.currentPhase === 'actions'){
           scope.actionPhase = true;
@@ -37,7 +47,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
         scope.username = localStorage.getItem('user');
 
         if (scope.username) {
-          let payload = fbData.gameState;
+          let payload = _.cloneDeep(fbData.gameState);
           let myIndex = payload.gamers.reduce(function(targetIdx, gamer, idx) {
             if (gamer.username === scope.username) targetIdx = idx;
             return targetIdx;

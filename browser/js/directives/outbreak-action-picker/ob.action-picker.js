@@ -127,6 +127,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         let verb = scope.selection.verb;
         // this is to ensure that the execution button gets disabled
         scope.selection.noun = "";
+        //clear square markers from map --- in case user switches from GO to other options without executing
+        $rootScope.$broadcast("RemoveSquareMarkers", {});
+
         if (verb === "go" ) {
           console.log("in go of the notify selction verb");
           console.log(scope.gamers[scope.turn].role);
@@ -154,7 +157,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               } else if (index === 2) {
                 charterFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
               } else if (index === 3) {
-                //shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
+                // shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
               }
               scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
               scope.nouns.sort()
@@ -498,7 +501,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         let colorToCure = info.noun;
         scope.gameState.isCured[colorToCure] = true;
         var allCured = true;
-        Object.key(scope.gameState.isCured).forEach(function(color){
+        Object.keys(scope.gameState.isCured).forEach(function(color){
           if (!scope.gameState.isCured[color]) {
             allCured = false
           }
