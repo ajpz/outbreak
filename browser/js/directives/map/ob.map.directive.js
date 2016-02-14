@@ -376,11 +376,11 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
         var trackGoSquares = [];
         var cities = [];
-        var localPayload;
+        var localPayload = {};
 
         function addSquaresToMap(payload) {
           if (payload) localPayload = payload;
-          if (!localPayload) return;
+          if (Object.keys(localPayload).length === 0) return;
 
           var zoomSizeSquare = {
             '5' : [160,160],
@@ -418,14 +418,18 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
         });
 
         $rootScope.$on("RemoveSquareMarkers", function(event, payload){
-          userZoomed = false;
-          map.setView(Cities[payload.zoomCity].location, 4)
+
+          if(payload.zoomCity) {
+            userZoomed = false;
+            map.setView(Cities[payload.zoomCity].location, 4)
+          }
 
           trackGoSquares.forEach(function(square){
             map.removeLayer(square);
           });
           trackGoSquares = [];
           cities = [];
+          localPayload = {};
 
         });
 
