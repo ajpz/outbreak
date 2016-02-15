@@ -72,7 +72,8 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
 
   $scope.game = {
     typeOfGame: 'public',
-    difficulty: $scope.difficulties[0]
+    difficulty: $scope.difficulties[0],
+    playerCount: 2
   };
 
   let lobbyToGoTo;
