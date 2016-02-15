@@ -5,6 +5,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   let lobbyId = fullPathArr[fullPathArr.length-1]
   let usersObj;
   let playerCount;
+  let inFixPhase = false;
 
   //factory.gameState = {};
   //const gameState = factory.gameState;
@@ -101,6 +102,18 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
         return _.isEqual(value, outbreak.gameState[key]) ?
             result : result.concat(key);
     }, []));
+
+    if(!inFixPhase && (localStorage.getItem('user') === usersObj[0].username) && outbreak.gameState.status === 'inProgress') {
+      if(localState && localState.gamerTurn !== outbreak.gameState.gamerTurn) {
+        if(localState.currentPhase === 'actions' && outbreak.gameState.currentPhase === 'actions') {
+          console.log('GAMERTURN WAS ERRONEOUSLY ADVANCED! FIXING IT');
+          inFixPhase = true;
+          outbreak.gameState.gamerTurn = localState.gamerTurn;
+          outbreak.$save();
+        }
+      }
+    }
+    inFixPhase = false;
 
     console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase, outbreak.gameState.gamerTurn, outbreak.gameState.drawnInfections, Date.now());
     console.log(diffKeys);
