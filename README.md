@@ -8,5 +8,5 @@
 ![alt tag](https://github.com/VictorHom/Gif/blob/master/goScreen.png)
 
 ## About Outbreak
-### This is a web application game that is based on the popular collaborative board game 'Pandemic'.
-### In this game, you work together as a team to prevent the spread of 4 deadly infections that is spreading unpredictably across the world.
+######This is a web application game that is based on the popular collaborative board game 'Pandemic'.
+######In this game, you work together as a team to prevent the spread of 4 deadly infections that is spreading unpredictably across the world.
