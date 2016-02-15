@@ -131,13 +131,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         $rootScope.$broadcast("RemoveSquareMarkers", {});
 
         if (verb === "go" ) {
-          console.log("in go of the notify selction verb");
-          console.log(scope.gamers[scope.turn].role);
-          console.log(scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) );
           // my attempt to give the op expert the ability to go to different areas with research locations
           // TODO : need to verify this works
           if (scope.gamers[scope.turn].role === "operationsExpert" && scope.gameState.researchCenterLocations.indexOf(scope.gamers[scope.turn].currentCity) > -1){
-            console.log("In the operations areaaaaa!!!!!!!")
             // TODO : give the op expert the ability to discard through turning currentPhase to "discard"
             // and have to change it back
             // then let them go somewhere
@@ -159,7 +155,15 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               } else if (index === 3) {
                 // shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
               }
+              // to remove the duplicate values;
+              let filteredNouns = [];
               scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+              for (let i = 0; i < scope.nouns.length; i++){
+                if (filteredNouns.indexOf(scope.nouns[i]) === -1) {
+                  filteredNouns.push(scope.nouns[i]);
+                }
+              }
+              scope.nouns = filteredNouns;
               scope.nouns.sort()
 
 
