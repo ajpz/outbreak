@@ -185,8 +185,15 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
                 } else if (index === 3) {
                   shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
                 }
+                let filteredNouns = [];
                 scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
-                scope.nouns.sort()
+                for (let i = 0; i < scope.nouns.length; i++){
+                  if (filteredNouns.indexOf(scope.nouns[i]) === -1) {
+                    filteredNouns.push(scope.nouns[i]);
+                  }
+                }
+              scope.nouns = filteredNouns;
+              scope.nouns.sort()
 
 
               });
@@ -207,7 +214,14 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               } else if (index === 3) {
                 shuttleFlightKeys = noun(scope.gamers[scope.turn], scope.gameState);
               }
+              let filteredNouns = [];
               scope.nouns = scope.nouns.concat(noun(scope.gamers[scope.turn], scope.gameState).slice());
+              for (let i = 0; i < scope.nouns.length; i++){
+                if (filteredNouns.indexOf(scope.nouns[i]) === -1) {
+                  filteredNouns.push(scope.nouns[i]);
+                }
+              }
+              scope.nouns = filteredNouns;
               scope.nouns.sort()
 
 
