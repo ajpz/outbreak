@@ -6,7 +6,7 @@
           <p ng-show="error">{{ error }}</p>
           <p ng-show="signupForm.email.$invalid && signupForm.email.$touched">An email address is required.</p>
           <p ng-show="signupForm.username.$invalid && signupForm.username.$touched">A username of minimum length 4 and maximum length 10 is required.</p>
-          <p ng-show="signupForm.password.$invalid && signupForm.password.$touched">A password of minimum length 8 and maximum length 16 is required.</p>
+          <p ng-show="signupForm.password.$invalid && signupForm.password.$touched">A password of minimum length 4 and maximum length 16 is required.</p>
         </alert>
         <div class="form-group">
           <label for="email">Email address</label>
@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
           <label for="login-password">Password</label>
-          <input type="password" required name="password" ng-minlength="8" ng-maxlength="16" ng-model="account.password" class="form-control" id="login-password" placeholder="Password">
+          <input type="password" required name="password" ng-minlength="4" ng-maxlength="16" ng-model="account.password" class="form-control" id="login-password" placeholder="Password">
         </div>
         <button type="submit" ng-disabled="(signupForm.email.$invalid && signupForm.email.$touched) || (signupForm.password.$invalid && signupForm.password.$touched) || (signupForm.username.$invalid && signupForm.username.$touched)" class="btn btn-default">Sign up</button>
         <div id="centered">
