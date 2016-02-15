@@ -104,12 +104,12 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     }, []));
 
     if(!inFixPhase && (localStorage.getItem('user') === usersObj[0].username) && outbreak.gameState.status === 'inProgress') {
-      if(localState.gamerTurn !== outbreak.gameState.gamerTurn) {
+      if(localState && localState.gamerTurn !== outbreak.gameState.gamerTurn) {
         if(localState.currentPhase === 'actions' && outbreak.gameState.currentPhase === 'actions') {
           console.log('GAMERTURN WAS ERRONEOUSLY ADVANCED! FIXING IT');
           inFixPhase = true;
           outbreak.gameState.gamerTurn = localState.gamerTurn;
-          outbreak.gameState.$save();
+          outbreak.$save();
         }
       }
     }
