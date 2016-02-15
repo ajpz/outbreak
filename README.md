@@ -11,7 +11,7 @@ Outbreak is a port of the popular collaborative boardgame, 'Pandemic'. In this g
 Play the game at http://www.playoutbreak.com/
 
 ## How to play
-The best way to play this game is to create an account and have a friend join in on the fun. The minimum number of players is 2 and the max is 4. Once you create a game and have the number of players to play, all players will be sent to the board game map. If you know how to play and it's your turn, you can start picking your actions. However, if you need a refresher on the map, click on our rules manual at the bottom of the game screen.
+The best way to play this game is to create an account and have a friend join in on the fun. The minimum number of players is 2 and the max is 4. Once you create a game and have the number of players to play, all players will be sent to the board game map. If you know how to play and it's your turn, you can start picking your actions right away. However, if you need a refresher on how to play, click on our rules manual at the bottom of the game screen.
 
 ## Contributors
 - [Victor Hom](https://github.com/VictorHom)
