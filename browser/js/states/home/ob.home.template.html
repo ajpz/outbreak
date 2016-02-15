@@ -12,8 +12,8 @@
         <p ng-show="createAGame.title.$invalid && createAGame.title.$touched">You must enter a title for the game.</p>
       </alert>
       <form ng-show="isLoggedIn" id="create-game-form" name="createAGame" ng-submit="createGame(game)">
-        <input name="title" required type="text" ng-minlength="4" ng-maxlength="12" ng-model="game.title" placeholder="Create a new game (enter title)" />
-        <select selected='2' required ng-model="game.playerCount">
+        <input name="title" required type="text" ng-minlength="4" ng-maxlength="25" ng-model="game.title" placeholder="Create a new game (enter title)" />
+        <select required ng-model="game.playerCount">
           <option value="2" ng-selected='true'>2 players</option>
           <option value="3">3 players</option>
           <option value="4">4 players</option>
