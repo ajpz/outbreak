@@ -1,9 +1,3 @@
-app.config(['ngToastProvider'], function(ngToast){
-  ngToast.configure({
-    maxNumber: 4
-  });
-})
-
 app.controller("GameCtrl", function($scope, $rootScope, ngToast, GameFactory, lobby) {
   console.log('in the GameCtrl', lobby)
   GameFactory.giveTheLobby(lobby);
