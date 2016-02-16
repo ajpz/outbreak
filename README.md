@@ -14,6 +14,14 @@ Play the game at http://www.playoutbreak.com/
 ### How to play
 The best way to play this game is to create an account and have a friend join in on the fun. The minimum number of players is 2 and the max is 4. Once you create a game and have the number of players to play, all players will be sent to the board game map. If you know how to play and it's your turn, you can start picking your actions right away. However, if you need a refresher on how to play, click on our rules manual at the bottom of the game screen.
 
+|Icon      | Meaning            |
+|--------| :------------- |
+| ![](https://github.com/VictorHom/Gif/blob/master/userDashboard.png)  | This is the user dashboard for player hand information |
+| ![](https://github.com/VictorHom/Gif/blob/master/cardStatus.png) | This shows the number cards for drawing and the number of infection pieces available     |
+| ![](https://github.com/VictorHom/Gif/blob/master/diseaseStatus.png) | This shows whether a disease is not cured/ cured/ eradicated |
+| ![](https://github.com/VictorHom/Gif/blob/master/infectionRate.png) | This shows how many disease pieces to place when you are infecting |
+| ![](https://github.com/VictorHom/Gif/blob/master/outbreakLevel.png) | When the green gets all the way to the right, you lose the game! |
+
 ## Contributors
 - [Victor Hom](https://github.com/VictorHom)
 - [Julie Oppermann](https://github.com/smooth-opperator)
