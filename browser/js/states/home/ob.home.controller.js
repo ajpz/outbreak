@@ -9,7 +9,9 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
   $scope.loggedInUser = loggedInUser;
   $scope.isLoggedIn = !!loggedInUser;
   $scope.lobbiesJoined = [];
-
+  $scope.goToAbout = function(){
+    $state.go('aboutUs');
+  }
   getAllLobbies();
   function getAllLobbies(){
     if($scope.loggedInUser){
@@ -58,11 +60,9 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
   })
 
   $scope.goToLogin = function() {
-    clearInterval(intervalId)
     $state.go("login")
   }
   $scope.goToSignup = function() {
-    clearInterval(intervalId)
     $state.go("signup")
   }
 
@@ -99,7 +99,6 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
       return LobbyFactory.updateLoggedInUser($scope.loggedInUser._id)
     }).then(function(updatedUser){
       $scope.loggedInUser = updatedUser;
-      clearInterval(intervalId)
       $state.go('lobbyWaitingArea', {id: lobbyToGoTo._id})
     })
   }
@@ -114,7 +113,6 @@ app.controller("HomeCtrl", function($scope, AuthService, $state, LobbyFactory, l
       $scope.lobbyIndex[index] = false;
       console.log("CALLING GET LOBBIES FROM JOIN GAME")
       getAllLobbies();
-      clearInterval(intervalId)
       $state.go('lobbyWaitingArea', {id: lobby._id})
     })
   }
