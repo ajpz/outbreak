@@ -16,7 +16,7 @@ The best way to play this game is to create an account and have a friend join in
 
 |Icon      | Meaning            |
 |--------| :------------- |
-| ![](https://github.com/VictorHom/Gif/blob/master/userDashboard.png)  | This is the user dashboard for player hand information |
+| ![](https://github.com/VictorHom/Gif/blob/master/userDashboard.png)  | This is the user dashboard for player hand information. From here, players can see their own hand and other player hands. From this dashboard, the current player in the game can also pick out their moves. |
 | ![](https://github.com/VictorHom/Gif/blob/master/cardStatus.png) | This shows the number cards for drawing and the number of infection pieces available     |
 | ![](https://github.com/VictorHom/Gif/blob/master/diseaseStatus.png) | This shows whether a disease is not cured/ cured/ eradicated |
 | ![](https://github.com/VictorHom/Gif/blob/master/infectionRate.png) | This shows how many disease pieces to place when you are infecting |
