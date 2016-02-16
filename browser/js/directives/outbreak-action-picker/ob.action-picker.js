@@ -38,20 +38,16 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           // could not decide where to put the medic ability
           // where his presence can auto cure infections from a city
           // if that infection color is cured
-          // TODO : also stop that disease from going on to that city while he is there? the card is unclear
-          // HAVE TO CLEAN THE BELOW AND TEST
           if (scope.gamers[scope.turn].role === "medic") {
             var colors = Object.keys(scope.gameState.isCured);
             for (var k in colors) {
               if (scope.gameState.isCured[colors[k]]) {
-                console.log("in checking SOMETHING IS CURED");
                 scope.gameState.cities.forEach(function(city){
                   if (city.key === scope.gamers[scope.turn].currentCity){
                     if (city[colors[k]] > 0) {
                       // there is a color in the city that needs to be updated
                       city[colors[k]] = 0;
                       // maybe broadcast a toast
-                      console.log("my presence as the medic just cures every where");
                       $rootScope.$broadcast("medicAbility", {cities : scope.gameState.cities });
                     }
                   }
@@ -59,22 +55,17 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               }
             }
           }
-        } else {
-          // you are not the current user
-          // you should not have access to do things
-          // there are special css properties that will be added to gray out the ability to add things?
         }
-
         // this is not responsible to make changes like that
         //$rootScope.$broadcast("updateGamerTurn", { gamerTurn : (scope.turn +1) % 4 })
-
       });
 
       // TODO : there might be the possibility of
       // getting repeat values on generation
-      // have to use track by or filter to do this
+      // have to use track by and filter to do this
       // maybe also do a best effort to figure out which
       // moves is picked
+      // below is using the Action Factory logic to figure out what is doable in picking an action
       const verbNounMap = {
         "go" : [
           ActionFactory.walkingOrFerryKeys,
@@ -111,6 +102,8 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         noun : ''
       };
 
+      // to figure out where verb and noun belong to
+      // so that game logic can apply depending on the type of action picked.
       let walkingFerryKeys = [];
       let directFlightKeys = [];
       let charterFlightKeys = [];
@@ -122,7 +115,6 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       // build is with build a research station
       // card actions are with share knowledge
       scope.notifySelectionVerb = () => {
-        console.log("notify a change has occurred at notify selection verb")
         scope.nouns = [];
         let verb = scope.selection.verb;
         // this is to ensure that the execution button gets disabled
