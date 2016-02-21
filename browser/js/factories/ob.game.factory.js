@@ -21,7 +21,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   let outbreak  = $firebaseObject(ref);
 
   const factory = {
-    giveTheLobby: function(receivedLobby){
+    startTheGame: function(receivedLobby){
       usersInLobby = receivedLobby.users;
       playerCount = receivedLobby.playerCount;
 
@@ -63,7 +63,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
             console.log('$watch sees ' + playerCount + ' players, ', localStorage.getItem('user'), ' is dealing....', outbreak.gameState);
             outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState, playerCount);
             outbreak.$save();
-            return;
           }
           break;
         case 'inProgress':
@@ -83,13 +82,17 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
 
     }
 
+    //compare localState to outbreak.gameState and log the keys that are different
     console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase, outbreak.gameState.gamerTurn, Date.now());
     console.log(_.reduce(localState, function(result, value, key) {
         return _.isEqual(value, outbreak.gameState[key]) ?
             result : result.concat(key);
       }, []));
+
+    //broadcast stateChange across this angular app with gameState as payload
     $rootScope.$broadcast("stateChange", {gameState: outbreak.gameState});
 
+    //create localState clone of gameState
     localState = _.cloneDeep(outbreak.gameState);
 
   });
