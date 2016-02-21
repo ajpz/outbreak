@@ -1,3 +1,4 @@
+
 'use strict';
 describe('InitFactory', () => {
   beforeEach(module('FullstackGeneratedApp'));
@@ -283,7 +284,7 @@ describe('InitFactory', () => {
         blue: 0,
         black: 0
       }, {
-        name: 'Osaka',
+        name: 'osaka',
         red: 0,
         yellow: 0,
         blue: 0,
@@ -322,6 +323,8 @@ describe('InitFactory', () => {
     };
 
     let updatedState = InitFactory.initializeGameElements(workingState);
+    console.log("This is a job");
+    console.log(updatedState);
 
     /**
      * Each gamer should get 2 hands assuming default of 4 gamers
@@ -353,3 +356,4 @@ describe('InitFactory', () => {
   });
 
 });
+
