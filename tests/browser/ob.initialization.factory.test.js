@@ -22,6 +22,12 @@ describe('InitFactory', () => {
     //TODO: create test for setting game difficult, Introductory/Standard/Heroic
 
     let workingState = {
+      remainingCubes : {
+        red: 24,
+        blue: 24,
+        yellow: 24,
+        black: 24
+      },
       gamers: [{
         hand: []
       }, {
@@ -321,7 +327,7 @@ describe('InitFactory', () => {
         black: 0
       }]
     };
-
+    
     let updatedState = InitFactory.initializeGameElements(workingState);
     console.log("This is a job");
     console.log(updatedState);

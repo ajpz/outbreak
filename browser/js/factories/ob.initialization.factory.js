@@ -43,8 +43,6 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
       //create a deck consisting of only city and event cards
       //debugger;
       let deck = createDeckWithCitiesAndEvents();
-      console.log("deck");
-      console.log(deck);
       workingState.playerDeck = deck;
       //deal out those cards to the games
       workingState = dealCardsToGamers(workingState);
@@ -54,7 +52,6 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
       workingState = InfectionFactory.initialize(workingState);
       workingState.status = 'inProgress';
       //debugger;
-      console.log(workingState);
       return workingState;
     },
     giveUserARole: function() {
