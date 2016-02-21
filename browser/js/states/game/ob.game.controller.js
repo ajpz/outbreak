@@ -1,6 +1,8 @@
 app.controller("GameCtrl", function($scope, $rootScope, ngToast, GameFactory, lobby) {
   console.log('in the GameCtrl', lobby)
-  GameFactory.giveTheLobby(lobby);
+
+  //pass the resolved lobby to GameFactory to kick things off
+  GameFactory.startTheGame(lobby);
 
   $rootScope.$on('stateChange', function(event, payload) {
     createStateChangeToast(payload.gameState.message, "unimportant");

@@ -1,59 +1,50 @@
 app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScope, Initialize, InitFactory, FlowFactory, Reasons, $location) {
 
   console.log('gameFactory is registering.....')
+
   let fullPathArr = $location.path().split('/');
   let lobbyId = fullPathArr[fullPathArr.length-1]
-  let usersObj;
+  let usersInLobby;
   let playerCount;
   let inFixPhase = false;
-
-  //factory.gameState = {};
-  //const gameState = factory.gameState;
-  /**
-   * This link is currently from Victor's account.
-   * Use your own for testing by making an account and  appending /gameState on to it
-   */
+  let localState;
 
   // homburger: 'https://radiant-fire-7882.firebaseio.com/outbreak'
   // ajpz:      'https://otterbreak.firebaseio.com/outbreak'
   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
   // const ref = new Firebase('https://luminous-fire-8700.firebaseio.com/outbreak');
-   // dthorne: 'https://outbreak-daniel.firebaseio.com/'
+  // dthorne: 'https://outbreak-daniel.firebaseio.com/'
 
   let link = 'https://otterbreak.firebaseio.com/outbreak/'+lobbyId;
 
-  console.log(link)
   const ref = new Firebase(link);
   let outbreak  = $firebaseObject(ref);
-  // factory is returned at the end
+
   const factory = {
-    giveTheLobby: function(receivedLobby){
-      console.log('give the lobby')
-      usersObj = receivedLobby.users;
+    startTheGame: function(receivedLobby){
+      usersInLobby = receivedLobby.users;
       playerCount = receivedLobby.playerCount;
-      console.log('testing: ', usersObj[0].username, localStorage.getItem('user'));
-      if((!outbreak.hasOwnProperty('gameState')) && (localStorage.getItem('user') === usersObj[0].username)){
-        console.log('i am testing!')
-        outbreak.gameState = Initialize;
-        assignRoles(outbreak.gameState, usersObj);
-        outbreak.$save()
+
+      if (localStorage.getItem('user') === usersInLobby[0].username) {
+        if(!outbreak.hasOwnProperty('gameState')){
+          outbreak.gameState = Initialize;
+          assignRoles(outbreak.gameState, usersInLobby);
+          outbreak.$save()
+        }
       }
     }
   };
-  function assignRoles(gameState, usersObj){
+
+  function assignRoles(gameState, usersInLobby){
     gameState.gamers = _.shuffle(gameState.gamers);
-
     gameState.gamers = gameState.gamers.slice(0,playerCount);
-
-    usersObj.forEach(function(userObj, index){
-      gameState.gamers[index].username = userObj.username;
+    usersInLobby.forEach(function(user, index){
+      gameState.gamers[index].username = user.username;
       gameState.playerCount++;
     })
   }
 
   FlowFactory();
-
-  var localState;
 
   outbreak.$watch(function() {
 
@@ -62,64 +53,46 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
       return;
     };
 
-    let roleAssigned = outbreak.gameState.gamers.filter(function(gamer){
-      return gamer.username === localStorage.getItem('user');
-    }).length;
+    //if this client is the creator of this game
+    if (localStorage.getItem('user') === usersInLobby[0].username) {
 
-    let usersNames = usersObj.map(function(user){
-      return user.username;
-    })
+      switch(outbreak.gameState.status) {
+        case 'initialization':
+          //deal player cards and initialize infections
+          if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === playerCount) {
+            console.log('$watch sees ' + playerCount + ' players, ', localStorage.getItem('user'), ' is dealing....', outbreak.gameState);
+            outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState, playerCount);
+            outbreak.$save();
+          }
+          break;
+        case 'inProgress':
+          if(!inFixPhase && localState) {
+            if(localState.gamerTurn !== outbreak.gameState.gamerTurn) {
+              if(localState.currentPhase === 'actions' && outbreak.gameState.currentPhase === 'actions') {
+                console.log('GAMERTURN WAS ERRONEOUSLY ADVANCED! FIXING IT');
+                inFixPhase = true;
+                outbreak.gameState.gamerTurn = localState.gamerTurn;
+                outbreak.$save();
+              }
+            }
+          }
+          inFixPhase = false;
+          break;
+      }
 
-    if (!roleAssigned) {
-      console.log('$watch no user yet, setting to playerCount ', outbreak.gameState)
-      // localStorage.setItem('user', outbreak.gameState.gamers[outbreak.gameState.playerCount].username);
-      console.log('--->set the localStorage user to ', localStorage.getItem('user'));
-      outbreak.gameState.gamers[usersNames.indexOf(localStorage.getItem('user'))].username = localStorage.getItem('user');
-      outbreak.gameState.playerCount++;
-      console.log('--->and increment the playerCount to ', outbreak.gameState.playerCount);
-      outbreak.$save();
-      return;
     }
-    //Once required gamers have joined the game (playerCount of playerCount) create decks and deal cards
-    if (!outbreak.gameState.playerDeck && outbreak.gameState.playerCount === playerCount && (localStorage.getItem('user') === usersObj[0].username) && (outbreak.gameState.status === 'initialization') ) {
-      console.log('$watch sees ' + playerCount + ' players, ', localStorage.getItem('user'), ' is dealing....', outbreak.gameState);
-      outbreak.gameState = InitFactory.initializeGameElements(outbreak.gameState, playerCount);
-      outbreak.$save();
-      return;
-    }
 
-    // if (outbreak.gameState.status === "gameOver"){
-    //   if (outbreak.gameState.gameOver.win){
-    //     alert("You cured all the diseases and saved the world from destruction :-)")
-    //   }
-    //   else {
-    //     alert("You lost because " + Reasons[outbreak.gameState.gameOver.lossType])
-    //   }
-    // }
-    //Broadcast stateChange to rest of app
-
-    var diffKeys = (_.reduce(localState, function(result, value, key) {
+    //compare localState to outbreak.gameState and log the keys that are different
+    console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase, outbreak.gameState.gamerTurn, Date.now());
+    console.log(_.reduce(localState, function(result, value, key) {
         return _.isEqual(value, outbreak.gameState[key]) ?
             result : result.concat(key);
-    }, []));
+      }, []));
 
-    if(!inFixPhase && (localStorage.getItem('user') === usersObj[0].username) && outbreak.gameState.status === 'inProgress') {
-      if(localState && localState.gamerTurn !== outbreak.gameState.gamerTurn) {
-        if(localState.currentPhase === 'actions' && outbreak.gameState.currentPhase === 'actions') {
-          console.log('GAMERTURN WAS ERRONEOUSLY ADVANCED! FIXING IT');
-          inFixPhase = true;
-          outbreak.gameState.gamerTurn = localState.gamerTurn;
-          outbreak.$save();
-        }
-      }
-    }
-    inFixPhase = false;
+    //broadcast stateChange across this angular app with gameState as payload
+    $rootScope.$broadcast("stateChange", {gameState: outbreak.gameState});
 
-    console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase, outbreak.gameState.gamerTurn, outbreak.gameState.drawnInfections, Date.now());
-    console.log(diffKeys);
-    $rootScope.$broadcast("stateChange", {
-      gameState: outbreak.gameState
-    });
+    //create localState clone of gameState
     localState = _.cloneDeep(outbreak.gameState);
 
   });
@@ -254,18 +227,6 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     outbreak.$save();
   });
 
-  // $rootScope.$on("updateGamerTurn", function(event, payload) {
-  //   console.log("changing turns");
-  //   for (let key in payload) {
-  //     if (outbreak.gameState.hasOwnProperty(key)) {
-  //       outbreak.gameState[key] = payload[key];
-  //     } else {
-  //       console.log("you sent the incorrect key to save");
-  //     }
-  //   }
-  //   outbreak.$save();
-  // });
-
   $rootScope.$on("changeToDraw", function(event, payload) {
     console.log(">>>>>>>>>change to draw phase", payload);
     for (let key in payload) {
@@ -315,8 +276,3 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   /////////////////////////
   return factory;
 });
-
-
-// app.run(function(GameFactory) {
-//   console.log('GameFactory injected.');
-// });
