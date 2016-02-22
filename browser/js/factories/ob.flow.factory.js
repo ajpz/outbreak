@@ -130,6 +130,8 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     switch (currState.currentPhase) {
 
       case 'draw':
+        var packet;
+
         //if there was an epidemic card drawn, handle it.
         handlePossibleEpidemic();
 
@@ -139,37 +141,37 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
           currState.drawnCards = [];
           previousLengthOfDrawnCards = 0;
 
-          var message = 'The '+ currState.gamers[currState.gamerTurn].role +
-            ' is about to draw new player cards.';
-
-          $rootScope.$broadcast('renderDrawEvent', {
-            message: message,
+          packet = {
+            message: 'The '+ currState.gamers[currState.gamerTurn].role +
+              ' is about to draw new player cards.',
             drawnCards: null,
             callback: pickAPlayerCard
-          });
+          };
+
         } else if (currState.drawnCards.length === 1 && previousLengthOfDrawnCards === 0) {
 
           previousLengthOfDrawnCards++;
 
           //broadcast so that show-card can display the event, show-card handles setting a timeout
-          $rootScope.$broadcast('renderDrawEvent', {
-            message: null,
-            drawnCards: currState.drawnCards,
-            callback: pickAPlayerCard
-          });
+          packet = {
+              message: null,
+              drawnCards: _.cloneDeep(currState.drawnCards),
+              callback: pickAPlayerCard
+            }
 
         } else if (currState.drawnCards.length === 2 && previousLengthOfDrawnCards === 1) {
 
           previousLengthOfDrawnCards = null;
 
-          var boundAdvanceGamePhase = advanceGamePhase.bind(null, 'discard', false);
-          //broadcast so that show-card can display the event, show-card handles setting a timeout
-          $rootScope.$broadcast('renderDrawEvent', {
+          packet = {
             message: null,
-            drawnCards: currState.drawnCards,
-            callback: boundAdvanceGamePhase
-          });
+            drawnCards: _.cloneDeep(currState.drawnCards),
+            callback: advanceGamePhase.bind(null, 'discard', false),
+          }
+
         }
+
+        $rootScope.$broadcast('renderDrawEvent', packet);
 
         break;
 
