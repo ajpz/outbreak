@@ -9,7 +9,29 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
   var previousLengthOfInfectedCards = null;
   var infectionRate;
 
+  var currState;
+  var prevState;
+
+
   var counter = 0;
+
+  //helper function to handle epidemics drawn during city card draw phase
+  //makes toast notifications
+  var handlePossibleEpidemic = function() {
+
+    if(!currState.drawnCards) return;
+
+    if(currState.drawnCards[currState.drawnCards.length - 1].type === 'epidemicCard') {
+
+      if((previousLengthOfDrawnCards === 0 && currState.drawnCards.length === 1) ||
+         (previousLengthOfDrawnCards === 1 && currState.drawnCards.length === 2))
+
+      $rootScope.$broadcast('renderEpidemicEvent', {message: "EPIDEMIC IN EFFECT!", duration: 5000});
+      $rootScope.$broadcast('renderEpidemicEvent', {message: "The infection rate marker has advanced.", duration: 6000});
+      $rootScope.$broadcast('renderEpidemicEvent', {message: "Drawing an infection card from the bottom of the deck and adding 3 disease units to that city.", duration: 7000});
+      $rootScope.$broadcast('renderEpidemicEvent', {message: "Shuffling the infection discard deck and returning to the top of the infection deck.", duration: 8000});
+    }
+  };
 
   //picks a card from the player deck - handles both epidemics & city cards
   var pickACard = function (gameState){
@@ -54,10 +76,14 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
 	$rootScope.$on("stateChange", function(event, payload){
     //create local working copy of state
+    prevState = currState;
+    currState = _.cloneDeep(payload.gameState);
+    if(!prevState) prevState = currState;
+
     gameState = _.cloneDeep(payload.gameState);
 
     // currentPhase will determine what FlowFactory will do
-    switch (gameState.currentPhase) {
+    switch (currState.currentPhase) {
       case 'draw':
 
         //make toasts for EPIDEMICS!
