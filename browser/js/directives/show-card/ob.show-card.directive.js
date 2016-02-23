@@ -52,24 +52,23 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
 
           if(payload.message) {
             // alert(payload.message);
-            console.log('>>>>setting timeout for message callback, infectionRate ', payload.infectionRate)
+            console.log('>>>>setting timeout for message callback in message, infectionRate ', payload.infectionRate)
             setTimeout(function() {
-              console.log('infection message timeout being invoked')
+              console.log('>>>>infection message timeout being invoked')
               payload.callback();
             }, 2000);
             console.log('>>>>after setting timeout for message callback')
           } else {
             // $rootScope.$broadcast('zoomToInfectionCity', {cityKey :
             numInfectionsDrawn++;
-            console.log(">>>> in renderInfectionEvent else, infectionRate", payload.infectionRate)
 
             scope.infectionImages = [];//TODO: FIGURE THIS OUT
             payload.drawnInfections.forEach(function(cardObj) {
               scope.infectionImages.push(cardObj.infectionCardFront);
             });
-
+            console.log('>>>>setting timeout for message callback in else, infectionRate ', payload.infectionRate)
             setTimeout(function() {
-              console.log(">>>> in renderInfectionEvent else CALLBACK")
+              console.log(">>>>infection message timeout being invoked")
               payload.callback();
 
               if(numInfectionsDrawn === payload.infectionRate) {
@@ -78,6 +77,7 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
                 scope.infectionImages = [];
               }
             }, 2000);
+            console.log('>>>>after setting timeout for message callback')
           };
 
         } else {

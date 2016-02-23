@@ -4,7 +4,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     //TODO: need to expand draw phase logic below to accomodate special case of
     //epidemic drawn first, or second
 
-  var gameState;
+  // var gameState;
   var previousLengthOfDrawnCards = null;
   var previousLengthOfInfectedCards = null;
   var infectionRate;
@@ -12,17 +12,31 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
   var currState;
   var prevState;
 
-
   var counter = 0;
 
   var advanceGamePhase = function(nextPhase, shouldAdvanceTurn) {
+    console.log('advanceGamePhase was invoked with ', nextPhase, shouldAdvanceTurn)
     if(currState.gamers[currState.gamerTurn].username !== localStorage.getItem('user')) return;
-
     currState.currentPhase = nextPhase;
     if(shouldAdvanceTurn) currState.gamerTurn = (currState.gamerTurn + 1) % currState.gamers.length;
     currState.drawnCards = [];
     currState.drawnInfections = [];
+    currState.chosenDiscards = [];
+    console.log('advanceGamePhase about to broadcast phaseChanged')
     $rootScope.$broadcast('phaseChanged', currState);
+  };
+
+  var handlePossibleOutbreak = function() {
+    if(currState.outbreaksDuringTurn) {
+      //write message
+      Object.keys(currState.outbreaksDuringTurn).forEach(function(epicenter){
+        var message = 'An OUTBREAK hit ' + epicenter + '. Infections have spread to ';
+        message = message + currState.outbreaksDuringTurn[epicenter].join(', ') + '.';
+        $rootScope.$broadcast('outbreak', { message: message });
+      });
+      //reset outbreaksDuringTurn
+      currState.outbreaksDuringTurn = {};
+    };
   };
 
   //helper function to handle epidemics drawn during city card draw phase
@@ -30,10 +44,8 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
     //if no cards drawn yet, do nothing
     if(!currState.drawnCards) return;
-
     //if an epidemic card was drawn last
     if(currState.drawnCards[currState.drawnCards.length - 1].type === 'epidemicCard') {
-
       //TODO: get rid of this
       if((previousLengthOfDrawnCards === 0 && currState.drawnCards.length === 1) ||
          (previousLengthOfDrawnCards === 1 && currState.drawnCards.length === 2))
@@ -54,21 +66,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
       })
 
       //if an outbreak occured, make toast!
-      if(currState.outbreaksDuringTurn) {
-        //write message
-        Object.keys(currState.outbreaksDuringTurn).forEach(function(epicenter){
-          var message = 'An OUTBREAK hit ' + epicenter + '. Infections have spread to ';
-          message = message + currState.outbreaksDuringTurn[epicenter].join(', ') + '.';
-          // currState.outbreaksDuringTurn[epicenter].forEach(function(cityHit) {
-            // message += cityHit + ', ';
-          // })
-          // message = message.slice(0, message.length-2);
-          // message += '.'
-          $rootScope.$broadcast('outbreak', { message: message });
-        });
-        //reset outbreaksDuringTurn
-        currState.outbreaksDuringTurn = {};
-      };
+      handlePossibleOutbreak();
       //reset drawnInfections
       currState.drawnInfections = [];
     }
@@ -88,7 +86,8 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     }
 
     if(newCard.type === "epidemicCard"){
-      currState = InfectionFactory.epidemic(currState);
+      // currState = InfectionFactory.epidemic(currState);
+      InfectionFactory.epidemic(currState);
       currState.drawnCards.push(newCard);
     } else {
       let currentTurn = currState.gamerTurn;
@@ -96,42 +95,53 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
       currState.drawnCards.push(newCard);
     }
     // return currState;
+    console.log('>>>>>>>>>>>>broadcasting saveDrawnCard ')
     $rootScope.$broadcast('saveDrawnCard', currState);
+  };
+
+  var pickAnInfectionCard = function() {
+    if(currState.gamers[currState.gamerTurn].username !== localStorage.getItem('user')) return;
+    // currState = InfectionFactory.infect(currState);
+    InfectionFactory.infect(currState);
+    console.log('>>>>>>>>>>>>broadcasting saveInfectionCard ')
+    $rootScope.$broadcast('saveInfectionCard', currState);
+
   };
 
 
   //waits on user to make discard selections
   $rootScope.$on('discardCardChosen', function(event, discard) {
 
-    if(!gameState.chosenDiscards) gameState.chosenDiscards = [];
+    if(!currState.chosenDiscards) currState.chosenDiscards = [];
 
-    if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
-      var hand = gameState.gamers[gameState.gamerTurn].hand;
+    if(currState.gamers[currState.gamerTurn].username === localStorage.getItem('user')) {
+      var hand = currState.gamers[currState.gamerTurn].hand;
 
-      gameState.gamers[gameState.gamerTurn].hand = hand.filter(function(cardObj) {
+      currState.gamers[currState.gamerTurn].hand = hand.filter(function(cardObj) {
         return cardObj.key !== discard.key;
       })
 
-      gameState.chosenDiscards.push(discard);
-      $rootScope.$broadcast('saveDiscardCard', gameState);
+      currState.chosenDiscards.push(discard);
+      console.log('>>>>>>>>>>>>>>broadcasting saveDiscardCard')
+      $rootScope.$broadcast('saveDiscardCard', currState);
     }
 
   });
 
 
 	$rootScope.$on("stateChange", function(event, payload){
+    var packet;
+
     //create local working copy of state
     prevState = currState;
     currState = _.cloneDeep(payload.gameState);
     if(!prevState) prevState = currState;
 
-    gameState = _.cloneDeep(payload.gameState);
+    // gameState = _.cloneDeep(payload.gameState);
 
     switch (currState.currentPhase) {
 
       case 'draw':
-        var packet;
-
         //if there was an epidemic card drawn, handle it.
         handlePossibleEpidemic();
 
@@ -170,59 +180,52 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
           }
 
         }
-
+        console.log('>>>>>>>>>>>>>>broadcasting renderDrawEvent');
         $rootScope.$broadcast('renderDrawEvent', packet);
 
         break;
 
       case 'discard':
 
-        if(gameState.gamers[gameState.gamerTurn].hand.length <= 7 && !gameState.chosenDiscards) {
-          gameState.currentPhase = 'infect';
-
-          $rootScope.$broadcast('phaseChanged', gameState);
-
+        if(currState.gamers[currState.gamerTurn].hand.length <= 7 && !currState.chosenDiscards) {
+          advanceGamePhase('infect', false);
         } else {
           //notify players of stateChange, but only the first time we enter 'draw'
           //everyone browser sees this, every browser does this
-          if(!gameState.chosenDiscards) {
-            //TODO: alert for now, later, $broadcast to ngToast that drawing is occuring
-            var message = 'The '+ gameState.gamers[gameState.gamerTurn].role +
-              ' is about to DISCARD cards. Please select ' + (gameState.gamers[gameState.gamerTurn].hand.length - 7) + ' card(s) to discard.';
-
-            $rootScope.$broadcast('renderDiscardEvent', {
-              message: message,
+          if(!currState.chosenDiscards) {
+            packet = {
+              message: 'The '+
+                currState.gamers[currState.gamerTurn].role +
+                ' is about to DISCARD cards. Please select ' +
+                (currState.gamers[currState.gamerTurn].hand.length - 7) +
+                ' card(s) to discard.',
               chosenDiscards: null
-            });
-          } else if (gameState.gamers[gameState.gamerTurn].hand.length > 7 ) {
+            }
+
+          } else if (currState.gamers[currState.gamerTurn].hand.length > 7 ) {
+            packet = {
+              message: 'The '+
+                currState.gamers[currState.gamerTurn].role +
+                ' has discarded ' +
+                currState.chosenDiscards[currState.chosenDiscards.length - 1].name +
+                '.',
+              chosenDiscards: _.cloneDeep(currState.chosenDiscards)
+            };
+
+          } else if (currState.gamers[currState.gamerTurn].hand.length === 7) {
             //broadcast so that show-card can display the event, show-card handles setting a timeout
-            var message = 'The '+ gameState.gamers[gameState.gamerTurn].role +
-              ' has discarded ' + gameState.chosenDiscards[gameState.chosenDiscards.length - 1].name + '.';
-
-            $rootScope.$broadcast('renderDiscardEvent', {
-              message: message,
-              chosenDiscards: gameState.chosenDiscards
-            });
-
-          } else if (gameState.gamers[gameState.gamerTurn].hand.length === 7) {
-            //broadcast so that show-card can display the event, show-card handles setting a timeout
-            var message = 'The '+ gameState.gamers[gameState.gamerTurn].role +
-              ' has discarded ' + gameState.chosenDiscards[gameState.chosenDiscards.length - 1].name + '.';
-
-            $rootScope.$broadcast('renderDiscardEvent', {
-              message: message,
-              chosenDiscards: gameState.chosenDiscards,
-              callback: function() {
-                //if this browser has the turn, this browser advances phase to discard, wipes chosenDiscards, and saves to firebase
-                if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
-                  gameState.currentPhase = 'infect';
-                  gameState.chosenDiscards = [];
-                  console.log('<><><><><><>< BROADCASTING FROM DISCARD 1')
-                  $rootScope.$broadcast('phaseChanged', gameState);
-                }
-              }
-            });
+            packet = {
+              message: 'The '+
+                currState.gamers[currState.gamerTurn].role +
+                ' has discarded ' +
+                currState.chosenDiscards[currState.chosenDiscards.length - 1].name +
+                '.',
+              chosenDiscards: _.cloneDeep(currState.chosenDiscards),
+              callback: advanceGamePhase.bind(null, 'infect', false)
+            };
           }
+          console.log('>>>>>>>>>>>>>>broadcasting renderDiscardEvent');
+          $rootScope.$broadcast('renderDiscardEvent', packet);
         }
 
 
@@ -232,19 +235,19 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
         counter++;
         // logic for the one quiet night event card
         // the set up for this is played in the navbar.js
-        if (gameState.eventCardInEffect){
-          if (gameState.eventCardQueue[0] === "oneQuietNight"){
-            gameState.eventCardQueue.shift();
+        if (currState.eventCardInEffect){
+          if (currState.eventCardQueue[0] === "oneQuietNight"){
+            currState.eventCardQueue.shift();
           }
-          gameState.currentPhase = 'actions';
-          gameState.drawnInfections = [];
-          gameState.gamerTurn = (gameState.gamerTurn + 1) % gameState.gamers.length;
+          currState.currentPhase = 'actions';
+          currState.drawnInfections = [];
+          currState.gamerTurn = (currState.gamerTurn + 1) % currState.gamers.length;
 
 
           console.log('>>>>>GAMERTURN INCREMENTED: event card and broadcast counter is ', counter);
-          console.log('gamerTurn is now: ', gameState.gamerTurn)
-          console.log('currentPhase is now: ', gameState.currentPhase)
-          gameState.gamers.forEach(function(gamer, index) {
+          console.log('gamerTurn is now: ', currState.gamerTurn)
+          console.log('currentPhase is now: ', currState.currentPhase)
+          currState.gamers.forEach(function(gamer, index) {
             console.log('gamer ', index, ' is ', gamer.role, gamer.username);
           })
 
@@ -252,97 +255,60 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
           // how and when do I know to eventInEffect should be turned to false
           $rootScope.$broadcast('genericUpdates', {
             message : 'One Quiet night was played. The infection state will be skipped.',
-            currentPhase : gameState.currentPhase,
-            drawnInfections : gameState.drawnInfections,
-            gamerTurn : gameState.gamerTurn,
-            eventCardQueue : gameState.eventCardQueue,
+            currentPhase : currState.currentPhase,
+            drawnInfections : currState.drawnInfections,
+            gamerTurn : currState.gamerTurn,
+            eventCardQueue : currState.eventCardQueue,
             eventCardInEffect : false
           });
           break;
         }
 
         //if an outbreak occured, make toast!
-        if(gameState.outbreaksDuringTurn) {
-          Object.keys(gameState.outbreaksDuringTurn).forEach(function(epicenter){
-            var message = 'An OUTBREAK hit ' + epicenter + '. Infections have spread to ';
-            gameState.outbreaksDuringTurn[epicenter].forEach(function(cityHit) {
-              message += cityHit + ', ';
-            })
-            message = message.slice(0, message.length-2);
-            message += '.'
-            $rootScope.$broadcast('outbreak', { message: message });
-          });
-          gameState.outbreaksDuringTurn = {};
-        };
+        handlePossibleOutbreak();
 
         //notify players of stateChange, but only the first time we enter 'infect'
         //everyone browser sees this, every browser does this
-        if(!gameState.drawnInfections && previousLengthOfInfectedCards === null) {
+        if(!currState.drawnInfections && previousLengthOfInfectedCards === null) {
           //create drawnInfections array
-          gameState.drawnInfections = [];
+          currState.drawnInfections = [];
           previousLengthOfInfectedCards = 0;
 
-          infectionRate = InfectionLevelArray.levels[gameState.infectionLevelIndex];
+          infectionRate = InfectionLevelArray.levels[currState.infectionLevelIndex];
 
           counter = 1;
 
-          var message = 'New infections are rapidly spreading! Infecting '+ infectionRate + ' cities';
-
-          $rootScope.$broadcast('renderInfectionEvent', {
-            message: message,
+          packet = {
+            message: 'New infections are rapidly spreading! Infecting '+ infectionRate + ' cities',
             drawnInfections: null,
             infectionRate: infectionRate,
-            callback: function() {
-              if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
-                gameState = InfectionFactory.infect(gameState);
-                $rootScope.$broadcast('saveInfectionCard', gameState);
-              }
-            }
-          });
-        } else if (gameState.drawnInfections && gameState.drawnInfections.length < infectionRate && previousLengthOfInfectedCards === gameState.drawnInfections.length - 1) {
+            callback: pickAnInfectionCard
+          };
+
+        } else if (currState.drawnInfections && currState.drawnInfections.length < infectionRate && previousLengthOfInfectedCards === currState.drawnInfections.length - 1) {
           //broadcast so that show-card can display the event, show-card handles setting a timeout
           previousLengthOfInfectedCards++;
 
-          $rootScope.$broadcast('renderInfectionEvent', {
+          packet = {
             message: null,
-            drawnInfections: gameState.drawnInfections,
+            drawnInfections: _.cloneDeep(currState.drawnInfections),
             infectionRate: infectionRate,
-            callback: function() {
-              //if this browser has the turn, this browser picks a card and saves to firebase
-              if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
-                gameState = InfectionFactory.infect(gameState);
-                $rootScope.$broadcast('saveInfectionCard', gameState);
-              }
-            }
-          });
+            callback: pickAnInfectionCard
+          };
 
-        } else if (gameState.drawnInfections && gameState.drawnInfections.length === infectionRate && previousLengthOfInfectedCards === (gameState.drawnInfections.length - 1)) {
+        } else if (currState.drawnInfections && currState.drawnInfections.length === infectionRate && previousLengthOfInfectedCards === (currState.drawnInfections.length - 1)) {
 
           previousLengthOfInfectedCards = null;
           //broadcast so that show-card can display the event, show-card handles setting a timeout
-          $rootScope.$broadcast('renderInfectionEvent', {
+
+          packet = {
             message: null,
-            drawnInfections: gameState.drawnInfections,
+            drawnInfections: _.cloneDeep(currState.drawnInfections),
             infectionRate: infectionRate,
-            callback: function() {
-              //if this browser has the turn, this browser advances phase to discard, wipes drawnInfections, and saves to firebase
-              if(gameState.gamers[gameState.gamerTurn].username === localStorage.getItem('user')) {
-                gameState.currentPhase = 'actions';
-                gameState.drawnInfections = [];
-                gameState.gamerTurn = (gameState.gamerTurn + 1) % gameState.gamers.length;
-                console.log('>>>>>GAMERTURN INCREMENTED: after infections, broadcast counter is ', counter);
-                console.log('gamerTurn is now: ', gameState.gamerTurn)
-                console.log('currentPhase is now: ', gameState.currentPhase)
-                gameState.gamers.forEach(function(gamer, index) {
-                  console.log('gamer ', index, ' is ', gamer.role, gamer.username);
-                })
-
-                $rootScope.$broadcast('phaseChanged', gameState);
-              }
-            }
-          });
-
+            callback: advanceGamePhase.bind(null, 'actions', true)
+          };
         }
+        if(packet) $rootScope.$broadcast('renderInfectionEvent', packet);
         break;
     }
 	});

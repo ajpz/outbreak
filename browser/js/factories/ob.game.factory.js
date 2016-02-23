@@ -83,7 +83,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     }
 
     //compare localState to outbreak.gameState and log the keys that are different
-    console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase, outbreak.gameState.gamerTurn, Date.now());
+    console.log('$watch broadcasting stateChange'+ outbreak.gameState.currentPhase, outbreak.gameState.gamerTurn);
     console.log(_.reduce(localState, function(result, value, key) {
         return _.isEqual(value, outbreak.gameState[key]) ?
             result : result.concat(key);
