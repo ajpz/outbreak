@@ -21,18 +21,15 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
         scope.isCurrentlyDrawPhase = true;
 
         if(payload.message) {
-          console.log('\n\n>>>>>SHOWING PAYLOAD MESSAGE', payload.message)
           setTimeout(payload.callback, 2000);
         } else {
           numCardsDrawn++;
-          console.log('\n\n>>>>>RENDER DRAW EVENT ELSE CLAUSE', numCardsDrawn)
           scope.cardImages = []; //TODO: FIGURE THIS OUT
           payload.drawnCards.forEach(function(cardObj) {
             scope.cardImages.push(cardObj.cardFront);
           });
 
           setTimeout(function() {
-            console.log('\n\n>>>>>>>in SET TIMEOUT CALLBACK IN RENDER DRAW EVENT')
             payload.callback();
             if(numCardsDrawn === 2) {
               scope.isCurrentlyDrawPhase = false;
@@ -47,28 +44,20 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
       $rootScope.$on('renderInfectionEvent', function(event, payload) {
         scope.isCurrentlyInfectionPhase = true;
 
-        console.log('in renderInfectionEvent top')
         if(payload.currentPhase !== 'draw') {
 
           if(payload.message) {
-            // alert(payload.message);
-            console.log('>>>>setting timeout for message callback in message, infectionRate ', payload.infectionRate)
             setTimeout(function() {
-              console.log('>>>>infection message timeout being invoked')
               payload.callback();
             }, 2000);
-            console.log('>>>>after setting timeout for message callback')
           } else {
-            // $rootScope.$broadcast('zoomToInfectionCity', {cityKey :
             numInfectionsDrawn++;
 
             scope.infectionImages = [];//TODO: FIGURE THIS OUT
             payload.drawnInfections.forEach(function(cardObj) {
               scope.infectionImages.push(cardObj.infectionCardFront);
             });
-            console.log('>>>>setting timeout for message callback in else, infectionRate ', payload.infectionRate)
             setTimeout(function() {
-              console.log(">>>>infection message timeout being invoked")
               payload.callback();
 
               if(numInfectionsDrawn === payload.infectionRate) {
@@ -77,11 +66,9 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
                 scope.infectionImages = [];
               }
             }, 2000);
-            console.log('>>>>after setting timeout for message callback')
           };
 
         } else {
-            console.log('in renderInfectionEvent else epidemic')
             // in draw phase, with epidemic drawn -- show infection card briefly
             scope.infectionImages = [];//TODO: FIGURE THIS OUT
             payload.drawnInfections.forEach(function(cardObj) {
@@ -93,10 +80,7 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
             },2000)
 
         }
-
       })
-
-
     }
   }
 })
