@@ -41,6 +41,7 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
     initializeGameElements: function(workingState, difficulty) {
       // defaults right now to 'Introductory' difficulty
       //create a deck consisting of only city and event cards
+      //debugger;
       let deck = createDeckWithCitiesAndEvents();
       workingState.playerDeck = deck;
       //deal out those cards to the games
@@ -50,6 +51,7 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
       workingState.infectionDeck = createInfectionDeck();
       workingState = InfectionFactory.initialize(workingState);
       workingState.status = 'inProgress';
+      //debugger;
       return workingState;
     },
     giveUserARole: function() {

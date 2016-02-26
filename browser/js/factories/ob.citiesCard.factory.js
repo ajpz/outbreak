@@ -31,6 +31,7 @@ app.factory('CitiesCardFactory', function(Cities, Events, Epidemic, CardFactory)
       // shuffle the concatenated decks
       shuffle(citiesAndEventsDeck);
       //return shuffled cities and events
+      console.log("here in the cities card factory");
       return citiesAndEventsDeck;
     }
   }
