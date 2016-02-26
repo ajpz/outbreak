@@ -4,7 +4,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     //TODO: need to expand draw phase logic below to accomodate special case of
     //epidemic drawn first, or second
 
-  // var gameState;
   var previousLengthOfDrawnCards = null;
   var previousLengthOfInfectedCards = null;
   var infectionRate;
@@ -12,17 +11,14 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
   var currState;
   var prevState;
 
-  var counter = 0;
-
   var advanceGamePhase = function(nextPhase, shouldAdvanceTurn) {
-    console.log('advanceGamePhase was invoked with ', nextPhase, shouldAdvanceTurn)
     if(currState.gamers[currState.gamerTurn].username !== localStorage.getItem('user')) return;
+
     currState.currentPhase = nextPhase;
     if(shouldAdvanceTurn) currState.gamerTurn = (currState.gamerTurn + 1) % currState.gamers.length;
     currState.drawnCards = [];
     currState.drawnInfections = [];
     currState.chosenDiscards = [];
-    console.log('advanceGamePhase about to broadcast phaseChanged')
     $rootScope.$broadcast('phaseChanged', currState);
   };
 
@@ -70,6 +66,34 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
       //reset drawnInfections
       currState.drawnInfections = [];
     }
+  };
+
+  var handlePossibleEventCard = function() {
+    // logic for the one quiet night event card
+    // the set up for this is played in the navbar.js
+    if (currState.eventCardInEffect){
+      if (currState.eventCardQueue[0] === "oneQuietNight"){
+        currState.eventCardQueue.shift();
+
+        currState.currentPhase = 'actions';
+        currState.drawnInfections = [];
+        currState.gamerTurn = (currState.gamerTurn + 1) % currState.gamers.length;
+
+        // the assumption is to turn eventCardInEffect
+        // how and when do I know to eventInEffect should be turned to false
+        $rootScope.$broadcast('genericUpdates', {
+          message : 'One Quiet night was played. The infection state will be skipped.',
+          currentPhase : currState.currentPhase,
+          drawnInfections : currState.drawnInfections,
+          gamerTurn : currState.gamerTurn,
+          eventCardQueue : currState.eventCardQueue,
+          eventCardInEffect : false
+        });
+
+        return true;
+      }
+    }
+    return false;
   };
 
   //picks a card from the player deck - handles both epidemics & city cards
@@ -135,9 +159,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     //create local working copy of state
     prevState = currState;
     currState = _.cloneDeep(payload.gameState);
-    if(!prevState) prevState = currState;
-
-    // gameState = _.cloneDeep(payload.gameState);
+    if(!prevState) prevState = _.cloneDeep(payload.gameState);
 
     switch (currState.currentPhase) {
 
@@ -180,7 +202,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
           }
 
         }
-        console.log('>>>>>>>>>>>>>>broadcasting renderDrawEvent');
         $rootScope.$broadcast('renderDrawEvent', packet);
 
         break;
@@ -224,7 +245,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
               callback: advanceGamePhase.bind(null, 'infect', false)
             };
           }
-          console.log('>>>>>>>>>>>>>>broadcasting renderDiscardEvent');
           $rootScope.$broadcast('renderDiscardEvent', packet);
         }
 
@@ -232,38 +252,9 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
         break;
 
       case 'infect':
-        counter++;
-        // logic for the one quiet night event card
-        // the set up for this is played in the navbar.js
-        if (currState.eventCardInEffect){
-          if (currState.eventCardQueue[0] === "oneQuietNight"){
-            currState.eventCardQueue.shift();
-          }
-          currState.currentPhase = 'actions';
-          currState.drawnInfections = [];
-          currState.gamerTurn = (currState.gamerTurn + 1) % currState.gamers.length;
 
-
-          console.log('>>>>>GAMERTURN INCREMENTED: event card and broadcast counter is ', counter);
-          console.log('gamerTurn is now: ', currState.gamerTurn)
-          console.log('currentPhase is now: ', currState.currentPhase)
-          currState.gamers.forEach(function(gamer, index) {
-            console.log('gamer ', index, ' is ', gamer.role, gamer.username);
-          })
-
-          // the assumption is to turn eventCardInEffect
-          // how and when do I know to eventInEffect should be turned to false
-          $rootScope.$broadcast('genericUpdates', {
-            message : 'One Quiet night was played. The infection state will be skipped.',
-            currentPhase : currState.currentPhase,
-            drawnInfections : currState.drawnInfections,
-            gamerTurn : currState.gamerTurn,
-            eventCardQueue : currState.eventCardQueue,
-            eventCardInEffect : false
-          });
-          break;
-        }
-
+        //if 'OneQuietNight' is played, skip the infection step
+        if(handlePossibleEventCard()) break;
         //if an outbreak occured, make toast!
         handlePossibleOutbreak();
 
@@ -275,8 +266,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
           previousLengthOfInfectedCards = 0;
 
           infectionRate = InfectionLevelArray.levels[currState.infectionLevelIndex];
-
-          counter = 1;
 
           packet = {
             message: 'New infections are rapidly spreading! Infecting '+ infectionRate + ' cities',
