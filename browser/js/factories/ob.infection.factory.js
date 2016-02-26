@@ -22,7 +22,6 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
         target = state.cities.filter(function(target) {
                     return target.key === infectionCard.key;
                   })[0];
-
     //create an object to store outbreaks during turn
     if(!state.outbreaksDuringTurn) state.outbreaksDuringTurn = {};
 
@@ -79,6 +78,8 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
       for (var infectionRate = 3, card; infectionRate > 0; infectionRate--) {
         for(var i = 0; i < 3; i++) {
           card = CardFactory.pickCardFromTop(state.infectionDeck);
+          console.log("IN tHIs FORLOOP")
+          console.log(card);
           addInfectionToACity(card, infectionRate, state);
           if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
           state.infectionDeckDiscard.push(card);
