@@ -7,7 +7,7 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
   let usersInLobby;
   let playerCount;
   let inFixPhase = false;
-  let localState;
+  let localState = {};
 
   // homburger: 'https://radiant-fire-7882.firebaseio.com/outbreak'
   // ajpz:      'https://otterbreak.firebaseio.com/outbreak'
@@ -83,17 +83,25 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
     }
 
     //compare localState to outbreak.gameState and log the keys that are different
-    console.log('$watch broadcasting stateChange', outbreak.gameState.currentPhase, outbreak.gameState.gamerTurn, Date.now());
-    console.log(_.reduce(localState, function(result, value, key) {
-        return _.isEqual(value, outbreak.gameState[key]) ?
-            result : result.concat(key);
-      }, []));
+    console.log('$watch broadcasting stateChange'+ outbreak.gameState.currentPhase, outbreak.gameState.gamerTurn);
+    var lsKeys = _.reduce(localState, function(result, value, key) {
+      return _.isEqual(value, outbreak.gameState[key]) ? result : result.concat(key);
+    }, []);
+
+    var gsKeys = _.reduce(outbreak.gameState, function(result, value, key) {
+      if(localState[key] !== undefined) result = _.isEqual(value, localState[key]) ? result : result.concat(key);
+      else result = result.concat(key);
+      return result;
+    }, []);
+
+    console.log('Keys changed. Pre: ', lsKeys, ' Post: ', gsKeys);
+
+    //create localState clone of gameState
+    localState = _.cloneDeep(outbreak.gameState);
 
     //broadcast stateChange across this angular app with gameState as payload
     $rootScope.$broadcast("stateChange", {gameState: outbreak.gameState});
 
-    //create localState clone of gameState
-    localState = _.cloneDeep(outbreak.gameState);
 
   });
 
