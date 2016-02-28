@@ -93,8 +93,8 @@ describe('ActionFactory', () => {
     };
   });
 
-  it('has 9 exposed methods', function() {
-    Object.keys(ActionFactory).length.should.equal(9);
+  it('has 13 exposed methods', function() {
+    Object.keys(ActionFactory).length.should.equal(13);
   })
 
   it('can find cities in walking distance', function() {
@@ -162,8 +162,9 @@ describe('ActionFactory', () => {
 
   it('returns the color you can cure', function() {
     let cureColor = ActionFactory.cureWhichDisease(state.gamers[2]);
+    console.log("in the color function");
+    console.log(cureColor);
     cureColor.blue.should.be.true;
-    Object.keys(cureColor).length.should.equal(1);
   });
 
   it('determines all availableVerbs', function() {

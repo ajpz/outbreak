@@ -1,3 +1,4 @@
+
 'use strict';
 describe('InitFactory', () => {
   beforeEach(module('FullstackGeneratedApp'));
@@ -21,6 +22,12 @@ describe('InitFactory', () => {
     //TODO: create test for setting game difficult, Introductory/Standard/Heroic
 
     let workingState = {
+      remainingCubes : {
+        red: 24,
+        blue: 24,
+        yellow: 24,
+        black: 24
+      },
       gamers: [{
         hand: []
       }, {
@@ -283,7 +290,7 @@ describe('InitFactory', () => {
         blue: 0,
         black: 0
       }, {
-        name: 'Osaka',
+        name: 'osaka',
         red: 0,
         yellow: 0,
         blue: 0,
@@ -320,8 +327,10 @@ describe('InitFactory', () => {
         black: 0
       }]
     };
-
+    
     let updatedState = InitFactory.initializeGameElements(workingState);
+    console.log("This is a job");
+    console.log(updatedState);
 
     /**
      * Each gamer should get 2 hands assuming default of 4 gamers
@@ -353,3 +362,4 @@ describe('InitFactory', () => {
   });
 
 });
+
