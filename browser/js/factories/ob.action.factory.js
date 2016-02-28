@@ -422,10 +422,16 @@ app.factory('ActionFactory', function(Cities) {
         colorCounter[cardObj.color]++;
         return colorCounter;
       }, {red: 0, blue: 0, yellow: 0, black: 0});
-
+      // worls for cards where there are 5, but not for cases where the player is scientist with 4 cards
       for(let color in colorCounter) {
-        if(colorCounter[color] >= 5) result[color] = true;
-        else result[color] = false;
+        if(colorCounter[color] >= 5) {
+          result[color] = true;
+        } else if (colorCounter[color] >= 4 && gamer.role === 'scientist') {
+          result[color] = true;
+        }
+        else {
+          result[color] = false;
+        } 
       }
       //{red : true, blue: false, etc...}
       return result;

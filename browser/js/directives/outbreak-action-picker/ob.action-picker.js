@@ -247,6 +247,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         } else if (verb === "cureDisease") {
           // array of colors
           let cureObj = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
+          console.log(cureObj);
           for(let k in cureObj){
             if (cureObj[k]  === true){
               scope.nouns.push(k);
@@ -515,8 +516,9 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           if (!scope.gameState.isCured[color]) {
             allCured = false
           }
-        })
+        });
 
+        //TODO: also take out the cards from the hand
 
         let packet = {isCured : scope.gameState.isCured};
         if (allCured){
@@ -524,6 +526,22 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           packet.gameOver = {win: true}
         }
         packet.message = "User \'"+ scope.gameState.gamers[scope.turn].username + "\' just cured "+ colorToCure;
+
+        let numberToRemove;
+        if (scope.gameState.gamers[scope.turn].role === "scientist") {
+          numberToRemove = 4;
+        } else {
+          numberToRemove = 5;
+        }
+        scope.gameState.gamers[scope.turn].hand = scope.gameState.gamers[scope.turn].hand.filter(function(card) {
+          if (card.color === colorToCure && numberToRemove !== 0) {
+            numberToRemove--;
+            return false;
+          } else {
+            return true;
+          }
+        });
+        packet.gamers = scope.gameState.gamers;
         $rootScope.$broadcast("cureDisease", packet);
       }
 
