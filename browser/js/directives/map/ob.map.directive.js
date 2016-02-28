@@ -161,7 +161,7 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
           //create local, semi-persistent copy of the gameState
           payload = _.cloneDeep(fbData.gameState);
 
-          if(payload.currentPhase === 'infect' && payload.drawnInfections) {
+          if(payload.currentPhase === 'infect' && payload.drawnInfections && payload.drawnInfections.length > 0) {
             //if it's infect phase, and drawnInfections array exists, remove all markers,
             //recenter and zoom, then re-render
             var infectArray = payload.drawnInfections;
