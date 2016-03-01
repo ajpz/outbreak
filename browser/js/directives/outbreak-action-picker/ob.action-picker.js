@@ -42,7 +42,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             var colors = Object.keys(scope.gameState.isCured);
             for (var k in colors) {
               if (scope.gameState.isCured[colors[k]]) {
-                scope.gameState.cities.forEach(function(city){
+                scope.gameState.cities.forEach( city => {
                   if (city.key === scope.gamers[scope.turn].currentCity){
                     if (city[colors[k]] > 0) {
                       // there is a color in the city that needs to be updated
@@ -136,7 +136,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             console.log("operation ", scope.selection.verb);
             scope.nouns = verbNounMap[scope.selection.verb][4](scope.gamers[scope.turn], scope.gameState);
             operationKeys = verbNounMap[scope.selection.verb][4](scope.gamers[scope.turn], scope.gameState);
-            verbNounMap[scope.selection.verb].forEach(function(noun, index){
+            verbNounMap[scope.selection.verb].forEach( (noun, index) => {
               // need to clear this when you are ready to submit
               if (index === 0){
                 walkingFerryKeys = noun(scope.gamers[scope.turn], scope.gameState);
@@ -166,7 +166,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
               // idea is that if the above set of noun doesn't work
               // just get the usual list
               // next bit of logic will happen in the broadcast go logic
-              verbNounMap[scope.selection.verb].forEach(function(noun, index){
+              verbNounMap[scope.selection.verb].forEach( (noun, index) => {
                 // need to clear this when you are ready to submit
                 if (index === 0){
                   walkingFerryKeys = noun(scope.gamers[scope.turn], scope.gameState);
@@ -195,7 +195,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
             // since the op expert can go anywhere, I should do a best efforts approach
             // of figuring out what they want to do.
           } else {
-            verbNounMap[scope.selection.verb].forEach(function(noun, index){
+            verbNounMap[scope.selection.verb].forEach( (noun, index) => {
               // need to clear this when you are ready to submit
               if (index === 0){
                 walkingFerryKeys = noun(scope.gamers[scope.turn], scope.gameState);
@@ -226,7 +226,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
           let infectionsInCity = verbNounMap[verb][0](scope.gamers[scope.turn], scope.gameState);
           let infections = ["black", "blue", "red", "yellow"];
 
-          infections.forEach(function(infection) {
+          infections.forEach( (infection) => {
             if (infectionsInCity[infection] > 0) {
               scope.nouns.push(infection + " : " + infectionsInCity[infection]);
             }
@@ -371,7 +371,6 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         charterFlightKeys = [];
         shuttleFlightKeys = [];
         operationKeys = [];
-        console.log("near the broadcast: ", packet);
         $rootScope.$broadcast("RemoveSquareMarkers", {zoomCity: packet.gamers[scope.turn].currentCity});
       }
 
@@ -417,8 +416,6 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
       function broadcastBuildResearchCenter(info) {
         // to build a ressearch center, you need to remove the card of that city card from your hand too
         let packet = {};
-        console.log("building a research center in this city");
-        console.log(info);
 
         // if you are the ops expert, you don't need to discard the city card
         // just append a research center to the gameState.researchCenterLocations
@@ -483,7 +480,6 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         console.log("in broadcastTakeCityCArd: ", info);
         let packet = {};
         let takingInformation = info.noun;
-        console.log(takingInformation);
         let takeFrom = takingInformation.takeFrom;
         let cityCardToTake = takingInformation.city;
 
@@ -533,7 +529,7 @@ app.directive('actionPicker', function($rootScope, Cities, ActionFactory) {
         } else {
           numberToRemove = 5;
         }
-        scope.gameState.gamers[scope.turn].hand = scope.gameState.gamers[scope.turn].hand.filter(function(card) {
+        scope.gameState.gamers[scope.turn].hand = scope.gameState.gamers[scope.turn].hand.filter( card => {
           if (card.color === colorToCure && numberToRemove !== 0) {
             numberToRemove--;
             return false;
