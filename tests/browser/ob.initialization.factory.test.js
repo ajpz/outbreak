@@ -327,10 +327,8 @@ describe('InitFactory', () => {
         black: 0
       }]
     };
-    
+
     let updatedState = InitFactory.initializeGameElements(workingState);
-    console.log("This is a job");
-    console.log(updatedState);
 
     /**
      * Each gamer should get 2 hands assuming default of 4 gamers
