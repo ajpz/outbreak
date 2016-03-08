@@ -28,7 +28,6 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
     // check to see whether sum of num and color's disease count exceeds 3
     // ... if so, that't an outbreak
     if((target[color] + num) > 3 && (alreadyHit.indexOf(target.key) === -1)) {
-      console.log('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color]);
 
       // target's disease count for this color will max out at 3
       target[color] = 3;
