@@ -25,9 +25,13 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
     //create an object to store outbreaks during turn
     if(!state.outbreaksDuringTurn) state.outbreaksDuringTurn = {};
 
-    // check to see if the target has 3 of the given color --> outbreak?
-    if(target[color] === 3 && (alreadyHit.indexOf(target.key) === -1)) {
+    // check to see whether sum of num and color's disease count exceeds 3
+    // ... if so, that't an outbreak
+    if((target[color] + num) > 3 && (alreadyHit.indexOf(target.key) === -1)) {
       console.log('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color]);
+
+      // target's disease count for this color will max out at 3
+      target[color] = 3;
 
       //create an array to store outbreaks during turn for current outbreak
       if(!state.outbreaksDuringTurn[target.key]) state.outbreaksDuringTurn[target.key] = [];
