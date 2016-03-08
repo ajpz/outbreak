@@ -344,13 +344,9 @@ describe('InitFactory', () => {
     /**
      * Default decks have 4 epidemic cards
      */
-    //TODO: this fails occasionally because epidemic cards may be dealt
-    //will be fixed once the CitiesCardFactory createDeck logic is broken
-    //into two steps, make deck without epidemic cards, and then sprinkle
-    // epidemic cards
-    // expect(updatedState.playerDeck.filter(function(card) {
-    //   return card.type === 'epidemicCard';
-    // }).length).to.equal(4);
+    expect(updatedState.playerDeck.filter(function(card) {
+      return card.type === 'epidemicCard';
+    }).length).to.equal(4);
     /**
      * The infectionDeck should have 48 cards
      */
