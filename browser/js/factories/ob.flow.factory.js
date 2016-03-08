@@ -162,7 +162,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
     if(!prevState) prevState = _.cloneDeep(payload.gameState);
 
     switch (currState.currentPhase) {
-
+      //if we're in the 'draw' phase...
       case 'draw':
         //if there was an epidemic card drawn, handle it.
         handlePossibleEpidemic();
