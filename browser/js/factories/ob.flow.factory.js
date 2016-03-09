@@ -119,7 +119,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
       currState.drawnCards.push(newCard);
     }
     // return currState;
-    console.log('>>>>>>>>>>>>broadcasting saveDrawnCard ')
+    console.log('>>>>>>>>>>>>broadcasting saveDrawnCard ', currState.drawnCards)
     $rootScope.$broadcast('saveDrawnCard', currState);
   };
 
@@ -156,6 +156,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 	$rootScope.$on("stateChange", function(event, payload){
     var packet;
 
+    console.log('FF TOP: [currentPhase, drawnCards, previousLengthOfDrawnCards] ', payload.gameState.currentPhase, payload.gameState.drawnCards, previousLengthOfDrawnCards);
     //create local working copy of state
     prevState = currState;
     currState = _.cloneDeep(payload.gameState);
