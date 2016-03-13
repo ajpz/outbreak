@@ -111,7 +111,11 @@ app.factory('GameFactory', function(Firebase, Cities, $firebaseObject, $rootScop
 
   const updateState = (payload) => {
     for (let key in payload) {
+      // if (outbreak.gameState.hasOwnProperty(key)) {
         outbreak.gameState[key] = payload[key];
+      // } else {
+      //   console.log("you sent the incorrect key for updating");
+      // }
     }
     outbreak.$save()
   }
