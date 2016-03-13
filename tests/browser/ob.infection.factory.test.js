@@ -59,13 +59,9 @@ describe('Infection Factory', () => {
     };
     let updatedState = InfectionFactory.initialize(workingState);
 
-    updatedState.cities.filter(function(city) {
-      return city.key === 'buenosAires';
-    })[0].yellow.should.equal(3);
-
-    updatedState.cities.filter(function(city) {
-      return city.key === 'sanFrancisco';
-    })[0].blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'buenosAires').yellow.should.equal(3);
+    updatedState.cities.find(city => city.key === 'newYork').blue.should.equal(2);
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(1);
     updatedState.infectionDeckDiscard.should.have.length(9);
   });
 
@@ -89,16 +85,9 @@ describe('Infection Factory', () => {
     };
 
     let updatedState = InfectionFactory.infect(workingState);
-
-    updatedState.cities.filter(function(city) {
-      return city.key === 'buenosAires';
-    })[0].yellow.should.equal(1);
-
+    updatedState.cities.find(city => city.key === 'buenosAires').yellow.should.equal(1);
     updatedState = InfectionFactory.infect(workingState);
-
-    updatedState.cities.filter(function(city) {
-      return city.key === 'sanFrancisco';
-    })[0].blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(1);
     updatedState.infectionDeckDiscard.should.have.length(2);
   })
 
@@ -126,10 +115,7 @@ describe('Infection Factory', () => {
 
     let updatedState = InfectionFactory.epidemic(workingState);
 
-    updatedState.cities.filter(function(city) {
-      return city.key === 'sanFrancisco';
-    })[0].blue.should.equal(3);
-
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(3);
     updatedState.infectionLevelIndex.should.equal(5);
     updatedState.infectionDeck.should.have.length(3);
     updatedState.infectionDeckDiscard.should.have.length(0)
@@ -161,27 +147,54 @@ describe('Infection Factory', () => {
 
     let updatedState = InfectionFactory.infect(workingState);
 
-    updatedState.cities.filter(function(city) {
-      return city.key === 'sanFrancisco';
-    })[0].blue.should.equal(3);
-
-    updatedState.cities.filter(function(city) {
-      return city.key === 'tokyo';
-    })[0].blue.should.equal(1);
-
-    updatedState.cities.filter(function(city) {
-      return city.key === 'manila';
-    })[0].blue.should.equal(1);
-
-    updatedState.cities.filter(function(city) {
-      return city.key === 'losAngeles';
-    })[0].blue.should.equal(1);
-
-    updatedState.cities.filter(function(city) {
-      return city.key === 'chicago';
-    })[0].blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(3);
+    updatedState.cities.find(city => city.key === 'tokyo').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'manila').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'losAngeles').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'chicago').blue.should.equal(1);
 
     updatedState.outbreakLevel.should.be.equal(1);
+  });
+
+  it('it only allows a city to have one outbreak per turn', function() {
+
+    let workingState = {
+      infectionLevelIndex: 0,
+      outbreakLevel: 0,
+      infectionDeck: [
+        { key: 'sanFrancisco', color: 'blue' }
+      ],
+      infectionDeckDiscard: [],
+      cities: [
+        { key: 'sanFrancisco', blue: 3 },
+        { key: 'tokyo', red: 0, blue: 0 },
+        { key: 'manila', red: 0, blue: 0 },
+        { key: 'losAngeles', yellow: 0, blue: 0 },
+        { key: 'chicago', blue: 3 },
+        { key: 'atlanta', blue: 0 },
+        { key: 'mexicoCity', yellow: 0, blue: 0 },
+        { key: 'montreal', blue: 0}
+      ],
+      remainingCubes: {
+        red: 24,
+        blue: 24,
+        yellow: 24,
+        black: 24
+      }
+    };
+
+    let updatedState = InfectionFactory.infect(workingState);
+
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(3);
+    updatedState.cities.find(city => city.key === 'chicago').blue.should.equal(3);
+    updatedState.cities.find(city => city.key === 'losAngeles').blue.should.equal(2);
+    updatedState.cities.find(city => city.key === 'tokyo').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'manila').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'mexicoCity').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'montreal').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'atlanta').blue.should.equal(1);
+
+    updatedState.outbreakLevel.should.be.equal(2);
   });
 
 });
