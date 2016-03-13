@@ -348,7 +348,7 @@ describe('InitFactory', () => {
       return card.type === 'epidemicCard';
     }).length).to.equal(4);
     /**
-     * The infectionDeck should have 48 cards
+     * The infectionDeck should have 39 cards (48 less 9 infected)
      */
     expect(updatedState.infectionDeck.length).to.equal(39);
 
