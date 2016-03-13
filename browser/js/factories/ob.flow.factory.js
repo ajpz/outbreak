@@ -1,6 +1,5 @@
 app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, InfectionLevelArray){
 
-    //TODO: epidemic needs to add another (3rd) card to the drawnCards from the infection deck
     //TODO: need to expand draw phase logic below to accomodate special case of
     //epidemic drawn first, or second
 
@@ -9,7 +8,6 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
   var infectionRate;
 
   var currState;
-  var prevState;
 
   var advanceGamePhase = function(nextPhase, shouldAdvanceTurn) {
     if(currState.gamers[currState.gamerTurn].username !== localStorage.getItem('user')) return;
@@ -98,34 +96,38 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
   //picks a card from the player deck - handles both epidemics & city cards
   var pickAPlayerCard = function (){
-    //use closure to capture currState
+    //if this browser isn't active, do nothing.
     if(currState.gamers[currState.gamerTurn].username !== localStorage.getItem('user')) return;
 
+    //pick a card
     let newCard = CardFactory.pickCardFromTop(currState.playerDeck);
 
+    //if playerDeck is now empty, it's gameOver
     if (!currState.playerDeck.length) {
       currState.status = "gameOver";
       currState.gameOver.win = false;
       currState.gameOver.lossType = "noMoreCards";
     }
 
+    // handle epidemic cards
     if(newCard.type === "epidemicCard"){
-      // currState = InfectionFactory.epidemic(currState);
       InfectionFactory.epidemic(currState);
       currState.drawnCards.push(newCard);
     } else {
-      let currentTurn = currState.gamerTurn;
-      currState.gamers[currentTurn].hand.push(newCard);
+      //handle regular city cards
+      // let currentTurn = currState.gamerTurn;
+      currState.gamers[currState.gamerTurn].hand.push(newCard);
       currState.drawnCards.push(newCard);
     }
-    // return currState;
     console.log('>>>>>>>>>>>>broadcasting saveDrawnCard ', currState.drawnCards)
     $rootScope.$broadcast('saveDrawnCard', currState);
   };
 
+  //picks a card from the infection deck
   var pickAnInfectionCard = function() {
+    //if this browswer isn't active, do nothing.
     if(currState.gamers[currState.gamerTurn].username !== localStorage.getItem('user')) return;
-    // currState = InfectionFactory.infect(currState);
+
     InfectionFactory.infect(currState);
     console.log('>>>>>>>>>>>>broadcasting saveInfectionCard ')
     $rootScope.$broadcast('saveInfectionCard', currState);
@@ -133,22 +135,26 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
   };
 
 
-  //waits on user to make discard selections
+  //listens on a user making a discard selection
   $rootScope.$on('discardCardChosen', function(event, discard) {
+    //if this browswer isn't active, do nothing.
+    if(currState.gamers[currState.gamerTurn].username !== localStorage.getItem('user')) return;
 
+    //intialize chosenDiscards array
     if(!currState.chosenDiscards) currState.chosenDiscards = [];
 
-    if(currState.gamers[currState.gamerTurn].username === localStorage.getItem('user')) {
-      var hand = currState.gamers[currState.gamerTurn].hand;
+    // if(currState.gamers[currState.gamerTurn].username === localStorage.getItem('user')) {
 
-      currState.gamers[currState.gamerTurn].hand = hand.filter(function(cardObj) {
-        return cardObj.key !== discard.key;
-      })
+    //remove discarded card from the player's currentHand
+    var currentHand = currState.gamers[currState.gamerTurn].hand;
+    currState.gamers[currState.gamerTurn].hand = currentHand.filter(function(cardObj) {
+      return cardObj.key !== discard.key;
+    })
 
-      currState.chosenDiscards.push(discard);
-      console.log('>>>>>>>>>>>>>>broadcasting saveDiscardCard')
-      $rootScope.$broadcast('saveDiscardCard', currState);
-    }
+    currState.chosenDiscards.push(discard);
+    console.log('>>>>>>>>>>>>>>broadcasting saveDiscardCard')
+    $rootScope.$broadcast('saveDiscardCard', currState);
+    // }
 
   });
 
@@ -158,14 +164,14 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
     console.log('FF TOP: [currentPhase, drawnCards, previousLengthOfDrawnCards] ', payload.gameState.currentPhase, payload.gameState.drawnCards, previousLengthOfDrawnCards);
     //create local working copy of state
-    prevState = currState;
+    // prevState = currState;
     currState = _.cloneDeep(payload.gameState);
-    if(!prevState) prevState = _.cloneDeep(payload.gameState);
+    // if(!prevState) prevState = _.cloneDeep(payload.gameState);
 
     switch (currState.currentPhase) {
-      //if we're in the 'draw' phase...
+
       case 'draw':
-        //if there was an epidemic card drawn, handle it.
+
         handlePossibleEpidemic();
 
         //notify players of stateChange, but only the first time we enter 'draw'
@@ -185,7 +191,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
 
           previousLengthOfDrawnCards++;
 
-          //broadcast so that show-card can display the event, show-card handles setting a timeout
+          //broadcast so that show-card directive can display the event, show-card handles setting a timeout
           packet = {
               message: null,
               drawnCards: _.cloneDeep(currState.drawnCards),
@@ -212,7 +218,7 @@ app.factory("FlowFactory", function(InfectionFactory, CardFactory, $rootScope, I
         if(currState.gamers[currState.gamerTurn].hand.length <= 7 && !currState.chosenDiscards) {
           advanceGamePhase('infect', false);
         } else {
-          //notify players of stateChange, but only the first time we enter 'draw'
+          //notify players of stateChange, but only the first time we enter 'discard' phase
           //everyone browser sees this, every browser does this
           if(!currState.chosenDiscards) {
             packet = {
