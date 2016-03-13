@@ -290,7 +290,7 @@ describe('InitFactory', () => {
         blue: 0,
         black: 0
       }, {
-        name: 'osaka',
+        key: 'osaka',
         red: 0,
         yellow: 0,
         blue: 0,
@@ -327,10 +327,8 @@ describe('InitFactory', () => {
         black: 0
       }]
     };
-    
+
     let updatedState = InitFactory.initializeGameElements(workingState);
-    console.log("This is a job");
-    console.log(updatedState);
 
     /**
      * Each gamer should get 2 hands assuming default of 4 gamers
@@ -346,15 +344,11 @@ describe('InitFactory', () => {
     /**
      * Default decks have 4 epidemic cards
      */
-    //TODO: this fails occasionally because epidemic cards may be dealt
-    //will be fixed once the CitiesCardFactory createDeck logic is broken
-    //into two steps, make deck without epidemic cards, and then sprinkle
-    // epidemic cards
-    // expect(updatedState.playerDeck.filter(function(card) {
-    //   return card.type === 'epidemicCard';
-    // }).length).to.equal(4);
+    expect(updatedState.playerDeck.filter(function(card) {
+      return card.type === 'epidemicCard';
+    }).length).to.equal(4);
     /**
-     * The infectionDeck should have 48 cards
+     * The infectionDeck should have 39 cards (48 less 9 infected)
      */
     expect(updatedState.infectionDeck.length).to.equal(39);
 

@@ -1,170 +1,200 @@
-// 'use strict';
-// describe('Infection Factory', () => {
-//   beforeEach(module('FullstackGeneratedApp'));
+'use strict';
+describe('Infection Factory', () => {
+  beforeEach(module('FullstackGeneratedApp'));
 
-//   let InfectionFactory;
-//   let CardFactory;
-//   let Cities;
+  let InfectionFactory;
+  let CardFactory;
+  let Cities;
 
-//   beforeEach('get Card/Infection factories and Cities Constant', inject(function($injector) {
-//     InfectionFactory = $injector.get('InfectionFactory');
-//     CardFactory = $injector.get('CardFactory');
-//     Cities = $injector.get('Cities');
-//   }));
+  beforeEach('get Card/Infection factories and Cities Constant', inject(function($injector) {
+    InfectionFactory = $injector.get('InfectionFactory');
+    CardFactory = $injector.get('CardFactory');
+    Cities = $injector.get('Cities');
+  }));
 
-//   it('has four exposed methods', function() {
-//     expect(InfectionFactory.initialize).to.be.a('function');
-//     expect(InfectionFactory.infect).to.be.a('function');
-//     expect(InfectionFactory.epidemic).to.be.a('function');
-//     expect(InfectionFactory.createInfectionDeck).to.be.a('function');
-//   });
+  it('has four exposed methods', function() {
+    expect(InfectionFactory.initialize).to.be.a('function');
+    expect(InfectionFactory.infect).to.be.a('function');
+    expect(InfectionFactory.epidemic).to.be.a('function');
+    expect(InfectionFactory.createInfectionDeck).to.be.a('function');
+  });
 
-//   it('can create an infection deck', function() {
-//     let infectionDeck = InfectionFactory.createInfectionDeck(Cities);
-//     expect(typeof infectionDeck === 'object').to.be.true;
-//     infectionDeck.should.have.length(48);
-//   });
+  it('can create an infection deck', function() {
+    let infectionDeck = InfectionFactory.createInfectionDeck(Cities);
+    (typeof infectionDeck).should.equal('object');
+    infectionDeck.should.have.length(48);
+  });
 
-//   it('can initialize the infections on a board', function() {
-//     let workingState = {
-//       infectionDeck: [
-//         { key: 'sanFrancisco', color: 'blue' },
-//         { key: 'chicago', color: 'blue' },
-//         { key: 'atlanta', color: 'blue' },
-//         { key: 'montreal', color: 'blue' },
-//         { key: 'newYork', color: 'blue' },
-//         { key: 'dc', color: 'blue' },
-//         { key: 'algiers', color: 'black' },
-//         { key: 'tokyo', color: 'red' },
-//         { key: 'buenosAires', color: 'yellow' }
-//       ],
-//       infectionDeckDiscard: [],
-//       cities: [
-//         { key: 'sanFrancisco', blue: 0 },
-//         { key: 'chicago', blue: 0 },
-//         { key: 'atlanta', blue: 0 },
-//         { key: 'montreal', blue: 0 },
-//         { key: 'newYork', blue: 0 },
-//         { key: 'dc', blue: 0 },
-//         { key: 'algiers', black: 0 },
-//         { key: 'tokyo', red: 0 },
-//         { key: 'buenosAires', yellow: 0 }
-//       ]
-//     };
-//     let updatedState = InfectionFactory.initialize(workingState);
+  it('can initialize the infections on a board', function() {
+    let workingState = {
+      infectionDeck: [
+        { key: 'sanFrancisco', color: 'blue' },
+        { key: 'chicago', color: 'blue' },
+        { key: 'atlanta', color: 'blue' },
+        { key: 'montreal', color: 'blue' },
+        { key: 'newYork', color: 'blue' },
+        { key: 'dc', color: 'blue' },
+        { key: 'algiers', color: 'black' },
+        { key: 'tokyo', color: 'red' },
+        { key: 'buenosAires', color: 'yellow' }
+      ],
+      infectionDeckDiscard: [],
+      cities: [
+        { key: 'sanFrancisco', blue: 0 },
+        { key: 'chicago', blue: 0 },
+        { key: 'atlanta', blue: 0 },
+        { key: 'montreal', blue: 0 },
+        { key: 'newYork', blue: 0 },
+        { key: 'dc', blue: 0 },
+        { key: 'algiers', black: 0 },
+        { key: 'tokyo', red: 0 },
+        { key: 'buenosAires', yellow: 0 }
+      ],
+      remainingCubes: {
+        red: 24,
+        blue: 24,
+        yellow: 24,
+        black: 24
+      }
+    };
+    let updatedState = InfectionFactory.initialize(workingState);
 
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'buenosAires';
-//     })[0].yellow == 3).to.be.true;
+    updatedState.cities.find(city => city.key === 'buenosAires').yellow.should.equal(3);
+    updatedState.cities.find(city => city.key === 'newYork').blue.should.equal(2);
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(1);
+    updatedState.infectionDeckDiscard.should.have.length(9);
+  });
 
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'sanFrancisco';
-//     })[0].blue == 1).to.be.true;
-//     updatedState.infectionDeckDiscard.should.have.length(9);
-//   });
+  it('can add infections to the board', function() {
+    let workingState = {
+      infectionDeck: [
+        { key: 'sanFrancisco', color: 'blue' },
+        { key: 'buenosAires', color: 'yellow' }
+      ],
+      infectionDeckDiscard: [],
+      cities: [
+        { key: 'sanFrancisco', blue: 0 },
+        { key: 'buenosAires', yellow: 0 }
+      ],
+      remainingCubes: {
+        red: 24,
+        blue: 24,
+        yellow: 24,
+        black: 24
+      }
+    };
 
-//   it('can add infections to the board', function() {
-//     let workingState = {
-//       infectionLevelIndex: 4,
-//       infectionDeck: [
-//         { key: 'sanFrancisco', color: 'blue' },
-//         { key: 'buenosAires', color: 'yellow' }
-//       ],
-//       infectionDeckDiscard: [],
-//       cities: [
-//         { key: 'sanFrancisco', blue: 0 },
-//         { key: 'buenosAires', yellow: 0 }
-//       ]
-//     };
+    let updatedState = InfectionFactory.infect(workingState);
+    updatedState.cities.find(city => city.key === 'buenosAires').yellow.should.equal(1);
+    updatedState = InfectionFactory.infect(workingState);
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(1);
+    updatedState.infectionDeckDiscard.should.have.length(2);
+  })
 
-//     let updatedState = InfectionFactory.infect(workingState);
+  it('can implement an epidemic', function() {
+    let workingState = {
+      infectionLevelIndex: 4,
+      infectionDeck: [
+        { key: 'sanFrancisco', color: 'blue' },
+        { key: 'buenosAires', color: 'yellow' }
+      ],
+      infectionDeckDiscard: [
+        { key: 'tokyo', color: 'red' }
+      ],
+      cities: [
+        { key: 'sanFrancisco', blue: 0 },
+        { key: 'buenosAires', yellow: 0 }
+      ],
+      remainingCubes: {
+        red: 24,
+        blue: 24,
+        yellow: 24,
+        black: 24
+      }
+    };
 
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'buenosAires';
-//     })[0].yellow == 3).to.be.true;
+    let updatedState = InfectionFactory.epidemic(workingState);
 
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'sanFrancisco';
-//     })[0].blue == 3).to.be.true;
-//     updatedState.infectionDeckDiscard.should.have.length(2);
-//   })
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(3);
+    updatedState.infectionLevelIndex.should.equal(5);
+    updatedState.infectionDeck.should.have.length(3);
+    updatedState.infectionDeckDiscard.should.have.length(0)
+  });
 
-//   it('can implement an epidemic', function() {
-//     let workingState = {
-//       infectionLevelIndex: 4,
-//       infectionDeck: [
-//         { key: 'sanFrancisco', color: 'blue' },
-//         { key: 'buenosAires', color: 'yellow' }
-//       ],
-//       infectionDeckDiscard: [
-//         { key: 'tokyo', color: 'red' }
-//       ],
-//       cities: [
-//         { key: 'sanFrancisco', blue: 2 },
-//         { key: 'buenosAires', yellow: 2 }
-//       ]
-//     };
+  it('can handle outbreaks', function() {
 
-//     let updatedState = InfectionFactory.epidemic(workingState);
+    let workingState = {
+      infectionLevelIndex: 0,
+      outbreakLevel: 0,
+      infectionDeck: [
+        { key: 'sanFrancisco', color: 'blue' }
+      ],
+      infectionDeckDiscard: [],
+      cities: [
+        { key: 'sanFrancisco', blue: 3 },
+        { key: 'tokyo', red: 0, blue: 0 },
+        { key: 'manila', red: 0, blue: 0 },
+        { key: 'losAngeles', yellow: 0, blue: 0 },
+        { key: 'chicago', blue: 0 }
+      ],
+      remainingCubes: {
+        red: 24,
+        blue: 24,
+        yellow: 24,
+        black: 24
+      }
+    };
 
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'sanFrancisco';
-//     })[0].blue == 5).to.be.true;
+    let updatedState = InfectionFactory.infect(workingState);
 
-//     updatedState.infectionLevelIndex.should.equal(5);
-//     updatedState.infectionDeck.should.have.length(3);
-//     updatedState.infectionDeckDiscard.should.have.length(0)
-//   });
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(3);
+    updatedState.cities.find(city => city.key === 'tokyo').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'manila').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'losAngeles').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'chicago').blue.should.equal(1);
 
-//   it('can handle outbreaks', function() {
-//     //TODO: need to add test to ensure there aren't
-//     //  recursively firing outbreaks....
+    updatedState.outbreakLevel.should.be.equal(1);
+  });
 
-//     let workingState = {
-//       infectionLevelIndex: 0,
-//       outbreakLevel: 0,
-//       infectionDeck: [
-//         { key: 'sanFrancisco', color: 'blue' },
-//         { key: 'beijing', color: 'red' }
-//       ],
-//       infectionDeckDiscard: [],
-//       cities: [
-//         { key: 'sanFrancisco', blue: 3 },
-//         { key: 'tokyo', red: 0, blue: 0 },
-//         { key: 'manila', red: 0, blue: 0 },
-//         { key: 'losAngeles', yellow: 0, blue: 0 },
-//         { key: 'chicago', blue: 0 },
-//         { key: 'beijing', red: 0 }
-//       ]
-//     };
+  it('it only allows a city to have one outbreak per turn', function() {
 
-//     let updatedState = InfectionFactory.infect(workingState);
+    let workingState = {
+      infectionLevelIndex: 0,
+      outbreakLevel: 0,
+      infectionDeck: [
+        { key: 'sanFrancisco', color: 'blue' }
+      ],
+      infectionDeckDiscard: [],
+      cities: [
+        { key: 'sanFrancisco', blue: 3 },
+        { key: 'tokyo', red: 0, blue: 0 },
+        { key: 'manila', red: 0, blue: 0 },
+        { key: 'losAngeles', yellow: 0, blue: 0 },
+        { key: 'chicago', blue: 3 },
+        { key: 'atlanta', blue: 0 },
+        { key: 'mexicoCity', yellow: 0, blue: 0 },
+        { key: 'montreal', blue: 0}
+      ],
+      remainingCubes: {
+        red: 24,
+        blue: 24,
+        yellow: 24,
+        black: 24
+      }
+    };
 
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'sanFrancisco';
-//     })[0].blue == 3).to.be.true;
+    let updatedState = InfectionFactory.infect(workingState);
 
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'tokyo';
-//     })[0].blue == 1).to.be.true;
+    updatedState.cities.find(city => city.key === 'sanFrancisco').blue.should.equal(3);
+    updatedState.cities.find(city => city.key === 'chicago').blue.should.equal(3);
+    updatedState.cities.find(city => city.key === 'losAngeles').blue.should.equal(2);
+    updatedState.cities.find(city => city.key === 'tokyo').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'manila').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'mexicoCity').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'montreal').blue.should.equal(1);
+    updatedState.cities.find(city => city.key === 'atlanta').blue.should.equal(1);
 
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'manila';
-//     })[0].blue == 1).to.be.true;
+    updatedState.outbreakLevel.should.be.equal(2);
+  });
 
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'losAngeles';
-//     })[0].blue == 1).to.be.true;
-
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'chicago';
-//     })[0].blue == 1).to.be.true;
-
-//     expect(updatedState.cities.filter(function(city) {
-//       return city.key === 'beijing';
-//     })[0].red == 2).to.be.true;
-
-//     updatedState.outbreakLevel.should.be.equal(1);
-//   });
-
-// });
+});

@@ -1,16 +1,15 @@
 app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFactory, LobbyFactory, $location) {
 
-  //TODO: GameFactory to remove all references to CitiesCardFactory and InfectionFactory
-  // console.log(lobbyId)
   let fullPathArr = $location.path().split('/');
   let lobbyId = fullPathArr[fullPathArr.length-1]
 
   const cardNumMap = { "2": 4, "3": 3, "4": 2 };
   const numEpidemicMap = { Amateur: 4, Standard: 5, Heroic: 6 };
 
-  const addEpidemicCardsToCitiesAndEventsDeck = CitiesCardFactory.addEpidemicCardsToCitiesAndEventsDeck;
-  const createInfectionDeck = InfectionFactory.createInfectionDeck;
-  const createDeckWithCitiesAndEvents = CitiesCardFactory.createDeckWithCitiesAndEvents;
+  const addEpidemicCards = CitiesCardFactory.addEpidemicCardsToCitiesAndEventsDeck;
+  const createBasicDeck = CitiesCardFactory.createDeckWithCitiesAndEvents;
+
+
   const dealCardsToGamers = function(workingState) {
     let gamers = workingState.gamers;
     let numCards = cardNumMap[workingState.gamers.length.toString()];
@@ -24,34 +23,19 @@ app.factory('InitFactory', function(CitiesCardFactory, InfectionFactory, CardFac
 
       }
     }
-    //TODO: needs to call CitiesCardFactory method to add epidemic cards to deck
     return workingState;
   };
 
 
 
   return {
-    //TODO: to create time-delay for UI visualization, create promisified
-    // version of SetToGameState that:
-    //  1) invokes function
-    //  2) SetToGameState()
-    //  3) setTimeout delay before resolving
-    //  4) subsequent methods are invoked once the above is finished
-
     initializeGameElements: function(workingState, difficulty) {
-      // defaults right now to 'Introductory' difficulty
-      //create a deck consisting of only city and event cards
-      //debugger;
-      let deck = createDeckWithCitiesAndEvents();
-      workingState.playerDeck = deck;
-      //deal out those cards to the games
+      workingState.playerDeck = createBasicDeck();
       workingState = dealCardsToGamers(workingState);
-      //add the epidemic cards to the deck with players and events
-      workingState.playerDeck = addEpidemicCardsToCitiesAndEventsDeck(deck, numEpidemicMap[difficulty]);
-      workingState.infectionDeck = createInfectionDeck();
+      workingState.playerDeck = addEpidemicCards(workingState.playerDeck, numEpidemicMap[difficulty]);
+      workingState.infectionDeck = InfectionFactory.createInfectionDeck();
       workingState = InfectionFactory.initialize(workingState);
       workingState.status = 'inProgress';
-      //debugger;
       return workingState;
     },
     giveUserARole: function() {

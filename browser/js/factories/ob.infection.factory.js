@@ -1,68 +1,59 @@
-app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArray, $rootScope) {
+app.factory('InfectionFactory', function(CardFactory, Cities) {
 
-  //TODO: change GameState to have cities array with key, not name
-  //TODO: what does GameFactory inject?
-
-  //How does setToGameState update deck? GameFactory reveals a method to update parts/ all of the state
-
-
-  const infectionLevelArray = _.cloneDeep(InfectionLevelArray.levels);
+  //mutates the state by adding discarded infections back to the top of the infection deck
   const shuffleDiscardAndAddToInfectionDeck = function(state) {
     CardFactory.shuffleDeck(state.infectionDeckDiscard);
     state.infectionDeck = state.infectionDeck.concat(state.infectionDeckDiscard);
     state.infectionDeckDiscard = [];
   };
 
-  const addInfectionToACity = function(infectionCard, num, state, alreadyHit, outbreakColor) {
+  //mutates the state by adding infections to cities
+  const addInfectionToACity = function(infectionCard, num, state, outbreakColor) {
     var color = outbreakColor || infectionCard.color,
-        alreadyHit = alreadyHit || [],
         // target is a ref to GameFactory.cities.<cityKey> --> an object
         // with properties of 'red', 'blue', 'yellow', 'black'
         // each a count of the respective infection color
-        target = state.cities.filter(function(target) {
-                    return target.key === infectionCard.key;
-                  })[0];
-    //create an object to store outbreaks during turn
-    if(!state.outbreaksDuringTurn) state.outbreaksDuringTurn = {};
+        target = state.cities.find(city => city.key === infectionCard.key);
 
-    // check to see if the target has 3 of the given color --> outbreak?
-    if(target[color] === 3 && (alreadyHit.indexOf(target.key) === -1)) {
-      console.log('OUTBREAK YO! OUTBREAK YO! OUTBREAK YO! in.....', target.key, target[color]);
+    //Will there be an outbreak? i.e. infection count > 3 after addition?
+    if((target[color] + num) > 3) {
+      //if needed, create an object to store outbreaks during turn
+      if(!state.outbreaksDuringTurn) state.outbreaksDuringTurn = {};
 
-      //create an array to store outbreaks during turn for current outbreak
-      if(!state.outbreaksDuringTurn[target.key]) state.outbreaksDuringTurn[target.key] = [];
+      //Add this outbreak to the tracking object
+      state.outbreaksDuringTurn[target.key] = [];
 
-      // add the current key, i.e. newYork, to the alreadyHit array
-      // to prevent outbreaks from looping recursively
-      alreadyHit.push(target.key);
-      // increment outbreakLevel on state
+      // max out target's disease count at 3
+      target[color] = 3;
       state.outbreakLevel++;
-      // check whether outbreak level has reached 8
+
+      //outbreak level of 8, means it's gameOver
       if (state.outbreakLevel === 8){
+        //the game is over
         state.status = "gameOver";
         state.gameOver.win = false;
         state.gameOver.lossType = "outbreakLevel8";
       }
-      // grab the connections of the current key
-      var nextKeys = Cities[target.key].connections;
-      // add 1 infection of give color to each key
-      nextKeys.forEach(function(nextKey) {
-        // check to see whether the target.key was 'alreadyHit'
-        if(alreadyHit.indexOf(nextKey) === -1)
-          //push this nextKey infection onto the outbreak city's array
-          state.outbreaksDuringTurn[target.key].push(Cities[nextKey].name);
-          // don't infect if it's already part of this outbreak
-          addInfectionToACity(Cities[nextKey], 1, state, alreadyHit, color);
+
+      //for each of the target's connections, increment the outbreak disease color
+      Cities[target.key].connections.forEach(function(connection) {
+        // check to see whether the connection was already hit by an outbreak
+        if(!state.outbreaksDuringTurn.hasOwnProperty(connection)) {
+          //push this connection onto the outbreak city's array
+          state.outbreaksDuringTurn[target.key].push(Cities[connection].name);
+          // add 1 infection of given color to the connection
+          addInfectionToACity(Cities[connection], 1, state, color);
+        }
       });
     } else {
-      // else, increment color's virus count
+      // if no outbreak and there are cubes of the needed color remaining...
       if(state.remainingCubes[color] > num && state.remainingCubes[color]>0){
-        // console.log('\n\nADDING ONE ', color, ' INFECTION TO ', target.key);
+        //... increment the color's virus count for this city
         target[color] += num;
-        // console.log("\n\n\n\n\n Before infection", state.remainingCubes[color])
+        //... and decrement the remaining number of that color's cubes
         state.remainingCubes[color] -= num;
-        // console.log("\n\n\n\n\n After infection", state.remainingCubes[color])
-      }else{
+      } else {
+        //no remaining cubes, means it's gameOver
         state.status = 'gameOver';
         state.gameOver.win = false;
         state.gameOver.lossType =  "noMoreCubes";
@@ -72,28 +63,37 @@ app.factory('InfectionFactory', function(CardFactory, Cities, InfectionLevelArra
 
   return {
     createInfectionDeck : () => {
+      //redirects to CardFactory exposed method
       return CardFactory.createADeck(Cities);
     },
     initialize: function(state) {
+      //sprinkle infections on board to set-up game state
       for (var infectionRate = 3, card; infectionRate > 0; infectionRate--) {
+        //Add 3 virus, then 2 virus, then 1 virus
         for(var i = 0; i < 3; i++) {
+          //pick 3 infection cards and add infection count specified in outer for loop
           card = CardFactory.pickCardFromTop(state.infectionDeck);
-          console.log("IN tHIs FORLOOP")
-          console.log(card);
           addInfectionToACity(card, infectionRate, state);
+          //firebase doesn't save empty objects, create array if need be
           if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
           state.infectionDeckDiscard.push(card);
         }
       };
+      //be explicit: return the game state
       return state;
     },
     infect: function(state) {
-        var card = CardFactory.pickCardFromTop(state.infectionDeck);
-        if(!state.drawnInfections) state.drawnInfections = [];
-        state.drawnInfections.push(card);
-        addInfectionToACity(card, 1, state);
-        if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
-        state.infectionDeckDiscard.push(card);
+      var card = CardFactory.pickCardFromTop(state.infectionDeck);
+      //firebase doesn't save empty objects, create drawnInfections array and infectionDeckDiscard
+      if(!state.drawnInfections) state.drawnInfections = [];
+      if(!state.infectionDeckDiscard) state.infectionDeckDiscard = [];
+      //store reference to the infection card drawn this round
+      state.drawnInfections.push(card);
+      //infect the city
+      addInfectionToACity(card, 1, state);
+      //store reference to the discarded infection card
+      state.infectionDeckDiscard.push(card);
+      //be explicit, return the game state
       return state;
     },
     epidemic: function(state) {

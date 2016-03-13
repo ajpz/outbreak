@@ -162,8 +162,6 @@ describe('ActionFactory', () => {
 
   it('returns the color you can cure', function() {
     let cureColor = ActionFactory.cureWhichDisease(state.gamers[2]);
-    console.log("in the color function");
-    console.log(cureColor);
     cureColor.blue.should.be.true;
   });
 
