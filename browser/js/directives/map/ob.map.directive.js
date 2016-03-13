@@ -14,14 +14,15 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
         //initialize variables for maintaining map state
         var payload;
-        var rolesLayerGroup = [];
-        var researchLayerGroup = [];
-        var diseaseLayerGroup = [];
-        var circleDiseaseLayerGroup = [];
-        var markers = [];
+        var iconReferences = [];
+        var tallyObj = [];
         var researchCenterIcon = 'http://i.imgur.com/OO0vx2n.png';
         var userZoomed = true;
         var lastPhase = 'actions';
+
+        /*****************************************************************
+         * One time map configuration
+        ******************************************************************/
 
         //create llama icon and llama layers
         var llama = L.icon({
@@ -29,40 +30,6 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
           iconSize: [68.4, 74]
         })
         var llamaLayer = L.marker([-10.604774, -73.372619], {icon: llama});
-
-
-        //when user zooms, remove all icons to avoid resizing delays
-        map.on('zoomstart', function() {
-          // during infect phase, we force the map to re-center
-          // and to zoom. Ignore this listener as the zoom was not
-          // initiated by the user, i.e. userZoomed is false
-          if(userZoomed) {
-            removeMarkerLayers();
-          }
-        })
-
-        // when the user zoom is finished, redraw all map icons
-        map.on('zoomend', function(){
-          //again, infect phase will handle redraw itself
-          if(userZoomed) {
-            addMarkerToMarkerObj();
-            addSquaresToMap();
-          }
-          userZoomed = true;
-
-          // this is for showing and hiding the llama
-          if (map.getZoom() > 4){
-            map.addLayer(llamaLayer);
-          }
-          else {
-           map.removeLayer(llamaLayer);
-          }
-        })
-
-        // center the map on any point that you click on
-        map.on('click', function(e) {
-          map.panTo(e.latlng);
-        });
 
         // bounds of the map to define the edges of view
         var southWest = L.latLng(-57.870914, -146.743145),
@@ -156,6 +123,47 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
           }
         }
 
+        /*****************************************************************
+         * Register Map event handlers
+        ******************************************************************/
+
+        //when user zooms, remove all icons to avoid resizing delays
+        map.on('zoomstart', function() {
+          // during infect phase, we force the map to re-center
+          // and to zoom. Ignore this listener as the zoom was not
+          // initiated by the user, i.e. userZoomed is false
+          if(userZoomed) {
+            removeMarkerLayers();
+          }
+        })
+
+        // when the user zoom is finished, redraw all map icons
+        map.on('zoomend', function(){
+          //again, infect phase will handle redraw itself
+          if(userZoomed) {
+            tallyMarkersByCity(tallyObj);
+            addSquaresToMap();
+          }
+          userZoomed = true;
+
+          // this is for showing and hiding the llama
+          if (map.getZoom() > 4){
+            map.addLayer(llamaLayer);
+          }
+          else {
+           map.removeLayer(llamaLayer);
+          }
+        })
+
+        // center the map on any point that you click on
+        map.on('click', function(e) {
+          map.panTo(e.latlng);
+        });
+
+        /*****************************************************************
+         * Listen on stateChange
+        ******************************************************************/
+
         // whenever someone or something moves/changes we remove all markers and then place them again.
         $rootScope.$on('stateChange', function(event, fbData){
           //create local, semi-persistent copy of the gameState
@@ -168,135 +176,118 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
             removeMarkerLayers();
             userZoomed = false;
             map.setView(Cities[infectArray[infectArray.length - 1].key].location, 4);
-            addMarkerToMarkerObj();
+            tallyMarkersByCity(tallyObj);
           } else if (payload.currentPhase === 'actions' && lastPhase !== 'actions') {
             //if it's action phase and is so for the first time, move the map to current
             //gamer's location
             removeMarkerLayers();
             userZoomed = false;
             map.setView(Cities[payload.gamers[payload.gamerTurn].currentCity].location, 4);
-            addMarkerToMarkerObj();
+            tallyMarkersByCity(tallyObj);
           } else {
             removeMarkerLayers();
-            addMarkerToMarkerObj();
+            tallyMarkersByCity(tallyObj);
           }
           //update lastPhase
           lastPhase = payload.currentPhase;
         })
 
+        /*****************************************************************
+         * Helper Functions
+        ******************************************************************/
+
         function removeMarkerLayers() {
-          rolesLayerGroup.forEach(function(role) {
-            map.removeLayer(role);
-          });
+          //remove all icons from map
+          iconReferences.forEach(icon => map.removeLayer(icon));
+          trackGoSquares.forEach(square => map.removeLayer(square));
 
-          researchLayerGroup.forEach(function(researchCenter) {
-            map.removeLayer(researchCenter);
-          });
-
-          diseaseLayerGroup.forEach(function(disease) {
-            map.removeLayer(disease);
-          });
-
-          circleDiseaseLayerGroup.forEach(function(circle) {
-            map.removeLayer(circle);
-          });
-
-          trackGoSquares.forEach(function(square) {
-            map.removeLayer(square);
-          });
-
-          rolesLayerGroup = [];
-          researchLayerGroup = [];
-          diseaseLayerGroup = [];
-          circleDiseaseLayerGroup = [];
+          //rest tracking objects to empty arrays
           trackGoSquares = [];
           cities = [];
-          markers = [];
+          tallyObj = [];
+          iconReferences = [];
         }
 
-        // this is for counting markers to be added to cities
-        function addMarkerToMarkerObj(){
+        // Cycle through the gameState to tally
+        // and store all markers that need to be added to the map.
+        // Need this so we can properly space the icons around the city
+        function tallyMarkersByCity(tallyObj){
 
-          payload.researchCenterLocations.forEach(function(cityKey){
-            var cityMarkers = markers.filter(function(aMarker){
-              return aMarker.key === cityKey;
-            })
-            if (cityMarkers.length > 0){
-              cityMarkers[0].markers.push({type: 'researchCenter', name: null});
-            }
-            else {
-              markers.push({key: cityKey, markers: [{type: 'researchCenter', name: null}]});
-            }
-          })
+          //helper function: find the tally object for a given city
+          //if it doesn't exist, make it e.g. {cityKey: 'taipei', markers: [{type: 'researchCenter', name: null}]}
+          //either way, return reference to the tally object
+          let findOrCreateTally = function(cityKey) {
+            let tally = tallyObj.find(tally => tally.cityKey === cityKey);
+            if(!tally) {
+              tally = {cityKey: cityKey, markers: []};
+              tallyObj.push(tally);
+            };
+            return tally;
+          };
 
-          payload.gamers.forEach(function(gamer){
-            var cityMarkers = markers.filter(function(aMarker){
-              return aMarker.key === gamer.currentCity;
-            })
-            if (cityMarkers.length > 0){
-              cityMarkers[0].markers.push({type: 'role', name: gamer.role});
-            }
-            else {
-              markers.push({key: gamer.currentCity, markers: [{type: 'role', name: gamer.role}]});
-            }
-          })
+          //find all research centers and add them to the tally object
+          payload.researchCenterLocations.forEach(cityKey => {
+            findOrCreateTally(cityKey).markers.push({type: 'researchCenter', name: null});
+          });
 
-          var cityMarkers;
-          payload.cities.forEach(function(cityObj){
-            cityMarkers = markers.filter(function(aMarker){
-              return aMarker.key === cityObj.key;
-            })
-            if (cityMarkers.length === 0){
-              markers.push({key: cityObj.key, markers: []})
-            }
-            cityMarkers = markers.filter(function(aMarker){
-              return aMarker.key === cityObj.key;
-            })
+          //find all gamers and add them to the tally object
+          payload.gamers.forEach(gamer => {
+            findOrCreateTally(gamer.currentCity).markers.push({type: 'role', name: gamer.role});
+          });
 
-            Object.keys(Diseases).forEach(function(disease){
-              if (cityObj[disease] > 0){
-                for (var i=0; i<cityObj[disease]; i++){
-                  cityMarkers[0].markers.push({type: 'disease', color: disease})
+          //find all cities and add each city's diseases, by color, to the tally object
+          payload.cities.forEach(cityObj => {
+            let cityMarkers = findOrCreateTally(cityObj.key).markers;
+            Object.keys(Diseases).forEach(color => {
+              if(cityObj[color] > 0) {
+                for(let i = 0; i < cityObj[color]; i++) {
+                  cityMarkers.push({type: 'disease', color: color});
                 }
               }
             })
           })
-
-          addMarkersToMap(markers)
+          //add all the markers to the map
+          addMarkersToMap(tallyObj)
         }
 
 
-        function addMarkersToMap(markersArray){
-          markersArray.forEach(function(city){
-            var offsetForCity = calcOffset(city.markers.length)
-            var mainDiseaseCountForCity = 0;
-            city.markers.forEach(function(marker, index){
-              if(marker.type === 'researchCenter'){
-                placeOnMap(marker, offsetForCity[index], Cities[city.key].location, researchCenterIcon)
+        function addMarkersToMap(tallyObj){
+          //for every tally object
+          tallyObj.forEach(tally => {
+            //calc a radial offset for the markers based on how many
+            //markers are to be drawn around a given city
+            let offset = calcOffset(tally.markers.length);
+            //create count for the city's primary disease
+            //so we can proportionally size the disease 'circle'
+            let mainDiseaseCountForCity = 0;
+            //place each marker on the map, using the calculated offset
+            //and the appropriate iconUrl
+            tally.markers.forEach((marker, index) => {
+              let iconUrl;
+              if(marker.type === 'researchCenter') {
+                iconUrl = researchCenterIcon;
+              } else if (marker.type === 'role') {
+                iconUrl = Roles[marker.name].icon;
+              } else if (marker.type === 'disease') {
+                iconUrl = Diseases[marker.color]
+                if(marker.color === Cities[tally.cityKey].color) mainDiseaseCountForCity++;
               }
-              else if (marker.type === 'role'){
-                placeOnMap(marker, offsetForCity[index], Cities[city.key].location, Roles[marker.name].icon)
-              }
-              else {
-                if (marker.color === Cities[city.key].color){
-                  mainDiseaseCountForCity ++;
-                }
-                placeOnMap(marker, offsetForCity[index], Cities[city.key].location, Diseases[marker.color])
-              }
-
+              placeOnMap(marker, offset[index], Cities[tally.cityKey].location, iconUrl);
             })
 
-            // figure out city's color, count that disease color for that city, make marker and place on map
-            if (mainDiseaseCountForCity > 0){
-              placeOnMap({type: 'circle'}, 0, Cities[city.key].location, null, Cities[city.key].color, mainDiseaseCountForCity)
+            // if there are diseases on a city, create a circle marker
+            // to indicate the prevalence (our heat map)
+            if(mainDiseaseCountForCity > 0) {
+              placeOnMap({type: 'circle'}, 0, Cities[tally.cityKey].location, null, Cities[tally.cityKey].color, mainDiseaseCountForCity);
             }
-
 
           })
         }
 
 
         function placeOnMap(marker, offset, location, icon, color, count){
+          //creates and then adds a single marker on the map
+          var oneMapIcon;
           // defines the display size of the markers at each zoom layer
           var zoomSizeIcon = {
             '5' : [40,40],
@@ -305,7 +296,8 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
             '2' : [15,15],
             '1' : [15,15]
           };
-
+          // defines the relative size of the circle marker (heat map)
+          // based on zoom level
           var zoomRadiusCircle = {
             '5' : 80,
             '4' : 50,
@@ -314,22 +306,23 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
             '1' : 10
           }
           if (['researchCenter', 'role', 'disease'].indexOf(marker.type) > -1) {
-             var oneMapIcon = L.marker([location[0]+offset[0], location[1]+offset[1]], {
-                icon: L.icon({
-                    iconUrl: icon,
-                    'iconSize': zoomSizeIcon[map.getZoom().toString()] || [25,25] ,
-                  })
-                })
+            oneMapIcon = L.marker([location[0]+offset[0], location[1]+offset[1]], {
+              icon: L.icon({
+                iconUrl: icon,
+                'iconSize': zoomSizeIcon[map.getZoom().toString()] || [25,25] ,
+              })
+            })
           }
           else {
-
+            //this to add a circle marker (heat map) to the map representing
+            //the amount of primary disease on that city
             var mult;
 
             if(count === 3) mult = 1.6;
             else if (count === 2) mult = 1.0;
             else if (count === 1) mult = 0.8;
 
-            var circle = new L.circleMarker(location ,{
+            oneMapIcon = new L.circleMarker(location ,{
               radius : zoomRadiusCircle[map.getZoom().toString()] * mult || 30,
               fillColor : colors[color],
               fill : true,
@@ -343,22 +336,9 @@ app.directive('map', function(GeoLines, Cities, Roles, Diseases, $rootScope){
 
           }
 
-          if (marker.type === 'researchCenter'){
-            researchLayerGroup.push(oneMapIcon);
-            map.addLayer(oneMapIcon);
-          }
-          else if (marker.type === 'role'){
-            rolesLayerGroup.push(oneMapIcon);
-            map.addLayer(oneMapIcon);
-          }
-          else if (marker.type === 'disease'){
-            diseaseLayerGroup.push(oneMapIcon);
-            map.addLayer(oneMapIcon);
-          }
-          else {
-            circleDiseaseLayerGroup.push(circle);
-             map.addLayer(circle);
-          }
+          //Save reference to icon before adding it to the map
+          iconReferences.push(oneMapIcon);
+          map.addLayer(oneMapIcon);
 
         }
 
