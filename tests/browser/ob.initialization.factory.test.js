@@ -290,7 +290,7 @@ describe('InitFactory', () => {
         blue: 0,
         black: 0
       }, {
-        name: 'osaka',
+        key: 'osaka',
         red: 0,
         yellow: 0,
         blue: 0,
