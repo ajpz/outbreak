@@ -31,9 +31,6 @@ app.controller("GameCtrl", function($scope, $rootScope, ngToast, GameFactory, lo
   $rootScope.$on('renderDiscardEvent', function(event, payload) {
     if (payload.message) {
       createPhaseChangeToast(payload.message, 5000, "unimportant");
-      if (payload.callback) { //TODO: what is this?
-        setTimeout(payload.callback, 2000);
-      }
     }
   });
 
