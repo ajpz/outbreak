@@ -1,4 +1,4 @@
-app.directive('showCard', function($rootScope, InfectionLevelArray) {
+app.directive('showCard', function($rootScope, InfectionLevelArray, FlowFactory) {
   return {
     restrict: 'E',
     templateUrl: 'js/directives/show-card/ob.show-card.directive.html',
@@ -23,7 +23,7 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
 
         if(payload.message) {
           //Draw phase is beginning, allow time for toast notification
-          setTimeout(payload.callback, 2000);
+          setTimeout(FlowFactory.pickAPlayerCard, 2000);
         } else {
           //a city card was drawn, add drawnCards to the scope
           numCardsDrawn++;
@@ -34,8 +34,10 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
 
           //allow time for toast notification
           setTimeout(function() {
-            payload.callback();
-            if(numCardsDrawn === 2) {
+            if(numCardsDrawn === 1) {
+              FlowFactory.pickAPlayerCard();
+            } else if (numCardsDrawn >= 2) {
+              FlowFactory.advanceGamePhaseToDiscard();
               //if two cards have been drawn, reset scope variables
               scope.isCurrentlyDrawPhase = false;
               numCardsDrawn = 0;
@@ -55,7 +57,7 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
           //In infection phase
           if(payload.message) {
             //Infection phase is beginning, allow time for toast notification
-            setTimeout(payload.callback, 2000);
+            setTimeout(FlowFactory.pickAnInfectionCard, 2000);
           } else {
             //an infection card was drawn, add drawn infections to the scope
             numInfectionsDrawn++;
@@ -66,8 +68,10 @@ app.directive('showCard', function($rootScope, InfectionLevelArray) {
 
             //allow time for toast notifications
             setTimeout(function() {
-              payload.callback();
-              if(numInfectionsDrawn === payload.infectionRate) {
+              if(numInfectionsDrawn < payload.infectionRate) {
+                FlowFactory.pickAnInfectionCard();
+              } else {
+                FlowFactory.advanceGamePhaseToActions();
                 //if the infectionRate is hit, reset scope variables
                 scope.isCurrentlyInfectionPhase = false;
                 numInfectionsDrawn = 0;
