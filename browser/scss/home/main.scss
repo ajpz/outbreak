@@ -1,190 +1,91 @@
-/*#home {
-    h1 {
-        margin-top: 40px;
-        text-align: center;
-    }
-}*/
+::-webkit-input-placeholder { 
+  padding-left: 5px;
+}
 
-/*#top-directives {
-    top: 0;
-    position: fixed;
-    left: 0;
-    z-index: 2000;
-}*/
-#showfront {
-  position: fixed;
-  top: 40%;
-  left: 38%;
-  width: 25%;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 5px;
-  background: powderblue;
-  opacity: 0.9;
-  border: 5px solid black;
-  border-radius: 25px;
-  margin: 0 auto;
-  z-index: 100;
+#background-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 #showfronthome {
-  position: fixed;
-  top: 30%;
-  left: 38%;
-  width: 25%;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 5px;
-  background: powderblue;
-  opacity: 0.9;
-  border: 5px solid black;
-  border-radius: 25px;
-  margin: 0 auto;
-  z-index: 100;
-}
+  background-color: #B9B9B9;
+  border: 1px solid #0A7C61;
+  padding: 20px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .btn {
+    background-color: #252433;
+    color: white;
+    border-radius: 2px;
+    margin: 5px;
+    border: 2px solid #0A7C61; 
+    width: 150px;
+  }
+  .btn-non-fixed {
+    background-color: #252433;
+    color: white;
+    border-radius: 2px;
+    margin: 5px;
+    border: 2px solid #0A7C61;
+    padding: 6px 12px
+  }
 
-#showfrontsignup {
-  position: fixed;
-  top: 30%;
-  left: 38%;
-  width: 25%;
-  padding-top: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 20px;
-  background: powderblue;
-  opacity: 0.9;
-  border: 5px solid black;
-  border-radius: 25px;
-  margin: 0 auto;
-  z-index: 100;
-}
-#showfrontlobby {
-  position: fixed;
-  top: 20%;
-  left: 32%;
-  width: 40%;
-  padding-top: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 20px;
-  background: powderblue;
-  opacity: 0.9;
-  border: 5px solid black;
-  border-radius: 25px;
-  margin: 0 auto;
-  z-index: 100;
-}
+  .title-header {
+    font-size: 24px;
+    color: #252433;
+    margin-bottom: 10px;
 
-#centered {
-  display: inline-block;
-  clear: none;
-  text-align: center;
-  margin-left: auto;
-  margin-top: 10px;
-  margin-bottom: -10px;
-  width: 100%;
-  button {
-    border: 1px solid white;
-    background: transparent;
-    font-size: 1.5em;
-    margin-left: 4%;
-    margin-right: 4%;
-    border-radius: 5px;
-    &:hover {
-      background: #D3D3D3;
-      opacity: 0.8;
-    };
   }
-  h3 {
-    color: black;
-  }
-  button {
-    color: black;
-  }
-}
-#centeredhome {
-  display: inline-block;
-  clear: none;
-  text-align: center;
-  margin-left: auto;
-  margin-top: -20px;
-  margin-bottom: 0px;
-  width: 100%;
-  button {
-    border: 1px solid white;
-    background: transparent;
-    border-radius: 5px;
-    font-size: 0.9em;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    margin-left: 4%;
-    margin-right: 4%;
-    &:hover {
-      background: #D3D3D3;
-      opacity: 0.8;
-    };
-  }
-  h3 {
-    color: black;
-  }
-  input {
-    vertical-align: center;
-    width: 220px;
-    height: 29px;
-    border: none;
-    border-radius: 5px;
-    padding-left: 3px;
-    margin-top: 10px;
-    margin-left: 4%;
-    display: inline-block;
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    #create-game-form {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      select {
+        background-color: #252433;
+        color: white;
+        border: 1px solid #0A7C61;
+        margin: 3px;
+      }
+    }
   }
 }
 
-#uncenteredhome {
-  border: 1px solid white;
-  border-radius: 5px;
-  background: powderblue;
+
+#game-list {
+  border: 1px solid #0A7C61;
+  border-radius: 2px;
   display: inline-block;
   clear: none;
   text-align: center;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  padding-left: 0px;
-  padding-right: 0px;
-  margin-left: auto;
+  padding: 5px 0px;
   margin-top: 5px;
   margin-bottom: 0px;
   width: 90%;
   max-height: 100px;
   overflow: scroll;
-  button {
-    border: 1px solid white;
-    background: white;
-    font-size: 0.9em;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 4%;
-    margin-right: 4%;
-  }
-   span {
-    border-bottom: 1px solid white;
+  span {
+    border-bottom: 1px solid #0A7C61;
     display: block;
     margin: auto;
     width: 100%;
     text-align: center;
     font-size: 0.9em;
-    color: black;
+    color: #252433;
     margin-top: 2px;
     margin-bottom: 2px;
     padding-bottom: 10px;
-    /*margin-left: 4%;
-    margin-right: 4%;*/
   }
-  h3 {
-    color: black;
+  #join-game {
+    font-size: 16px;
+    color: #252433;
   }
 }
 #centeredlobby {
@@ -211,17 +112,7 @@
   }
 }
 
-#backgroundimage {
-  display: block;
-  position: fixed;
-  left: 0;
-  padding: none;
-  top: 0;
-  height: 110vh;
-  width: 100%;
-  clear: none;
-  background-image: url('http://i.imgur.com/XOkOjmf.jpg');
-}
+
 
 .ng-toast {
     z-index: 2010;

@@ -1,31 +1,28 @@
-<div id="backgroundimage">
-  <div id="showfrontsignup">
-    <div id="centered">
-      <form id="signup-form" name="signupForm" ng-submit="signupForm.$valid && signup(account)">
-        <alert type="danger" ng-show="error || (signupForm.email.$invalid && signupForm.email.$touched) || (signupForm.password.$invalid && signupForm.password.$touched) || (signupForm.username.$invalid && signupForm.username.$touched)">
-          <p ng-show="error">{{ error }}</p>
-          <p ng-show="signupForm.email.$invalid && signupForm.email.$touched">An email address is required.</p>
-          <p ng-show="signupForm.username.$invalid && signupForm.username.$touched">A username of minimum length 1 and maximum length 14 is required.</p>
-          <p ng-show="signupForm.password.$invalid && signupForm.password.$touched">A password of minimum length 1 and maximum length 16 is required.</p>
-        </alert>
-        <div class="form-group">
-          <label for="email">Email address</label>
-          <input type="email" required name="email" ng-model="account.email" class="form-control" id="email" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" required name="username" ng-minlength="1" ng-maxlength="14" ng-model="account.username" class="form-control" id="username" placeholder="Enter username">
-        </div>
-        <div class="form-group">
-          <label for="login-password">Password</label>
-          <input type="password" required name="password" ng-minlength="1" ng-maxlength="16" ng-model="account.password" class="form-control" id="login-password" placeholder="Password">
-        </div>
-        <button type="submit" ng-disabled="(signupForm.email.$invalid && signupForm.email.$touched) || (signupForm.password.$invalid && signupForm.password.$touched) || (signupForm.username.$invalid && signupForm.username.$touched)" class="btn btn-default">Sign up</button>
-        <div id="centered">
-          <span><h3>Already have an account?</h3></span>
-          <button type="button" class="btn btn-default" ui-sref="login">Login</button>
-        </div>
-      </form>
+<div id="background-image">
+    <div id="showfronthome" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+        <form class="centered" name="signupForm" ng-submit="signupForm.$valid && signup(account)">
+          <span class="title-header">Enter your information: </span>
+            <alert type="danger" ng-show="error || (signupForm.email.$invalid && signupForm.email.$touched) || (signupForm.password.$invalid && signupForm.password.$touched) || (signupForm.username.$invalid && signupForm.username.$touched)">
+                <p ng-show="error">{{ error }}</p>
+                <p ng-show="signupForm.email.$invalid && signupForm.email.$touched">An email address is required.</p>
+                <p ng-show="signupForm.username.$invalid && signupForm.username.$touched">A username of minimum length 1 and maximum length 14 is required.</p>
+                <p ng-show="signupForm.password.$invalid && signupForm.password.$touched">A password of minimum length 1 and maximum length 16 is required.</p>
+            </alert>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" required name="email" ng-model="account.email" class="form-control outbreak-input" id="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" required name="username" ng-minlength="1" ng-maxlength="14" ng-model="account.username" class="form-control outbreak-input" id="username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" required name="password" ng-minlength="1" ng-maxlength="16" ng-model="account.password" class="form-control outbreak-input" id="login-password" placeholder="Password">
+            </div>
+            <button type="submit" ng-disabled="(signupForm.email.$invalid && signupForm.email.$touched) || (signupForm.password.$invalid && signupForm.password.$touched) || (signupForm.username.$invalid && signupForm.username.$touched)" class="btn">Sign up</button>
+            <span id="welcome-title">Already have an account?</span>
+            <button type="button" class="btn" ui-sref="login">Login</button>
+        </form>
     </div>
-  </div>
 </div>

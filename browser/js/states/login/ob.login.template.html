@@ -1,7 +1,7 @@
 
-<div id="backgroundimage">
-<!--   <div id="showfront"> -->
-    <form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
+<div id="background-image">
+  <div id="showfronthome" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+    <form class="centered" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
         <span><h3>Sign in to Outbreak</h3></span><br />
         <alert type="danger" ng-show="error || (loginForm.email.$invalid && loginForm.email.$touched) || (loginForm.password.$invalid && loginForm.password.$touched)">
             <p ng-show="error" >{{ error }}</p>
@@ -10,18 +10,18 @@
         </alert>
         <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" name='email' required ng-model="login.email" class="form-control" id="email" placeholder="Enter email" />
+            <input type="email" name='email' required ng-model="login.email" class="form-control outbreak-input" id="email" placeholder="Enter email" />
         </div>
         <div class="form-group">
             <label for="login-password">Password</label>
-            <input name="password" type="password" required ng-minlength="1" ng-maxlength="16" ng-model="login.password" class="form-control" id="login-password" placeholder="Password" />
+            <input name="password" type="password" required ng-minlength="1" ng-maxlength="16" ng-model="login.password" class="form-control outbreak-input" id="login-password" placeholder="Password" />
         </div>
-        <div id="centered">
-        <button ng-disabled="(loginForm.email.$invalid && loginForm.email.$touched) || (loginForm.password.$invalid && loginForm.password.$touched)"type="submit">Login</button>
+        <div class="centered">
+        <button ng-disabled="(loginForm.email.$invalid && loginForm.email.$touched) || (loginForm.password.$invalid && loginForm.password.$touched)" type="submit" class="btn">Login</button>
       </div>
-    <div id="centered">
+    <div class="centered">
         <span><h3>Don't have an account yet? Make one!</h3></span>
-        <button type="button" ui-sref="signup">Sign up</button>
+        <button type="button" class="btn" ui-sref="signup">Sign up</button>
   </div>
     </form>
 </div>

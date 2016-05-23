@@ -1,27 +1,8 @@
-#login-form {
-
-  position: fixed;
-  top: 30%;
-  left: 35%;
-  width: 30%;
-  padding-top: 10px;
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-bottom: 25px;
-  background: powderblue;
-  opacity: 0.9;
-  border: 5px solid black;
-  border-radius: 25px;
-  margin: 0 auto;
-  z-index: 100;
+.outbreak-input {
+  background-color: #252433;
+  border: 2px solid #0A7C61;
+  border-radius: 2px;
+  width: 150px;
+  height: 36px;
+  color: white;
 }
-
-/*#backgroundimage {
-  z-index: 0;
-  display: block;
-  position: fixed;
-  top: 0;
-  height: 110vh;
-  width: 100%;
-  clear: none;
-}*/

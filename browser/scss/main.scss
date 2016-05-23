@@ -1,11 +1,12 @@
 * {
   box-sizing: border-box;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-/*
-body {
-  background: #fdfdfd;
+
+body{
+  background-color: #252433;
 }
-*/
+
 @mixin clearfix {
   &:after {
     content: "";
@@ -14,15 +15,15 @@ body {
   }
 }
 
-#backgroundimage {
-  background-size: cover;
-  display: block;
-  position: fixed;
-  top: 0;
-  height: 110vh;
-  width: 100%;
-  clear: none;
-}
+// #backgroundimage {
+//   background-size: cover;
+//   display: block;
+//   position: fixed;
+//   top: 0;
+//   height: 110vh;
+//   width: 100%;
+//   clear: none;
+// }
 
 #main {
   padding-top: 60px;
