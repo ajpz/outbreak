@@ -1,15 +1,16 @@
-var app = require('express').Router();
-var mongoose = require('mongoose');
-var Lobby =  mongoose.model('Lobby');
-var User =  mongoose.model('User');
+'use strict';
 
-app.get('/:id', function(req,res,next){
-	console.log('hit backend')
+const router = require('express').Router();
+const mongoose = require('mongoose');
+const Lobby =  mongoose.model('Lobby');
+const User =  mongoose.model('User');
+
+router.get('/:id', function(req,res,next) {
 	User.findById(req.params.id).populate('lobbies')
-	.then(function(foundUser){
-		res.status(201).send(foundUser)
+	.then( foundUser => {
+		res.status(201).send(foundUser);
 	})
+	.catch(next);
+});
 
-})
-
-module.exports = app;
+module.exports = router;

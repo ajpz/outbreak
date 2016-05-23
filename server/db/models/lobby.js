@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose');
-const User =  mongoose.model('User')
+const User =  mongoose.model('User');
 const Schema = mongoose.Schema;
 
 
@@ -30,28 +30,27 @@ const schema = new mongoose.Schema({
   }
 });
 
-schema.statics.getPublicLobbies = function(){
-  let self = this;
-  return self.find().populate('users')
-  .then(function(lobbies){
-    return lobbies.filter(function(lobby){
-      return lobby.users.length<4 && lobby.public === true
-    })
-  })
-}
+schema.statics.getPublicLobbies = function() {
+  return this.find().populate('users')
+  .then( lobbies => {
+    return lobbies.filter( lobby => {
+      return lobby.users.length<4 && lobby.public === true;
+    });
+  });
+};
 
 schema.statics.addUserToLobby = function(data){
-  let self = this;
   let updatedLobbyId;
-  return self.findById(data.lobby).populate('users')
-  .then(function(lobby){
+  return this.findById(data.lobby).populate('users')
+  .then( lobby => {
     lobby.users.push(data.user);
-    return lobby.save()
-  }).then(function(updatedLobby){
-    updatedLobbyId = updatedLobby._id
-    return User.findByIdAndUpdate(data.user, {$push: {'lobbies': updatedLobbyId}}, {new: true}).populate('lobbies')
-  }).then(function(){
-    return self.findById(updatedLobbyId).populate('users')
-  })
-}
+    return lobby.save();
+  }).then( updatedLobby => {
+    updatedLobbyId = updatedLobby._id;
+    return User.findByIdAndUpdate(data.user, {$push: {'lobbies': updatedLobbyId}}, {new: true}).populate('lobbies');
+  }).then( () => {
+    return this.findById(updatedLobbyId).populate('users');
+  });
+};
+
 mongoose.model('Lobby', schema);

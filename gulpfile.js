@@ -1,21 +1,21 @@
 // All used modules.
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var runSeq = require('run-sequence');
-var plumber = require('gulp-plumber');
-var concat = require('gulp-concat');
-var rename = require('gulp-rename');
-var sass = require('gulp-sass');
-var livereload = require('gulp-livereload');
-var minifyCSS = require('gulp-minify-css');
-var ngAnnotate = require('gulp-ng-annotate');
-var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
-var eslint = require('gulp-eslint');
-var mocha = require('gulp-mocha');
-var karma = require('karma').server;
-var istanbul = require('gulp-istanbul');
-var notify = require('gulp-notify');
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+const runSeq = require('run-sequence');
+const plumber = require('gulp-plumber');
+const concat = require('gulp-concat');
+const rename = require('gulp-rename');
+const sass = require('gulp-sass');
+const livereload = require('gulp-livereload');
+const minifyCSS = require('gulp-minify-css');
+const ngAnnotate = require('gulp-ng-annotate');
+const uglify = require('gulp-uglify');
+const sourcemaps = require('gulp-sourcemaps');
+const eslint = require('gulp-eslint');
+const mocha = require('gulp-mocha');
+const karma = require('karma').server;
+const istanbul = require('gulp-istanbul');
+const notify = require('gulp-notify');
 
 // Development tasks
 // --------------------------------------------------------------
@@ -42,12 +42,13 @@ gulp.task('lintJS', function () {
 });
 
 gulp.task('buildJS', ['lintJS'], function () {
-    console.log('calling this task');
     return gulp.src(['./browser/js/app.js', './browser/js/**/*.js'])
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(concat('main.js'))
-        .pipe(babel())
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public'));
 });
@@ -85,7 +86,7 @@ gulp.task('testBrowserJS', function (done) {
 
 gulp.task('buildCSS', function () {
 
-    var sassCompilation = sass();
+    const sassCompilation = sass();
     sassCompilation.on('error', console.error.bind(console));
 
     return gulp.src('./browser/scss/main.scss')
@@ -111,7 +112,9 @@ gulp.task('buildCSSProduction', function () {
 gulp.task('buildJSProduction', function () {
     return gulp.src(['./browser/js/app.js', './browser/js/**/*.js'])
         .pipe(concat('main.js'))
-        .pipe(babel())
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(ngAnnotate())
         .pipe(uglify())
         .pipe(gulp.dest('./public'));

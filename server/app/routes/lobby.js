@@ -1,58 +1,64 @@
-var app = require('express').Router();
-var mongoose = require('mongoose')
-var Lobby =  mongoose.model('Lobby');
-var User =  mongoose.model('User')
+'use strict';
 
+const router = require('express').Router();
+const mongoose = require('mongoose');
+const Lobby = mongoose.model('Lobby');
+const User = mongoose.model('User');
 
-app.post('/', function(req, res, next){
-	let user = req.body.user;
+router.post('/', function(req, res, next){
+	const user = req.body.user;
 	let typeOfGame = req.body.type;
-	let title = req.body.title
-	if(typeOfGame === 'public'){
+	const title = req.body.title;
+
+	if(typeOfGame === 'public') {
 		typeOfGame = true;
-	}else{
+	} else {
 		typeOfGame = false;
 	}
-  let lobbyId;
+  	let lobbyId;
 	Lobby.create({
 		users: [user._id],
 		public: typeOfGame,
 		title: title,
 		status: 'inProgress',
-    playerCount: req.body.playerCount,
-    difficulty: req.body.difficulty
-	}).then(function(lobby){
-    lobbyId = lobby._id
-		return User.findByIdAndUpdate(user._id, {$push: {'lobbies': lobbyId}}, {new: true}).populate('lobbies')
-  }).then(function(updatedUser){
-		return Lobby.findOne({_id:lobbyId}).populate('users')
-	}).then(function(populatedLobby){
-		res.status(201).send(populatedLobby)
-	}).then(null,next)
-
-
+    	playerCount: req.body.playerCount,
+    	difficulty: req.body.difficulty
+	})
+	.then( lobby => {
+    	lobbyId = lobby._id;
+		return User.findByIdAndUpdate(user._id, {$push: {'lobbies': lobbyId}}, {new: true}).populate('lobbies');
+  	})
+  	.then( updatedUser => {
+		return Lobby.findOne({_id:lobbyId}).populate('users');
+	})
+	.then( populatedLobby => {
+		res.status(201).send(populatedLobby);
+	})
+	.catch(next);
 });
 
-app.get('/', function(req, res, next){
+router.get('/', function(req, res, next){
 	Lobby.getPublicLobbies()
-	.then(function(lobbies){
-		res.status(200).send(lobbies)
-	}).then(null,next)
-})
-
-app.get('/:id', function(req, res, next){
-	Lobby.findById(req.params.id).populate('users')
-	.then(function(lobby){
-		res.status(200).send(lobby)
+	.then( lobbies => {
+		res.json(lobbies);
 	})
-})
+	.catch(next);
+});
 
-app.put('/:id', function(req,res,next){
+router.get('/:id', function(req, res, next){
+	Lobby.findById(req.params.id).populate('users')
+	.then( lobby => {
+		res.json(lobby);
+	})
+	.catch(next);
+});
+
+router.put('/:id', function(req,res,next){
 	Lobby.addUserToLobby(req.body)
-	.then(function(updatedLobby){
-		console.log(updatedLobby)
-		res.status(200).send(updatedLobby)
-	}).then(null,next)
-})
+	.then( updatedLobby => {
+		res.json(updatedLobby);
+	})
+	.catch(next);
+});
 
-module.exports = app;
+module.exports = router;
