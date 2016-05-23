@@ -1,11 +1,11 @@
 'use strict'
 
-var mongoose = require('mongoose');
-var User =  mongoose.model('User')
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const User =  mongoose.model('User')
+const Schema = mongoose.Schema;
 
 
-var schema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   users: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
